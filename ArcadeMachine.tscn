@@ -1,10 +1,13 @@
-[gd_scene load_steps=35 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=50 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Shader" uid="uid://ds1mmdqm6euws" path="res://ArcadeMachine.tres" id="1_g00fe"]
 [ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="2_kredy"]
+[ext_resource type="Material" uid="uid://tqcxug20otm0" path="res://BottomHole.tres" id="3_jj6fg"]
 [ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="3_ne6s8"]
+[ext_resource type="Material" uid="uid://b44prumhon888" path="res://LeftHole.tres" id="3_wwdtn"]
 [ext_resource type="Script" path="res://Mole.cs" id="3_ynpv8"]
 [ext_resource type="Material" uid="uid://0sw35lpb5ar6" path="res://assets/WhackAMoleText.tres" id="4_3mtwl"]
+[ext_resource type="Material" uid="uid://kdgqu05dwp00" path="res://RightHole.tres" id="4_gnueh"]
 [ext_resource type="Script" path="res://DebugInfoUI.cs" id="4_gxy84"]
 [ext_resource type="Script" path="res://Mallet.cs" id="6_tgj3c"]
 
@@ -16,11 +19,131 @@ shader = ExtResource("1_g00fe")
 material = SubResource("ShaderMaterial_y7x8r")
 size = Vector3(1.2, 0.25, 1.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcw5o"]
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qiggn"]
+default_input_values = [0, 0.0, 1, 8.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_idkqn"]
+constant = Color(1, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_txfry"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_d1ua5"]
+output_port_for_preview = 0
+function = 0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_gh1ko"]
+default_input_values = [0, 0.0, 1, 8.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_wsba3"]
+parameter_name = "Flashing"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_25vdw"]
+default_input_values = [0, false, 1, true, 2, false]
+op_type = 6
+
+[sub_resource type="VisualShader" id="VisualShader_pkanr"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform bool Flashing = false;
+
+
+
+void fragment() {
+// ColorConstant:3
+	vec4 n_out3p0 = vec4(1.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Input:4
+	float n_out4p0 = TIME;
+
+
+// BooleanParameter:8
+	bool n_out8p0 = Flashing;
+
+
+	bool n_out9p0;
+// Switch:9
+	bool n_in9p1 = true;
+	bool n_in9p2 = false;
+	if (n_out8p0) {
+		n_out9p0 = n_in9p1;
+	} else {
+		n_out9p0 = n_in9p2;
+	}
+
+
+// FloatOp:11
+	float n_in11p1 = 8.00000;
+	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
+
+
+// FloatOp:6
+	float n_out6p0 = n_out4p0 * n_out11p0;
+
+
+// FloatFunc:5
+	float n_out5p0 = sin(n_out6p0);
+
+
+// Output:0
+	ALBEDO = vec3(n_out3p0.xyz);
+	ALPHA = n_out5p0;
+
+
+}
+"
+graph_offset = Vector2(-657.444, -114.298)
+nodes/fragment/0/position = Vector2(740, -20)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_idkqn")
+nodes/fragment/3/position = Vector2(200, -20)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_txfry")
+nodes/fragment/4/position = Vector2(-420, 320)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_d1ua5")
+nodes/fragment/5/position = Vector2(200, 180)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_gh1ko")
+nodes/fragment/6/position = Vector2(-60, 380)
+nodes/fragment/8/node = SubResource("VisualShaderNodeBooleanParameter_wsba3")
+nodes/fragment/8/position = Vector2(-900, 600)
+nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_25vdw")
+nodes/fragment/9/position = Vector2(-560, 500)
+nodes/fragment/11/node = SubResource("VisualShaderNodeFloatOp_qiggn")
+nodes/fragment/11/position = Vector2(-320, 460)
+nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 5, 0, 0, 1, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkkgl"]
+render_priority = 0
+shader = SubResource("VisualShader_pkanr")
+shader_parameter/Flashing = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t2kho"]
+next_pass = SubResource("ShaderMaterial_dkkgl")
 albedo_color = Color(0.188235, 0.101961, 0, 1)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_o8awp"]
-material = SubResource("StandardMaterial3D_hcw5o")
+[sub_resource type="CylinderMesh" id="CylinderMesh_7wwu5"]
+material = SubResource("StandardMaterial3D_t2kho")
+top_radius = 0.15
+bottom_radius = 0.15
+height = 0.1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_6r6q6"]
+material = ExtResource("3_wwdtn")
+top_radius = 0.15
+bottom_radius = 0.15
+height = 0.1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2ern8"]
+material = ExtResource("3_jj6fg")
+top_radius = 0.15
+bottom_radius = 0.15
+height = 0.1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_d2oj1"]
+material = ExtResource("4_gnueh")
 top_radius = 0.15
 bottom_radius = 0.15
 height = 0.1
@@ -153,21 +276,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00729, 0)
 mesh = SubResource("BoxMesh_55s0w")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.096, 0)
-mesh = SubResource("CylinderMesh_o8awp")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.096, 0.35)
-mesh = SubResource("CylinderMesh_o8awp")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.096, 0)
-mesh = SubResource("CylinderMesh_o8awp")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+[node name="Top" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.096, -0.35)
-mesh = SubResource("CylinderMesh_o8awp")
+mesh = SubResource("CylinderMesh_7wwu5")
+
+[node name="Left" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.096, 0)
+mesh = SubResource("CylinderMesh_6r6q6")
+
+[node name="Bottom" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.096, 0.35)
+mesh = SubResource("CylinderMesh_2ern8")
+
+[node name="Right" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.096, 0)
+mesh = SubResource("CylinderMesh_d2oj1")
 
 [node name="ArcadeBottom" type="MeshInstance3D" parent="ArcadeMachine"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -332,7 +459,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.209788, 0)
 mesh = SubResource("CylinderMesh_ywafo")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Mallet"]
+[node name="MalletCollider" type="CollisionShape3D" parent="Mallet"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
 shape = SubResource("CylinderShape3D_p4cgf")
 

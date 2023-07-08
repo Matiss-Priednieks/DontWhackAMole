@@ -13,8 +13,9 @@ public partial class Mole : Area3D
     int Lives = 3;
     MeshInstance3D MoleMesh;
     MeshInstance3D LivesCounter;
+    Dictionary HoleDictionary;
 
-    int IFrames = 30;
+    int IFrames = 60;
     public override void _Ready()
     {
         MoleMesh = GetNode<MeshInstance3D>("%MoleMesh");
@@ -25,6 +26,13 @@ public partial class Mole : Area3D
             new Vector3(0, 0.85f, -0.35f), //down (S)
             new Vector3(-0.35f, 0.85f, 0) //right (D))
             };
+        HoleDictionary = new Dictionary()
+        {
+            {"Top",Holes[0]},
+            {"Left",Holes[1]},
+            {"Down",Holes[2]},
+            {"Right",Holes[3]}
+        };
         ChosenHole = Holes[0];
         Position = Holes[0];
 
@@ -34,7 +42,7 @@ public partial class Mole : Area3D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (IFrames <= 30 && IFrames > 0)
+        if (IFrames <= 60 && IFrames > 0)
         {
             IFrames--;
         }
@@ -120,9 +128,9 @@ public partial class Mole : Area3D
 
     public void _on_area_entered(Area3D area)
     {
-        if (area is Mallet && IFrames <= 0)
+        if (area is Mallet mallet && IFrames <= 0)
         {
-            IFrames = 30;
+            IFrames = 60;
             GotHit();
             Lives--;
         }

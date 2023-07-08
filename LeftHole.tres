@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://b44prumhon888"]
+
+[ext_resource type="Shader" uid="uid://vovl7hkhxcsy" path="res://LeftFlashShader.tres" id="1_at320"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m1h3q"]
+render_priority = 0
+shader = ExtResource("1_at320")
+shader_parameter/Flashing = false
+
+[resource]
+next_pass = SubResource("ShaderMaterial_m1h3q")
+albedo_color = Color(0.188235, 0.101961, 0, 1)
