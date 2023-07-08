@@ -1,0 +1,182 @@
+[gd_scene load_steps=18 format=3 uid="uid://damhd4mphvtpy"]
+
+[ext_resource type="Texture2D" uid="uid://25kusn4m0erx" path="res://assets/ArcadeTop.png" id="1_e2skw"]
+[ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="2_kredy"]
+[ext_resource type="Script" path="res://Mole.cs" id="3_ynpv8"]
+[ext_resource type="Script" path="res://DebugInfoUI.cs" id="4_gxy84"]
+[ext_resource type="Texture2D" uid="uid://cm78cysn63g6r" path="res://assets/carpetblue.png" id="5_6wgok"]
+[ext_resource type="Script" path="res://Mallet.cs" id="6_tgj3c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2fna8"]
+albedo_texture = ExtResource("1_e2skw")
+uv1_scale = Vector3(-0.755, -0.755, -0.755)
+uv1_offset = Vector3(1.5, -0.825, 0.5)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_55s0w"]
+material = SubResource("StandardMaterial3D_2fna8")
+size = Vector3(1.2, 0.25, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_83apl"]
+albedo_texture = ExtResource("2_kredy")
+uv1_scale = Vector3(0.48, 0.48, 0.48)
+uv1_offset = Vector3(1.23, 0, 1)
+uv1_triplanar = true
+uv1_triplanar_sharpness = 1.56917
+
+[sub_resource type="BoxMesh" id="BoxMesh_ftn7o"]
+material = SubResource("StandardMaterial3D_83apl")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kign4"]
+radius = 0.075
+height = 0.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rskkd"]
+radius = 0.075
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2qxid"]
+albedo_texture = ExtResource("5_6wgok")
+metallic_specular = 0.0
+rim_tint = 0.83
+anisotropy = 1.0
+subsurf_scatter_strength = 1.0
+uv1_scale = Vector3(5, 5, 5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7khsi"]
+material = SubResource("StandardMaterial3D_2qxid")
+size = Vector2(50, 50)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2nlxy"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ywafo"]
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_p4cgf"]
+height = 0.2
+radius = 0.1
+
+[node name="Node3D" type="Node3D"]
+
+[node name="ArcadeMachine" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+metadata/_edit_group_ = true
+
+[node name="ArcadeTop" type="MeshInstance3D" parent="ArcadeMachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00729, 0)
+mesh = SubResource("BoxMesh_55s0w")
+skeleton = NodePath("../..")
+
+[node name="ArcadeBottom" type="MeshInstance3D" parent="ArcadeMachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_ftn7o")
+skeleton = NodePath("../..")
+
+[node name="Holes" type="Node3D" parent="ArcadeMachine"]
+visible = false
+
+[node name="Hole1" type="Node3D" parent="ArcadeMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13, 0.35)
+
+[node name="Hole2" type="Node3D" parent="ArcadeMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 1.13, 0)
+
+[node name="Hole3" type="Node3D" parent="ArcadeMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13, -0.35)
+
+[node name="Hole4" type="Node3D" parent="ArcadeMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.13, 0)
+
+[node name="Mole" type="CharacterBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.369, 0.85, -0.317)
+script = ExtResource("3_ynpv8")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mole"]
+shape = SubResource("CapsuleShape3D_kign4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mole"]
+mesh = SubResource("CapsuleMesh_rskkd")
+
+[node name="PopOutTimer" type="Timer" parent="Mole"]
+unique_name_in_owner = true
+wait_time = 2.0
+autostart = true
+
+[node name="OutTimer" type="Timer" parent="Mole"]
+unique_name_in_owner = true
+wait_time = 0.25
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 5.23488e-08, -7.00168e-08, 0, 0.800899, 0.5988, 8.74228e-08, 0.5988, -0.800899, 0, 2.2649, -1.53092)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -5.96046e-08, 1, 0, -1, -5.96046e-08, 0, 2, -3)
+shadow_enabled = true
+
+[node name="DebugInfoUI" type="CanvasLayer" parent="."]
+script = ExtResource("4_gxy84")
+
+[node name="DebugInfoBox1" type="VBoxContainer" parent="DebugInfoUI"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FPS" type="Label" parent="DebugInfoUI/DebugInfoBox1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FPS
+"
+
+[node name="PopTimer" type="Label" parent="DebugInfoUI/DebugInfoBox1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Timer"
+
+[node name="DangerTimer" type="Label" parent="DebugInfoUI/DebugInfoBox1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Danger Timer"
+
+[node name="ChosenHole" type="Label" parent="DebugInfoUI/DebugInfoBox1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Chosen Hole"
+
+[node name="DownOrOut" type="Label" parent="DebugInfoUI/DebugInfoBox1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Down"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_7khsi")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.802168, 1.32484, -0.115476)
+script = ExtResource("6_tgj3c")
+
+[node name="Mallet" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Mallet"]
+mesh = SubResource("CylinderMesh_2nlxy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/Mallet"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.209788, 0)
+mesh = SubResource("CylinderMesh_ywafo")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
+shape = SubResource("CylinderShape3D_p4cgf")
+
+[connection signal="OutTooLong" from="Mole" to="CharacterBody3D" method="_on_mole_out_too_long"]
+[connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
+[connection signal="timeout" from="Mole/PopOutTimer" to="CharacterBody3D" method="_on_pop_out_timer_timeout"]
+[connection signal="timeout" from="Mole/OutTimer" to="Mole" method="_on_out_timer_timeout"]
