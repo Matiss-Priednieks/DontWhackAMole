@@ -15,6 +15,11 @@ config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0.345098, 0, 0.984314, 1)
 boot_splash/show_image=false
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+
 [dotnet]
 
 project/assembly_name="DontWhackAMole"

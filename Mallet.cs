@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Mallet : CharacterBody3D
+public partial class Mallet : Area3D
 {
     // Called when the node enters the scene tree for the first time.
     Mole Player;
@@ -30,8 +30,7 @@ public partial class Mallet : CharacterBody3D
     }
     public async void _on_pop_out_timer_timeout()
     {
-        // if (!MoleOutTooLong)
-        // {
+
         var NextHit = Holes[GD.RandRange(0, 3)];
         MoveMallet(NextHit);
 
@@ -39,8 +38,6 @@ public partial class Mallet : CharacterBody3D
 
         await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
         MoveMallet(StartPosition);
-        // }
-
     }
     public async void _on_mole_out_too_long(Vector3 playerPosition)
     {
@@ -63,7 +60,7 @@ public partial class Mallet : CharacterBody3D
 
     public async void Hit()
     {
-        GD.Print("???");
+        // GD.Print("???");
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
         Tween velTween = GetTree().CreateTween();
         velTween.TweenProperty(this, "rotation", new Vector3(Rotation.X, Rotation.Y, Rotation.Z - 1.25f), 0.2f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);

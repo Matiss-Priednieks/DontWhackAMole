@@ -1,21 +1,29 @@
-[gd_scene load_steps=18 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=35 format=3 uid="uid://damhd4mphvtpy"]
 
-[ext_resource type="Texture2D" uid="uid://25kusn4m0erx" path="res://assets/ArcadeTop.png" id="1_e2skw"]
+[ext_resource type="Shader" uid="uid://ds1mmdqm6euws" path="res://ArcadeMachine.tres" id="1_g00fe"]
 [ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="2_kredy"]
+[ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="3_ne6s8"]
 [ext_resource type="Script" path="res://Mole.cs" id="3_ynpv8"]
+[ext_resource type="Material" uid="uid://0sw35lpb5ar6" path="res://assets/WhackAMoleText.tres" id="4_3mtwl"]
 [ext_resource type="Script" path="res://DebugInfoUI.cs" id="4_gxy84"]
-[ext_resource type="Texture2D" uid="uid://cm78cysn63g6r" path="res://assets/carpetblue.png" id="5_6wgok"]
 [ext_resource type="Script" path="res://Mallet.cs" id="6_tgj3c"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2fna8"]
-albedo_texture = ExtResource("1_e2skw")
-uv1_scale = Vector3(-0.755, -0.755, -0.755)
-uv1_offset = Vector3(1.5, -0.825, 0.5)
-uv1_triplanar = true
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y7x8r"]
+render_priority = 0
+shader = ExtResource("1_g00fe")
 
 [sub_resource type="BoxMesh" id="BoxMesh_55s0w"]
-material = SubResource("StandardMaterial3D_2fna8")
+material = SubResource("ShaderMaterial_y7x8r")
 size = Vector3(1.2, 0.25, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcw5o"]
+albedo_color = Color(0.188235, 0.101961, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_o8awp"]
+material = SubResource("StandardMaterial3D_hcw5o")
+top_radius = 0.15
+bottom_radius = 0.15
+height = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_83apl"]
 albedo_texture = ExtResource("2_kredy")
@@ -27,6 +35,78 @@ uv1_triplanar_sharpness = 1.56917
 [sub_resource type="BoxMesh" id="BoxMesh_ftn7o"]
 material = SubResource("StandardMaterial3D_83apl")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c8qup"]
+albedo_texture = ExtResource("2_kredy")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_q50m8"]
+material = SubResource("StandardMaterial3D_c8qup")
+size = Vector3(1.2, 1, 0.15)
+
+[sub_resource type="TextMesh" id="TextMesh_bugoy"]
+material = ExtResource("4_3mtwl")
+text = "W"
+font = ExtResource("3_ne6s8")
+font_size = 30
+
+[sub_resource type="TextMesh" id="TextMesh_3htjo"]
+material = ExtResource("4_3mtwl")
+text = "ha
+"
+font = ExtResource("3_ne6s8")
+font_size = 30
+uppercase = true
+line_spacing = -13.535
+
+[sub_resource type="TextMesh" id="TextMesh_3oyf7"]
+material = ExtResource("4_3mtwl")
+text = "ck"
+font = ExtResource("3_ne6s8")
+font_size = 35
+
+[sub_resource type="TextMesh" id="TextMesh_4p6ix"]
+material = ExtResource("4_3mtwl")
+text = "A"
+font = ExtResource("3_ne6s8")
+font_size = 30
+
+[sub_resource type="TextMesh" id="TextMesh_3iku7"]
+material = ExtResource("4_3mtwl")
+text = "Mo"
+font = ExtResource("3_ne6s8")
+font_size = 35
+
+[sub_resource type="TextMesh" id="TextMesh_rqbnw"]
+material = ExtResource("4_3mtwl")
+text = "le!"
+font = ExtResource("3_ne6s8")
+font_size = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q6s1g"]
+albedo_color = Color(0, 0, 0, 1)
+metallic_specular = 0.92
+roughness = 0.25
+
+[sub_resource type="BoxMesh" id="BoxMesh_2xuof"]
+material = SubResource("StandardMaterial3D_q6s1g")
+size = Vector3(0.355, 0.2, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3yay"]
+albedo_color = Color(1, 0, 0.0156863, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 3.29
+
+[sub_resource type="TextMesh" id="TextMesh_5xp3d"]
+material = SubResource("StandardMaterial3D_x3yay")
+text = "3"
+font = ExtResource("3_ne6s8")
+
+[sub_resource type="TextMesh" id="TextMesh_q3gto"]
+material = ExtResource("4_3mtwl")
+text = "Lives: "
+font = ExtResource("3_ne6s8")
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kign4"]
 radius = 0.075
 height = 0.5
@@ -35,19 +115,14 @@ height = 0.5
 radius = 0.075
 height = 0.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2qxid"]
-albedo_texture = ExtResource("5_6wgok")
-metallic_specular = 0.0
-rim_tint = 0.83
-anisotropy = 1.0
-subsurf_scatter_strength = 1.0
-uv1_scale = Vector3(5, 5, 5)
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_7khsi"]
-material = SubResource("StandardMaterial3D_2qxid")
 size = Vector2(50, 50)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1rrtl"]
+albedo_color = Color(0.196078, 0.196078, 0.196078, 1)
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_2nlxy"]
+material = SubResource("StandardMaterial3D_1rrtl")
 top_radius = 0.1
 bottom_radius = 0.1
 height = 0.2
@@ -61,6 +136,12 @@ height = 0.4
 height = 0.2
 radius = 0.1
 
+[sub_resource type="Environment" id="Environment_uq3bh"]
+background_mode = 1
+background_color = Color(0.211765, 0.227451, 1, 1)
+glow_enabled = true
+glow_bloom = 0.08
+
 [node name="Node3D" type="Node3D"]
 
 [node name="ArcadeMachine" type="Node3D" parent="."]
@@ -72,10 +153,77 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00729, 0)
 mesh = SubResource("BoxMesh_55s0w")
 skeleton = NodePath("../..")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.096, 0)
+mesh = SubResource("CylinderMesh_o8awp")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.096, 0.35)
+mesh = SubResource("CylinderMesh_o8awp")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.096, 0)
+mesh = SubResource("CylinderMesh_o8awp")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.096, -0.35)
+mesh = SubResource("CylinderMesh_o8awp")
+
 [node name="ArcadeBottom" type="MeshInstance3D" parent="ArcadeMachine"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("BoxMesh_ftn7o")
 skeleton = NodePath("../..")
+
+[node name="ArcadePanel" type="MeshInstance3D" parent="ArcadeMachine"]
+transform = Transform3D(1, 1.4289e-08, 1.17564e-09, -1.4289e-08, 0.986552, 0.163447, 1.17564e-09, -0.163447, 0.986552, 6.26161e-08, 1.42042, -0.716244)
+mesh = SubResource("BoxMesh_q50m8")
+
+[node name="Title" type="Node3D" parent="ArcadeMachine/ArcadePanel"]
+transform = Transform3D(0.655, 8.88178e-16, 3.55271e-15, 2.66454e-15, 0.655, -4.47035e-08, -3.55271e-15, 4.47035e-08, 0.655, -2.23095e-09, 0.180731, 0.0255193)
+
+[node name="W" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
+transform = Transform3D(0.858119, -0.506547, -0.0839219, 0.506547, 0.861911, -0.0228781, 0.0839218, -0.0228784, 0.996212, -0.352795, 0.272898, 0.0897522)
+mesh = SubResource("TextMesh_bugoy")
+skeleton = NodePath("../..")
+
+[node name="HA" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
+transform = Transform3D(1, -8.88178e-16, -1.42109e-13, -7.99361e-15, 1, 5.96046e-08, -1.20792e-13, -5.96046e-08, 1, -0.0738484, 0.300477, 0.0931333)
+mesh = SubResource("TextMesh_3htjo")
+skeleton = NodePath("../..")
+
+[node name="CK" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
+transform = Transform3D(0.902893, 0.429849, 0.00388928, -0.42986, 0.902892, 0.00302161, -0.00221275, -0.00439988, 0.99999, 0.266423, 0.303408, 0.0894171)
+mesh = SubResource("TextMesh_3oyf7")
+skeleton = NodePath("../..")
+
+[node name="A" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
+transform = Transform3D(0.909752, -0.409576, -0.0678223, 0.409577, 0.912161, -0.0145277, 0.0678149, -0.0145619, 0.997594, -6.8496e-09, 0.100284, 0.0783511)
+mesh = SubResource("TextMesh_4p6ix")
+skeleton = NodePath("../..")
+
+[node name="Mole!" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
+transform = Transform3D(0.975966, 0.214991, 0.0356186, -0.214991, 0.976609, -0.00387545, -0.0356186, -0.00387545, 0.999359, -0.153225, -0.10868, 0.0670896)
+mesh = SubResource("TextMesh_3iku7")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
+transform = Transform3D(1, -1.24345e-14, 1.49214e-13, 0, 0.999999, -8.9407e-08, -7.81597e-14, 8.9407e-08, 0.999999, 0.18339, -0.119199, 0.0903208)
+mesh = SubResource("TextMesh_rqbnw")
+
+[node name="Lives" type="Node3D" parent="ArcadeMachine/ArcadePanel"]
+
+[node name="LivesBlock" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.195129, -0.141243, 0.0697779)
+mesh = SubResource("BoxMesh_2xuof")
+
+[node name="LivesCounter" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives/LivesBlock"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00448057, 0.00980866, 0.0189637)
+mesh = SubResource("TextMesh_5xp3d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.168993, -0.129641, 0.0813895)
+mesh = SubResource("TextMesh_q3gto")
 
 [node name="Holes" type="Node3D" parent="ArcadeMachine"]
 visible = false
@@ -92,7 +240,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13, -0.35)
 [node name="Hole4" type="Node3D" parent="ArcadeMachine/Holes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.13, 0)
 
-[node name="Mole" type="CharacterBody3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="ArcadeMachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.83922, 0)
+light_color = Color(1, 1, 0, 1)
+
+[node name="Mole" type="Area3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.369, 0.85, -0.317)
 script = ExtResource("3_ynpv8")
@@ -101,7 +253,8 @@ metadata/_edit_group_ = true
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mole"]
 shape = SubResource("CapsuleShape3D_kign4")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Mole"]
+[node name="MoleMesh" type="MeshInstance3D" parent="Mole"]
+unique_name_in_owner = true
 mesh = SubResource("CapsuleMesh_rskkd")
 
 [node name="PopOutTimer" type="Timer" parent="Mole"]
@@ -114,11 +267,13 @@ unique_name_in_owner = true
 wait_time = 0.25
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 5.23488e-08, -7.00168e-08, 0, 0.800899, 0.5988, 8.74228e-08, 0.5988, -0.800899, 0, 2.2649, -1.53092)
+transform = Transform3D(-1, 5.23488e-08, -7.00168e-08, 0, 0.800899, 0.5988, 8.74228e-08, 0.5988, -0.800899, 0, 1.97802, -0.942353)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -5.96046e-08, 1, 0, -1, -5.96046e-08, 0, 2, -3)
+light_color = Color(0.346955, 0.316682, 1, 1)
 shadow_enabled = true
+shadow_blur = 2.238
 
 [node name="DebugInfoUI" type="CanvasLayer" parent="."]
 script = ExtResource("4_gxy84")
@@ -153,30 +308,39 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Down"
 
+[node name="IFrames" type="Label" parent="DebugInfoUI/DebugInfoBox1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "IFrames"
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_7khsi")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+[node name="Mallet" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.802168, 1.32484, -0.115476)
 script = ExtResource("6_tgj3c")
 
-[node name="Mallet" type="Node3D" parent="CharacterBody3D"]
+[node name="Mallet" type="Node3D" parent="Mallet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Mallet"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mallet/Mallet"]
 mesh = SubResource("CylinderMesh_2nlxy")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/Mallet"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mallet/Mallet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.209788, 0)
 mesh = SubResource("CylinderMesh_ywafo")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mallet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
 shape = SubResource("CylinderShape3D_p4cgf")
 
-[connection signal="OutTooLong" from="Mole" to="CharacterBody3D" method="_on_mole_out_too_long"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_uq3bh")
+
+[connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
+[connection signal="area_entered" from="Mole" to="Mole" method="_on_area_entered"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
-[connection signal="timeout" from="Mole/PopOutTimer" to="CharacterBody3D" method="_on_pop_out_timer_timeout"]
+[connection signal="timeout" from="Mole/PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/OutTimer" to="Mole" method="_on_out_timer_timeout"]
