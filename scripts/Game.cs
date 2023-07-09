@@ -125,6 +125,11 @@ public partial class Game : Node3D
         Mole.Paused = false;
         Menu = false;
     }
+    public void _on_settings_pressed()
+    {
+        SettingsMenu.Show();
+        MenuButtons.Hide();
+    }
 
     public void _on_settings_back_pressed()
     {

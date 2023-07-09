@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=68 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://scenes/WHACKmachine.tscn" id="2_utxrc"]
@@ -240,25 +240,6 @@ albedo_color = Color(0, 0, 0, 1)
 material = SubResource("StandardMaterial3D_t888p")
 radius = 0.005
 height = 0.01
-
-[sub_resource type="FontFile" id="FontFile_wifpr"]
-face_index = null
-embolden = null
-transform = null
-cache/0/64/0/ascent = 0.0
-cache/0/64/0/descent = 0.0
-cache/0/64/0/underline_position = 0.0
-cache/0/64/0/underline_thickness = 0.0
-cache/0/64/0/scale = 1.0
-cache/0/64/0/kerning_overrides/64/0 = Vector2(0, 0)
-cache/0/64/0/kerning_overrides/16/0 = Vector2(0, 0)
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/64/0 = Vector2(0, 0)
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v0ebq"]
 albedo_color = Color(0.372549, 0.286275, 0.768627, 1)
@@ -584,31 +565,6 @@ text = "Settings"
 layout_mode = 2
 text = "Exit"
 
-[node name="tut" type="Label" parent="UI/Menu/Intro/MenuButtons"]
-visible = false
-layout_mode = 2
-theme_override_fonts/font = SubResource("FontFile_wifpr")
-text = "Get as many points as you can
-by staying above ground without
-getting hit."
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="UI/Menu/Intro/MenuButtons"]
-visible = false
-layout_mode = 2
-theme_override_fonts/font = SubResource("FontFile_wifpr")
-text = "You are forced out of the holes
-every 2 seconds, at which point
-the mallet will also hit."
-horizontal_alignment = 1
-
-[node name="Label" type="Label" parent="UI/Menu/Intro/MenuButtons"]
-visible = false
-layout_mode = 2
-theme_override_fonts/font = SubResource("FontFile_wifpr")
-text = "Press Space to Play"
-horizontal_alignment = 1
-
 [node name="HelpScreen" type="VBoxContainer" parent="UI/Menu/Intro"]
 unique_name_in_owner = true
 visible = false
@@ -897,6 +853,7 @@ bus = &"Music"
 [connection signal="timeout" from="Mole/OutTimer" to="Mole" method="_on_out_timer_timeout"]
 [connection signal="pressed" from="UI/Menu/Intro/MenuButtons/PlayResume" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="UI/Menu/Intro/HelpScreen/BackHelp" to="." method="_on_back_help_pressed"]
 [connection signal="item_selected" from="UI/Menu/Intro/SettingsMenu/WindowMode" to="UI/Menu/Intro/SettingsMenu" method="_on_window_mode_item_selected"]
