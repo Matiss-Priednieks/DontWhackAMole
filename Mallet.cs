@@ -22,10 +22,10 @@ public partial class Mallet : Area3D
         PopOutTimer = GetNode<Timer>("%PopOutTimer");
         StartPosition = new Vector3(-0.8f, 1.325f, -0.115f);
         Holes = new Vector3[]{
-            new Vector3(0, 0.85f, 0.35f),
-            new Vector3(0.35f, 0.85f, 0),
             new Vector3(0, 0.85f, -0.35f),
-            new Vector3(-0.35f, 0.85f, 0)
+            new Vector3(-0.35f, 0.85f, 0),
+            new Vector3(0, 0.85f, 0.35f),
+            new Vector3(0.35f, 0.85f, 0)
             };
 
         HoleDictionary = new Dictionary()
@@ -47,42 +47,44 @@ public partial class Mallet : Area3D
             MoleOutTooLong = !Player.GetDownStatus();
         }
 
-        if (PopOutTimer.TimeLeft < 1.5f)
+        if (PopOutTimer.TimeLeft < 0.5f && !Player.GetGameOver())
         {
-            (GetNode<MeshInstance3D>(HoleDictionary[HoleIndex].ToString()).Mesh.SurfaceGetMaterial(0).NextPass as ShaderMaterial).SetShaderParameter("Flashing", true);
-            ShaderMaterial mat = (ShaderMaterial)GetNode<MeshInstance3D>(HoleDictionary[HoleIndex].ToString()).Mesh.SurfaceGetMaterial(0).NextPass;
-            // MeshInstance3D mat = GetNode<MeshInstance3D>(HoleDictionary[HoleIndex].ToString());
-            // mat.Mesh.SurfaceGetMaterial(0);
-            // (Material as ShaderMaterial).SetShaderParam("whiten", true);
-
+            GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(true);
         }
         else
         {
-            (GetNode<MeshInstance3D>(HoleDictionary[HoleIndex].ToString()).Mesh.SurfaceGetMaterial(0).NextPass as ShaderMaterial).SetShaderParameter("Flashing", false);
+            GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(false);
         }
     }
     public async void _on_pop_out_timer_timeout()
     {
-        MoveMallet(NextHit);
+        if (!Player.GetGameOver())
+        {
+            MoveMallet(NextHit);
 
-        Hit();
+            Hit();
 
-        await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
-        MoveMallet(StartPosition);
-        HoleIndex = GD.RandRange(0, 3);
-        NextHit = Holes[HoleIndex];
+            await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
+            MoveMallet(StartPosition);
+            HoleIndex = GD.RandRange(0, 3);
+            NextHit = Holes[HoleIndex];
+        }
     }
     public async void _on_mole_out_too_long(Vector3 playerPosition)
     {
-        MoleOutTooLong = true;
-        MoveMallet(playerPosition);
-        if (!HasHit)
+        if (!Player.GetGameOver())
         {
-            Hit();
-            await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
-            MoveMallet(StartPosition);
+
+            MoleOutTooLong = true;
+            MoveMallet(playerPosition);
+            if (!HasHit)
+            {
+                Hit();
+                await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
+                MoveMallet(StartPosition);
+            }
+            HasHit = false;
         }
-        HasHit = false;
     }
 
     public async void MoveMallet(Vector3 toLocation)
@@ -96,7 +98,6 @@ public partial class Mallet : Area3D
 
     public async void Hit()
     {
-        // GD.Print("???");
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
         Tween velTween = GetTree().CreateTween();
         velTween.TweenProperty(this, "rotation", new Vector3(Rotation.X, Rotation.Y, Rotation.Z - 1.25f), 0.2f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);

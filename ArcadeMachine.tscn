@@ -1,7 +1,10 @@
-[gd_scene load_steps=50 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=69 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Shader" uid="uid://ds1mmdqm6euws" path="res://ArcadeMachine.tres" id="1_g00fe"]
+[ext_resource type="FontFile" uid="uid://btaqvocwfv7qt" path="res://assets/Malenka.ttf" id="1_hvny5"]
+[ext_resource type="Script" path="res://Hole.cs" id="2_f2wid"]
 [ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="2_kredy"]
+[ext_resource type="PackedScene" uid="uid://xhyjnh3bv35u" path="res://assets/woodenplank.glb" id="2_udl5m"]
 [ext_resource type="Material" uid="uid://tqcxug20otm0" path="res://BottomHole.tres" id="3_jj6fg"]
 [ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="3_ne6s8"]
 [ext_resource type="Material" uid="uid://b44prumhon888" path="res://LeftHole.tres" id="3_wwdtn"]
@@ -10,6 +13,24 @@
 [ext_resource type="Material" uid="uid://kdgqu05dwp00" path="res://RightHole.tres" id="4_gnueh"]
 [ext_resource type="Script" path="res://DebugInfoUI.cs" id="4_gxy84"]
 [ext_resource type="Script" path="res://Mallet.cs" id="6_tgj3c"]
+[ext_resource type="Material" uid="uid://b1lt464xj8qrb" path="res://assets/RedLED.tres" id="9_fgcc2"]
+[ext_resource type="Script" path="res://Title.cs" id="9_j02oq"]
+[ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://SelectionRing.tres" id="11_7lry2"]
+[ext_resource type="Script" path="res://SelectedHoleHighlighter.cs" id="11_kcwni"]
+[ext_resource type="Script" path="res://MainCam.cs" id="13_l2gkr"]
+[ext_resource type="AudioStream" uid="uid://dm4eq060enqhl" path="res://assets/Hello_Matiss_I_love_you.wav" id="14_yyg5m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkta8"]
+albedo_color = Color(0.152941, 0.0745098, 0.0156863, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_b03w0"]
+material = SubResource("StandardMaterial3D_hkta8")
+text = "DONT"
+font = ExtResource("1_hvny5")
+font_size = 14
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g7te"]
+albedo_color = Color(0.419608, 0.215686, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y7x8r"]
 render_priority = 0
@@ -148,6 +169,16 @@ top_radius = 0.15
 bottom_radius = 0.15
 height = 0.1
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_86c15"]
+render_priority = 0
+shader = ExtResource("11_7lry2")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dacsb"]
+material = SubResource("ShaderMaterial_86c15")
+top_radius = 0.17
+bottom_radius = 0.17
+height = 0.01
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_83apl"]
 albedo_texture = ExtResource("2_kredy")
 uv1_scale = Vector3(0.48, 0.48, 0.48)
@@ -212,16 +243,10 @@ roughness = 0.25
 
 [sub_resource type="BoxMesh" id="BoxMesh_2xuof"]
 material = SubResource("StandardMaterial3D_q6s1g")
-size = Vector3(0.355, 0.2, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3yay"]
-albedo_color = Color(1, 0, 0.0156863, 1)
-emission_enabled = true
-emission = Color(1, 0, 0, 1)
-emission_energy_multiplier = 3.29
+size = Vector3(0.59, 0.2, 0.05)
 
 [sub_resource type="TextMesh" id="TextMesh_5xp3d"]
-material = SubResource("StandardMaterial3D_x3yay")
+material = ExtResource("9_fgcc2")
 text = "3"
 font = ExtResource("3_ne6s8")
 
@@ -230,13 +255,39 @@ material = ExtResource("4_3mtwl")
 text = "Lives: "
 font = ExtResource("3_ne6s8")
 
+[sub_resource type="TextMesh" id="TextMesh_0mb6q"]
+material = ExtResource("9_fgcc2")
+text = "1"
+font = ExtResource("3_ne6s8")
+
+[sub_resource type="TextMesh" id="TextMesh_8o3ij"]
+material = ExtResource("4_3mtwl")
+text = "Score: "
+font = ExtResource("3_ne6s8")
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kign4"]
 radius = 0.075
 height = 0.5
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bvwv6"]
+albedo_color = Color(0.529412, 0.396078, 0.298039, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_rskkd"]
+material = SubResource("StandardMaterial3D_bvwv6")
 radius = 0.075
 height = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_xbc5a"]
+radius = 0.025
+height = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t888p"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8nrox"]
+material = SubResource("StandardMaterial3D_t888p")
+radius = 0.005
+height = 0.01
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7khsi"]
 size = Vector2(50, 50)
@@ -268,8 +319,18 @@ glow_bloom = 0.08
 [node name="Node3D" type="Node3D"]
 
 [node name="ArcadeMachine" type="Node3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ArcadeMachine"]
+transform = Transform3D(0.991832, 0.126597, 0.00591273, -0.127549, 0.984424, 0.0459778, -1.81899e-12, -0.121991, 0.377162, -0.00729267, 1.97005, -0.708917)
+mesh = SubResource("TextMesh_b03w0")
+skeleton = NodePath("../woodenplank")
+
+[node name="woodenplank" parent="ArcadeMachine" instance=ExtResource("2_udl5m")]
+transform = Transform3D(0.149813, 0.00222374, -0.00714691, -0.0074121, 0.0241533, -0.147857, -0.00104117, 0.148026, 0.0242331, 0.0229751, 1.99539, -0.73584)
+
+[node name="Cube" parent="ArcadeMachine/woodenplank" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_0g7te")
 
 [node name="ArcadeTop" type="MeshInstance3D" parent="ArcadeMachine"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00729, 0)
@@ -280,21 +341,31 @@ skeleton = NodePath("../..")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.096, -0.35)
 mesh = SubResource("CylinderMesh_7wwu5")
+script = ExtResource("2_f2wid")
 
 [node name="Left" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.096, 0)
 mesh = SubResource("CylinderMesh_6r6q6")
+script = ExtResource("2_f2wid")
 
 [node name="Bottom" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.096, 0.35)
 mesh = SubResource("CylinderMesh_2ern8")
+script = ExtResource("2_f2wid")
 
 [node name="Right" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.096, 0)
 mesh = SubResource("CylinderMesh_d2oj1")
+script = ExtResource("2_f2wid")
+
+[node name="SelectedHoleHighlighter" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.345465, 0.125925, -3.02015e-08)
+mesh = SubResource("CylinderMesh_dacsb")
+skeleton = NodePath("../../../Mole")
+script = ExtResource("11_kcwni")
 
 [node name="ArcadeBottom" type="MeshInstance3D" parent="ArcadeMachine"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -306,20 +377,21 @@ transform = Transform3D(1, 1.4289e-08, 1.17564e-09, -1.4289e-08, 0.986552, 0.163
 mesh = SubResource("BoxMesh_q50m8")
 
 [node name="Title" type="Node3D" parent="ArcadeMachine/ArcadePanel"]
-transform = Transform3D(0.655, 8.88178e-16, 3.55271e-15, 2.66454e-15, 0.655, -4.47035e-08, -3.55271e-15, 4.47035e-08, 0.655, -2.23095e-09, 0.180731, 0.0255193)
+transform = Transform3D(0.655, 6.93889e-16, 3.55271e-15, 2.08167e-15, 0.655, -4.47035e-08, -3.60822e-15, 4.47035e-08, 0.655, -2.23095e-09, 0.180731, 0.0255193)
+script = ExtResource("9_j02oq")
 
 [node name="W" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
-transform = Transform3D(0.858119, -0.506547, -0.0839219, 0.506547, 0.861911, -0.0228781, 0.0839218, -0.0228784, 0.996212, -0.352795, 0.272898, 0.0897522)
+transform = Transform3D(0.858119, -0.506547, -0.0839219, 0.506547, 0.861911, -0.0228781, 0.0839218, -0.0228785, 0.996212, -0.352795, 0.272898, 0.0897522)
 mesh = SubResource("TextMesh_bugoy")
 skeleton = NodePath("../..")
 
 [node name="HA" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
-transform = Transform3D(1, -8.88178e-16, -1.42109e-13, -7.99361e-15, 1, 5.96046e-08, -1.20792e-13, -5.96046e-08, 1, -0.0738484, 0.300477, 0.0931333)
+transform = Transform3D(1, -2.33147e-15, -1.42109e-13, -9.13158e-15, 1, 5.96046e-08, -1.20903e-13, -5.96046e-08, 1, -0.0738484, 0.300477, 0.0931334)
 mesh = SubResource("TextMesh_3htjo")
 skeleton = NodePath("../..")
 
 [node name="CK" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
-transform = Transform3D(0.902893, 0.429849, 0.00388928, -0.42986, 0.902892, 0.00302161, -0.00221275, -0.00439988, 0.99999, 0.266423, 0.303408, 0.0894171)
+transform = Transform3D(0.902893, 0.429849, 0.00388928, -0.42986, 0.902892, 0.00302161, -0.00221275, -0.0043999, 0.99999, 0.266423, 0.303408, 0.0894171)
 mesh = SubResource("TextMesh_3oyf7")
 skeleton = NodePath("../..")
 
@@ -338,19 +410,37 @@ transform = Transform3D(1, -1.24345e-14, 1.49214e-13, 0, 0.999999, -8.9407e-08, 
 mesh = SubResource("TextMesh_rqbnw")
 
 [node name="Lives" type="Node3D" parent="ArcadeMachine/ArcadePanel"]
+transform = Transform3D(0.7, 4.44089e-15, -7.81597e-14, -3.55271e-15, 0.7, 0, 7.10543e-14, 0, 0.7, -0.25, -0.2, 0.076)
 
 [node name="LivesBlock" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.195129, -0.141243, 0.0697779)
+transform = Transform3D(1, 0, 7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_2xuof")
+metadata/_edit_group_ = true
 
 [node name="LivesCounter" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives/LivesBlock"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00448057, 0.00980866, 0.0189637)
 mesh = SubResource("TextMesh_5xp3d")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.168993, -0.129641, 0.0813895)
+[node name="LivesText" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives"]
+transform = Transform3D(1, 2.66454e-14, 0, -1.86517e-14, 1, 2.08616e-07, 1.42109e-14, -2.08616e-07, 1, 0.04, 0.175, 0)
 mesh = SubResource("TextMesh_q3gto")
+
+[node name="Score" type="Node3D" parent="ArcadeMachine/ArcadePanel"]
+transform = Transform3D(0.7, 9.76996e-15, 0, -1.42109e-14, 0.7, 0, -3.55271e-15, 0, 0.7, 0.25, -0.2, 0.076)
+
+[node name="ScoreBlock" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Score"]
+mesh = SubResource("BoxMesh_2xuof")
+metadata/_edit_group_ = true
+
+[node name="ScoreCounter" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Score/ScoreBlock"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00448057, 0.00980866, 0.0189637)
+mesh = SubResource("TextMesh_0mb6q")
+
+[node name="ScoreText" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Score"]
+transform = Transform3D(1, 1.77636e-15, -7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0.04, 0.175, 0)
+mesh = SubResource("TextMesh_8o3ij")
 
 [node name="Holes" type="Node3D" parent="ArcadeMachine"]
 visible = false
@@ -373,7 +463,7 @@ light_color = Color(1, 1, 0, 1)
 
 [node name="Mole" type="Area3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.369, 0.85, -0.317)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.369, 1.08128, -0.00996652)
 script = ExtResource("3_ynpv8")
 metadata/_edit_group_ = true
 
@@ -384,6 +474,24 @@ shape = SubResource("CapsuleShape3D_kign4")
 unique_name_in_owner = true
 mesh = SubResource("CapsuleMesh_rskkd")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mole/MoleMesh"]
+transform = Transform3D(0.943391, 0.109774, -0.312992, 0, 0.943645, 0.330959, 0.331684, -0.312224, 0.890226, -0.025, 0.2, 0.054)
+mesh = SubResource("SphereMesh_xbc5a")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mole/MoleMesh/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.505, 0, 0, 0.023801)
+mesh = SubResource("SphereMesh_8nrox")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mole/MoleMesh"]
+transform = Transform3D(0.956646, 0, 0.291253, 0, 1, 0, -0.291253, 0, 0.956646, 0.025, 0.2, 0.054)
+mesh = SubResource("SphereMesh_xbc5a")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mole/MoleMesh/MeshInstance3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.505, 0, 0, 0.023801)
+mesh = SubResource("SphereMesh_8nrox")
+
 [node name="PopOutTimer" type="Timer" parent="Mole"]
 unique_name_in_owner = true
 wait_time = 2.0
@@ -393,8 +501,15 @@ autostart = true
 unique_name_in_owner = true
 wait_time = 0.25
 
+[node name="BonkSound" type="AudioStreamPlayer3D" parent="Mole"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.369, -1.08128, 0.00996652)
+stream = ExtResource("14_yyg5m")
+
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 5.23488e-08, -7.00168e-08, 0, 0.800899, 0.5988, 8.74228e-08, 0.5988, -0.800899, 0, 1.97802, -0.942353)
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.999976, 0.00698126, 0, -0.00698126, 0.999976, 0, 2.1574, 1.74328)
+script = ExtResource("13_l2gkr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -5.96046e-08, 1, 0, -1, -5.96046e-08, 0, 2, -3)
@@ -472,3 +587,5 @@ environment = SubResource("Environment_uq3bh")
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/OutTimer" to="Mole" method="_on_out_timer_timeout"]
+
+[editable path="ArcadeMachine/woodenplank"]

@@ -1,7 +1,7 @@
 [gd_resource type="StandardMaterial3D" load_steps=10 format=3 uid="uid://c5looj5nu617n"]
 
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_j8t30"]
-default_input_values = [0, 0.0, 1, 8.0]
+default_input_values = [0, 0.0, 1, 16.0]
 operator = 2
 
 [sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_47it1"]
@@ -59,7 +59,7 @@ void fragment() {
 
 
 // FloatOp:11
-	float n_in11p1 = 8.00000;
+	float n_in11p1 = 16.00000;
 	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
 
 
@@ -78,7 +78,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-318.545, -138.455)
+graph_offset = Vector2(-773.789, 168.254)
 nodes/fragment/0/position = Vector2(740, -20)
 nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_47it1")
 nodes/fragment/3/position = Vector2(200, -20)
