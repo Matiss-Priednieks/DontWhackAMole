@@ -20,11 +20,12 @@ public partial class Mole : Area3D
 
     int IFrames = 60;
     bool GameOver = false;
-    public bool Playing = false;
+    public bool Playing, Paused = false;
     Camera3D CameraRef;
     RandomNumberGenerator RNG;
     AudioStreamPlayer3D Bonk;
     AudioStreamPlayer3D Move;
+    int FinalScore;
     public override void _Ready()
     {
         CameraRef = GetNode<Camera3D>("%Camera3D");
@@ -58,7 +59,7 @@ public partial class Mole : Area3D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Playing)
+        if (Playing || !Paused)
         {
 
             if (IFrames <= 60 && IFrames > 0)
@@ -98,7 +99,7 @@ public partial class Mole : Area3D
                 ChosenHole = Holes[3];
                 PopDown();
             }
-            if (!Down)
+            if (!Down && !Paused)
             {
                 ScoreAcceleration += 0.01f;
                 Score += ScoreAcceleration;
@@ -106,16 +107,25 @@ public partial class Mole : Area3D
 
             if (Lives == 0)
             {
-                GameOver = true;
+                SetGameOver(true);
                 Playing = false;
             }
         }
+        FinalScore = (int)Score;
+        GetNode<Label>("%FinalScore").Text = FinalScore.ToString();
+
+    }
+
+    public void Restart()
+    {
+        Score = 0;
+        Lives = 3;
     }
 
     public void _on_pop_out_timer_timeout()
     {
         //Pop Mole out
-        if (Down && Lives > 0 && Playing)
+        if (Down && Lives > 0 && Playing && !Paused)
         {
             Position = ChosenHole;
             Tween velTween = GetTree().CreateTween();
@@ -126,7 +136,7 @@ public partial class Mole : Area3D
     }
     public void _on_out_timer_timeout()
     {
-        if (DangerTimer >= 0.75f && Playing)
+        if (DangerTimer >= 0.75f && Playing && !Paused)
         {
             //Call the smack!
             EmitSignal("OutTooLong", Position);
@@ -149,6 +159,7 @@ public partial class Mole : Area3D
 
     public async void GotHit()
     {
+        ScoreAcceleration = 0;
         Bonk.Play(0);
         ScreenShake();
         DangerTimer = 0;
@@ -164,7 +175,6 @@ public partial class Mole : Area3D
         await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
         tempScale = new Vector3(1, 1, 1);
         MoleMesh.Scale = tempScale;
-        // Bonk.Stop();
     }
 
     public void _on_area_entered(Area3D area)
@@ -212,5 +222,9 @@ public partial class Mole : Area3D
     public bool GetGameOver()
     {
         return GameOver;
+    }
+    public void SetGameOver(bool value)
+    {
+        GameOver = value;
     }
 }

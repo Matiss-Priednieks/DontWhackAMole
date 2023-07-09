@@ -1,0 +1,35 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://c6q2wfkhoat1u"]
+
+[ext_resource type="StyleBox" uid="uid://ccqpjmnrpo8xt" path="res://buttons/disabledbutton.tres" id="1_61exf"]
+[ext_resource type="StyleBox" uid="uid://5cfs1vako45a" path="res://buttons/focusedbutton.tres" id="2_p2my6"]
+[ext_resource type="StyleBox" uid="uid://cncdwxln0x5kv" path="res://buttons/hoveredbutton.tres" id="3_q6u4i"]
+[ext_resource type="StyleBox" uid="uid://c457hr3hm5g5u" path="res://buttons/basebutton.tres" id="4_6brdf"]
+[ext_resource type="StyleBox" uid="uid://poy1vnxwu3ja" path="res://buttons/pressedbutton.tres" id="5_4d677"]
+[ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="6_w2d43"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yngxj"]
+bg_color = Color(0.945098, 0.529412, 0.00392157, 0.694118)
+border_color = Color(0.968627, 0.721569, 0.00392157, 0.815686)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.968627, 0.721569, 0.00392157, 0.815686)
+shadow_size = 10
+shadow_offset = Vector2(5, 5)
+
+[resource]
+default_font = ExtResource("6_w2d43")
+Button/font_sizes/font_size = 40
+Button/styles/disabled = ExtResource("1_61exf")
+Button/styles/focus = ExtResource("2_p2my6")
+Button/styles/hover = ExtResource("3_q6u4i")
+Button/styles/normal = ExtResource("4_6brdf")
+Button/styles/pressed = ExtResource("5_4d677")
+HBoxContainer/constants/separation = 50
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 20
+Label/font_sizes/font_size = 64
+Label/fonts/font = ExtResource("6_w2d43")
+Panel/styles/panel = SubResource("StyleBoxFlat_yngxj")
+VBoxContainer/constants/separation = 42

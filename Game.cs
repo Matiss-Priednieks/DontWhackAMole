@@ -9,39 +9,130 @@ public partial class Game : Node3D
     Camera3D MainCam;
     Vector3 CamPlayPos, CamPlayRot, CamMenuPos, CamMenuRot;
 
-    Mallet mallet;
-    Mole mole;
+    Mallet Mallet;
+    Mole Mole;
     Panel Intro;
-
+    Control GameOverMenu;
+    Button PlayResume;
+    VBoxContainer MenuButtons, HelpMenu, SettingsMenu;
     public override void _Ready()
     {
+        MenuButtons = GetNode<VBoxContainer>("%MenuButtons");
+        HelpMenu = GetNode<VBoxContainer>("%HelpScreen");
+        SettingsMenu = GetNode<VBoxContainer>("%SettingsMenu");
         Intro = GetNode<Panel>("%Intro");
         MainCam = GetNode<Camera3D>("Camera3D");
-        mallet = GetNode<Mallet>("%Mallet");
-        mole = GetNode<Mole>("%Mole");
-
+        Mallet = GetNode<Mallet>("%Mallet");
+        Mole = GetNode<Mole>("%Mole");
+        GameOverMenu = GetNode<Control>("%GameOver");
+        PlayResume = GetNode<Button>("%PlayResume");
         CamPlayPos = new Vector3(0, 2.403f, 1.516f);
-        CamMenuPos = new Vector3(0, 1.768f, -0.108f);
+        CamMenuPos = new Vector3(0, 1.621f, 0.667f);
 
         CamPlayRot = new Vector3(-36.8f, 0, 0);
-        CamMenuRot = Vector3.Zero;
+        CamMenuRot = new Vector3(0, 30, 0);
 
+        PlayResume.Text = "Play";
         MainCam.Position = CamMenuPos;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public async override void _Process(double delta)
     {
-        if (Input.IsActionJustReleased("ui_accept") && Menu)
+        if (Input.IsActionJustReleased("menu") && !Menu && !Mole.GetGameOver())
+        {
+            Intro.Show();
+            MoveCamera(CamMenuPos, CamMenuRot);
+            Mole.Paused = true;
+            PlayResume.Text = "Resume";
+            await ToSignal(GetTree().CreateTimer(2f), "timeout");
+            Menu = true;
+        }
+        else if (Input.IsActionJustReleased("menu") && Menu)
         {
             Intro.Hide();
-            Tween MoveCam = GetTree().CreateTween();
-            MoveCam.TweenProperty(MainCam, "position", CamPlayPos, 3f).SetTrans(Tween.TransitionType.Circ);
-            Tween RotCam = GetTree().CreateTween();
-            RotCam.TweenProperty(MainCam, "rotation_degrees", CamPlayRot, 3f).SetTrans(Tween.TransitionType.Circ);
-            await ToSignal(GetTree().CreateTimer(2f), "timeout");
-            mole.Playing = true;
-            mallet.Playing = true;
+            MoveCamera(CamPlayPos, CamPlayRot);
+            await ToSignal(GetTree().CreateTimer(2.5f), "timeout");
+            Mole.Paused = false;
+            Menu = false;
         }
+
+        if (Mole.GetGameOver())
+        {
+            GameOverMenu.Show();
+            Menu = false;
+            GD.Print(Input.IsActionJustReleased("menu"));
+            if (Input.IsActionJustReleased("menu"))
+            {
+                Mole.SetGameOver(false);
+                Mole.Paused = true;
+                GameOverMenu.Hide();
+                Intro.Show();
+                MoveCamera(CamMenuPos, CamMenuRot);
+                PlayResume.Text = "Play";
+                Menu = true;
+            }
+        }
+    }
+    public void _on_restart_pressed()
+    {
+        Mole.Playing = true;
+        Mallet.Playing = true;
+        Mole.Restart();
+        Mole.SetGameOver(false);
+        Mole.Paused = false;
+        GameOverMenu.Hide();
+        Menu = false;
+    }
+    public void _on_main_menu_pressed()
+    {
+        Mole.SetGameOver(false);
+        Mole.Paused = true;
+        Mole.Restart();
+        GameOverMenu.Hide();
+        Intro.Show();
+        MoveCamera(CamMenuPos, CamMenuRot);
+        PlayResume.Text = "Play";
+        Menu = true;
+    }
+
+    //play/resume button
+    public async void _on_button_pressed()
+    {
+        if (!Mole.Paused)
+        {
+            Mole.Restart();
+        }
+        Intro.Hide();
+        MoveCamera(CamPlayPos, CamPlayRot);
+        await ToSignal(GetTree().CreateTimer(2f), "timeout");
+        Mole.Playing = true;
+        Mallet.Playing = true;
+        Mole.Paused = false;
+        Menu = false;
+    }
+
+    public void _on_help_pressed()
+    {
+        MenuButtons.Hide();
+        HelpMenu.Show();
+    }
+    public void _on_back_help_pressed()
+    {
+        MenuButtons.Show();
+        HelpMenu.Hide();
+    }
+
+    public void MoveCamera(Vector3 Pos, Vector3 Rot)
+    {
+        Tween MoveCam = GetTree().CreateTween();
+        MoveCam.TweenProperty(MainCam, "position", Pos, 1.5f).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
+        Tween RotCam = GetTree().CreateTween();
+        RotCam.TweenProperty(MainCam, "rotation_degrees", Rot, 1.5f).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
+    }
+
+    public void _on_exit_pressed()
+    {
+        GetTree().Quit();
     }
 }

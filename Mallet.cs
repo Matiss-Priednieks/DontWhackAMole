@@ -11,15 +11,18 @@ public partial class Mallet : Area3D
     Vector3 StartPosition = Vector3.Zero;
     Dictionary HoleDictionary;
     Vector3 NextHit;
-    CollisionShape3D MalletCollider;
+    public CollisionShape3D MalletCollider;
     int HoleIndex;
     Timer PopOutTimer;
     public bool Playing;
     Camera3D CameraRef;
     RandomNumberGenerator RNG;
+    AudioStreamPlayer3D Miss;
+    bool MoleHit = false;
     public override void _Ready()
     {
         GD.Randomize();
+        Miss = GetNode<AudioStreamPlayer3D>("%Miss");
         RNG = new RandomNumberGenerator();
         CameraRef = GetNode<Camera3D>("%Camera3D");
         MalletCollider = GetNode<CollisionShape3D>("%MalletCollider");
@@ -47,9 +50,8 @@ public partial class Mallet : Area3D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (Playing)
+        if (Playing && !Player.Paused)
         {
-
             if (MoleOutTooLong)
             {
                 MoleOutTooLong = !Player.GetDownStatus();
@@ -67,7 +69,7 @@ public partial class Mallet : Area3D
     }
     public async void _on_pop_out_timer_timeout()
     {
-        if (!Player.GetGameOver() && Playing)
+        if (!Player.GetGameOver() && Playing && !Player.Paused)
         {
             MoveMallet(NextHit);
 
@@ -81,7 +83,7 @@ public partial class Mallet : Area3D
     }
     public async void _on_mole_out_too_long(Vector3 playerPosition)
     {
-        if (!Player.GetGameOver() && Playing)
+        if (!Player.GetGameOver() && Playing && !Player.Paused)
         {
 
             MoleOutTooLong = true;
@@ -94,6 +96,13 @@ public partial class Mallet : Area3D
             }
             HasHit = false;
         }
+    }
+
+    public void _on_area_entered(Area3D area)
+    {
+        GD.Print(MoleHit);
+        Miss.Play();
+        MoleHit = false;
     }
 
     public async void MoveMallet(Vector3 toLocation)

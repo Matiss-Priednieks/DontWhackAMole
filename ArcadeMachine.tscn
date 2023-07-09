@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=78 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://Game.cs" id="1_es8m8"]
 [ext_resource type="Shader" uid="uid://ds1mmdqm6euws" path="res://ArcadeMachine.tres" id="1_g00fe"]
@@ -20,10 +20,12 @@
 [ext_resource type="Script" path="res://Title.cs" id="9_j02oq"]
 [ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://SelectionRing.tres" id="11_7lry2"]
 [ext_resource type="Script" path="res://SelectedHoleHighlighter.cs" id="11_kcwni"]
-[ext_resource type="AudioStream" uid="uid://dm4eq060enqhl" path="res://assets/Hello_Matiss_I_love_you.wav" id="14_yyg5m"]
-[ext_resource type="AudioStream" uid="uid://pob08wicccf8" path="res://assets/paddlehit.wav" id="20_gtigy"]
+[ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/boxing-bell.wav" id="19_byjal"]
+[ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/penclick.mp3" id="20_xgulw"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://assets/arcademachine.tscn" id="22_6g7oe"]
+[ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="22_41bis"]
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://assets/Mallet.tscn" id="22_48ef3"]
+[ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/miss-smack.wav" id="25_f2a1v"]
 
 [sub_resource type="TextMesh" id="TextMesh_bugoy"]
 material = ExtResource("4_3mtwl")
@@ -239,6 +241,9 @@ font_size = 14
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g7te"]
 albedo_color = Color(0.419608, 0.215686, 0, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_6xr0f"]
+size = Vector3(1, 0.214042, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y7x8r"]
 render_priority = 0
 shader = ExtResource("1_g00fe")
@@ -288,17 +293,6 @@ albedo_color = Color(0, 0, 0, 1)
 material = SubResource("StandardMaterial3D_t888p")
 radius = 0.005
 height = 0.01
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yngxj"]
-bg_color = Color(0, 0, 0.839216, 0.584314)
-
-[sub_resource type="Theme" id="Theme_xq2nx"]
-Label/colors/font_outline_color = Color(0, 0, 0, 1)
-Label/constants/outline_size = 20
-Label/font_sizes/font_size = 64
-Label/fonts/font = ExtResource("3_ne6s8")
-Panel/styles/panel = SubResource("StyleBoxFlat_yngxj")
-VBoxContainer/constants/separation = 42
 
 [sub_resource type="FontFile" id="FontFile_wifpr"]
 face_index = null
@@ -363,6 +357,7 @@ transform = Transform3D(-1.31134e-09, 0, -0.377, 0, 0.246, 0, 0.03, 0, -1.64792e
 
 [node name="ScreenFrame" parent="WHACKmachine" index="2"]
 visible = false
+surface_material_override/0 = null
 
 [node name="Title" type="Node3D" parent="WHACKmachine"]
 transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 6.29976e-08, 1.08653, -0.666776)
@@ -484,6 +479,12 @@ transform = Transform3D(0.149813, 0.00222374, -0.00714691, -0.0074121, 0.0241533
 [node name="Cube" parent="WHACKmachine/WoodenSign/woodenplank" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_0g7te")
 
+[node name="Area3D" type="Area3D" parent="WHACKmachine"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592885, 0)
+shape = SubResource("BoxShape3D_6xr0f")
+
 [node name="ArcadeMachine" type="Node3D" parent="."]
 visible = false
 metadata/_edit_group_ = true
@@ -560,15 +561,15 @@ wait_time = 0.25
 [node name="BonkSound" type="AudioStreamPlayer3D" parent="Mole"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.369, -1.08128, 0.00996652)
-stream = ExtResource("14_yyg5m")
+stream = ExtResource("19_byjal")
 
 [node name="MoveSound" type="AudioStreamPlayer3D" parent="Mole"]
 unique_name_in_owner = true
-stream = ExtResource("20_gtigy")
+stream = ExtResource("20_xgulw")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76793, -0.107918)
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1.62111, 0.667309)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -5.96046e-08, 1, 0, -1, -5.96046e-08, 0, 2, -3)
@@ -618,8 +619,24 @@ text = "IFrames"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Intro" type="Panel" parent="UI"]
+[node name="Menu" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -753.5
+offset_top = -227.5
+offset_right = -186.5
+offset_bottom = 227.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_group_ = true
+
+[node name="Intro" type="Panel" parent="UI/Menu"]
 unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -627,23 +644,42 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = SubResource("Theme_xq2nx")
+theme = ExtResource("22_41bis")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Intro"]
+[node name="MenuButtons" type="VBoxContainer" parent="UI/Menu/Intro"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -74.0
-offset_top = -20.0
-offset_right = 74.0
-offset_bottom = 20.0
+offset_left = -252.5
+offset_top = -175.0
+offset_right = 252.5
+offset_bottom = 175.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="tut" type="Label" parent="UI/Intro/VBoxContainer"]
+[node name="PlayResume" type="Button" parent="UI/Menu/Intro/MenuButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play"
+
+[node name="Help" type="Button" parent="UI/Menu/Intro/MenuButtons"]
+layout_mode = 2
+text = "Help"
+
+[node name="Settings" type="Button" parent="UI/Menu/Intro/MenuButtons"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Exit" type="Button" parent="UI/Menu/Intro/MenuButtons"]
+layout_mode = 2
+text = "Exit"
+
+[node name="tut" type="Label" parent="UI/Menu/Intro/MenuButtons"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontFile_wifpr")
 text = "Get as many points as you can
@@ -651,7 +687,8 @@ by staying above ground without
 getting hit."
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="UI/Intro/VBoxContainer"]
+[node name="Label2" type="Label" parent="UI/Menu/Intro/MenuButtons"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontFile_wifpr")
 text = "You are forced out of the holes
@@ -659,18 +696,174 @@ every 2 seconds, at which point
 the mallet will also hit."
 horizontal_alignment = 1
 
-[node name="Label" type="Label" parent="UI/Intro/VBoxContainer"]
+[node name="Label" type="Label" parent="UI/Menu/Intro/MenuButtons"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontFile_wifpr")
 text = "Press Space to Play"
 horizontal_alignment = 1
+
+[node name="HelpScreen" type="VBoxContainer" parent="UI/Menu/Intro"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/Menu/Intro/HelpScreen"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Don't get hit by
+the mallet."
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="UI/Menu/Intro/HelpScreen"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Esc for Menu
+WASD to choose hole"
+horizontal_alignment = 1
+
+[node name="BackHelp" type="Button" parent="UI/Menu/Intro/HelpScreen"]
+layout_mode = 2
+text = "Back"
+
+[node name="SettingsMenu" type="VBoxContainer" parent="UI/Menu/Intro"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOver" type="Control" parent="UI"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="UI/GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -439.0
+offset_top = -209.0
+offset_right = 439.0
+offset_bottom = 209.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("22_41bis")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/GameOver/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -234.5
+offset_top = -146.0
+offset_right = 234.5
+offset_bottom = 146.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Game Over" type="Label" parent="UI/GameOver/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Game Over!"
+
+[node name="FinalScore" type="Label" parent="UI/GameOver/Panel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Final Score:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/GameOver/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Main Menu" type="Button" parent="UI/GameOver/Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Restart" type="Button" parent="UI/GameOver/Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Restart"
+
+[node name="InGameUI" type="Control" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -291.0
+offset_top = -89.0
+offset_right = 291.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Panel" type="Panel" parent="UI/InGameUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("22_41bis")
+
+[node name="PopTimer2" type="Label" parent="UI/InGameUI/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -158.0
+offset_top = -40.0
+offset_right = 158.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Popping out in:"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_7khsi")
 
 [node name="Mallet" type="Area3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.802168, 1.32484, -0.115476)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.802168, 1.16999, -0.115476)
 script = ExtResource("6_tgj3c")
 
 [node name="Mallet" type="Node3D" parent="Mallet"]
@@ -693,6 +886,10 @@ shape = SubResource("CylinderShape3D_p4cgf")
 
 [node name="bonktool" parent="Mallet" instance=ExtResource("22_48ef3")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.095, 0)
+
+[node name="Miss" type="AudioStreamPlayer3D" parent="Mallet"]
+unique_name_in_owner = true
+stream = ExtResource("25_f2a1v")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_uq3bh")
@@ -747,6 +944,13 @@ transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.1958
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/OutTimer" to="Mole" method="_on_out_timer_timeout"]
+[connection signal="pressed" from="UI/Menu/Intro/MenuButtons/PlayResume" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="UI/Menu/Intro/HelpScreen/BackHelp" to="." method="_on_back_help_pressed"]
+[connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]
 
 [editable path="WHACKmachine"]
 [editable path="WHACKmachine/WoodenSign/woodenplank"]
