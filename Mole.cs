@@ -20,9 +20,11 @@ public partial class Mole : Area3D
 
     int IFrames = 60;
     bool GameOver = false;
+    public bool Playing = false;
     Camera3D CameraRef;
     RandomNumberGenerator RNG;
     AudioStreamPlayer3D Bonk;
+    AudioStreamPlayer3D Move;
     public override void _Ready()
     {
         CameraRef = GetNode<Camera3D>("%Camera3D");
@@ -30,6 +32,7 @@ public partial class Mole : Area3D
         LivesCounter = GetNode<MeshInstance3D>("%LivesCounter");
         ScoreCounter = GetNode<MeshInstance3D>("%ScoreCounter");
         Bonk = GetNode<AudioStreamPlayer3D>("%BonkSound");
+        Move = GetNode<AudioStreamPlayer3D>("%MoveSound");
 
         RNG = new RandomNumberGenerator();
 
@@ -55,56 +58,64 @@ public partial class Mole : Area3D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (IFrames <= 60 && IFrames > 0)
+        if (Playing)
         {
-            IFrames--;
-        }
-        // Holes[GD.RandRange(0, Holes.Count)];
-        var LivesMesh = (TextMesh)LivesCounter.Mesh;
-        LivesMesh.Text = Lives.ToString();
-        LivesCounter.Mesh = LivesMesh;
 
-        var ScoreMesh = (TextMesh)ScoreCounter.Mesh;
-        ScoreMesh.Text = Math.Round(Score).ToString();
-        ScoreCounter.Mesh = ScoreMesh;
+            if (IFrames <= 60 && IFrames > 0)
+            {
+                IFrames--;
+            }
+            // Holes[GD.RandRange(0, Holes.Count)];
+            var LivesMesh = (TextMesh)LivesCounter.Mesh;
+            LivesMesh.Text = Lives.ToString();
+            LivesCounter.Mesh = LivesMesh;
 
-        if (Input.IsActionJustPressed("top_hole"))
-        {
-            ChosenHole = Holes[0];
-            PopDown();
-        }
-        if (Input.IsActionJustPressed("left_hole"))
-        {
-            ChosenHole = Holes[1];
-            PopDown();
-        }
-        if (Input.IsActionJustPressed("bottom_hole"))
-        {
-            ChosenHole = Holes[2];
-            PopDown();
-        }
-        if (Input.IsActionJustPressed("right_hole"))
-        {
-            ChosenHole = Holes[3];
-            PopDown();
-        }
-        if (!Down)
-        {
-            ScoreAcceleration += 0.01f;
-            Score += ScoreAcceleration;
-        }
+            var ScoreMesh = (TextMesh)ScoreCounter.Mesh;
+            ScoreMesh.Text = Math.Round(Score).ToString();
+            ScoreCounter.Mesh = ScoreMesh;
 
+            if (Input.IsActionJustPressed("top_hole"))
+            {
+                Move.Play();
+                ChosenHole = Holes[0];
+                PopDown();
+            }
+            if (Input.IsActionJustPressed("left_hole"))
+            {
+                Move.Play();
+                ChosenHole = Holes[1];
+                PopDown();
+            }
+            if (Input.IsActionJustPressed("bottom_hole"))
+            {
+                Move.Play();
+                ChosenHole = Holes[2];
+                PopDown();
+            }
+            if (Input.IsActionJustPressed("right_hole"))
+            {
+                Move.Play();
+                ChosenHole = Holes[3];
+                PopDown();
+            }
+            if (!Down)
+            {
+                ScoreAcceleration += 0.01f;
+                Score += ScoreAcceleration;
+            }
 
-        if (Lives == 0)
-        {
-            GameOver = true;
+            if (Lives == 0)
+            {
+                GameOver = true;
+                Playing = false;
+            }
         }
     }
 
     public void _on_pop_out_timer_timeout()
     {
         //Pop Mole out
-        if (Down && Lives > 0)
+        if (Down && Lives > 0 && Playing)
         {
             Position = ChosenHole;
             Tween velTween = GetTree().CreateTween();
@@ -115,7 +126,7 @@ public partial class Mole : Area3D
     }
     public void _on_out_timer_timeout()
     {
-        if (DangerTimer >= 0.75f)
+        if (DangerTimer >= 0.75f && Playing)
         {
             //Call the smack!
             EmitSignal("OutTooLong", Position);
@@ -164,7 +175,7 @@ public partial class Mole : Area3D
             GotHit();
             if (Lives > 0)
             {
-                // Lives--;
+                Lives--;
             }
         }
     }

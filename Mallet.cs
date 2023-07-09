@@ -14,9 +14,14 @@ public partial class Mallet : Area3D
     CollisionShape3D MalletCollider;
     int HoleIndex;
     Timer PopOutTimer;
+    public bool Playing;
+    Camera3D CameraRef;
+    RandomNumberGenerator RNG;
     public override void _Ready()
     {
         GD.Randomize();
+        RNG = new RandomNumberGenerator();
+        CameraRef = GetNode<Camera3D>("%Camera3D");
         MalletCollider = GetNode<CollisionShape3D>("%MalletCollider");
         Player = GetNode<Mole>("%Mole");
         PopOutTimer = GetNode<Timer>("%PopOutTimer");
@@ -42,23 +47,27 @@ public partial class Mallet : Area3D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (MoleOutTooLong)
+        if (Playing)
         {
-            MoleOutTooLong = !Player.GetDownStatus();
-        }
 
-        if (PopOutTimer.TimeLeft < 0.5f && !Player.GetGameOver())
-        {
-            GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(true);
-        }
-        else
-        {
-            GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(false);
+            if (MoleOutTooLong)
+            {
+                MoleOutTooLong = !Player.GetDownStatus();
+            }
+
+            if (PopOutTimer.TimeLeft < 0.5f && !Player.GetGameOver())
+            {
+                GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(true);
+            }
+            else
+            {
+                GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(false);
+            }
         }
     }
     public async void _on_pop_out_timer_timeout()
     {
-        if (!Player.GetGameOver())
+        if (!Player.GetGameOver() && Playing)
         {
             MoveMallet(NextHit);
 
@@ -72,7 +81,7 @@ public partial class Mallet : Area3D
     }
     public async void _on_mole_out_too_long(Vector3 playerPosition)
     {
-        if (!Player.GetGameOver())
+        if (!Player.GetGameOver() && Playing)
         {
 
             MoleOutTooLong = true;
@@ -99,10 +108,23 @@ public partial class Mallet : Area3D
     public async void Hit()
     {
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
+        ScreenShake();
         Tween velTween = GetTree().CreateTween();
-        velTween.TweenProperty(this, "rotation", new Vector3(Rotation.X, Rotation.Y, Rotation.Z - 1.25f), 0.2f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+        velTween.TweenProperty(this, "rotation", new Vector3(Rotation.X, Rotation.Y, Rotation.Z - 1.4f), 0.2f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
         velTween.TweenProperty(this, "rotation", new Vector3(0, 0, 0), 0.3f).SetTrans(Tween.TransitionType.Sine).SetTrans(Tween.TransitionType.Back);
         HasHit = true;
+    }
+
+    public void ScreenShake()
+    {
+        var OriginalTransform = CameraRef;
+        Tween camShakePosTween = GetTree().CreateTween();
+        camShakePosTween.TweenProperty(CameraRef, "position", new Vector3(CameraRef.Position.X + RNG.RandfRange(-0.005f, 0.005f), CameraRef.Position.Y + RNG.RandfRange(-0.001f, 0.001f), CameraRef.Position.Z + RNG.RandfRange(-0.005f, 0.005f)), 0.1f).SetTrans(Tween.TransitionType.Elastic);
+        camShakePosTween.TweenProperty(CameraRef, "position", new Vector3(CameraRef.Position.X, CameraRef.Position.Y, CameraRef.Position.Z), 0.1f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+
+        Tween camShakeRotTween = GetTree().CreateTween();
+        camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X + RNG.RandfRange(-0.005f, 0.005f), CameraRef.Rotation.Y + RNG.RandfRange(-0.001f, 0.001f), CameraRef.Rotation.Z + RNG.RandfRange(-0.005f, 0.005f)), 0.1f).SetTrans(Tween.TransitionType.Bounce);
+        camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X, CameraRef.Rotation.Y, CameraRef.Rotation.Z), 0.1f).SetTrans(Tween.TransitionType.Bounce).SetEase(Tween.EaseType.Out);
     }
 }
 

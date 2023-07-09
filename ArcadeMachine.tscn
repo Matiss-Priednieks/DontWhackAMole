@@ -1,7 +1,9 @@
-[gd_scene load_steps=69 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=77 format=3 uid="uid://damhd4mphvtpy"]
 
+[ext_resource type="Script" path="res://Game.cs" id="1_es8m8"]
 [ext_resource type="Shader" uid="uid://ds1mmdqm6euws" path="res://ArcadeMachine.tres" id="1_g00fe"]
 [ext_resource type="FontFile" uid="uid://btaqvocwfv7qt" path="res://assets/Malenka.ttf" id="1_hvny5"]
+[ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://assets/WHACKmachine.tscn" id="1_wkn8a"]
 [ext_resource type="Script" path="res://Hole.cs" id="2_f2wid"]
 [ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="2_kredy"]
 [ext_resource type="PackedScene" uid="uid://xhyjnh3bv35u" path="res://assets/woodenplank.glb" id="2_udl5m"]
@@ -12,33 +14,79 @@
 [ext_resource type="Material" uid="uid://0sw35lpb5ar6" path="res://assets/WhackAMoleText.tres" id="4_3mtwl"]
 [ext_resource type="Material" uid="uid://kdgqu05dwp00" path="res://RightHole.tres" id="4_gnueh"]
 [ext_resource type="Script" path="res://DebugInfoUI.cs" id="4_gxy84"]
+[ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="5_ibcl7"]
 [ext_resource type="Script" path="res://Mallet.cs" id="6_tgj3c"]
 [ext_resource type="Material" uid="uid://b1lt464xj8qrb" path="res://assets/RedLED.tres" id="9_fgcc2"]
 [ext_resource type="Script" path="res://Title.cs" id="9_j02oq"]
 [ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://SelectionRing.tres" id="11_7lry2"]
 [ext_resource type="Script" path="res://SelectedHoleHighlighter.cs" id="11_kcwni"]
-[ext_resource type="Script" path="res://MainCam.cs" id="13_l2gkr"]
 [ext_resource type="AudioStream" uid="uid://dm4eq060enqhl" path="res://assets/Hello_Matiss_I_love_you.wav" id="14_yyg5m"]
+[ext_resource type="AudioStream" uid="uid://pob08wicccf8" path="res://assets/paddlehit.wav" id="20_gtigy"]
+[ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://assets/arcademachine.tscn" id="22_6g7oe"]
+[ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://assets/Mallet.tscn" id="22_48ef3"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkta8"]
-albedo_color = Color(0.152941, 0.0745098, 0.0156863, 1)
+[sub_resource type="TextMesh" id="TextMesh_bugoy"]
+material = ExtResource("4_3mtwl")
+text = "W"
+font = ExtResource("3_ne6s8")
+font_size = 30
 
-[sub_resource type="TextMesh" id="TextMesh_b03w0"]
-material = SubResource("StandardMaterial3D_hkta8")
-text = "DONT"
-font = ExtResource("1_hvny5")
-font_size = 14
+[sub_resource type="TextMesh" id="TextMesh_3htjo"]
+material = ExtResource("4_3mtwl")
+text = "ha
+"
+font = ExtResource("3_ne6s8")
+font_size = 30
+uppercase = true
+line_spacing = -13.535
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g7te"]
-albedo_color = Color(0.419608, 0.215686, 0, 1)
+[sub_resource type="TextMesh" id="TextMesh_3oyf7"]
+material = ExtResource("4_3mtwl")
+text = "ck"
+font = ExtResource("3_ne6s8")
+font_size = 35
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_y7x8r"]
-render_priority = 0
-shader = ExtResource("1_g00fe")
+[sub_resource type="TextMesh" id="TextMesh_4p6ix"]
+material = ExtResource("4_3mtwl")
+text = "A"
+font = ExtResource("3_ne6s8")
+font_size = 30
 
-[sub_resource type="BoxMesh" id="BoxMesh_55s0w"]
-material = SubResource("ShaderMaterial_y7x8r")
-size = Vector3(1.2, 0.25, 1.2)
+[sub_resource type="TextMesh" id="TextMesh_3iku7"]
+material = ExtResource("4_3mtwl")
+text = "Mo"
+font = ExtResource("3_ne6s8")
+font_size = 35
+
+[sub_resource type="TextMesh" id="TextMesh_rqbnw"]
+material = ExtResource("4_3mtwl")
+text = "le!"
+font = ExtResource("3_ne6s8")
+font_size = 32
+
+[sub_resource type="BoxMesh" id="BoxMesh_2xuof"]
+material = ExtResource("5_ibcl7")
+size = Vector3(0.59, 0.2, 0.05)
+
+[sub_resource type="TextMesh" id="TextMesh_5xp3d"]
+material = ExtResource("9_fgcc2")
+text = "3"
+font = ExtResource("3_ne6s8")
+
+[sub_resource type="TextMesh" id="TextMesh_q3gto"]
+material = ExtResource("4_3mtwl")
+text = "Lives: "
+font = ExtResource("3_ne6s8")
+
+[sub_resource type="TextMesh" id="TextMesh_0mb6q"]
+material = ExtResource("9_fgcc2")
+text = "1"
+font = ExtResource("3_ne6s8")
+
+[sub_resource type="TextMesh" id="TextMesh_8o3ij"]
+material = ExtResource("4_3mtwl")
+text = "Score: "
+font = ExtResource("3_ne6s8")
 
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qiggn"]
 default_input_values = [0, 0.0, 1, 8.0]
@@ -179,6 +227,26 @@ top_radius = 0.17
 bottom_radius = 0.17
 height = 0.01
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkta8"]
+albedo_color = Color(0.152941, 0.0745098, 0.0156863, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_b03w0"]
+material = SubResource("StandardMaterial3D_hkta8")
+text = "DONT"
+font = ExtResource("1_hvny5")
+font_size = 14
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g7te"]
+albedo_color = Color(0.419608, 0.215686, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y7x8r"]
+render_priority = 0
+shader = ExtResource("1_g00fe")
+
+[sub_resource type="BoxMesh" id="BoxMesh_55s0w"]
+material = SubResource("ShaderMaterial_y7x8r")
+size = Vector3(1.2, 0.25, 1.2)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_83apl"]
 albedo_texture = ExtResource("2_kredy")
 uv1_scale = Vector3(0.48, 0.48, 0.48)
@@ -196,74 +264,6 @@ uv1_triplanar = true
 [sub_resource type="BoxMesh" id="BoxMesh_q50m8"]
 material = SubResource("StandardMaterial3D_c8qup")
 size = Vector3(1.2, 1, 0.15)
-
-[sub_resource type="TextMesh" id="TextMesh_bugoy"]
-material = ExtResource("4_3mtwl")
-text = "W"
-font = ExtResource("3_ne6s8")
-font_size = 30
-
-[sub_resource type="TextMesh" id="TextMesh_3htjo"]
-material = ExtResource("4_3mtwl")
-text = "ha
-"
-font = ExtResource("3_ne6s8")
-font_size = 30
-uppercase = true
-line_spacing = -13.535
-
-[sub_resource type="TextMesh" id="TextMesh_3oyf7"]
-material = ExtResource("4_3mtwl")
-text = "ck"
-font = ExtResource("3_ne6s8")
-font_size = 35
-
-[sub_resource type="TextMesh" id="TextMesh_4p6ix"]
-material = ExtResource("4_3mtwl")
-text = "A"
-font = ExtResource("3_ne6s8")
-font_size = 30
-
-[sub_resource type="TextMesh" id="TextMesh_3iku7"]
-material = ExtResource("4_3mtwl")
-text = "Mo"
-font = ExtResource("3_ne6s8")
-font_size = 35
-
-[sub_resource type="TextMesh" id="TextMesh_rqbnw"]
-material = ExtResource("4_3mtwl")
-text = "le!"
-font = ExtResource("3_ne6s8")
-font_size = 32
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q6s1g"]
-albedo_color = Color(0, 0, 0, 1)
-metallic_specular = 0.92
-roughness = 0.25
-
-[sub_resource type="BoxMesh" id="BoxMesh_2xuof"]
-material = SubResource("StandardMaterial3D_q6s1g")
-size = Vector3(0.59, 0.2, 0.05)
-
-[sub_resource type="TextMesh" id="TextMesh_5xp3d"]
-material = ExtResource("9_fgcc2")
-text = "3"
-font = ExtResource("3_ne6s8")
-
-[sub_resource type="TextMesh" id="TextMesh_q3gto"]
-material = ExtResource("4_3mtwl")
-text = "Lives: "
-font = ExtResource("3_ne6s8")
-
-[sub_resource type="TextMesh" id="TextMesh_0mb6q"]
-material = ExtResource("9_fgcc2")
-text = "1"
-font = ExtResource("3_ne6s8")
-
-[sub_resource type="TextMesh" id="TextMesh_8o3ij"]
-material = ExtResource("4_3mtwl")
-text = "Score: "
-font = ExtResource("3_ne6s8")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kign4"]
 radius = 0.075
@@ -289,7 +289,43 @@ material = SubResource("StandardMaterial3D_t888p")
 radius = 0.005
 height = 0.01
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yngxj"]
+bg_color = Color(0, 0, 0.839216, 0.584314)
+
+[sub_resource type="Theme" id="Theme_xq2nx"]
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 20
+Label/font_sizes/font_size = 64
+Label/fonts/font = ExtResource("3_ne6s8")
+Panel/styles/panel = SubResource("StyleBoxFlat_yngxj")
+VBoxContainer/constants/separation = 42
+
+[sub_resource type="FontFile" id="FontFile_wifpr"]
+face_index = null
+embolden = null
+transform = null
+cache/0/64/0/ascent = 0.0
+cache/0/64/0/descent = 0.0
+cache/0/64/0/underline_position = 0.0
+cache/0/64/0/underline_thickness = 0.0
+cache/0/64/0/scale = 1.0
+cache/0/64/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/64/0/kerning_overrides/16/0 = Vector2(0, 0)
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/64/0 = Vector2(0, 0)
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v0ebq"]
+albedo_color = Color(0.372549, 0.286275, 0.768627, 1)
+metallic = 1.0
+roughness = 0.88
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_7khsi"]
+material = SubResource("StandardMaterial3D_v0ebq")
 size = Vector2(50, 50)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1rrtl"]
@@ -317,55 +353,145 @@ glow_enabled = true
 glow_bloom = 0.08
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_es8m8")
 
-[node name="ArcadeMachine" type="Node3D" parent="."]
+[node name="WHACKmachine" parent="." instance=ExtResource("1_wkn8a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Screen" parent="WHACKmachine" index="1"]
+transform = Transform3D(-1.31134e-09, 0, -0.377, 0, 0.246, 0, 0.03, 0, -1.64792e-08, 0, 1.13698, -0.645)
+
+[node name="ScreenFrame" parent="WHACKmachine" index="2"]
+visible = false
+
+[node name="Title" type="Node3D" parent="WHACKmachine"]
+transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 6.29976e-08, 1.08653, -0.666776)
+script = ExtResource("9_j02oq")
+
+[node name="W" type="MeshInstance3D" parent="WHACKmachine/Title"]
+transform = Transform3D(0.858119, -0.506547, -0.0839219, 0.506547, 0.861911, -0.0228781, 0.0839218, -0.0228785, 0.996212, -0.352795, 0.272898, 0.0897522)
+mesh = SubResource("TextMesh_bugoy")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="HA" type="MeshInstance3D" parent="WHACKmachine/Title"]
+transform = Transform3D(1, -2.33147e-15, -1.42109e-13, -9.13158e-15, 1, 5.96046e-08, -1.20903e-13, -5.96046e-08, 1, -0.0738484, 0.300477, 0.0931334)
+mesh = SubResource("TextMesh_3htjo")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="CK" type="MeshInstance3D" parent="WHACKmachine/Title"]
+transform = Transform3D(0.902893, 0.429849, 0.00388928, -0.42986, 0.902892, 0.00302161, -0.00221275, -0.0043999, 0.99999, 0.266423, 0.303408, 0.0894171)
+mesh = SubResource("TextMesh_3oyf7")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="A" type="MeshInstance3D" parent="WHACKmachine/Title"]
+transform = Transform3D(0.909752, -0.409576, -0.0678223, 0.409577, 0.912161, -0.0145277, 0.0678149, -0.0145619, 0.997594, -6.8496e-09, 0.100284, 0.0783511)
+mesh = SubResource("TextMesh_4p6ix")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="Mole!" type="MeshInstance3D" parent="WHACKmachine/Title"]
+transform = Transform3D(0.975966, 0.214991, 0.0356186, -0.214991, 0.976609, -0.00387545, -0.0356186, -0.00387545, 0.999359, -0.153225, -0.10868, 0.0670896)
+mesh = SubResource("TextMesh_3iku7")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WHACKmachine/Title"]
+transform = Transform3D(1, -1.24345e-14, 1.49214e-13, 0, 0.999999, -8.9407e-08, -7.81597e-14, 8.9407e-08, 0.999999, 0.18339, -0.119199, 0.0903208)
+mesh = SubResource("TextMesh_rqbnw")
+
+[node name="Lives" type="Node3D" parent="WHACKmachine"]
+transform = Transform3D(0.57, 8.25575e-09, 6.79205e-10, -8.25575e-09, 0.57, 0, -6.79205e-10, -9.83744e-18, 0.57, -0.25, 0.735532, -0.608577)
+
+[node name="LivesBlock" type="MeshInstance3D" parent="WHACKmachine/Lives"]
+transform = Transform3D(1, 0, 7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_2xuof")
 metadata/_edit_group_ = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ArcadeMachine"]
-transform = Transform3D(0.991832, 0.126597, 0.00591273, -0.127549, 0.984424, 0.0459778, -1.81899e-12, -0.121991, 0.377162, -0.00729267, 1.97005, -0.708917)
+[node name="LivesCounter" type="MeshInstance3D" parent="WHACKmachine/Lives/LivesBlock"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00448057, 0.00980866, 0.0189637)
+mesh = SubResource("TextMesh_5xp3d")
+
+[node name="LivesText" type="MeshInstance3D" parent="WHACKmachine/Lives"]
+transform = Transform3D(1, 2.66454e-14, 0, -1.86517e-14, 1, 2.08616e-07, 1.42109e-14, -2.08616e-07, 1, 0.04, 0.175, 0)
+mesh = SubResource("TextMesh_q3gto")
+
+[node name="Score" type="Node3D" parent="WHACKmachine"]
+transform = Transform3D(0.57, 8.25577e-09, 6.79266e-10, -8.25577e-09, 0.57, 0, -6.79266e-10, -9.83836e-18, 0.57, 0.25, 0.735532, -0.608577)
+
+[node name="ScoreBlock" type="MeshInstance3D" parent="WHACKmachine/Score"]
+mesh = SubResource("BoxMesh_2xuof")
+metadata/_edit_group_ = true
+
+[node name="ScoreCounter" type="MeshInstance3D" parent="WHACKmachine/Score/ScoreBlock"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00448057, 0.00980866, 0.0189637)
+mesh = SubResource("TextMesh_0mb6q")
+
+[node name="ScoreText" type="MeshInstance3D" parent="WHACKmachine/Score"]
+transform = Transform3D(1, 1.77636e-15, -7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0.04, 0.175, 0)
+mesh = SubResource("TextMesh_8o3ij")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="WHACKmachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.33922, 0)
+light_color = Color(1, 1, 0, 1)
+light_energy = 1.619
+
+[node name="Holes" type="Node3D" parent="WHACKmachine"]
+
+[node name="Top" type="MeshInstance3D" parent="WHACKmachine/Holes"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, -0.35)
+mesh = SubResource("CylinderMesh_7wwu5")
+skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
+script = ExtResource("2_f2wid")
+
+[node name="Left" type="MeshInstance3D" parent="WHACKmachine/Holes"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.563582, 0)
+mesh = SubResource("CylinderMesh_6r6q6")
+skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
+script = ExtResource("2_f2wid")
+
+[node name="Bottom" type="MeshInstance3D" parent="WHACKmachine/Holes"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, 0.35)
+mesh = SubResource("CylinderMesh_2ern8")
+skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
+script = ExtResource("2_f2wid")
+
+[node name="Right" type="MeshInstance3D" parent="WHACKmachine/Holes"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.563582, 0)
+mesh = SubResource("CylinderMesh_d2oj1")
+skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
+script = ExtResource("2_f2wid")
+
+[node name="SelectedHoleHighlighter" type="MeshInstance3D" parent="WHACKmachine/Holes"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.345465, 0.607094, -3.02015e-08)
+mesh = SubResource("CylinderMesh_dacsb")
+skeleton = NodePath("../../../Mole")
+script = ExtResource("11_kcwni")
+
+[node name="WoodenSign" type="Node3D" parent="WHACKmachine"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WHACKmachine/WoodenSign"]
+transform = Transform3D(0.991832, 0.126597, 0.00591273, -0.127549, 0.984424, 0.0459778, -1.81899e-12, -0.121991, 0.377162, -0.0178831, 1.49684, -0.603814)
 mesh = SubResource("TextMesh_b03w0")
 skeleton = NodePath("../woodenplank")
 
-[node name="woodenplank" parent="ArcadeMachine" instance=ExtResource("2_udl5m")]
-transform = Transform3D(0.149813, 0.00222374, -0.00714691, -0.0074121, 0.0241533, -0.147857, -0.00104117, 0.148026, 0.0242331, 0.0229751, 1.99539, -0.73584)
+[node name="woodenplank" parent="WHACKmachine/WoodenSign" instance=ExtResource("2_udl5m")]
+transform = Transform3D(0.149813, 0.00222374, -0.00714691, -0.0074121, 0.0241533, -0.147857, -0.00104117, 0.148026, 0.0242331, 0.0123847, 1.52217, -0.630737)
 
-[node name="Cube" parent="ArcadeMachine/woodenplank" index="0"]
+[node name="Cube" parent="WHACKmachine/WoodenSign/woodenplank" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_0g7te")
+
+[node name="ArcadeMachine" type="Node3D" parent="."]
+visible = false
+metadata/_edit_group_ = true
 
 [node name="ArcadeTop" type="MeshInstance3D" parent="ArcadeMachine"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00729, 0)
 mesh = SubResource("BoxMesh_55s0w")
 skeleton = NodePath("../..")
-
-[node name="Top" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.096, -0.35)
-mesh = SubResource("CylinderMesh_7wwu5")
-script = ExtResource("2_f2wid")
-
-[node name="Left" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.096, 0)
-mesh = SubResource("CylinderMesh_6r6q6")
-script = ExtResource("2_f2wid")
-
-[node name="Bottom" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.096, 0.35)
-mesh = SubResource("CylinderMesh_2ern8")
-script = ExtResource("2_f2wid")
-
-[node name="Right" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.096, 0)
-mesh = SubResource("CylinderMesh_d2oj1")
-script = ExtResource("2_f2wid")
-
-[node name="SelectedHoleHighlighter" type="MeshInstance3D" parent="ArcadeMachine/ArcadeTop"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.345465, 0.125925, -3.02015e-08)
-mesh = SubResource("CylinderMesh_dacsb")
-skeleton = NodePath("../../../Mole")
-script = ExtResource("11_kcwni")
 
 [node name="ArcadeBottom" type="MeshInstance3D" parent="ArcadeMachine"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -375,72 +501,6 @@ skeleton = NodePath("../..")
 [node name="ArcadePanel" type="MeshInstance3D" parent="ArcadeMachine"]
 transform = Transform3D(1, 1.4289e-08, 1.17564e-09, -1.4289e-08, 0.986552, 0.163447, 1.17564e-09, -0.163447, 0.986552, 6.26161e-08, 1.42042, -0.716244)
 mesh = SubResource("BoxMesh_q50m8")
-
-[node name="Title" type="Node3D" parent="ArcadeMachine/ArcadePanel"]
-transform = Transform3D(0.655, 6.93889e-16, 3.55271e-15, 2.08167e-15, 0.655, -4.47035e-08, -3.60822e-15, 4.47035e-08, 0.655, -2.23095e-09, 0.180731, 0.0255193)
-script = ExtResource("9_j02oq")
-
-[node name="W" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
-transform = Transform3D(0.858119, -0.506547, -0.0839219, 0.506547, 0.861911, -0.0228781, 0.0839218, -0.0228785, 0.996212, -0.352795, 0.272898, 0.0897522)
-mesh = SubResource("TextMesh_bugoy")
-skeleton = NodePath("../..")
-
-[node name="HA" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
-transform = Transform3D(1, -2.33147e-15, -1.42109e-13, -9.13158e-15, 1, 5.96046e-08, -1.20903e-13, -5.96046e-08, 1, -0.0738484, 0.300477, 0.0931334)
-mesh = SubResource("TextMesh_3htjo")
-skeleton = NodePath("../..")
-
-[node name="CK" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
-transform = Transform3D(0.902893, 0.429849, 0.00388928, -0.42986, 0.902892, 0.00302161, -0.00221275, -0.0043999, 0.99999, 0.266423, 0.303408, 0.0894171)
-mesh = SubResource("TextMesh_3oyf7")
-skeleton = NodePath("../..")
-
-[node name="A" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
-transform = Transform3D(0.909752, -0.409576, -0.0678223, 0.409577, 0.912161, -0.0145277, 0.0678149, -0.0145619, 0.997594, -6.8496e-09, 0.100284, 0.0783511)
-mesh = SubResource("TextMesh_4p6ix")
-skeleton = NodePath("../..")
-
-[node name="Mole!" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
-transform = Transform3D(0.975966, 0.214991, 0.0356186, -0.214991, 0.976609, -0.00387545, -0.0356186, -0.00387545, 0.999359, -0.153225, -0.10868, 0.0670896)
-mesh = SubResource("TextMesh_3iku7")
-skeleton = NodePath("../..")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Title"]
-transform = Transform3D(1, -1.24345e-14, 1.49214e-13, 0, 0.999999, -8.9407e-08, -7.81597e-14, 8.9407e-08, 0.999999, 0.18339, -0.119199, 0.0903208)
-mesh = SubResource("TextMesh_rqbnw")
-
-[node name="Lives" type="Node3D" parent="ArcadeMachine/ArcadePanel"]
-transform = Transform3D(0.7, 4.44089e-15, -7.81597e-14, -3.55271e-15, 0.7, 0, 7.10543e-14, 0, 0.7, -0.25, -0.2, 0.076)
-
-[node name="LivesBlock" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives"]
-transform = Transform3D(1, 0, 7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0, 0, 0)
-mesh = SubResource("BoxMesh_2xuof")
-metadata/_edit_group_ = true
-
-[node name="LivesCounter" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives/LivesBlock"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00448057, 0.00980866, 0.0189637)
-mesh = SubResource("TextMesh_5xp3d")
-
-[node name="LivesText" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Lives"]
-transform = Transform3D(1, 2.66454e-14, 0, -1.86517e-14, 1, 2.08616e-07, 1.42109e-14, -2.08616e-07, 1, 0.04, 0.175, 0)
-mesh = SubResource("TextMesh_q3gto")
-
-[node name="Score" type="Node3D" parent="ArcadeMachine/ArcadePanel"]
-transform = Transform3D(0.7, 9.76996e-15, 0, -1.42109e-14, 0.7, 0, -3.55271e-15, 0, 0.7, 0.25, -0.2, 0.076)
-
-[node name="ScoreBlock" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Score"]
-mesh = SubResource("BoxMesh_2xuof")
-metadata/_edit_group_ = true
-
-[node name="ScoreCounter" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Score/ScoreBlock"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00448057, 0.00980866, 0.0189637)
-mesh = SubResource("TextMesh_0mb6q")
-
-[node name="ScoreText" type="MeshInstance3D" parent="ArcadeMachine/ArcadePanel/Score"]
-transform = Transform3D(1, 1.77636e-15, -7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0.04, 0.175, 0)
-mesh = SubResource("TextMesh_8o3ij")
 
 [node name="Holes" type="Node3D" parent="ArcadeMachine"]
 visible = false
@@ -456,10 +516,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13, -0.35)
 
 [node name="Hole4" type="Node3D" parent="ArcadeMachine/Holes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.13, 0)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="ArcadeMachine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.83922, 0)
-light_color = Color(1, 1, 0, 1)
 
 [node name="Mole" type="Area3D" parent="."]
 unique_name_in_owner = true
@@ -506,18 +562,23 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.369, -1.08128, 0.00996652)
 stream = ExtResource("14_yyg5m")
 
+[node name="MoveSound" type="AudioStreamPlayer3D" parent="Mole"]
+unique_name_in_owner = true
+stream = ExtResource("20_gtigy")
+
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.999976, 0.00698126, 0, -0.00698126, 0.999976, 0, 2.1574, 1.74328)
-script = ExtResource("13_l2gkr")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.76793, -0.107918)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -5.96046e-08, 1, 0, -1, -5.96046e-08, 0, 2, -3)
 light_color = Color(0.346955, 0.316682, 1, 1)
+light_energy = 1.53
 shadow_enabled = true
 shadow_blur = 2.238
 
 [node name="DebugInfoUI" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("4_gxy84")
 
 [node name="DebugInfoBox1" type="VBoxContainer" parent="DebugInfoUI"]
@@ -555,15 +616,66 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "IFrames"
 
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Intro" type="Panel" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_xq2nx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Intro"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -20.0
+offset_right = 74.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="tut" type="Label" parent="UI/Intro/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontFile_wifpr")
+text = "Get as many points as you can
+by staying above ground without
+getting hit."
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="UI/Intro/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontFile_wifpr")
+text = "You are forced out of the holes
+every 2 seconds, at which point
+the mallet will also hit."
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="UI/Intro/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontFile_wifpr")
+text = "Press Space to Play"
+horizontal_alignment = 1
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_7khsi")
 
 [node name="Mallet" type="Area3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.802168, 1.32484, -0.115476)
 script = ExtResource("6_tgj3c")
 
 [node name="Mallet" type="Node3D" parent="Mallet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Mallet/Mallet"]
 mesh = SubResource("CylinderMesh_2nlxy")
@@ -579,8 +691,56 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
 shape = SubResource("CylinderShape3D_p4cgf")
 
+[node name="bonktool" parent="Mallet" instance=ExtResource("22_48ef3")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.095, 0)
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_uq3bh")
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96551, 0.5, -3.19612)
+
+[node name="arcademachine" parent="Node3D" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 2.29628)
+
+[node name="arcademachine2" parent="Node3D" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 0.791597)
+
+[node name="arcademachine3" parent="Node3D" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, -0.825161)
+
+[node name="arcademachine4" parent="Node3D" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, -2.54985)
+
+[node name="Node3D2" type="Node3D" parent="."]
+transform = Transform3D(-0.99961, 0, 0.0279215, 0, 1, 0, -0.0279215, 0, -0.99961, 2.88972, 0.5, -4.06418)
+
+[node name="arcademachine" parent="Node3D2" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
+
+[node name="arcademachine2" parent="Node3D2" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -0.364595)
+
+[node name="arcademachine3" parent="Node3D2" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195844, 0, -1.98135)
+
+[node name="arcademachine4" parent="Node3D2" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -3.70604)
+
+[node name="Node3D3" type="Node3D" parent="."]
+transform = Transform3D(-0.0279215, 0, -0.99961, 0, 1, 0, 0.99961, 0, -0.0279215, -1.18806, 0.5, -7.20881)
+
+[node name="arcademachine" parent="Node3D3" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
+
+[node name="arcademachine2" parent="Node3D3" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -0.364595)
+
+[node name="arcademachine3" parent="Node3D3" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195844, 0, -1.98135)
+
+[node name="arcademachine4" parent="Node3D3" instance=ExtResource("22_6g7oe")]
+transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -3.70604)
 
 [connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
 [connection signal="area_entered" from="Mole" to="Mole" method="_on_area_entered"]
@@ -588,4 +748,5 @@ environment = SubResource("Environment_uq3bh")
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/OutTimer" to="Mole" method="_on_out_timer_timeout"]
 
-[editable path="ArcadeMachine/woodenplank"]
+[editable path="WHACKmachine"]
+[editable path="WHACKmachine/WoodenSign/woodenplank"]

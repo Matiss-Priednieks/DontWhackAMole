@@ -14,7 +14,7 @@ public partial class SelectedHoleHighlighter : MeshInstance3D
     public override void _Process(double delta)
     {
         var tempPos = Position;
-        tempPos = new Vector3(MoleRef.GetChosenHole().X, 0.599f, MoleRef.GetChosenHole().Z);
+        tempPos = new Vector3(MoleRef.GetChosenHole().X, 0.607f, MoleRef.GetChosenHole().Z);
         Position = tempPos;
     }
 }

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cvtgbtjkta3ar"
-path="res://.godot/imported/WHACKmachine.glb-f5d54b44037ccc7fdea56a2dcdc5ddc0.scn"
+uid="uid://5i1qagoup0lu"
+path="res://.godot/imported/bonktool.glb-4479f8315b7e819022e88b70a00beb0e.scn"
 
 [deps]
 
-source_file="res://assets/WHACKmachine.glb"
-dest_files=["res://.godot/imported/WHACKmachine.glb-f5d54b44037ccc7fdea56a2dcdc5ddc0.scn"]
+source_file="res://assets/bonktool.glb"
+dest_files=["res://.godot/imported/bonktool.glb-4479f8315b7e819022e88b70a00beb0e.scn"]
 
 [params]
 
