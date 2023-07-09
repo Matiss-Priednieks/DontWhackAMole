@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=3 uid="uid://i51y5mf06k3x"]
+
+[ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="1_54nnt"]
+[ext_resource type="Material" uid="uid://0sw35lpb5ar6" path="res://assets/WhackAMoleText.tres" id="2_mrn1y"]
+
+[sub_resource type="TextMesh" id="TextMesh_bugoy"]
+material = ExtResource("2_mrn1y")
+text = "W"
+font = ExtResource("1_54nnt")
+font_size = 30
+
+[sub_resource type="TextMesh" id="TextMesh_3htjo"]
+material = ExtResource("2_mrn1y")
+text = "ha
+"
+font = ExtResource("1_54nnt")
+font_size = 30
+uppercase = true
+line_spacing = -13.535
+
+[sub_resource type="TextMesh" id="TextMesh_3oyf7"]
+material = ExtResource("2_mrn1y")
+text = "ck"
+font = ExtResource("1_54nnt")
+font_size = 35
+
+[sub_resource type="TextMesh" id="TextMesh_4p6ix"]
+material = ExtResource("2_mrn1y")
+text = "A"
+font = ExtResource("1_54nnt")
+font_size = 30
+
+[sub_resource type="TextMesh" id="TextMesh_3iku7"]
+material = ExtResource("2_mrn1y")
+text = "Mo"
+font = ExtResource("1_54nnt")
+font_size = 35
+
+[sub_resource type="TextMesh" id="TextMesh_rqbnw"]
+material = ExtResource("2_mrn1y")
+text = "le!"
+font = ExtResource("1_54nnt")
+font_size = 32
+
+[node name="Title" type="Node3D"]
+transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 0.4, 1.08653, -0.666776)
+
+[node name="W" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.858119, -0.506547, -0.0839219, 0.506547, 0.861911, -0.0228781, 0.0839218, -0.0228785, 0.996212, -0.352795, 0.272898, 0.0897522)
+mesh = SubResource("TextMesh_bugoy")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="HA" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, -2.33147e-15, -1.42109e-13, -9.13158e-15, 1, 5.96046e-08, -1.20903e-13, -5.96046e-08, 1, -0.0738484, 0.300477, 0.0931334)
+mesh = SubResource("TextMesh_3htjo")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="CK" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.902893, 0.429849, 0.00388928, -0.42986, 0.902892, 0.00302161, -0.00221275, -0.0043999, 0.99999, 0.266423, 0.303408, 0.0894171)
+mesh = SubResource("TextMesh_3oyf7")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="A" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.909752, -0.409576, -0.0678223, 0.409577, 0.912161, -0.0145277, 0.0678149, -0.0145619, 0.997594, -6.8496e-09, 0.100284, 0.0783511)
+mesh = SubResource("TextMesh_4p6ix")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="Mole!" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.975966, 0.214991, 0.0356186, -0.214991, 0.976609, -0.00387545, -0.0356186, -0.00387545, 0.999359, -0.153225, -0.10868, 0.0670896)
+mesh = SubResource("TextMesh_3iku7")
+skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, -1.24345e-14, 1.49214e-13, 0, 0.999999, -8.9407e-08, -7.81597e-14, 8.9407e-08, 0.999999, 0.18339, -0.119199, 0.0903208)
+mesh = SubResource("TextMesh_rqbnw")

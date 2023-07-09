@@ -139,6 +139,7 @@ public partial class Mole : Area3D
         if (DangerTimer >= 0.75f && Playing && !Paused)
         {
             //Call the smack!
+            GD.Print("Smack time!");
             EmitSignal("OutTooLong", Position);
         }
         else

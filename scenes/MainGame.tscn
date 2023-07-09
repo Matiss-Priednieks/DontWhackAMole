@@ -1,7 +1,8 @@
-[gd_scene load_steps=79 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=69 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://scenes/WHACKmachine.tscn" id="2_utxrc"]
+[ext_resource type="PackedScene" uid="uid://i51y5mf06k3x" path="res://title.tscn" id="3_qd3qp"]
 [ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="4_keded"]
 [ext_resource type="Material" uid="uid://0sw35lpb5ar6" path="res://assets/WhackAMoleText.tres" id="5_uicb5"]
 [ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="6_8mjb7"]
@@ -12,8 +13,7 @@
 [ext_resource type="Material" uid="uid://kdgqu05dwp00" path="res://resources/RightHole.tres" id="11_bpvq6"]
 [ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://resources/SelectionRing.tres" id="12_81ver"]
 [ext_resource type="Script" path="res://resources/SelectedHoleHighlighter.cs" id="13_pxcx6"]
-[ext_resource type="FontFile" uid="uid://btaqvocwfv7qt" path="res://assets/Malenka.ttf" id="14_4llsw"]
-[ext_resource type="PackedScene" uid="uid://xhyjnh3bv35u" path="res://assets/woodenplank.glb" id="15_ka35e"]
+[ext_resource type="PackedScene" uid="uid://cns5jgoi61n88" path="res://WoodenSign.tscn" id="13_sdma7"]
 [ext_resource type="Shader" uid="uid://ds1mmdqm6euws" path="res://resources/ArcadeMachine.tres" id="16_boyhe"]
 [ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="17_aqg82"]
 [ext_resource type="Script" path="res://scripts/Mole.cs" id="18_fkm07"]
@@ -27,45 +27,6 @@
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/miss-smack.wav" id="26_umpvv"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/bgmusic.wav" id="28_nl07j"]
-
-[sub_resource type="TextMesh" id="TextMesh_bugoy"]
-material = ExtResource("5_uicb5")
-text = "W"
-font = ExtResource("4_keded")
-font_size = 30
-
-[sub_resource type="TextMesh" id="TextMesh_3htjo"]
-material = ExtResource("5_uicb5")
-text = "ha
-"
-font = ExtResource("4_keded")
-font_size = 30
-uppercase = true
-line_spacing = -13.535
-
-[sub_resource type="TextMesh" id="TextMesh_3oyf7"]
-material = ExtResource("5_uicb5")
-text = "ck"
-font = ExtResource("4_keded")
-font_size = 35
-
-[sub_resource type="TextMesh" id="TextMesh_4p6ix"]
-material = ExtResource("5_uicb5")
-text = "A"
-font = ExtResource("4_keded")
-font_size = 30
-
-[sub_resource type="TextMesh" id="TextMesh_3iku7"]
-material = ExtResource("5_uicb5")
-text = "Mo"
-font = ExtResource("4_keded")
-font_size = 35
-
-[sub_resource type="TextMesh" id="TextMesh_rqbnw"]
-material = ExtResource("5_uicb5")
-text = "le!"
-font = ExtResource("4_keded")
-font_size = 32
 
 [sub_resource type="BoxMesh" id="BoxMesh_2xuof"]
 material = ExtResource("6_8mjb7")
@@ -230,21 +191,6 @@ top_radius = 0.17
 bottom_radius = 0.17
 height = 0.01
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkta8"]
-albedo_color = Color(0.152941, 0.0745098, 0.0156863, 1)
-
-[sub_resource type="TextMesh" id="TextMesh_b03w0"]
-material = SubResource("StandardMaterial3D_hkta8")
-text = "DONT"
-font = ExtResource("14_4llsw")
-font_size = 14
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g7te"]
-albedo_color = Color(0.419608, 0.215686, 0, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_6xr0f"]
-size = Vector3(1, 0.214042, 1)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y7x8r"]
 render_priority = 0
 shader = ExtResource("16_boyhe")
@@ -346,6 +292,10 @@ background_mode = 1
 background_color = Color(0.211765, 0.227451, 1, 1)
 glow_enabled = true
 glow_bloom = 0.08
+fog_enabled = true
+fog_light_color = Color(0.141176, 0, 0.341176, 1)
+fog_light_energy = 1.09
+fog_density = 0.1795
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7dit6")
@@ -360,37 +310,8 @@ transform = Transform3D(-1.31134e-09, 0, -0.377, 0, 0.246, 0, 0.03, 0, -1.64792e
 visible = false
 surface_material_override/0 = null
 
-[node name="Title" type="Node3D" parent="WHACKmachine"]
-transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 6.29976e-08, 1.08653, -0.666776)
-
-[node name="W" type="MeshInstance3D" parent="WHACKmachine/Title"]
-transform = Transform3D(0.858119, -0.506547, -0.0839219, 0.506547, 0.861911, -0.0228781, 0.0839218, -0.0228785, 0.996212, -0.352795, 0.272898, 0.0897522)
-mesh = SubResource("TextMesh_bugoy")
-skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
-
-[node name="HA" type="MeshInstance3D" parent="WHACKmachine/Title"]
-transform = Transform3D(1, -2.33147e-15, -1.42109e-13, -9.13158e-15, 1, 5.96046e-08, -1.20903e-13, -5.96046e-08, 1, -0.0738484, 0.300477, 0.0931334)
-mesh = SubResource("TextMesh_3htjo")
-skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
-
-[node name="CK" type="MeshInstance3D" parent="WHACKmachine/Title"]
-transform = Transform3D(0.902893, 0.429849, 0.00388928, -0.42986, 0.902892, 0.00302161, -0.00221275, -0.0043999, 0.99999, 0.266423, 0.303408, 0.0894171)
-mesh = SubResource("TextMesh_3oyf7")
-skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
-
-[node name="A" type="MeshInstance3D" parent="WHACKmachine/Title"]
-transform = Transform3D(0.909752, -0.409576, -0.0678223, 0.409577, 0.912161, -0.0145277, 0.0678149, -0.0145619, 0.997594, -6.8496e-09, 0.100284, 0.0783511)
-mesh = SubResource("TextMesh_4p6ix")
-skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
-
-[node name="Mole!" type="MeshInstance3D" parent="WHACKmachine/Title"]
-transform = Transform3D(0.975966, 0.214991, 0.0356186, -0.214991, 0.976609, -0.00387545, -0.0356186, -0.00387545, 0.999359, -0.153225, -0.10868, 0.0670896)
-mesh = SubResource("TextMesh_3iku7")
-skeleton = NodePath("../../../ArcadeMachine/ArcadePanel")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WHACKmachine/Title"]
-transform = Transform3D(1, -1.24345e-14, 1.49214e-13, 0, 0.999999, -8.9407e-08, -7.81597e-14, 8.9407e-08, 0.999999, 0.18339, -0.119199, 0.0903208)
-mesh = SubResource("TextMesh_rqbnw")
+[node name="Title" parent="WHACKmachine" instance=ExtResource("3_qd3qp")]
+transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 0, 1.087, -0.671917)
 
 [node name="Lives" type="Node3D" parent="WHACKmachine"]
 transform = Transform3D(0.57, 8.25575e-09, 6.79205e-10, -8.25575e-09, 0.57, 0, -6.79205e-10, -9.83744e-18, 0.57, -0.25, 0.735532, -0.608577)
@@ -466,24 +387,7 @@ mesh = SubResource("CylinderMesh_dacsb")
 skeleton = NodePath("../../../Mole")
 script = ExtResource("13_pxcx6")
 
-[node name="WoodenSign" type="Node3D" parent="WHACKmachine"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WHACKmachine/WoodenSign"]
-transform = Transform3D(0.991832, 0.126597, 0.00591273, -0.127549, 0.984424, 0.0459778, -1.81899e-12, -0.121991, 0.377162, -0.0178831, 1.49684, -0.603814)
-mesh = SubResource("TextMesh_b03w0")
-skeleton = NodePath("../woodenplank")
-
-[node name="woodenplank" parent="WHACKmachine/WoodenSign" instance=ExtResource("15_ka35e")]
-transform = Transform3D(0.149813, 0.00222374, -0.00714691, -0.0074121, 0.0241533, -0.147857, -0.00104117, 0.148026, 0.0242331, 0.0123847, 1.52217, -0.630737)
-
-[node name="Cube" parent="WHACKmachine/WoodenSign/woodenplank" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_0g7te")
-
-[node name="Area3D" type="Area3D" parent="WHACKmachine"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592885, 0)
-shape = SubResource("BoxShape3D_6xr0f")
+[node name="Node3D" parent="WHACKmachine" instance=ExtResource("13_sdma7")]
 
 [node name="ArcadeMachine" type="Node3D" parent="."]
 visible = false
@@ -986,6 +890,7 @@ stream = ExtResource("28_nl07j")
 autoplay = true
 bus = &"Music"
 
+[connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
 [connection signal="area_entered" from="Mole" to="Mole" method="_on_area_entered"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
@@ -1003,4 +908,3 @@ bus = &"Music"
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]
 
 [editable path="WHACKmachine"]
-[editable path="WHACKmachine/WoodenSign/woodenplank"]

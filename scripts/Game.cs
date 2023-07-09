@@ -89,6 +89,7 @@ public partial class Game : Node3D
         Mole.Playing = true;
         Mallet.Playing = true;
         Mole.Restart();
+
         Mole.SetGameOver(false);
         Mole.Paused = false;
         GameOverMenu.Hide();
@@ -98,7 +99,7 @@ public partial class Game : Node3D
     public void _on_main_menu_pressed()
     {
         Mole.SetGameOver(false);
-        Mole.Paused = true;
+        Mole.Playing = false;
         Mole.Restart();
         GameOverMenu.Hide();
         Intro.Show();
@@ -113,6 +114,7 @@ public partial class Game : Node3D
         if (!Mole.Paused)
         {
             Mole.Restart();
+            Mole.Paused = false;
         }
         InGameUI.Show();
         Intro.Hide();

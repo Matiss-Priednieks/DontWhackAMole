@@ -52,6 +52,7 @@ public partial class Mallet : Area3D
     {
         if (Playing && !Player.Paused)
         {
+            // GD.Print("Uh oh 1");
             if (MoleOutTooLong)
             {
                 MoleOutTooLong = !Player.GetDownStatus();
@@ -71,6 +72,7 @@ public partial class Mallet : Area3D
     {
         if (!Player.GetGameOver() && Playing && !Player.Paused)
         {
+            GD.Print("Uh oh 0");
             MoveMallet(NextHit);
 
             Hit();
@@ -85,7 +87,7 @@ public partial class Mallet : Area3D
     {
         if (!Player.GetGameOver() && Playing && !Player.Paused)
         {
-
+            GD.Print("Uh oh 2");
             MoleOutTooLong = true;
             MoveMallet(playerPosition);
             if (!HasHit)

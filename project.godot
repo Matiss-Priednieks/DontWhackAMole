@@ -13,8 +13,8 @@ config_version=5
 config/name="DontWhackAMole"
 run/main_scene="res://scenes/MainGame.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
-boot_splash/bg_color=Color(0.345098, 0, 0.984314, 1)
-boot_splash/show_image=false
+boot_splash/bg_color=Color(0.0980392, 0.305882, 0.74902, 1)
+boot_splash/image="res://assets/Artboard 1.png"
 
 [audio]
 
