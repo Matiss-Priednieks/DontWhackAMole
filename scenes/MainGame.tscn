@@ -1,94 +1,95 @@
-[gd_scene load_steps=78 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=79 format=3 uid="uid://damhd4mphvtpy"]
 
-[ext_resource type="Script" path="res://Game.cs" id="1_es8m8"]
-[ext_resource type="Shader" uid="uid://ds1mmdqm6euws" path="res://ArcadeMachine.tres" id="1_g00fe"]
-[ext_resource type="FontFile" uid="uid://btaqvocwfv7qt" path="res://assets/Malenka.ttf" id="1_hvny5"]
-[ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://assets/WHACKmachine.tscn" id="1_wkn8a"]
-[ext_resource type="Script" path="res://Hole.cs" id="2_f2wid"]
-[ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="2_kredy"]
-[ext_resource type="PackedScene" uid="uid://xhyjnh3bv35u" path="res://assets/woodenplank.glb" id="2_udl5m"]
-[ext_resource type="Material" uid="uid://tqcxug20otm0" path="res://BottomHole.tres" id="3_jj6fg"]
-[ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="3_ne6s8"]
-[ext_resource type="Material" uid="uid://b44prumhon888" path="res://LeftHole.tres" id="3_wwdtn"]
-[ext_resource type="Script" path="res://Mole.cs" id="3_ynpv8"]
-[ext_resource type="Material" uid="uid://0sw35lpb5ar6" path="res://assets/WhackAMoleText.tres" id="4_3mtwl"]
-[ext_resource type="Material" uid="uid://kdgqu05dwp00" path="res://RightHole.tres" id="4_gnueh"]
-[ext_resource type="Script" path="res://DebugInfoUI.cs" id="4_gxy84"]
-[ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="5_ibcl7"]
-[ext_resource type="Script" path="res://Mallet.cs" id="6_tgj3c"]
-[ext_resource type="Material" uid="uid://b1lt464xj8qrb" path="res://assets/RedLED.tres" id="9_fgcc2"]
-[ext_resource type="Script" path="res://Title.cs" id="9_j02oq"]
-[ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://SelectionRing.tres" id="11_7lry2"]
-[ext_resource type="Script" path="res://SelectedHoleHighlighter.cs" id="11_kcwni"]
-[ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/boxing-bell.wav" id="19_byjal"]
-[ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/penclick.mp3" id="20_xgulw"]
-[ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://assets/arcademachine.tscn" id="22_6g7oe"]
-[ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="22_41bis"]
-[ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://assets/Mallet.tscn" id="22_48ef3"]
-[ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/miss-smack.wav" id="25_f2a1v"]
+[ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
+[ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://scenes/WHACKmachine.tscn" id="2_utxrc"]
+[ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="4_keded"]
+[ext_resource type="Material" uid="uid://0sw35lpb5ar6" path="res://assets/WhackAMoleText.tres" id="5_uicb5"]
+[ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="6_8mjb7"]
+[ext_resource type="Material" uid="uid://b1lt464xj8qrb" path="res://assets/RedLED.tres" id="7_ldoth"]
+[ext_resource type="Script" path="res://scripts/Hole.cs" id="8_ngyci"]
+[ext_resource type="Material" uid="uid://b44prumhon888" path="res://resources/LeftHole.tres" id="9_c0ajq"]
+[ext_resource type="Material" uid="uid://tqcxug20otm0" path="res://resources/BottomHole.tres" id="10_1q4ro"]
+[ext_resource type="Material" uid="uid://kdgqu05dwp00" path="res://resources/RightHole.tres" id="11_bpvq6"]
+[ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://resources/SelectionRing.tres" id="12_81ver"]
+[ext_resource type="Script" path="res://resources/SelectedHoleHighlighter.cs" id="13_pxcx6"]
+[ext_resource type="FontFile" uid="uid://btaqvocwfv7qt" path="res://assets/Malenka.ttf" id="14_4llsw"]
+[ext_resource type="PackedScene" uid="uid://xhyjnh3bv35u" path="res://assets/woodenplank.glb" id="15_ka35e"]
+[ext_resource type="Shader" uid="uid://ds1mmdqm6euws" path="res://resources/ArcadeMachine.tres" id="16_boyhe"]
+[ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="17_aqg82"]
+[ext_resource type="Script" path="res://scripts/Mole.cs" id="18_fkm07"]
+[ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/boxing-bell.wav" id="19_l7j4o"]
+[ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/penclick.mp3" id="20_7hrh8"]
+[ext_resource type="Script" path="res://scripts/DebugInfoUI.cs" id="21_bttn8"]
+[ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="22_hwvbv"]
+[ext_resource type="Script" path="res://scripts/SettingsMenu.cs" id="23_u3q7w"]
+[ext_resource type="Script" path="res://scripts/Mallet.cs" id="24_dcgg1"]
+[ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
+[ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/miss-smack.wav" id="26_umpvv"]
+[ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
+[ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/bgmusic.wav" id="28_nl07j"]
 
 [sub_resource type="TextMesh" id="TextMesh_bugoy"]
-material = ExtResource("4_3mtwl")
+material = ExtResource("5_uicb5")
 text = "W"
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 font_size = 30
 
 [sub_resource type="TextMesh" id="TextMesh_3htjo"]
-material = ExtResource("4_3mtwl")
+material = ExtResource("5_uicb5")
 text = "ha
 "
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 font_size = 30
 uppercase = true
 line_spacing = -13.535
 
 [sub_resource type="TextMesh" id="TextMesh_3oyf7"]
-material = ExtResource("4_3mtwl")
+material = ExtResource("5_uicb5")
 text = "ck"
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 font_size = 35
 
 [sub_resource type="TextMesh" id="TextMesh_4p6ix"]
-material = ExtResource("4_3mtwl")
+material = ExtResource("5_uicb5")
 text = "A"
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 font_size = 30
 
 [sub_resource type="TextMesh" id="TextMesh_3iku7"]
-material = ExtResource("4_3mtwl")
+material = ExtResource("5_uicb5")
 text = "Mo"
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 font_size = 35
 
 [sub_resource type="TextMesh" id="TextMesh_rqbnw"]
-material = ExtResource("4_3mtwl")
+material = ExtResource("5_uicb5")
 text = "le!"
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 font_size = 32
 
 [sub_resource type="BoxMesh" id="BoxMesh_2xuof"]
-material = ExtResource("5_ibcl7")
+material = ExtResource("6_8mjb7")
 size = Vector3(0.59, 0.2, 0.05)
 
 [sub_resource type="TextMesh" id="TextMesh_5xp3d"]
-material = ExtResource("9_fgcc2")
+material = ExtResource("7_ldoth")
 text = "3"
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 
 [sub_resource type="TextMesh" id="TextMesh_q3gto"]
-material = ExtResource("4_3mtwl")
+material = ExtResource("5_uicb5")
 text = "Lives: "
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 
 [sub_resource type="TextMesh" id="TextMesh_0mb6q"]
-material = ExtResource("9_fgcc2")
+material = ExtResource("7_ldoth")
 text = "1"
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 
 [sub_resource type="TextMesh" id="TextMesh_8o3ij"]
-material = ExtResource("4_3mtwl")
+material = ExtResource("5_uicb5")
 text = "Score: "
-font = ExtResource("3_ne6s8")
+font = ExtResource("4_keded")
 
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qiggn"]
 default_input_values = [0, 0.0, 1, 8.0]
@@ -202,26 +203,26 @@ bottom_radius = 0.15
 height = 0.1
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_6r6q6"]
-material = ExtResource("3_wwdtn")
+material = ExtResource("9_c0ajq")
 top_radius = 0.15
 bottom_radius = 0.15
 height = 0.1
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_2ern8"]
-material = ExtResource("3_jj6fg")
+material = ExtResource("10_1q4ro")
 top_radius = 0.15
 bottom_radius = 0.15
 height = 0.1
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_d2oj1"]
-material = ExtResource("4_gnueh")
+material = ExtResource("11_bpvq6")
 top_radius = 0.15
 bottom_radius = 0.15
 height = 0.1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_86c15"]
 render_priority = 0
-shader = ExtResource("11_7lry2")
+shader = ExtResource("12_81ver")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_dacsb"]
 material = SubResource("ShaderMaterial_86c15")
@@ -235,7 +236,7 @@ albedo_color = Color(0.152941, 0.0745098, 0.0156863, 1)
 [sub_resource type="TextMesh" id="TextMesh_b03w0"]
 material = SubResource("StandardMaterial3D_hkta8")
 text = "DONT"
-font = ExtResource("1_hvny5")
+font = ExtResource("14_4llsw")
 font_size = 14
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g7te"]
@@ -246,14 +247,14 @@ size = Vector3(1, 0.214042, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y7x8r"]
 render_priority = 0
-shader = ExtResource("1_g00fe")
+shader = ExtResource("16_boyhe")
 
 [sub_resource type="BoxMesh" id="BoxMesh_55s0w"]
 material = SubResource("ShaderMaterial_y7x8r")
 size = Vector3(1.2, 0.25, 1.2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_83apl"]
-albedo_texture = ExtResource("2_kredy")
+albedo_texture = ExtResource("17_aqg82")
 uv1_scale = Vector3(0.48, 0.48, 0.48)
 uv1_offset = Vector3(1.23, 0, 1)
 uv1_triplanar = true
@@ -263,7 +264,7 @@ uv1_triplanar_sharpness = 1.56917
 material = SubResource("StandardMaterial3D_83apl")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c8qup"]
-albedo_texture = ExtResource("2_kredy")
+albedo_texture = ExtResource("17_aqg82")
 uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_q50m8"]
@@ -347,9 +348,9 @@ glow_enabled = true
 glow_bloom = 0.08
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource("1_es8m8")
+script = ExtResource("1_7dit6")
 
-[node name="WHACKmachine" parent="." instance=ExtResource("1_wkn8a")]
+[node name="WHACKmachine" parent="." instance=ExtResource("2_utxrc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Screen" parent="WHACKmachine" index="1"]
@@ -361,7 +362,6 @@ surface_material_override/0 = null
 
 [node name="Title" type="Node3D" parent="WHACKmachine"]
 transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 6.29976e-08, 1.08653, -0.666776)
-script = ExtResource("9_j02oq")
 
 [node name="W" type="MeshInstance3D" parent="WHACKmachine/Title"]
 transform = Transform3D(0.858119, -0.506547, -0.0839219, 0.506547, 0.861911, -0.0228781, 0.0839218, -0.0228785, 0.996212, -0.352795, 0.272898, 0.0897522)
@@ -437,34 +437,34 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, -0.35)
 mesh = SubResource("CylinderMesh_7wwu5")
 skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
-script = ExtResource("2_f2wid")
+script = ExtResource("8_ngyci")
 
 [node name="Left" type="MeshInstance3D" parent="WHACKmachine/Holes"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.563582, 0)
 mesh = SubResource("CylinderMesh_6r6q6")
 skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
-script = ExtResource("2_f2wid")
+script = ExtResource("8_ngyci")
 
 [node name="Bottom" type="MeshInstance3D" parent="WHACKmachine/Holes"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, 0.35)
 mesh = SubResource("CylinderMesh_2ern8")
 skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
-script = ExtResource("2_f2wid")
+script = ExtResource("8_ngyci")
 
 [node name="Right" type="MeshInstance3D" parent="WHACKmachine/Holes"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.563582, 0)
 mesh = SubResource("CylinderMesh_d2oj1")
 skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
-script = ExtResource("2_f2wid")
+script = ExtResource("8_ngyci")
 
 [node name="SelectedHoleHighlighter" type="MeshInstance3D" parent="WHACKmachine/Holes"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.345465, 0.607094, -3.02015e-08)
 mesh = SubResource("CylinderMesh_dacsb")
 skeleton = NodePath("../../../Mole")
-script = ExtResource("11_kcwni")
+script = ExtResource("13_pxcx6")
 
 [node name="WoodenSign" type="Node3D" parent="WHACKmachine"]
 
@@ -473,7 +473,7 @@ transform = Transform3D(0.991832, 0.126597, 0.00591273, -0.127549, 0.984424, 0.0
 mesh = SubResource("TextMesh_b03w0")
 skeleton = NodePath("../woodenplank")
 
-[node name="woodenplank" parent="WHACKmachine/WoodenSign" instance=ExtResource("2_udl5m")]
+[node name="woodenplank" parent="WHACKmachine/WoodenSign" instance=ExtResource("15_ka35e")]
 transform = Transform3D(0.149813, 0.00222374, -0.00714691, -0.0074121, 0.0241533, -0.147857, -0.00104117, 0.148026, 0.0242331, 0.0123847, 1.52217, -0.630737)
 
 [node name="Cube" parent="WHACKmachine/WoodenSign/woodenplank" index="0"]
@@ -521,7 +521,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.13, 0)
 [node name="Mole" type="Area3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.369, 1.08128, -0.00996652)
-script = ExtResource("3_ynpv8")
+script = ExtResource("18_fkm07")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mole"]
@@ -561,11 +561,13 @@ wait_time = 0.25
 [node name="BonkSound" type="AudioStreamPlayer3D" parent="Mole"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.369, -1.08128, 0.00996652)
-stream = ExtResource("19_byjal")
+stream = ExtResource("19_l7j4o")
+bus = &"Sound Effects"
 
 [node name="MoveSound" type="AudioStreamPlayer3D" parent="Mole"]
 unique_name_in_owner = true
-stream = ExtResource("20_xgulw")
+stream = ExtResource("20_7hrh8")
+bus = &"Sound Effects"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
@@ -580,7 +582,7 @@ shadow_blur = 2.238
 
 [node name="DebugInfoUI" type="CanvasLayer" parent="."]
 visible = false
-script = ExtResource("4_gxy84")
+script = ExtResource("21_bttn8")
 
 [node name="DebugInfoBox1" type="VBoxContainer" parent="DebugInfoUI"]
 offset_right = 40.0
@@ -626,10 +628,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -753.5
-offset_top = -227.5
-offset_right = -186.5
-offset_bottom = 227.5
+offset_left = -827.5
+offset_top = -303.0
+offset_right = -260.5
+offset_bottom = 303.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_group_ = true
@@ -644,7 +646,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = ExtResource("22_41bis")
+theme = ExtResource("22_hwvbv")
 
 [node name="MenuButtons" type="VBoxContainer" parent="UI/Menu/Intro"]
 unique_name_in_owner = true
@@ -739,6 +741,7 @@ text = "Back"
 
 [node name="SettingsMenu" type="VBoxContainer" parent="UI/Menu/Intro"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -751,6 +754,44 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 25
+script = ExtResource("23_u3q7w")
+
+[node name="Label2" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "Window Mode"
+horizontal_alignment = 1
+
+[node name="WindowMode" type="OptionButton" parent="UI/Menu/Intro/SettingsMenu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "Resolution"
+horizontal_alignment = 1
+
+[node name="Resolution" type="OptionButton" parent="UI/Menu/Intro/SettingsMenu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "Volume"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="UI/Menu/Intro/SettingsMenu"]
+layout_mode = 2
+min_value = -80.0
+max_value = 0.0
+value = -10.0
+
+[node name="SettingsBack" type="Button" parent="UI/Menu/Intro/SettingsMenu"]
+layout_mode = 2
+text = "Back"
 
 [node name="GameOver" type="Control" parent="UI"]
 unique_name_in_owner = true
@@ -777,7 +818,7 @@ offset_right = 439.0
 offset_bottom = 209.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("22_41bis")
+theme = ExtResource("22_hwvbv")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/GameOver/Panel"]
 layout_mode = 1
@@ -839,7 +880,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("22_41bis")
+theme = ExtResource("22_hwvbv")
 
 [node name="PopTimer2" type="Label" parent="UI/InGameUI/Panel"]
 unique_name_in_owner = true
@@ -864,7 +905,7 @@ mesh = SubResource("PlaneMesh_7khsi")
 [node name="Mallet" type="Area3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.802168, 1.16999, -0.115476)
-script = ExtResource("6_tgj3c")
+script = ExtResource("24_dcgg1")
 
 [node name="Mallet" type="Node3D" parent="Mallet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
@@ -884,12 +925,13 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
 shape = SubResource("CylinderShape3D_p4cgf")
 
-[node name="bonktool" parent="Mallet" instance=ExtResource("22_48ef3")]
+[node name="bonktool" parent="Mallet" instance=ExtResource("25_vvumv")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.095, 0)
 
 [node name="Miss" type="AudioStreamPlayer3D" parent="Mallet"]
 unique_name_in_owner = true
-stream = ExtResource("25_f2a1v")
+stream = ExtResource("26_umpvv")
+bus = &"Sound Effects"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_uq3bh")
@@ -897,49 +939,53 @@ environment = SubResource("Environment_uq3bh")
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96551, 0.5, -3.19612)
 
-[node name="arcademachine" parent="Node3D" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 2.29628)
 
-[node name="arcademachine2" parent="Node3D" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine2" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 0.791597)
 
-[node name="arcademachine3" parent="Node3D" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine3" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, -0.825161)
 
-[node name="arcademachine4" parent="Node3D" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine4" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, -2.54985)
 
 [node name="Node3D2" type="Node3D" parent="."]
 transform = Transform3D(-0.99961, 0, 0.0279215, 0, 1, 0, -0.0279215, 0, -0.99961, 2.88972, 0.5, -4.06418)
 
-[node name="arcademachine" parent="Node3D2" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine" parent="Node3D2" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
 
-[node name="arcademachine2" parent="Node3D2" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine2" parent="Node3D2" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -0.364595)
 
-[node name="arcademachine3" parent="Node3D2" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine3" parent="Node3D2" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195844, 0, -1.98135)
 
-[node name="arcademachine4" parent="Node3D2" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine4" parent="Node3D2" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -3.70604)
 
 [node name="Node3D3" type="Node3D" parent="."]
 transform = Transform3D(-0.0279215, 0, -0.99961, 0, 1, 0, 0.99961, 0, -0.0279215, -1.18806, 0.5, -7.20881)
 
-[node name="arcademachine" parent="Node3D3" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine" parent="Node3D3" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
 
-[node name="arcademachine2" parent="Node3D3" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine2" parent="Node3D3" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -0.364595)
 
-[node name="arcademachine3" parent="Node3D3" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine3" parent="Node3D3" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195844, 0, -1.98135)
 
-[node name="arcademachine4" parent="Node3D3" instance=ExtResource("22_6g7oe")]
+[node name="arcademachine4" parent="Node3D3" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -3.70604)
 
-[connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("28_nl07j")
+autoplay = true
+bus = &"Music"
+
 [connection signal="area_entered" from="Mole" to="Mole" method="_on_area_entered"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
@@ -948,6 +994,10 @@ transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.1958
 [connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Help" to="." method="_on_help_pressed"]
 [connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="UI/Menu/Intro/HelpScreen/BackHelp" to="." method="_on_back_help_pressed"]
+[connection signal="item_selected" from="UI/Menu/Intro/SettingsMenu/WindowMode" to="UI/Menu/Intro/SettingsMenu" method="_on_window_mode_item_selected"]
+[connection signal="item_selected" from="UI/Menu/Intro/SettingsMenu/Resolution" to="UI/Menu/Intro/SettingsMenu" method="_on_resolution_item_selected"]
+[connection signal="value_changed" from="UI/Menu/Intro/SettingsMenu/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="UI/Menu/Intro/SettingsMenu/SettingsBack" to="." method="_on_settings_back_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]

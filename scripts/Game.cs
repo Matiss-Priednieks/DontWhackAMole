@@ -12,7 +12,7 @@ public partial class Game : Node3D
     Mallet Mallet;
     Mole Mole;
     Panel Intro;
-    Control GameOverMenu;
+    Control GameOverMenu, InGameUI;
     Button PlayResume;
     VBoxContainer MenuButtons, HelpMenu, SettingsMenu;
     public override void _Ready()
@@ -25,6 +25,7 @@ public partial class Game : Node3D
         Mallet = GetNode<Mallet>("%Mallet");
         Mole = GetNode<Mole>("%Mole");
         GameOverMenu = GetNode<Control>("%GameOver");
+        InGameUI = GetNode<Control>("%InGameUI");
         PlayResume = GetNode<Button>("%PlayResume");
         CamPlayPos = new Vector3(0, 2.403f, 1.516f);
         CamMenuPos = new Vector3(0, 1.621f, 0.667f);
@@ -32,6 +33,7 @@ public partial class Game : Node3D
         CamPlayRot = new Vector3(-36.8f, 0, 0);
         CamMenuRot = new Vector3(0, 30, 0);
 
+        InGameUI.Hide();
         PlayResume.Text = "Play";
         MainCam.Position = CamMenuPos;
     }
@@ -45,6 +47,7 @@ public partial class Game : Node3D
             MoveCamera(CamMenuPos, CamMenuRot);
             Mole.Paused = true;
             PlayResume.Text = "Resume";
+            InGameUI.Hide();
             await ToSignal(GetTree().CreateTimer(2f), "timeout");
             Menu = true;
         }
@@ -54,6 +57,7 @@ public partial class Game : Node3D
             MoveCamera(CamPlayPos, CamPlayRot);
             await ToSignal(GetTree().CreateTimer(2.5f), "timeout");
             Mole.Paused = false;
+            InGameUI.Show();
             Menu = false;
         }
 
@@ -70,9 +74,15 @@ public partial class Game : Node3D
                 Intro.Show();
                 MoveCamera(CamMenuPos, CamMenuRot);
                 PlayResume.Text = "Play";
+                InGameUI.Hide();
                 Menu = true;
             }
         }
+    }
+    public void _on_h_slider_value_changed(float value)
+    {
+        var busIndex = AudioServer.GetBusIndex("Master");
+        AudioServer.SetBusVolumeDb(busIndex, value);
     }
     public void _on_restart_pressed()
     {
@@ -82,6 +92,7 @@ public partial class Game : Node3D
         Mole.SetGameOver(false);
         Mole.Paused = false;
         GameOverMenu.Hide();
+        InGameUI.Show();
         Menu = false;
     }
     public void _on_main_menu_pressed()
@@ -103,6 +114,7 @@ public partial class Game : Node3D
         {
             Mole.Restart();
         }
+        InGameUI.Show();
         Intro.Hide();
         MoveCamera(CamPlayPos, CamPlayRot);
         await ToSignal(GetTree().CreateTimer(2f), "timeout");
@@ -110,6 +122,12 @@ public partial class Game : Node3D
         Mallet.Playing = true;
         Mole.Paused = false;
         Menu = false;
+    }
+
+    public void _on_settings_back_pressed()
+    {
+        SettingsMenu.Hide();
+        MenuButtons.Show();
     }
 
     public void _on_help_pressed()

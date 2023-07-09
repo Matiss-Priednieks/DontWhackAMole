@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://b44prumhon888"]
 
-[ext_resource type="Shader" uid="uid://vovl7hkhxcsy" path="res://LeftFlashShader.tres" id="1_at320"]
+[ext_resource type="Shader" uid="uid://vovl7hkhxcsy" path="res://resources/LeftFlashShader.tres" id="1_at320"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m1h3q"]
 render_priority = 0

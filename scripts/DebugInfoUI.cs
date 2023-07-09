@@ -5,12 +5,13 @@ public partial class DebugInfoUI : CanvasLayer
 {
     // Called when the node enters the scene tree for the first time.
     Mole Player;
-    Label FPS, Timer, ChosenHole, DownOrOut, OutTimer, IFrames;
+    Label FPS, Timer, ChosenHole, DownOrOut, OutTimer, IFrames, PopTimer2;
     public override void _Ready()
     {
         Player = GetNode<Mole>("%Mole");
         FPS = GetNode<Label>("%FPS");
         Timer = GetNode<Label>("%PopTimer");
+        PopTimer2 = GetNode<Label>("%PopTimer2");
         OutTimer = GetNode<Label>("%DangerTimer");
         ChosenHole = GetNode<Label>("%ChosenHole");
         DownOrOut = GetNode<Label>("%DownOrOut");
@@ -26,6 +27,9 @@ public partial class DebugInfoUI : CanvasLayer
         ChosenHole.Text = "Chosen Hole: " + Player.GetChosenHole().ToString();
         DownOrOut.Text = "Down: " + Player.GetDownStatus().ToString();
         IFrames.Text = "IFrames: " + Player.GetIFrames().ToString();
+
+
+        PopTimer2.Text = "Popping out in: " + Math.Round(GetNode<Timer>("%PopOutTimer").TimeLeft).ToString();
 
         if (Input.IsActionJustReleased("debug_info"))
         {

@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dy1du51avp30t"]
 
-[ext_resource type="Shader" uid="uid://b7k820gyilw8f" path="res://TopFlashShader.tres" id="1_3gk7s"]
+[ext_resource type="Shader" uid="uid://b7k820gyilw8f" path="res://resources/TopFlashShader.tres" id="1_3gk7s"]
 
 [resource]
 render_priority = 0
