@@ -1,5 +1,6 @@
 # Don't Whack A Mole!
 ![DWAM](https://github.com/Matiss-Priednieks/DontWhackAMole/assets/71713484/016eb447-28b9-46c5-b7ed-c06245d052b6)
+
 Have you ever wondered what it's like to be an arcade machine mole? Well, now you don't have to with this high-octane high-score game!
 
 ## The Goal
