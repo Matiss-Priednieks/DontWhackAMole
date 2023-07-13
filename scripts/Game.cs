@@ -27,11 +27,15 @@ public partial class Game : Node3D
         GameOverMenu = GetNode<Control>("%GameOver");
         InGameUI = GetNode<Control>("%InGameUI");
         PlayResume = GetNode<Button>("%PlayResume");
-        CamPlayPos = new Vector3(0, 2.403f, 1.516f);
-        CamMenuPos = new Vector3(0, 1.621f, 0.667f);
 
+
+        CamPlayPos = new Vector3(0, 2.403f, 1.516f);
         CamPlayRot = new Vector3(-36.8f, 0, 0);
-        CamMenuRot = new Vector3(0, 30, 0);
+
+        // CamMenuPos = new Vector3(0, 1.621f, 0.667f); //old menu
+        // CamMenuRot = new Vector3(0, 30, 0);         //old menu
+        CamMenuPos = new Vector3(-3.25f, 1.53f, -0.9f); //old menu
+        CamMenuRot = new Vector3(0, 90, 0);         //old menu
 
         InGameUI.Hide();
         PlayResume.Text = "Play";
@@ -43,12 +47,12 @@ public partial class Game : Node3D
     {
         if (Input.IsActionJustReleased("menu") && !Menu && !Mole.GetGameOver())
         {
-            Intro.Show();
             MoveCamera(CamMenuPos, CamMenuRot);
             Mole.Paused = true;
             PlayResume.Text = "Resume";
             InGameUI.Hide();
-            await ToSignal(GetTree().CreateTimer(2f), "timeout");
+            await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+            Intro.Show();
             Menu = true;
         }
         else if (Input.IsActionJustReleased("menu") && Menu)

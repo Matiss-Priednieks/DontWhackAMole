@@ -8,19 +8,19 @@
 [ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="6_w2d43"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yngxj"]
-bg_color = Color(0.945098, 0.529412, 0.00392157, 0.694118)
+bg_color = Color(0.945098, 0.529412, 0.00392157, 0)
 border_color = Color(0.968627, 0.721569, 0.00392157, 0.815686)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
-shadow_color = Color(0.968627, 0.721569, 0.00392157, 0.815686)
+shadow_color = Color(0.968627, 0.721569, 0.00392157, 0)
 shadow_size = 10
 shadow_offset = Vector2(5, 5)
 
 [resource]
 default_font = ExtResource("6_w2d43")
-Button/font_sizes/font_size = 40
+Button/font_sizes/font_size = 60
 Button/styles/disabled = ExtResource("1_61exf")
 Button/styles/focus = ExtResource("2_p2my6")
 Button/styles/hover = ExtResource("3_q6u4i")
