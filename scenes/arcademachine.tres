@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://ec6um0g8asj"]
+
+[ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="1_5i0em"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8op0p"]
+transparency = 1
+albedo_color = Color(0, 0.0313726, 1, 0.890196)
+
+[resource]
+next_pass = SubResource("StandardMaterial3D_8op0p")
+albedo_texture = ExtResource("1_5i0em")
+uv1_scale = Vector3(0.9, 0.9, 0.9)
+uv1_triplanar = true

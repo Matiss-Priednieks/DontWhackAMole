@@ -18,6 +18,7 @@ public partial class SettingsMenu : VBoxContainer
     };
     public override void _Ready()
     {
+
         ResArray = new Vector2I[4];
         ResOptions = GetNode<OptionButton>("Resolution");
         int optionIndex = 0;
@@ -28,6 +29,8 @@ public partial class SettingsMenu : VBoxContainer
             optionIndex++;
         }
         Resolutions.Values.CopyTo(ResArray, 0);
+        GetTree().Root.ContentScaleSize = ResArray[1];
+        ResOptions.Selected = 1;
 
         WinModeArray = new Window.ModeEnum[2];
         WinOptions = GetNode<OptionButton>("WindowMode");

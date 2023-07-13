@@ -50,6 +50,7 @@ public partial class Mallet : Area3D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+        Playing = Player.Playing;
         if (Playing && !Player.Paused)
         {
             // GD.Print("Uh oh 1");
@@ -58,7 +59,7 @@ public partial class Mallet : Area3D
                 MoleOutTooLong = !Player.GetDownStatus();
             }
 
-            if (PopOutTimer.TimeLeft < 0.5f && !Player.GetGameOver())
+            if (PopOutTimer.TimeLeft < 0.75f && !Player.GetGameOver())
             {
                 GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(true);
             }

@@ -274,7 +274,7 @@ radius = 0.1
 background_mode = 1
 background_color = Color(0.211765, 0.227451, 1, 1)
 glow_enabled = true
-glow_intensity = 1.12
+glow_intensity = 1.03
 glow_bloom = 0.14
 fog_enabled = true
 fog_light_color = Color(0.141176, 0, 0.341176, 1)
@@ -294,7 +294,7 @@ uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_4q6j0"]
 material = SubResource("StandardMaterial3D_wu8vm")
-size = Vector3(2.305, 1.935, 1.955)
+size = Vector3(2.19, 1.935, 1.955)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7dit6")
@@ -835,8 +835,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96551, 0.5, -3.19612)
 [node name="arcademachine" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 2.29628)
 
+[node name="Screen" parent="Node3D/arcademachine" index="1"]
+surface_material_override/0 = null
+
 [node name="ScreenWithBackground" type="MeshInstance3D" parent="Node3D/arcademachine/Screen" index="0"]
 mesh = SubResource("BoxMesh_4q6j0")
+
+[node name="ScreenFrame" parent="Node3D/arcademachine" index="2"]
+surface_material_override/0 = null
 
 [node name="arcademachine2" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 0.791597)
@@ -881,8 +887,6 @@ transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.1958
 stream = ExtResource("28_nl07j")
 autoplay = true
 bus = &"Music"
-
-[node name="Camera3D2" type="Camera3D" parent="."]
 
 [connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
 [connection signal="area_entered" from="Mole" to="Mole" method="_on_area_entered"]

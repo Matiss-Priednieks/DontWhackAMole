@@ -73,12 +73,14 @@ public partial class Game : Node3D
             if (Input.IsActionJustReleased("menu"))
             {
                 Mole.SetGameOver(false);
-                Mole.Paused = true;
+                // Mole.Paused = false;
+                Mole.Playing = false;
                 GameOverMenu.Hide();
-                Intro.Show();
                 MoveCamera(CamMenuPos, CamMenuRot);
                 PlayResume.Text = "Play";
                 InGameUI.Hide();
+                await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+                Intro.Show();
                 Menu = true;
             }
         }
@@ -91,7 +93,6 @@ public partial class Game : Node3D
     public void _on_restart_pressed()
     {
         Mole.Playing = true;
-        Mallet.Playing = true;
         Mole.Restart();
 
         Mole.SetGameOver(false);
@@ -125,7 +126,6 @@ public partial class Game : Node3D
         MoveCamera(CamPlayPos, CamPlayRot);
         await ToSignal(GetTree().CreateTimer(2f), "timeout");
         Mole.Playing = true;
-        Mallet.Playing = true;
         Mole.Paused = false;
         Menu = false;
     }

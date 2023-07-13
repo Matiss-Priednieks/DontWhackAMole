@@ -1,6 +1,6 @@
-[gd_scene load_steps=21 format=3 uid="uid://uwyq7k4w8c1m"]
+[gd_scene load_steps=19 format=3 uid="uid://uwyq7k4w8c1m"]
 
-[ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="1_ffem7"]
+[ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="1_h3y8f"]
 [ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="2_f5amt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ie75"]
@@ -34,16 +34,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_bhaoe")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8op0p"]
-transparency = 1
-albedo_color = Color(0, 0.0313726, 1, 0.890196)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6dljg"]
-next_pass = SubResource("StandardMaterial3D_8op0p")
-albedo_texture = ExtResource("1_ffem7")
-uv1_scale = Vector3(0.9, 0.9, 0.9)
-uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6dbhr"]
 
@@ -145,7 +135,7 @@ height = 0.05
 transform = Transform3D(0, 0, -0.6, 0, 0.6, 0, 0.6, 0, 0, 0, 0, 0)
 mesh = SubResource("ArrayMesh_tut8e")
 skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_6dljg")
+surface_material_override/0 = ExtResource("1_h3y8f")
 
 [node name="Screen" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -0.376677, 0, 0.325862, 0, 0.0300461, 0, 0, 0, 1.01939, -0.620331)
