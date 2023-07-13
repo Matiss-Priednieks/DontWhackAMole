@@ -1,4 +1,4 @@
-# Don't Whack A Mole!
+# [Don't Whack A Mole!](https://senorgurki.itch.io/dont-whack-a-mole)
 ![Banner](https://github.com/Matiss-Priednieks/DontWhackAMole/assets/71713484/5aa6733b-b74f-491e-85e0-a5369f5b88ab)
 
 Have you ever wondered what it's like to be an arcade machine mole? Well, now you don't have to with this high-octane high-score game!
