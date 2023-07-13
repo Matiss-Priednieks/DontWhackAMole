@@ -14,7 +14,7 @@ config/name="DontWhackAMole"
 run/main_scene="res://scenes/MainGame.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0.0980392, 0.305882, 0.74902, 1)
-boot_splash/image="res://assets/Artboard 1.png"
+boot_splash/image="res://assets/Banner.png"
 
 [audio]
 
