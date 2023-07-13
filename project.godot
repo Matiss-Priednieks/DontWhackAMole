@@ -25,7 +25,6 @@ buses/default_bus_layout="res://resources/default_bus_layout.tres"
 window/size/viewport_width=3840
 window/size/viewport_height=2160
 window/size/mode=3
-window/size/resizable=false
 window/stretch/mode="viewport"
 
 [dotnet]

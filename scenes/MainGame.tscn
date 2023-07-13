@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=72 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://scenes/WHACKmachine.tscn" id="2_utxrc"]
@@ -20,12 +20,14 @@
 [ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/boxing-bell.wav" id="19_l7j4o"]
 [ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/penclick.mp3" id="20_7hrh8"]
 [ext_resource type="Script" path="res://scripts/DebugInfoUI.cs" id="21_bttn8"]
+[ext_resource type="Texture2D" uid="uid://ckmgqmm2dwqyq" path="res://assets/DWAM-transparent-noisy.png" id="22_0f4jb"]
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="22_hwvbv"]
 [ext_resource type="Script" path="res://scripts/SettingsMenu.cs" id="23_u3q7w"]
 [ext_resource type="Script" path="res://scripts/Mallet.cs" id="24_dcgg1"]
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/miss-smack.wav" id="26_umpvv"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
+[ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/bgmusic.wav" id="28_nl07j"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2xuof"]
@@ -272,11 +274,27 @@ radius = 0.1
 background_mode = 1
 background_color = Color(0.211765, 0.227451, 1, 1)
 glow_enabled = true
-glow_bloom = 0.08
+glow_intensity = 1.12
+glow_bloom = 0.14
 fog_enabled = true
 fog_light_color = Color(0.141176, 0, 0.341176, 1)
 fog_light_energy = 1.09
 fog_density = 0.1795
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu8vm"]
+albedo_texture = ExtResource("28_0p3hs")
+emission_enabled = true
+emission = Color(0.08, 0, 1.5, 1)
+emission_energy_multiplier = 0.23
+backlight_enabled = true
+backlight = Color(0.25098, 0, 1, 1)
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_offset = Vector3(0.38, -0.49, -0.505)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_4q6j0"]
+material = SubResource("StandardMaterial3D_wu8vm")
+size = Vector3(2.305, 1.935, 1.955)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7dit6")
@@ -327,10 +345,11 @@ mesh = SubResource("TextMesh_0mb6q")
 transform = Transform3D(1, 1.77636e-15, -7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0.04, 0.175, 0)
 mesh = SubResource("TextMesh_8o3ij")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="WHACKmachine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.33922, 0)
-light_color = Color(1, 1, 0, 1)
-light_energy = 1.619
+[node name="OmniLight3D" type="SpotLight3D" parent="WHACKmachine"]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 2.58462, 0)
+light_color = Color(0.568627, 0.568627, 1, 1)
+light_energy = 4.624
+spot_range = 6.292
 
 [node name="Holes" type="Node3D" parent="WHACKmachine"]
 
@@ -456,10 +475,13 @@ bus = &"Sound Effects"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1.62111, 0.667309)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.25, 1.53, -0.9)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -5.96046e-08, 1, 0, -1, -5.96046e-08, 0, 2, -3)
+transform = Transform3D(0.965926, -1.54268e-08, 0.258819, -0.258819, -5.75736e-08, 0.965926, 0, -1, -5.96046e-08, 0, 2, -3)
 light_color = Color(0.346955, 0.316682, 1, 1)
 light_energy = 1.53
 shadow_enabled = true
@@ -508,25 +530,34 @@ text = "IFrames"
 
 [node name="Menu" type="Control" parent="UI"]
 layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Menu"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -315.0
+offset_right = 315.0
+offset_bottom = 500.0
+grow_horizontal = 2
+texture = ExtResource("22_0f4jb")
+stretch_mode = 2
+
+[node name="Intro" type="Panel" parent="UI/Menu"]
+unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -827.5
-offset_top = -303.0
-offset_right = -260.5
-offset_bottom = 303.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_group_ = true
-
-[node name="Intro" type="Panel" parent="UI/Menu"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -550,18 +581,22 @@ grow_vertical = 2
 
 [node name="PlayResume" type="Button" parent="UI/Menu/Intro/MenuButtons"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 text = "Play"
 
 [node name="Help" type="Button" parent="UI/Menu/Intro/MenuButtons"]
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 text = "Help"
 
 [node name="Settings" type="Button" parent="UI/Menu/Intro/MenuButtons"]
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 text = "Settings"
 
 [node name="Exit" type="Button" parent="UI/Menu/Intro/MenuButtons"]
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 text = "Exit"
 
@@ -619,7 +654,6 @@ script = ExtResource("23_u3q7w")
 
 [node name="Label2" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 35
 text = "Window Mode"
 horizontal_alignment = 1
 
@@ -629,7 +663,6 @@ layout_mode = 2
 
 [node name="Label3" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 35
 text = "Resolution"
 horizontal_alignment = 1
 
@@ -639,7 +672,6 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 35
 text = "Volume"
 horizontal_alignment = 1
 
@@ -650,6 +682,7 @@ max_value = 0.0
 value = -10.0
 
 [node name="SettingsBack" type="Button" parent="UI/Menu/Intro/SettingsMenu"]
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 text = "Back"
 
@@ -802,6 +835,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96551, 0.5, -3.19612)
 [node name="arcademachine" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 2.29628)
 
+[node name="ScreenWithBackground" type="MeshInstance3D" parent="Node3D/arcademachine/Screen" index="0"]
+mesh = SubResource("BoxMesh_4q6j0")
+
 [node name="arcademachine2" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 0.791597)
 
@@ -846,6 +882,8 @@ stream = ExtResource("28_nl07j")
 autoplay = true
 bus = &"Music"
 
+[node name="Camera3D2" type="Camera3D" parent="."]
+
 [connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
 [connection signal="area_entered" from="Mole" to="Mole" method="_on_area_entered"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
@@ -865,3 +903,4 @@ bus = &"Music"
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]
 
 [editable path="WHACKmachine"]
+[editable path="Node3D/arcademachine"]
