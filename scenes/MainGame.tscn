@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=64 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://scenes/WHACKmachine.tscn" id="2_utxrc"]
@@ -14,8 +14,6 @@
 [ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://resources/SelectionRing.tres" id="12_81ver"]
 [ext_resource type="Script" path="res://resources/SelectedHoleHighlighter.cs" id="13_pxcx6"]
 [ext_resource type="PackedScene" uid="uid://cns5jgoi61n88" path="res://WoodenSign.tscn" id="13_sdma7"]
-[ext_resource type="Shader" uid="uid://ds1mmdqm6euws" path="res://resources/ArcadeMachine.tres" id="16_boyhe"]
-[ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="17_aqg82"]
 [ext_resource type="Script" path="res://scripts/Mole.cs" id="18_fkm07"]
 [ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/boxing-bell.wav" id="19_l7j4o"]
 [ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/penclick.mp3" id="20_7hrh8"]
@@ -193,32 +191,6 @@ top_radius = 0.17
 bottom_radius = 0.17
 height = 0.01
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_y7x8r"]
-render_priority = 0
-shader = ExtResource("16_boyhe")
-
-[sub_resource type="BoxMesh" id="BoxMesh_55s0w"]
-material = SubResource("ShaderMaterial_y7x8r")
-size = Vector3(1.2, 0.25, 1.2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_83apl"]
-albedo_texture = ExtResource("17_aqg82")
-uv1_scale = Vector3(0.48, 0.48, 0.48)
-uv1_offset = Vector3(1.23, 0, 1)
-uv1_triplanar = true
-uv1_triplanar_sharpness = 1.56917
-
-[sub_resource type="BoxMesh" id="BoxMesh_ftn7o"]
-material = SubResource("StandardMaterial3D_83apl")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c8qup"]
-albedo_texture = ExtResource("17_aqg82")
-uv1_triplanar = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_q50m8"]
-material = SubResource("StandardMaterial3D_c8qup")
-size = Vector3(1.2, 1, 0.15)
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kign4"]
 radius = 0.075
 height = 0.5
@@ -357,28 +329,28 @@ spot_range = 6.292
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, -0.35)
 mesh = SubResource("CylinderMesh_7wwu5")
-skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
+skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
 [node name="Left" type="MeshInstance3D" parent="WHACKmachine/Holes"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.563582, 0)
 mesh = SubResource("CylinderMesh_6r6q6")
-skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
+skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
 [node name="Bottom" type="MeshInstance3D" parent="WHACKmachine/Holes"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, 0.35)
 mesh = SubResource("CylinderMesh_2ern8")
-skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
+skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
 [node name="Right" type="MeshInstance3D" parent="WHACKmachine/Holes"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.563582, 0)
 mesh = SubResource("CylinderMesh_d2oj1")
-skeleton = NodePath("../../../ArcadeMachine/ArcadeTop")
+skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
 [node name="SelectedHoleHighlighter" type="MeshInstance3D" parent="WHACKmachine/Holes"]
@@ -387,40 +359,7 @@ mesh = SubResource("CylinderMesh_dacsb")
 skeleton = NodePath("../../../Mole")
 script = ExtResource("13_pxcx6")
 
-[node name="Node3D" parent="WHACKmachine" instance=ExtResource("13_sdma7")]
-
-[node name="ArcadeMachine" type="Node3D" parent="."]
-visible = false
-metadata/_edit_group_ = true
-
-[node name="ArcadeTop" type="MeshInstance3D" parent="ArcadeMachine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00729, 0)
-mesh = SubResource("BoxMesh_55s0w")
-skeleton = NodePath("../..")
-
-[node name="ArcadeBottom" type="MeshInstance3D" parent="ArcadeMachine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-mesh = SubResource("BoxMesh_ftn7o")
-skeleton = NodePath("../..")
-
-[node name="ArcadePanel" type="MeshInstance3D" parent="ArcadeMachine"]
-transform = Transform3D(1, 1.4289e-08, 1.17564e-09, -1.4289e-08, 0.986552, 0.163447, 1.17564e-09, -0.163447, 0.986552, 6.26161e-08, 1.42042, -0.716244)
-mesh = SubResource("BoxMesh_q50m8")
-
-[node name="Holes" type="Node3D" parent="ArcadeMachine"]
-visible = false
-
-[node name="Hole1" type="Node3D" parent="ArcadeMachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13, 0.35)
-
-[node name="Hole2" type="Node3D" parent="ArcadeMachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 1.13, 0)
-
-[node name="Hole3" type="Node3D" parent="ArcadeMachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13, -0.35)
-
-[node name="Hole4" type="Node3D" parent="ArcadeMachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.13, 0)
+[node name="Node3D4" parent="WHACKmachine" instance=ExtResource("13_sdma7")]
 
 [node name="Mole" type="Area3D" parent="."]
 unique_name_in_owner = true
@@ -464,7 +403,6 @@ wait_time = 0.25
 
 [node name="BonkSound" type="AudioStreamPlayer3D" parent="Mole"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.369, -1.08128, 0.00996652)
 stream = ExtResource("19_l7j4o")
 bus = &"Sound Effects"
 
@@ -792,7 +730,7 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 50
 text = "Popping out in:"
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_7khsi")
 
 [node name="Mallet" type="Area3D" parent="."]
