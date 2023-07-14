@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://851uwy1h3jo2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7nrsl"]
+albedo_color = Color(0.141176, 0.141176, 0.141176, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_m3bfg"]
+material = SubResource("StandardMaterial3D_7nrsl")
+size = Vector3(0.09, 0.12, 0.13)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8bnu"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_svrn4"]
+material = SubResource("StandardMaterial3D_u8bnu")
+size = Vector3(0.007, 0.035, 0.015)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6mrm7"]
+transparency = 1
+albedo_color = Color(0.788235, 0, 0, 0.92549)
+emission_enabled = true
+emission = Color(0.694118, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_im0kw"]
+material = SubResource("StandardMaterial3D_6mrm7")
+size = Vector3(0.03, 0.03, 0.055)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p7uni"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_d1aof"]
+material = SubResource("StandardMaterial3D_p7uni")
+size = Vector3(0.035, 0.035, 0.01)
+
+[node name="coinslot" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.391055, 0.381233, 0.56236)
+mesh = SubResource("BoxMesh_m3bfg")
+
+[node name="coinhole" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0234961, 0.031, 0.0639206)
+mesh = SubResource("BoxMesh_svrn4")
+
+[node name="coinbutton" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00466469, 0.0301704, 0.0407335)
+mesh = SubResource("BoxMesh_im0kw")
+
+[node name="coinout" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0252221, 0.0655116)
+mesh = SubResource("BoxMesh_d1aof")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://uwyq7k4w8c1m"]
+[gd_scene load_steps=20 format=3 uid="uid://uwyq7k4w8c1m"]
 
 [ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="1_h3y8f"]
 [ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="2_f5amt"]
+[ext_resource type="PackedScene" uid="uid://851uwy1h3jo2" path="res://scenes/coinslot.tscn" id="3_oppt5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ie75"]
 
@@ -160,3 +161,5 @@ mesh = SubResource("SphereMesh_pixlc")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0640756, 0)
 mesh = SubResource("CylinderMesh_khth3")
+
+[node name="coinslot" parent="." instance=ExtResource("3_oppt5")]

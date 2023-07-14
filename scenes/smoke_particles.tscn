@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://bxg1gna4nlpor"]
+
+[sub_resource type="Gradient" id="Gradient_oskak"]
+offsets = PackedFloat32Array(0.268293, 1)
+colors = PackedColorArray(0.39, 0.322725, 0.3003, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kj2ph"]
+gradient = SubResource("Gradient_oskak")
+
+[sub_resource type="Curve" id="Curve_y3fey"]
+_data = [Vector2(0, 1), 0.0, -0.0762848, 0, 0, Vector2(1, 0), -2.25538, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_psoxf"]
+curve = SubResource("Curve_y3fey")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7k5ny"]
+lifetime_randomness = 0.2
+emission_shape = 1
+emission_sphere_radius = 0.05
+direction = Vector3(0, 0, 0)
+spread = 180.0
+flatness = 0.96
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 4.0
+damping_min = 6.742
+damping_max = 33.708
+scale_curve = SubResource("CurveTexture_psoxf")
+color_ramp = SubResource("GradientTexture1D_kj2ph")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s46cn"]
+transparency = 1
+albedo_color = Color(0.6, 0.529412, 0.529412, 0.760784)
+subsurf_scatter_enabled = true
+subsurf_scatter_strength = 1.0
+refraction_enabled = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_lsk13"]
+material = SubResource("StandardMaterial3D_s46cn")
+radius = 0.07
+height = 0.14
+
+[node name="SmokeParticles" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.106423, 0)
+emitting = false
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_7k5ny")
+draw_pass_1 = SubResource("SphereMesh_lsk13")

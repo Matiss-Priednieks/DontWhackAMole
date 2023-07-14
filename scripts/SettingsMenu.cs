@@ -39,7 +39,6 @@ public partial class SettingsMenu : VBoxContainer
         // var values = Window.ModeEnum.GetValues(typeof(Window));
         foreach (var item in WindowMode)
         {
-            GD.Print(Window.ModeEnum.GetName(typeof(Window.ModeEnum), item.Value));
             WinOptions.AddItem(item.Key);
             // if (item.Value == Window.ModeEnum.Fullscreen) WinOptions.Selected = winOptionIndex;
             winOptionIndex++;

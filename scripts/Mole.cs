@@ -101,6 +101,7 @@ public partial class Mole : Area3D
             }
             if (!Down && !Paused)
             {
+                AnimateScoreCombo();
                 ScoreAcceleration += 0.01f;
                 Score += ScoreAcceleration;
             }
@@ -113,6 +114,7 @@ public partial class Mole : Area3D
         }
         FinalScore = (int)Score;
         GetNode<Label>("%FinalScore").Text = FinalScore.ToString();
+
 
     }
 
@@ -139,7 +141,6 @@ public partial class Mole : Area3D
         if (DangerTimer >= 0.75f && Playing && !Paused)
         {
             //Call the smack!
-            GD.Print("Smack time!");
             EmitSignal("OutTooLong", Position);
         }
         else
@@ -202,6 +203,31 @@ public partial class Mole : Area3D
         Tween camShakeRotTween = GetTree().CreateTween();
         camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X + RNG.RandfRange(-0.035f, 0.035f), CameraRef.Rotation.Y + RNG.RandfRange(-0.025f, 0.025f), CameraRef.Rotation.Z + RNG.RandfRange(-0.035f, 0.035f)), 0.1f).SetTrans(Tween.TransitionType.Bounce);
         camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X, CameraRef.Rotation.Y, CameraRef.Rotation.Z), 0.1f).SetTrans(Tween.TransitionType.Bounce).SetEase(Tween.EaseType.Out);
+    }
+
+    public void AnimateScoreCombo()
+    {
+        if ((Math.Round(Score) + (Math.Round(Score) * 0.1f)) % 100 < 1)
+        {
+            Vector3 defaultScale = Vector3.One;
+            Vector3 defaultPos = new Vector3(0, 0, 0.01f);
+            Vector3 defaultRot = Vector3.Zero;
+
+            Vector3 comboScale = new Vector3(1.3f, 1.3f, 1.3f);
+            Vector3 comboPos = new Vector3(0, 0.75f, 0.75f);
+            Vector3 comboRot = new Vector3(0, (float)GD.RandRange(-0.25f, 0.25f), (float)GD.RandRange(-0.6f, 0f));
+            Tween scoreBoomPos = GetTree().CreateTween();
+            scoreBoomPos.TweenProperty(ScoreCounter, "position", comboPos, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomPos.TweenProperty(ScoreCounter, "position", defaultPos, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+
+            Tween scoreBoomScale = GetTree().CreateTween();
+            scoreBoomScale.TweenProperty(ScoreCounter, "scale", comboScale, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomScale.TweenProperty(ScoreCounter, "scale", defaultScale, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+
+            Tween scoreBoomRot = GetTree().CreateTween();
+            scoreBoomRot.TweenProperty(ScoreCounter, "rotation", comboRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomRot.TweenProperty(ScoreCounter, "rotation", defaultRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+        }
     }
 
     public Vector3 GetChosenHole()

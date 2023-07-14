@@ -12,7 +12,7 @@ public partial class Game : Node3D
     Mallet Mallet;
     Mole Mole;
     Panel Intro;
-    Control GameOverMenu, InGameUI;
+    Control GameOverMenu;
     Button PlayResume;
     VBoxContainer MenuButtons, HelpMenu, SettingsMenu;
     public override void _Ready()
@@ -25,7 +25,6 @@ public partial class Game : Node3D
         Mallet = GetNode<Mallet>("%Mallet");
         Mole = GetNode<Mole>("%Mole");
         GameOverMenu = GetNode<Control>("%GameOver");
-        InGameUI = GetNode<Control>("%InGameUI");
         PlayResume = GetNode<Button>("%PlayResume");
 
 
@@ -36,8 +35,6 @@ public partial class Game : Node3D
         // CamMenuRot = new Vector3(0, 30, 0);         //old menu
         CamMenuPos = new Vector3(-3.25f, 1.53f, -0.9f); //old menu
         CamMenuRot = new Vector3(0, 90, 0);         //old menu
-
-        InGameUI.Hide();
         PlayResume.Text = "Play";
         MainCam.Position = CamMenuPos;
     }
@@ -50,7 +47,6 @@ public partial class Game : Node3D
             MoveCamera(CamMenuPos, CamMenuRot);
             Mole.Paused = true;
             PlayResume.Text = "Resume";
-            InGameUI.Hide();
             await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
             Intro.Show();
             Menu = true;
@@ -61,7 +57,6 @@ public partial class Game : Node3D
             MoveCamera(CamPlayPos, CamPlayRot);
             await ToSignal(GetTree().CreateTimer(2.5f), "timeout");
             Mole.Paused = false;
-            InGameUI.Show();
             Menu = false;
         }
 
@@ -69,7 +64,6 @@ public partial class Game : Node3D
         {
             GameOverMenu.Show();
             Menu = false;
-            GD.Print(Input.IsActionJustReleased("menu"));
             if (Input.IsActionJustReleased("menu"))
             {
                 Mole.SetGameOver(false);
@@ -78,7 +72,6 @@ public partial class Game : Node3D
                 GameOverMenu.Hide();
                 MoveCamera(CamMenuPos, CamMenuRot);
                 PlayResume.Text = "Play";
-                InGameUI.Hide();
                 await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
                 Intro.Show();
                 Menu = true;
@@ -90,6 +83,16 @@ public partial class Game : Node3D
         var busIndex = AudioServer.GetBusIndex("Master");
         AudioServer.SetBusVolumeDb(busIndex, value);
     }
+    public void _on_music_slider_value_changed(float value)
+    {
+        var busIndex = AudioServer.GetBusIndex("Music");
+        AudioServer.SetBusVolumeDb(busIndex, value);
+    }
+    public void _on_sfx_value_changed(float value)
+    {
+        var busIndex = AudioServer.GetBusIndex("SFX");
+        AudioServer.SetBusVolumeDb(busIndex, value);
+    }
     public void _on_restart_pressed()
     {
         Mole.Playing = true;
@@ -98,7 +101,6 @@ public partial class Game : Node3D
         Mole.SetGameOver(false);
         Mole.Paused = false;
         GameOverMenu.Hide();
-        InGameUI.Show();
         Menu = false;
     }
     public void _on_main_menu_pressed()
@@ -121,7 +123,6 @@ public partial class Game : Node3D
             Mole.Restart();
             Mole.Paused = false;
         }
-        InGameUI.Show();
         Intro.Hide();
         MoveCamera(CamPlayPos, CamPlayRot);
         await ToSignal(GetTree().CreateTimer(2f), "timeout");

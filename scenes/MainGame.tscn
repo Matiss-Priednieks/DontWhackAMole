@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=72 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://scenes/WHACKmachine.tscn" id="2_utxrc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Material" uid="uid://0sw35lpb5ar6" path="res://assets/WhackAMoleText.tres" id="5_uicb5"]
 [ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="6_8mjb7"]
 [ext_resource type="Material" uid="uid://b1lt464xj8qrb" path="res://assets/RedLED.tres" id="7_ldoth"]
+[ext_resource type="Script" path="res://scripts/HoleMiss.cs" id="8_dxwf0"]
 [ext_resource type="Script" path="res://scripts/Hole.cs" id="8_ngyci"]
 [ext_resource type="Material" uid="uid://b44prumhon888" path="res://resources/LeftHole.tres" id="9_c0ajq"]
 [ext_resource type="Material" uid="uid://tqcxug20otm0" path="res://resources/BottomHole.tres" id="10_1q4ro"]
@@ -14,6 +15,7 @@
 [ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://resources/SelectionRing.tres" id="12_81ver"]
 [ext_resource type="Script" path="res://scripts/SelectedHoleHighlighter.cs" id="13_pxcx6"]
 [ext_resource type="PackedScene" uid="uid://cns5jgoi61n88" path="res://scenes/WoodenSign.tscn" id="13_sdma7"]
+[ext_resource type="PackedScene" uid="uid://851uwy1h3jo2" path="res://scenes/coinslot.tscn" id="16_em7tp"]
 [ext_resource type="Script" path="res://scripts/Mole.cs" id="18_fkm07"]
 [ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/boxing-bell.wav" id="19_l7j4o"]
 [ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/penclick.mp3" id="20_7hrh8"]
@@ -25,6 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/miss-smack.wav" id="26_umpvv"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
+[ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/abouttohit2.0.wav" id="27_t8iet"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/bgmusic.wav" id="28_nl07j"]
 
@@ -53,7 +56,7 @@ text = "Score: "
 font = ExtResource("4_keded")
 
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qiggn"]
-default_input_values = [0, 0.0, 1, 8.0]
+default_input_values = [0, 0.0, 1, 32.0]
 operator = 2
 
 [sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_idkqn"]
@@ -73,6 +76,7 @@ operator = 2
 [sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_wsba3"]
 parameter_name = "Flashing"
 default_value_enabled = true
+default_value = true
 
 [sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_25vdw"]
 default_input_values = [0, false, 1, true, 2, false]
@@ -82,7 +86,7 @@ op_type = 6
 code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
 
-uniform bool Flashing = false;
+uniform bool Flashing = true;
 
 
 
@@ -111,7 +115,7 @@ void fragment() {
 
 
 // FloatOp:11
-	float n_in11p1 = 8.00000;
+	float n_in11p1 = 32.00000;
 	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
 
 
@@ -130,12 +134,12 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-657.444, -114.298)
+graph_offset = Vector2(-696.695, -185.323)
 nodes/fragment/0/position = Vector2(740, -20)
 nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_idkqn")
 nodes/fragment/3/position = Vector2(200, -20)
 nodes/fragment/4/node = SubResource("VisualShaderNodeInput_txfry")
-nodes/fragment/4/position = Vector2(-420, 320)
+nodes/fragment/4/position = Vector2(-1020, 300)
 nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_d1ua5")
 nodes/fragment/5/position = Vector2(200, 180)
 nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_gh1ko")
@@ -146,7 +150,7 @@ nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_25vdw")
 nodes/fragment/9/position = Vector2(-560, 500)
 nodes/fragment/11/node = SubResource("VisualShaderNodeFloatOp_qiggn")
 nodes/fragment/11/position = Vector2(-320, 460)
-nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 5, 0, 0, 1, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1)
+nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 4, 0, 6, 0, 5, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dkkgl"]
 render_priority = 0
@@ -163,11 +167,19 @@ top_radius = 0.15
 bottom_radius = 0.15
 height = 0.1
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_uq8xj"]
+height = 0.298209
+radius = 0.2
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_6r6q6"]
 material = ExtResource("9_c0ajq")
 top_radius = 0.15
 bottom_radius = 0.15
 height = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1l3pr"]
+height = 0.298209
+radius = 0.2
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_2ern8"]
 material = ExtResource("10_1q4ro")
@@ -175,11 +187,19 @@ top_radius = 0.15
 bottom_radius = 0.15
 height = 0.1
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pfs5w"]
+height = 0.298209
+radius = 0.2
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_d2oj1"]
 material = ExtResource("11_bpvq6")
 top_radius = 0.15
 bottom_radius = 0.15
 height = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_m2t5p"]
+height = 0.298209
+radius = 0.2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_86c15"]
 render_priority = 0
@@ -190,6 +210,9 @@ material = SubResource("ShaderMaterial_86c15")
 top_radius = 0.17
 bottom_radius = 0.17
 height = 0.01
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tqhsi"]
+size = Vector3(1, 0.214042, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kign4"]
 radius = 0.075
@@ -294,7 +317,7 @@ metadata/_edit_group_ = true
 
 [node name="LivesCounter" type="MeshInstance3D" parent="WHACKmachine/Lives/LivesBlock"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00448057, 0.00980866, 0.0189637)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
 mesh = SubResource("TextMesh_5xp3d")
 
 [node name="LivesText" type="MeshInstance3D" parent="WHACKmachine/Lives"]
@@ -310,7 +333,7 @@ metadata/_edit_group_ = true
 
 [node name="ScoreCounter" type="MeshInstance3D" parent="WHACKmachine/Score/ScoreBlock"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00448057, 0.00980866, 0.0189637)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
 mesh = SubResource("TextMesh_0mb6q")
 
 [node name="ScoreText" type="MeshInstance3D" parent="WHACKmachine/Score"]
@@ -325,41 +348,79 @@ spot_range = 6.292
 
 [node name="Holes" type="Node3D" parent="WHACKmachine"]
 
-[node name="Top" type="MeshInstance3D" parent="WHACKmachine/Holes"]
-unique_name_in_owner = true
+[node name="TopHole" type="Area3D" parent="WHACKmachine/Holes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, -0.35)
+script = ExtResource("8_dxwf0")
+
+[node name="Top" type="MeshInstance3D" parent="WHACKmachine/Holes/TopHole"]
+unique_name_in_owner = true
 mesh = SubResource("CylinderMesh_7wwu5")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="Left" type="MeshInstance3D" parent="WHACKmachine/Holes"]
-unique_name_in_owner = true
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Holes/TopHole"]
+shape = SubResource("CylinderShape3D_uq8xj")
+
+[node name="LeftHole" type="Area3D" parent="WHACKmachine/Holes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.563582, 0)
+script = ExtResource("8_dxwf0")
+
+[node name="Left" type="MeshInstance3D" parent="WHACKmachine/Holes/LeftHole"]
+unique_name_in_owner = true
 mesh = SubResource("CylinderMesh_6r6q6")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="Bottom" type="MeshInstance3D" parent="WHACKmachine/Holes"]
-unique_name_in_owner = true
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Holes/LeftHole"]
+shape = SubResource("CylinderShape3D_1l3pr")
+
+[node name="BottomHole" type="Area3D" parent="WHACKmachine/Holes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, 0.35)
+script = ExtResource("8_dxwf0")
+
+[node name="Bottom" type="MeshInstance3D" parent="WHACKmachine/Holes/BottomHole"]
+unique_name_in_owner = true
 mesh = SubResource("CylinderMesh_2ern8")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="Right" type="MeshInstance3D" parent="WHACKmachine/Holes"]
-unique_name_in_owner = true
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Holes/BottomHole"]
+shape = SubResource("CylinderShape3D_pfs5w")
+
+[node name="RightHole" type="Area3D" parent="WHACKmachine/Holes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.563582, 0)
+script = ExtResource("8_dxwf0")
+
+[node name="Right" type="MeshInstance3D" parent="WHACKmachine/Holes/RightHole"]
+unique_name_in_owner = true
 mesh = SubResource("CylinderMesh_d2oj1")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="SelectedHoleHighlighter" type="MeshInstance3D" parent="WHACKmachine/Holes"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Holes/RightHole"]
+shape = SubResource("CylinderShape3D_m2t5p")
+
+[node name="SelectedHoleHighlighter" type="MeshInstance3D" parent="WHACKmachine"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.345465, 0.607094, -3.02015e-08)
 mesh = SubResource("CylinderMesh_dacsb")
-skeleton = NodePath("../../../Mole")
+skeleton = NodePath("../../Mole")
 script = ExtResource("13_pxcx6")
 
 [node name="Node3D4" parent="WHACKmachine" instance=ExtResource("13_sdma7")]
+
+[node name="DirectionalLight3D" parent="WHACKmachine/Node3D4" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.175865, 0.984414, 0, -0.984414, 0.175865, 0, 0.533121, 2.10857)
+
+[node name="MissArea" type="Area3D" parent="WHACKmachine"]
+visible = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/MissArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592885, 0)
+shape = SubResource("BoxShape3D_tqhsi")
+
+[node name="coinslot" parent="WHACKmachine" instance=ExtResource("16_em7tp")]
 
 [node name="Mole" type="Area3D" parent="."]
 unique_name_in_owner = true
@@ -404,12 +465,12 @@ wait_time = 0.25
 [node name="BonkSound" type="AudioStreamPlayer3D" parent="Mole"]
 unique_name_in_owner = true
 stream = ExtResource("19_l7j4o")
-bus = &"Sound Effects"
+bus = &"SFX"
 
 [node name="MoveSound" type="AudioStreamPlayer3D" parent="Mole"]
 unique_name_in_owner = true
 stream = ExtResource("20_7hrh8")
-bus = &"Sound Effects"
+bus = &"SFX"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
@@ -561,10 +622,23 @@ text = "Don't get hit by
 the mallet."
 horizontal_alignment = 1
 
+[node name="Label3" type="Label" parent="UI/Menu/Intro/HelpScreen"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "The longer you stay out
+the faster your score grows.
+
+Getting hit resets this growth."
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/Menu/Intro/HelpScreen"]
+layout_mode = 2
+
 [node name="Label2" type="Label" parent="UI/Menu/Intro/HelpScreen"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "Esc for Menu
+text = "Controls:
+Esc for Menu
 WASD to choose hole"
 horizontal_alignment = 1
 
@@ -581,16 +655,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -194.0
+offset_top = -398.5
+offset_right = 194.0
+offset_bottom = 398.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 25
 script = ExtResource("23_u3q7w")
 
-[node name="Label2" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="WindowModeLabel" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
 layout_mode = 2
 text = "Window Mode"
 horizontal_alignment = 1
@@ -599,7 +673,7 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="ResolutionLabel" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
 layout_mode = 2
 text = "Resolution"
 horizontal_alignment = 1
@@ -608,16 +682,35 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="MasterVolume" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
 layout_mode = 2
-text = "Volume"
+text = "Master Volume"
 horizontal_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="MVSlider" type="HSlider" parent="UI/Menu/Intro/SettingsMenu"]
 layout_mode = 2
 min_value = -80.0
-max_value = 0.0
-value = -10.0
+max_value = 6.0
+value = -4.0
+
+[node name="MusicVolume" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+layout_mode = 2
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="UI/Menu/Intro/SettingsMenu"]
+layout_mode = 2
+min_value = -80.0
+max_value = 6.0
+
+[node name="SFXVolume" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="sfx" type="HSlider" parent="UI/Menu/Intro/SettingsMenu"]
+layout_mode = 2
+min_value = -80.0
+max_value = 6.0
 
 [node name="SettingsBack" type="Button" parent="UI/Menu/Intro/SettingsMenu"]
 custom_minimum_size = Vector2(150, 75)
@@ -690,46 +783,6 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Restart"
 
-[node name="InGameUI" type="Control" parent="UI"]
-unique_name_in_owner = true
-layout_mode = 3
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -291.0
-offset_top = -89.0
-offset_right = 291.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Panel" type="Panel" parent="UI/InGameUI"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("22_hwvbv")
-
-[node name="PopTimer2" type="Label" parent="UI/InGameUI/Panel"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -158.0
-offset_top = -40.0
-offset_right = 158.0
-offset_bottom = 40.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 50
-text = "Popping out in:"
-
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_7khsi")
 
@@ -762,7 +815,12 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.095, 0)
 [node name="Miss" type="AudioStreamPlayer3D" parent="Mallet"]
 unique_name_in_owner = true
 stream = ExtResource("26_umpvv")
-bus = &"Sound Effects"
+bus = &"SFX"
+
+[node name="AboutToHit" type="AudioStreamPlayer" parent="Mallet"]
+unique_name_in_owner = true
+stream = ExtResource("27_t8iet")
+bus = &"SFX"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_uq3bh")
@@ -826,6 +884,10 @@ stream = ExtResource("28_nl07j")
 autoplay = true
 bus = &"Music"
 
+[connection signal="area_entered" from="WHACKmachine/Holes/TopHole" to="WHACKmachine/Holes/TopHole" method="_on_area_entered"]
+[connection signal="area_entered" from="WHACKmachine/Holes/LeftHole" to="WHACKmachine/Holes/LeftHole" method="_on_area_entered"]
+[connection signal="area_entered" from="WHACKmachine/Holes/BottomHole" to="WHACKmachine/Holes/BottomHole" method="_on_area_entered"]
+[connection signal="area_entered" from="WHACKmachine/Holes/RightHole" to="WHACKmachine/Holes/RightHole" method="_on_area_entered"]
 [connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
 [connection signal="area_entered" from="Mole" to="Mole" method="_on_area_entered"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
@@ -838,11 +900,15 @@ bus = &"Music"
 [connection signal="pressed" from="UI/Menu/Intro/HelpScreen/BackHelp" to="." method="_on_back_help_pressed"]
 [connection signal="item_selected" from="UI/Menu/Intro/SettingsMenu/WindowMode" to="UI/Menu/Intro/SettingsMenu" method="_on_window_mode_item_selected"]
 [connection signal="item_selected" from="UI/Menu/Intro/SettingsMenu/Resolution" to="UI/Menu/Intro/SettingsMenu" method="_on_resolution_item_selected"]
-[connection signal="value_changed" from="UI/Menu/Intro/SettingsMenu/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="UI/Menu/Intro/SettingsMenu/MVSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="UI/Menu/Intro/SettingsMenu/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="UI/Menu/Intro/SettingsMenu/sfx" to="." method="_on_sfx_value_changed"]
 [connection signal="pressed" from="UI/Menu/Intro/SettingsMenu/SettingsBack" to="." method="_on_settings_back_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]
 
 [editable path="WHACKmachine"]
+[editable path="WHACKmachine/Node3D4"]
+[editable path="WHACKmachine/Node3D4/WoodenSign/woodenplank"]
 [editable path="Node3D/arcademachine"]

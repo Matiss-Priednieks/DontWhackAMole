@@ -18,11 +18,13 @@ public partial class Mallet : Area3D
     Camera3D CameraRef;
     RandomNumberGenerator RNG;
     AudioStreamPlayer3D Miss;
+    AudioStreamPlayer AboutToHit;
     bool MoleHit = false;
     public override void _Ready()
     {
         GD.Randomize();
         Miss = GetNode<AudioStreamPlayer3D>("%Miss");
+        AboutToHit = GetNode<AudioStreamPlayer>("%AboutToHit");
         RNG = new RandomNumberGenerator();
         CameraRef = GetNode<Camera3D>("%Camera3D");
         MalletCollider = GetNode<CollisionShape3D>("%MalletCollider");
@@ -53,7 +55,6 @@ public partial class Mallet : Area3D
         Playing = Player.Playing;
         if (Playing && !Player.Paused)
         {
-            // GD.Print("Uh oh 1");
             if (MoleOutTooLong)
             {
                 MoleOutTooLong = !Player.GetDownStatus();
@@ -62,10 +63,23 @@ public partial class Mallet : Area3D
             if (PopOutTimer.TimeLeft < 0.75f && !Player.GetGameOver())
             {
                 GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(true);
+
+                if (!AboutToHit.Playing)
+                {
+                    AboutToHit.Play(0);
+                }
             }
             else
             {
                 GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(false);
+                AboutToHit.Stop();
+            }
+        }
+        else if (!Playing || Player.Paused)
+        {
+            if (AboutToHit.Playing)
+            {
+                AboutToHit.Stop();
             }
         }
     }
@@ -73,7 +87,6 @@ public partial class Mallet : Area3D
     {
         if (!Player.GetGameOver() && Playing && !Player.Paused)
         {
-            GD.Print("Uh oh 0");
             MoveMallet(NextHit);
 
             Hit();
@@ -88,7 +101,6 @@ public partial class Mallet : Area3D
     {
         if (!Player.GetGameOver() && Playing && !Player.Paused)
         {
-            GD.Print("Uh oh 2");
             MoleOutTooLong = true;
             MoveMallet(playerPosition);
             if (!HasHit)
@@ -103,7 +115,6 @@ public partial class Mallet : Area3D
 
     public void _on_area_entered(Area3D area)
     {
-        GD.Print(MoleHit);
         Miss.Play();
         MoleHit = false;
     }
