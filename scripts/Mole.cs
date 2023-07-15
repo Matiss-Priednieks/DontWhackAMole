@@ -12,7 +12,7 @@ public partial class Mole : Area3D
     float DangerTimer = 0;
     int Lives = 3;
     MeshInstance3D MoleMesh;
-    MeshInstance3D LivesCounter, ScoreCounter;
+    MeshInstance3D LivesCounter, ScoreCounter, ComboCounter;
     Dictionary HoleDictionary;
     float ScoreAcceleration = 0;
 
@@ -26,12 +26,14 @@ public partial class Mole : Area3D
     AudioStreamPlayer3D Bonk;
     AudioStreamPlayer3D Move;
     int FinalScore;
+    int ComboBonus = 1;
     public override void _Ready()
     {
         CameraRef = GetNode<Camera3D>("%Camera3D");
         MoleMesh = GetNode<MeshInstance3D>("%MoleMesh");
         LivesCounter = GetNode<MeshInstance3D>("%LivesCounter");
         ScoreCounter = GetNode<MeshInstance3D>("%ScoreCounter");
+        ComboCounter = GetNode<MeshInstance3D>("%ComboCounter");
         Bonk = GetNode<AudioStreamPlayer3D>("%BonkSound");
         Move = GetNode<AudioStreamPlayer3D>("%MoveSound");
 
@@ -66,7 +68,6 @@ public partial class Mole : Area3D
             {
                 IFrames--;
             }
-            // Holes[GD.RandRange(0, Holes.Count)];
             var LivesMesh = (TextMesh)LivesCounter.Mesh;
             LivesMesh.Text = Lives.ToString();
             LivesCounter.Mesh = LivesMesh;
@@ -74,6 +75,12 @@ public partial class Mole : Area3D
             var ScoreMesh = (TextMesh)ScoreCounter.Mesh;
             ScoreMesh.Text = Math.Round(Score).ToString();
             ScoreCounter.Mesh = ScoreMesh;
+
+
+            var ComboMesh = (TextMesh)ComboCounter.Mesh;
+            ComboMesh.Text = ComboBonus.ToString();
+            ComboCounter.Mesh = ComboMesh;
+
 
             if (Input.IsActionJustPressed("top_hole"))
             {
@@ -102,7 +109,7 @@ public partial class Mole : Area3D
             if (!Down && !Paused)
             {
                 AnimateScoreCombo();
-                ScoreAcceleration += 0.01f;
+                ScoreAcceleration += 0.01f * ComboBonus;
                 Score += ScoreAcceleration;
             }
 
@@ -155,13 +162,13 @@ public partial class Mole : Area3D
         Tween velTween = GetTree().CreateTween();
         velTween.TweenProperty(this, "position", new Vector3(Position.X, 0.85f, Position.Z), 0.2f).SetTrans(Tween.TransitionType.Elastic);
         Down = true;
-        // PopOutTimer.Start(2);
         OutTimer.Stop();
     }
 
     public async void GotHit()
     {
         ScoreAcceleration = 0;
+        ComboBonus = 1;
         Bonk.Play(0);
         ScreenShake();
         DangerTimer = 0;
@@ -188,6 +195,7 @@ public partial class Mole : Area3D
             if (Lives > 0)
             {
                 Lives--;
+                AnimateHealth();
             }
         }
     }
@@ -205,6 +213,14 @@ public partial class Mole : Area3D
         camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X, CameraRef.Rotation.Y, CameraRef.Rotation.Z), 0.1f).SetTrans(Tween.TransitionType.Bounce).SetEase(Tween.EaseType.Out);
     }
 
+    public void AnimateHealth()
+    {
+        Vector3 defaultRot = Vector3.Zero;
+        Vector3 lifeLostRot = new Vector3(360, 0, 0);
+        Tween scoreBoomRot = GetTree().CreateTween();
+        scoreBoomRot.TweenProperty(LivesCounter, "rotation", lifeLostRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+        scoreBoomRot.TweenProperty(LivesCounter, "rotation", defaultRot, 0.1f).SetTrans(Tween.TransitionType.Elastic);
+    }
     public void AnimateScoreCombo()
     {
         if ((Math.Round(Score) + (Math.Round(Score) * 0.1f)) % 100 < 1)
@@ -227,6 +243,9 @@ public partial class Mole : Area3D
             Tween scoreBoomRot = GetTree().CreateTween();
             scoreBoomRot.TweenProperty(ScoreCounter, "rotation", comboRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
             scoreBoomRot.TweenProperty(ScoreCounter, "rotation", defaultRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+
+            //TODO: Make this only increase when combo item is picked up or some more specific action is taken, rather than arbitrary score increase!
+            ComboBonus++;
         }
     }
 

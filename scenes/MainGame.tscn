@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=78 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://scenes/WHACKmachine.tscn" id="2_utxrc"]
@@ -30,6 +30,24 @@
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/abouttohit2.0.wav" id="27_t8iet"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/bgmusic.wav" id="28_nl07j"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jlb5l"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_u42rq"]
+size = Vector3(0.6, 0.6, 0.14)
+
+[sub_resource type="TextMesh" id="TextMesh_3f010"]
+material = ExtResource("5_uicb5")
+text = "Combo:"
+font = ExtResource("4_keded")
+
+[sub_resource type="TextMesh" id="TextMesh_rqqt5"]
+material = ExtResource("7_ldoth")
+text = "x1"
+font = ExtResource("4_keded")
 
 [sub_resource type="BoxMesh" id="BoxMesh_2xuof"]
 material = ExtResource("6_8mjb7")
@@ -76,7 +94,6 @@ operator = 2
 [sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_wsba3"]
 parameter_name = "Flashing"
 default_value_enabled = true
-default_value = true
 
 [sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_25vdw"]
 default_input_values = [0, false, 1, true, 2, false]
@@ -86,7 +103,7 @@ op_type = 6
 code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
 
-uniform bool Flashing = true;
+uniform bool Flashing = false;
 
 
 
@@ -134,7 +151,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-696.695, -185.323)
 nodes/fragment/0/position = Vector2(740, -20)
 nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_idkqn")
 nodes/fragment/3/position = Vector2(200, -20)
@@ -238,6 +254,14 @@ material = SubResource("StandardMaterial3D_t888p")
 radius = 0.005
 height = 0.01
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_anb42"]
+albedo_color = Color(0.670588, 0.345098, 0.235294, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2qkde"]
+material = SubResource("StandardMaterial3D_anb42")
+radius = 0.015
+height = 0.055
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v0ebq"]
 albedo_color = Color(0.372549, 0.286275, 0.768627, 1)
 metallic = 1.0
@@ -303,6 +327,27 @@ transform = Transform3D(-1.31134e-09, 0, -0.377, 0, 0.246, 0, 0.03, 0, -1.64792e
 [node name="ScreenFrame" parent="WHACKmachine" index="2"]
 visible = false
 surface_material_override/0 = null
+
+[node name="ComboBonus" type="Node3D" parent="WHACKmachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.78206, 1.39163, -0.373427)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="WHACKmachine/ComboBonus"]
+transform = Transform3D(0.231435, -0.834529, 0.5, 0.963631, 0.267238, 0, -0.133619, 0.481815, 0.866026, 0.295102, -0.385515, -0.324228)
+mesh = SubResource("CylinderMesh_jlb5l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WHACKmachine/ComboBonus"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.0608333, -0.0797756, -0.124437)
+mesh = SubResource("BoxMesh_u42rq")
+
+[node name="ComboText" type="MeshInstance3D" parent="WHACKmachine/ComboBonus/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000629932, 0.0797756, 0.0734015)
+mesh = SubResource("TextMesh_3f010")
+skeleton = NodePath("../..")
+
+[node name="ComboCounter" type="MeshInstance3D" parent="WHACKmachine/ComboBonus/MeshInstance3D/ComboText"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.171937, 0)
+mesh = SubResource("TextMesh_rqqt5")
 
 [node name="Title" parent="WHACKmachine" instance=ExtResource("3_qd3qp")]
 transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 0, 1.087, -0.671917)
@@ -452,6 +497,11 @@ skeleton = NodePath("../..")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Mole/MoleMesh/MeshInstance3D2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.505, 0, 0, 0.023801)
 mesh = SubResource("SphereMesh_8nrox")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mole/MoleMesh"]
+transform = Transform3D(-4.47988e-08, -0.839684, 0, 1.02488, -3.67037e-08, 0, 0, 0, -0.705793, 0, 0.161077, 0.0698679)
+visible = false
+mesh = SubResource("CapsuleMesh_2qkde")
 
 [node name="PopOutTimer" type="Timer" parent="Mole"]
 unique_name_in_owner = true
