@@ -12,28 +12,37 @@ public partial class Mole : Area3D
     float DangerTimer = 0;
     int Lives = 3;
     MeshInstance3D MoleMesh;
-    MeshInstance3D LivesCounter, ScoreCounter, ComboCounter;
+    MeshInstance3D LivesCounter, ScoreCounter, ComboCounter, HighScoreMesh, HighestComboMesh;
     Dictionary HoleDictionary;
     float ScoreAcceleration = 0;
 
-    float Score = 0;
+    SaveManager SaveManager;
+
+    public float Score { get; set; }
 
     int IFrames = 60;
     bool GameOver = false;
     public bool Playing, Paused = false;
     Camera3D CameraRef;
     RandomNumberGenerator RNG;
-    AudioStreamPlayer3D Bonk;
-    AudioStreamPlayer3D Move;
-    int FinalScore;
-    int ComboBonus = 1;
+    AudioStreamPlayer3D Bonk, Move, CounterSound;
+    int FinalScore, HighScore;
+    public int ComboBonus { get; set; }
+    public int HighestCombo;
     public override void _Ready()
     {
+        this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
+        Score = 0;
+        ComboBonus = 1;
+        CounterSound = GetNode<AudioStreamPlayer3D>("%CounterSound");
+
         CameraRef = GetNode<Camera3D>("%Camera3D");
         MoleMesh = GetNode<MeshInstance3D>("%MoleMesh");
         LivesCounter = GetNode<MeshInstance3D>("%LivesCounter");
         ScoreCounter = GetNode<MeshInstance3D>("%ScoreCounter");
         ComboCounter = GetNode<MeshInstance3D>("%ComboCounter");
+        HighScoreMesh = GetNode<MeshInstance3D>("%Highscore");
+        HighestComboMesh = GetNode<MeshInstance3D>("%HighestCombo");
         Bonk = GetNode<AudioStreamPlayer3D>("%BonkSound");
         Move = GetNode<AudioStreamPlayer3D>("%MoveSound");
 
@@ -57,6 +66,42 @@ public partial class Mole : Area3D
 
         PopOutTimer = GetNode<Timer>("%PopOutTimer");
         OutTimer = GetNode<Timer>("%OutTimer");
+        HighScore = (int)this.SaveManager.LoadScore().X;
+        HighestCombo = (int)this.SaveManager.LoadScore().Y;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Score > HighScore)
+        {
+            HighScore = (int)Score;
+            this.SaveManager.SaveScore(HighScore, HighestCombo);
+        }
+        if (ComboBonus > HighestCombo)
+        {
+            HighestCombo = ComboBonus;
+            this.SaveManager.SaveScore(HighScore, HighestCombo);
+        }
+        var LivesMesh = (TextMesh)LivesCounter.Mesh;
+        LivesMesh.Text = Lives.ToString();
+        LivesCounter.Mesh = LivesMesh;
+
+        var ScoreMesh = (TextMesh)ScoreCounter.Mesh;
+        ScoreMesh.Text = Math.Round(Score).ToString();
+        ScoreCounter.Mesh = ScoreMesh;
+
+
+        var ComboMesh = (TextMesh)ComboCounter.Mesh;
+        ComboMesh.Text = "x" + ComboBonus.ToString();
+        ComboCounter.Mesh = ComboMesh;
+
+        var HSMesh = (TextMesh)HighScoreMesh.Mesh;
+        HSMesh.Text = "Highscore: " + HighScore.ToString();
+        HighScoreMesh.Mesh = HSMesh;
+
+        var HCMesh = (TextMesh)HighestComboMesh.Mesh;
+        HCMesh.Text = "x" + HighestCombo.ToString();
+        HighestComboMesh.Mesh = HCMesh;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -68,18 +113,6 @@ public partial class Mole : Area3D
             {
                 IFrames--;
             }
-            var LivesMesh = (TextMesh)LivesCounter.Mesh;
-            LivesMesh.Text = Lives.ToString();
-            LivesCounter.Mesh = LivesMesh;
-
-            var ScoreMesh = (TextMesh)ScoreCounter.Mesh;
-            ScoreMesh.Text = Math.Round(Score).ToString();
-            ScoreCounter.Mesh = ScoreMesh;
-
-
-            var ComboMesh = (TextMesh)ComboCounter.Mesh;
-            ComboMesh.Text = ComboBonus.ToString();
-            ComboCounter.Mesh = ComboMesh;
 
 
             if (Input.IsActionJustPressed("top_hole"))
@@ -108,9 +141,9 @@ public partial class Mole : Area3D
             }
             if (!Down && !Paused)
             {
-                AnimateScoreCombo();
-                ScoreAcceleration += 0.01f * ComboBonus;
+                ScoreAcceleration += 0.005f * ComboBonus;
                 Score += ScoreAcceleration;
+                PlaySoundDelayed();
             }
 
             if (Lives == 0)
@@ -123,6 +156,11 @@ public partial class Mole : Area3D
         GetNode<Label>("%FinalScore").Text = FinalScore.ToString();
 
 
+    }
+    public async void PlaySoundDelayed()
+    {
+        CounterSound.Play(0);
+        await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
     }
 
     public void Restart()
@@ -211,6 +249,7 @@ public partial class Mole : Area3D
         Tween camShakeRotTween = GetTree().CreateTween();
         camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X + RNG.RandfRange(-0.035f, 0.035f), CameraRef.Rotation.Y + RNG.RandfRange(-0.025f, 0.025f), CameraRef.Rotation.Z + RNG.RandfRange(-0.035f, 0.035f)), 0.1f).SetTrans(Tween.TransitionType.Bounce);
         camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X, CameraRef.Rotation.Y, CameraRef.Rotation.Z), 0.1f).SetTrans(Tween.TransitionType.Bounce).SetEase(Tween.EaseType.Out);
+
     }
 
     public void AnimateHealth()
@@ -223,29 +262,37 @@ public partial class Mole : Area3D
     }
     public void AnimateScoreCombo()
     {
-        if ((Math.Round(Score) + (Math.Round(Score) * 0.1f)) % 100 < 1)
-        {
-            Vector3 defaultScale = Vector3.One;
-            Vector3 defaultPos = new Vector3(0, 0, 0.01f);
-            Vector3 defaultRot = Vector3.Zero;
+        ComboBonus++;
 
+        Vector3 defaultScale = Vector3.One;
+        Vector3 defaultPos = new Vector3(0, -0.171f, 0.01f);
+        Vector3 defaultRot = Vector3.Zero;
+
+        if (ComboBonus % 5 == 0)
+        {
             Vector3 comboScale = new Vector3(1.3f, 1.3f, 1.3f);
-            Vector3 comboPos = new Vector3(0, 0.75f, 0.75f);
+            Vector3 comboPos = new Vector3(0, 0.1f, 0.25f);
             Vector3 comboRot = new Vector3(0, (float)GD.RandRange(-0.25f, 0.25f), (float)GD.RandRange(-0.6f, 0f));
             Tween scoreBoomPos = GetTree().CreateTween();
-            scoreBoomPos.TweenProperty(ScoreCounter, "position", comboPos, 0.5f).SetTrans(Tween.TransitionType.Elastic);
-            scoreBoomPos.TweenProperty(ScoreCounter, "position", defaultPos, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomPos.TweenProperty(ComboCounter, "position", comboPos, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomPos.TweenProperty(ComboCounter, "position", defaultPos, 0.5f).SetTrans(Tween.TransitionType.Elastic);
 
             Tween scoreBoomScale = GetTree().CreateTween();
-            scoreBoomScale.TweenProperty(ScoreCounter, "scale", comboScale, 0.5f).SetTrans(Tween.TransitionType.Elastic);
-            scoreBoomScale.TweenProperty(ScoreCounter, "scale", defaultScale, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomScale.TweenProperty(ComboCounter, "scale", comboScale, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomScale.TweenProperty(ComboCounter, "scale", defaultScale, 0.5f).SetTrans(Tween.TransitionType.Elastic);
 
             Tween scoreBoomRot = GetTree().CreateTween();
-            scoreBoomRot.TweenProperty(ScoreCounter, "rotation", comboRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
-            scoreBoomRot.TweenProperty(ScoreCounter, "rotation", defaultRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomRot.TweenProperty(ComboCounter, "rotation", comboRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomRot.TweenProperty(ComboCounter, "rotation", defaultRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
 
             //TODO: Make this only increase when combo item is picked up or some more specific action is taken, rather than arbitrary score increase!
-            ComboBonus++;
+        }
+        else
+        {
+            Vector3 smallComboScale = new Vector3(1.4f, 1.4f, 1.4f);
+            Tween scoreBoomScale = GetTree().CreateTween();
+            scoreBoomScale.TweenProperty(ComboCounter, "scale", smallComboScale, 0.1f).SetTrans(Tween.TransitionType.Elastic);
+            scoreBoomScale.TweenProperty(ComboCounter, "scale", defaultScale, 0.1f).SetTrans(Tween.TransitionType.Elastic);
         }
     }
 

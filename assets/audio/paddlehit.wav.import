@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://choh38vkb3n0d"
-path="res://.godot/imported/thunk.wav-75a9ba54da385be92246537bacb03508.sample"
+uid="uid://pob08wicccf8"
+path="res://.godot/imported/paddlehit.wav-9d8c4e07fb357376d4bdb53cedf9e5ef.sample"
 
 [deps]
 
-source_file="res://assets/thunk.wav"
-dest_files=["res://.godot/imported/thunk.wav-75a9ba54da385be92246537bacb03508.sample"]
+source_file="res://assets/audio/paddlehit.wav"
+dest_files=["res://.godot/imported/paddlehit.wav-9d8c4e07fb357376d4bdb53cedf9e5ef.sample"]
 
 [params]
 

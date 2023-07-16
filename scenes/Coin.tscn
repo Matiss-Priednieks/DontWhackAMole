@@ -1,0 +1,111 @@
+[gd_scene load_steps=17 format=3 uid="uid://k47bsnnfpjjs"]
+
+[ext_resource type="Script" path="res://scripts/Coin.cs" id="1_nodwn"]
+[ext_resource type="Material" uid="uid://ckfdvfsaj2th5" path="res://resources/Coin.tres" id="2_jnv8x"]
+[ext_resource type="AudioStream" uid="uid://co73u8qkdmjaa" path="res://assets/audio/coinshatter2.wav" id="3_ytq6x"]
+[ext_resource type="AudioStream" uid="uid://7u7wouqojq36" path="res://assets/audio/coincollected2.wav" id="4_iock1"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gee0x"]
+material = ExtResource("2_jnv8x")
+top_radius = 0.075
+bottom_radius = 0.075
+height = 0.035
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_iyxr0"]
+height = 0.075
+radius = 0.1
+
+[sub_resource type="Curve" id="Curve_hht6m"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, 360), 0.0, 0.0, 0, 0, Vector2(1, -360), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_k018b"]
+curve = SubResource("Curve_hht6m")
+
+[sub_resource type="Curve" id="Curve_ej1l8"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, 360), 0.0, 0.0, 0, 0, Vector2(1, -360), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_y4l21"]
+curve = SubResource("Curve_ej1l8")
+
+[sub_resource type="Curve" id="Curve_ovr6q"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, 90.5263), 0.0, 0.0, 0, 0, Vector2(1, 90.5263), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0cbkl"]
+curve = SubResource("Curve_ovr6q")
+
+[sub_resource type="Curve" id="Curve_h2lgp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_bj888"]
+curve = SubResource("Curve_h2lgp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ea22g"]
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 1.0
+angular_velocity_min = -355.95
+angular_velocity_max = 275.06
+angular_velocity_curve = SubResource("CurveTexture_y4l21")
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_curve = SubResource("CurveTexture_0cbkl")
+angle_min = -360.0
+angle_max = 360.0
+angle_curve = SubResource("CurveTexture_k018b")
+scale_curve = SubResource("CurveTexture_bj888")
+
+[sub_resource type="PrismMesh" id="PrismMesh_fiuct"]
+material = ExtResource("2_jnv8x")
+left_to_right = 0.4
+size = Vector3(0.07, 0.105, 0.01)
+
+[node name="Coin" type="Area3D"]
+script = ExtResource("1_nodwn")
+
+[node name="CoinMesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("CylinderMesh_gee0x")
+
+[node name="CoinCollider" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CylinderShape3D_iyxr0")
+
+[node name="DespawnTimer" type="Timer" parent="."]
+wait_time = 2.5
+autostart = true
+
+[node name="CoinBreakParticle" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+emitting = false
+lifetime = 0.25
+one_shot = true
+explosiveness = 1.0
+randomness = 0.39
+process_material = SubResource("ParticleProcessMaterial_ea22g")
+draw_pass_1 = SubResource("PrismMesh_fiuct")
+
+[node name="Shatter" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_ytq6x")
+pitch_scale = 0.9
+
+[node name="Collected" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_iock1")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn_timer_timeout"]

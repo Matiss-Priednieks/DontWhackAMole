@@ -11,14 +11,18 @@ config_version=5
 [application]
 
 config/name="DontWhackAMole"
-run/main_scene="res://scenes/MainGame.tscn"
+run/main_scene="res://scenes/BootSplash.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
-boot_splash/bg_color=Color(0.0980392, 0.305882, 0.74902, 1)
+boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://assets/Banner.png"
 
 [audio]
 
 buses/default_bus_layout="res://resources/default_bus_layout.tres"
+
+[autoload]
+
+SaveManager="*res://scripts/SaveManager.cs"
 
 [display]
 

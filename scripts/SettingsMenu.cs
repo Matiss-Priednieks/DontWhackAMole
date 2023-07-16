@@ -18,7 +18,6 @@ public partial class SettingsMenu : VBoxContainer
     };
     public override void _Ready()
     {
-
         ResArray = new Vector2I[4];
         ResOptions = GetNode<OptionButton>("Resolution");
         int optionIndex = 0;
@@ -49,17 +48,26 @@ public partial class SettingsMenu : VBoxContainer
 
     public void _on_resolution_item_selected(int index)
     {
-
-        // GetTree().Root.ContentScaleAspect
         GetTree().Root.ContentScaleSize = ResArray[index];
-        // GetWindow().Size = ResArray[index];
-        // GetWindow().Mode = WinModeArray[0];
-        // GetWindow().Scaling3DScale = index;
-        // GetTree().SetScreenStretch(SceneTree.StretchMode.Viewport, SceneTree.StretchAspect.Keep, ResArray[index]);
+        GD.Print(ResArray[index]);
     }
     public void _on_window_mode_item_selected(int index)
     {
         GetWindow().Mode = WinModeArray[index];
     }
-
+    public void _on_h_slider_value_changed(float value)
+    {
+        var busIndex = AudioServer.GetBusIndex("Master");
+        AudioServer.SetBusVolumeDb(busIndex, value);
+    }
+    public void _on_music_slider_value_changed(float value)
+    {
+        var busIndex = AudioServer.GetBusIndex("Music");
+        AudioServer.SetBusVolumeDb(busIndex, value);
+    }
+    public void _on_sfx_value_changed(float value)
+    {
+        var busIndex = AudioServer.GetBusIndex("SFX");
+        AudioServer.SetBusVolumeDb(busIndex, value);
+    }
 }

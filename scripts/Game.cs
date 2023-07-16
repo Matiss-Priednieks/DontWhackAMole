@@ -8,25 +8,36 @@ public partial class Game : Node3D
     bool Playing = false;
     Camera3D MainCam;
     Vector3 CamPlayPos, CamPlayRot, CamMenuPos, CamMenuRot;
+    RandomNumberGenerator RNG;
+    SaveManager SaveManager;
 
     Mallet Mallet;
     Mole Mole;
-    Panel Intro;
+    Panel MainMenu;
     Control GameOverMenu;
     Button PlayResume;
     VBoxContainer MenuButtons, HelpMenu, SettingsMenu;
+    Timer ComboCointTimer;
+    PackedScene Coin;
+
     public override void _Ready()
     {
+        this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
+        this.SaveManager.LoadConfig();
+
+        RNG = new RandomNumberGenerator();
         MenuButtons = GetNode<VBoxContainer>("%MenuButtons");
         HelpMenu = GetNode<VBoxContainer>("%HelpScreen");
         SettingsMenu = GetNode<VBoxContainer>("%SettingsMenu");
-        Intro = GetNode<Panel>("%Intro");
+        MainMenu = GetNode<Panel>("%Intro");
         MainCam = GetNode<Camera3D>("Camera3D");
         Mallet = GetNode<Mallet>("%Mallet");
         Mole = GetNode<Mole>("%Mole");
         GameOverMenu = GetNode<Control>("%GameOver");
         PlayResume = GetNode<Button>("%PlayResume");
+        ComboCointTimer = GetNode<Timer>("%ComboCoinTimer");
 
+        Coin = ResourceLoader.Load<PackedScene>("scenes/Coin.tscn");
 
         CamPlayPos = new Vector3(0, 2.403f, 1.516f);
         CamPlayRot = new Vector3(-36.8f, 0, 0);
@@ -48,12 +59,12 @@ public partial class Game : Node3D
             Mole.Paused = true;
             PlayResume.Text = "Resume";
             await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
-            Intro.Show();
+            MainMenu.Show();
             Menu = true;
         }
         else if (Input.IsActionJustReleased("menu") && Menu)
         {
-            Intro.Hide();
+            MainMenu.Hide();
             MoveCamera(CamPlayPos, CamPlayRot);
             await ToSignal(GetTree().CreateTimer(2.5f), "timeout");
             Mole.Paused = false;
@@ -73,31 +84,17 @@ public partial class Game : Node3D
                 MoveCamera(CamMenuPos, CamMenuRot);
                 PlayResume.Text = "Play";
                 await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
-                Intro.Show();
+                MainMenu.Show();
                 Menu = true;
             }
         }
     }
-    public void _on_h_slider_value_changed(float value)
-    {
-        var busIndex = AudioServer.GetBusIndex("Master");
-        AudioServer.SetBusVolumeDb(busIndex, value);
-    }
-    public void _on_music_slider_value_changed(float value)
-    {
-        var busIndex = AudioServer.GetBusIndex("Music");
-        AudioServer.SetBusVolumeDb(busIndex, value);
-    }
-    public void _on_sfx_value_changed(float value)
-    {
-        var busIndex = AudioServer.GetBusIndex("SFX");
-        AudioServer.SetBusVolumeDb(busIndex, value);
-    }
+
     public void _on_restart_pressed()
     {
         Mole.Playing = true;
         Mole.Restart();
-
+        ComboCointTimer.Start(RNG.RandiRange(3, 6));
         Mole.SetGameOver(false);
         Mole.Paused = false;
         GameOverMenu.Hide();
@@ -109,7 +106,7 @@ public partial class Game : Node3D
         Mole.Playing = false;
         Mole.Restart();
         GameOverMenu.Hide();
-        Intro.Show();
+        MainMenu.Show();
         MoveCamera(CamMenuPos, CamMenuRot);
         PlayResume.Text = "Play";
         Menu = true;
@@ -121,9 +118,12 @@ public partial class Game : Node3D
         if (!Mole.Paused)
         {
             Mole.Restart();
+            ComboCointTimer.Start(RNG.RandiRange(3, 6));
+
             Mole.Paused = false;
         }
-        Intro.Hide();
+        MainMenu.Hide();
+        ComboCointTimer.Start(RNG.RandiRange(3, 6));
         MoveCamera(CamPlayPos, CamPlayRot);
         await ToSignal(GetTree().CreateTimer(2f), "timeout");
         Mole.Playing = true;
@@ -140,6 +140,7 @@ public partial class Game : Node3D
     {
         SettingsMenu.Hide();
         MenuButtons.Show();
+        this.SaveManager.SaveConfig();
     }
 
     public void _on_help_pressed()
@@ -164,5 +165,13 @@ public partial class Game : Node3D
     public void _on_exit_pressed()
     {
         GetTree().Quit();
+    }
+
+    public void _on_combo_coin_timer_timeout()
+    {
+        var coinInstance = Coin.Instantiate<Area3D>();
+        AddChild(coinInstance);
+        // ComboCointTimer.Start(RNG.RandiRange(1, 2) * 2);
+        ComboCointTimer.Start(4);
     }
 }

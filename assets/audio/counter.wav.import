@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://xsyt1be08o4w"
-path="res://.godot/imported/miss-smack.wav-1b96aaf5a9a11bf5d1828ca890aec2c4.sample"
+uid="uid://i0edq1mkdror"
+path="res://.godot/imported/counter.wav-a2b3d159f529a63e48d91d70a6a0cd4d.sample"
 
 [deps]
 
-source_file="res://assets/miss-smack.wav"
-dest_files=["res://.godot/imported/miss-smack.wav-1b96aaf5a9a11bf5d1828ca890aec2c4.sample"]
+source_file="res://assets/audio/counter.wav"
+dest_files=["res://.godot/imported/counter.wav-a2b3d159f529a63e48d91d70a6a0cd4d.sample"]
 
 [params]
 
