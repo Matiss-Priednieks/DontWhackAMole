@@ -20,7 +20,8 @@ public partial class BootSplash : CanvasLayer
         GetNode<Control>("%SecondScreen").Hide();
         MainGameScene = ResourceLoader.Load<PackedScene>("scenes/MainGame.tscn");
         colorRect = GetNode<ColorRect>("BlackBox");
-
+        var BusLayout = ResourceLoader.Load<AudioBusLayout>("resources/default_bus_layout.tres");
+        AudioServer.SetBusLayout(BusLayout);
         FadeFirstScreen();
     }
 

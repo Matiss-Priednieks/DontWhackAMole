@@ -18,7 +18,12 @@ public partial class Game : Node3D
     Button PlayResume;
     VBoxContainer MenuButtons, HelpMenu, SettingsMenu;
     Timer ComboCointTimer;
+
+    Timer PopOutTimer;
+
     PackedScene Coin;
+
+    public bool MenuJustPressed { get; private set; }
 
     public override void _Ready()
     {
@@ -35,6 +40,8 @@ public partial class Game : Node3D
         GameOverMenu = GetNode<Control>("%GameOver");
         PlayResume = GetNode<Button>("%PlayResume");
         ComboCointTimer = GetNode<Timer>("%ComboCoinTimer");
+        PopOutTimer = GetNode<Timer>("%PopOutTimer");
+
 
         Coin = ResourceLoader.Load<PackedScene>("scenes/Coin.tscn");
 
@@ -54,20 +61,32 @@ public partial class Game : Node3D
     {
         if (Input.IsActionJustReleased("menu") && !Menu && !Mole.GetGameOver())
         {
-            MoveCamera(CamMenuPos, CamMenuRot);
-            Mole.Paused = true;
-            PlayResume.Text = "Resume";
-            await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
-            MainMenu.Show();
-            Menu = true;
+            if (!MenuJustPressed)
+            {
+                MenuJustPressed = true;
+                MoveCamera(CamMenuPos, CamMenuRot);
+                PlayResume.Text = "Resume";
+                Menu = true;
+                Mole.Paused = true;
+                PopOutTimer.Paused = true;
+                await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+                MainMenu.Show();
+                MenuJustPressed = false;
+            }
         }
         else if (Input.IsActionJustReleased("menu") && Menu)
         {
-            MainMenu.Hide();
-            MoveCamera(CamPlayPos, CamPlayRot);
-            await ToSignal(GetTree().CreateTimer(2.5f), "timeout");
-            Mole.Paused = false;
-            Menu = false;
+            if (!MenuJustPressed)
+            {
+                MenuJustPressed = true;
+                MainMenu.Hide();
+                MoveCamera(CamPlayPos, CamPlayRot);
+                Menu = false;
+                await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+                PopOutTimer.Paused = false;
+                Mole.Paused = false;
+                MenuJustPressed = false;
+            }
         }
 
         if (Mole.GetGameOver())
@@ -77,7 +96,6 @@ public partial class Game : Node3D
             if (Input.IsActionJustReleased("menu"))
             {
                 Mole.SetGameOver(false);
-                // Mole.Paused = false;
                 Mole.Playing = false;
                 GameOverMenu.Hide();
                 MoveCamera(CamMenuPos, CamMenuRot);
