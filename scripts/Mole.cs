@@ -29,8 +29,12 @@ public partial class Mole : Area3D
     int FinalScore, HighScore;
     public int ComboBonus { get; set; }
     public int HighestCombo;
+    public float PopSpeed { get; set; }
+    public float OutTooLongTime { get; set; }
     public override void _Ready()
     {
+        OutTooLongTime = 1;
+        PopSpeed = 2;
         this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
         Score = 0;
         ComboBonus = 1;
@@ -68,6 +72,7 @@ public partial class Mole : Area3D
         OutTimer = GetNode<Timer>("%OutTimer");
         HighScore = (int)this.SaveManager.LoadScore().X;
         HighestCombo = (int)this.SaveManager.LoadScore().Y;
+        PopOutTimer.Start(PopSpeed);
     }
 
     public override void _Process(double delta)
@@ -178,19 +183,20 @@ public partial class Mole : Area3D
             Tween velTween = GetTree().CreateTween();
             velTween.TweenProperty(this, "position", new Vector3(ChosenHole.X, 1.13f, ChosenHole.Z), 0.2f).SetTrans(Tween.TransitionType.Elastic);
             Down = false;
-            OutTimer.Start(0.25f);
+            OutTimer.Start(OutTooLongTime * 0.25f);
         }
+        PopOutTimer.Start(PopSpeed);
     }
     public void _on_out_timer_timeout()
     {
-        if (DangerTimer >= 0.75f && Playing && !Paused)
+        if (DangerTimer >= OutTooLongTime * 0.75f && Playing && !Paused)
         {
             //Call the smack!
             EmitSignal("OutTooLong", Position);
         }
         else
         {
-            DangerTimer += 0.25f;
+            DangerTimer += OutTooLongTime * 0.25f;
         }
     }
 
@@ -206,6 +212,7 @@ public partial class Mole : Area3D
     public async void GotHit()
     {
         ScoreAcceleration = 0;
+        PopSpeed = 2;
         ComboBonus = 1;
         Bonk.Play(0);
         ScreenShake();
@@ -217,7 +224,7 @@ public partial class Mole : Area3D
         MoleMesh.Scale = tempScale;
         velTween.TweenProperty(this, "position", new Vector3(Position.X, 0.85f, Position.Z), 0.15f).SetTrans(Tween.TransitionType.Elastic);
         Down = true;
-        PopOutTimer.Start(2);
+        PopOutTimer.Start(PopSpeed);
         OutTimer.Stop();
         await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
         tempScale = new Vector3(1, 1, 1);

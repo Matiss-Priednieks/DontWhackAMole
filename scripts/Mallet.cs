@@ -20,6 +20,8 @@ public partial class Mallet : Area3D
     AudioStreamPlayer3D Miss;
     AudioStreamPlayer AboutToHit;
     bool MoleHit = false;
+    public float MalletSlowSpeed = 0.3f;
+    public float MalletFastSpeed = 0.2f;
     public override void _Ready()
     {
         GD.Randomize();
@@ -52,6 +54,8 @@ public partial class Mallet : Area3D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+
+
         Playing = Player.Playing;
         if (Playing && !Player.Paused)
         {
@@ -91,7 +95,7 @@ public partial class Mallet : Area3D
 
             Hit();
 
-            await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
+            await ToSignal(GetTree().CreateTimer(MalletSlowSpeed), "timeout");
             MoveMallet(StartPosition);
             HoleIndex = GD.RandRange(0, 3);
             NextHit = Holes[HoleIndex];
@@ -106,7 +110,7 @@ public partial class Mallet : Area3D
             if (!HasHit)
             {
                 Hit();
-                await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
+                await ToSignal(GetTree().CreateTimer(MalletSlowSpeed), "timeout");
                 MoveMallet(StartPosition);
             }
             HasHit = false;
@@ -123,18 +127,19 @@ public partial class Mallet : Area3D
     {
         MalletCollider.Disabled = true;
         Tween velTween = GetTree().CreateTween();
-        velTween.TweenProperty(this, "position", new Vector3(toLocation.X - 0.35f, Position.Y, toLocation.Z), 0.2f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.InOut);
-        await ToSignal(GetTree().CreateTimer(0.2f), "timeout");
+        velTween.TweenProperty(this, "position", new Vector3(toLocation.X - 0.35f, Position.Y, toLocation.Z), MalletFastSpeed).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.InOut);
+        await ToSignal(GetTree().CreateTimer(MalletFastSpeed), "timeout");
         MalletCollider.Disabled = false;
     }
 
     public async void Hit()
     {
+        GD.Print("Test");
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
         ScreenShake();
         Tween velTween = GetTree().CreateTween();
-        velTween.TweenProperty(this, "rotation", new Vector3(Rotation.X, Rotation.Y, Rotation.Z - 1.4f), 0.2f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
-        velTween.TweenProperty(this, "rotation", new Vector3(0, 0, 0), 0.3f).SetTrans(Tween.TransitionType.Sine).SetTrans(Tween.TransitionType.Back);
+        velTween.TweenProperty(this, "rotation", new Vector3(Rotation.X, Rotation.Y, Rotation.Z - 1.4f), MalletFastSpeed).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+        velTween.TweenProperty(this, "rotation", new Vector3(0, 0, 0), MalletSlowSpeed).SetTrans(Tween.TransitionType.Sine).SetTrans(Tween.TransitionType.Back);
         HasHit = true;
     }
 

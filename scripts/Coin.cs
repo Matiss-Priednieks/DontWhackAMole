@@ -23,6 +23,7 @@ public partial class Coin : Area3D
     AudioStreamPlayer3D Shatter, Collected;
 
     Mole MoleRef;
+    Mallet MalletRef;
     public override void _Ready()
     {
         Collected = GetNode<AudioStreamPlayer3D>("%Collected");
@@ -35,6 +36,7 @@ public partial class Coin : Area3D
             };
         GD.Randomize();
         MoleRef = GetNode<Mole>("../Mole");
+        MalletRef = GetNode<Mallet>("../Mallet");
         ComboCounter = GetNode<MeshInstance3D>("../WHACKmachine/ComboBonus/Comboboard/ComboText/ComboCounter");
         CoinMesh = GetNode<MeshInstance3D>("%CoinMesh");
         CoinBreakParticle = GetNode<GpuParticles3D>("%CoinBreakParticle");
@@ -76,6 +78,7 @@ public partial class Coin : Area3D
     {
         if (!IsCollected)
         {
+            CallDeferred("DisableCollisions");
             GD.Print(CoinBreakParticle.GlobalPosition);
             CoinMesh.Hide();
             CoinBreakParticle.Emitting = true;
@@ -89,6 +92,22 @@ public partial class Coin : Area3D
     {
         if (area is Mole mole && Out)
         {
+            if (mole.PopSpeed > 0.75f)
+            {
+                mole.PopSpeed -= 0.025f;
+            }
+            if (MalletRef.MalletFastSpeed >= 0.1)
+            {
+                MalletRef.MalletFastSpeed -= 0.0025f;
+            }
+            if (MalletRef.MalletSlowSpeed >= 0.2)
+            {
+                MalletRef.MalletSlowSpeed -= 0.0025f;
+            }
+            if (mole.OutTooLongTime > 0.5)
+            {
+                mole.OutTooLongTime -= 0.025f;
+            }
             Collected.Play(0);
             IsCollected = true;
             CallDeferred("DisableCollisions");

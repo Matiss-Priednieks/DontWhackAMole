@@ -573,7 +573,6 @@ mesh = SubResource("CapsuleMesh_2qkde")
 [node name="PopOutTimer" type="Timer" parent="Mole"]
 unique_name_in_owner = true
 wait_time = 2.0
-autostart = true
 
 [node name="OutTimer" type="Timer" parent="Mole"]
 unique_name_in_owner = true
