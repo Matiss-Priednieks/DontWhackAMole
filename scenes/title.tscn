@@ -61,7 +61,7 @@ mesh = SubResource("TextMesh_3oyf7")
 skeleton = NodePath("")
 
 [node name="A" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.909752, -0.409576, -0.0678223, 0.409577, 0.912161, -0.0145277, 0.0678149, -0.0145619, 0.997594, -6.8496e-09, 0.100284, 0.0783511)
+transform = Transform3D(0.932906, 0.355381, -0.0582302, -0.353677, 0.934609, 0.037685, 0.0678149, -0.0145619, 0.997594, 0, 0.100284, 0.0783512)
 mesh = SubResource("TextMesh_4p6ix")
 skeleton = NodePath("")
 
