@@ -186,9 +186,11 @@ public partial class Game : Node3D
 
     public void _on_combo_coin_timer_timeout()
     {
-        var coinInstance = Coin.Instantiate<Area3D>();
-        AddChild(coinInstance);
-        // ComboCointTimer.Start(RNG.RandiRange(1, 2) * 2);
-        ComboCointTimer.Start(4);
+        if (Playing)
+        {
+            var coinInstance = Coin.Instantiate<Area3D>();
+            AddChild(coinInstance);
+            ComboCointTimer.Start(4);
+        }
     }
 }

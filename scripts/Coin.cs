@@ -15,6 +15,7 @@ public partial class Coin : Area3D
     public bool Out { get; private set; }
     public bool Finished { get; private set; }
     public bool IsCollected { get; private set; }
+    float YPos;
 
     MeshInstance3D ComboCounter;
     MeshInstance3D CoinMesh;
@@ -54,11 +55,13 @@ public partial class Coin : Area3D
 
     public override void _PhysicsProcess(double delta)
     {
+        GD.Print(CoinBreakParticle.Position);
         if (!Finished && MoleRef.Playing)
         {
             PopOut();
             Finished = true;
         }
+        Position = new(Position.X, YPos, Position.Z);
     }
 
     public async void PopOut()
@@ -67,8 +70,9 @@ public partial class Coin : Area3D
         UpPosition = new Vector3(Position.X, 1.25f, Position.Z);
         var tempRotation = new Vector3(GD.RandRange(-10, 10), GD.RandRange(-10, 10), GD.RandRange(-10, 10));
 
+        YPos = Position.Y;
         Tween tempTween = CreateTween();
-        tempTween.Parallel().TweenProperty(this, "position", UpPosition, 1.25f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
+        tempTween.Parallel().TweenProperty(this, "YPos", UpPosition.Y, 1.25f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
         tempTween.Parallel().TweenProperty(this, "rotation", tempRotation, 2.15f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
 
         await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
@@ -79,7 +83,6 @@ public partial class Coin : Area3D
         if (!IsCollected)
         {
             CallDeferred("DisableCollisions");
-            GD.Print(CoinBreakParticle.GlobalPosition);
             CoinMesh.Hide();
             CoinBreakParticle.Emitting = true;
             Shatter.Play(0);

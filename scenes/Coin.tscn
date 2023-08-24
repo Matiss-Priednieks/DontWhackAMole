@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://k47bsnnfpjjs"]
+[gd_scene load_steps=19 format=3 uid="uid://k47bsnnfpjjs"]
 
 [ext_resource type="Script" path="res://scripts/Coin.cs" id="1_nodwn"]
 [ext_resource type="Material" uid="uid://ckfdvfsaj2th5" path="res://resources/Coin.tres" id="2_jnv8x"]
@@ -7,6 +7,16 @@
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gee0x"]
 material = ExtResource("2_jnv8x")
+top_radius = 0.075
+bottom_radius = 0.075
+height = 0.035
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_an1uh"]
+shading_mode = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gxbou"]
+material = SubResource("StandardMaterial3D_an1uh")
+flip_faces = true
 top_radius = 0.075
 bottom_radius = 0.075
 height = 0.035
@@ -50,9 +60,7 @@ point_count = 2
 curve = SubResource("Curve_h2lgp")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ea22g"]
-particle_flag_align_y = true
 particle_flag_rotate_y = true
-particle_flag_disable_z = true
 spread = 180.0
 gravity = Vector3(0, 0, 0)
 initial_velocity_min = 0.1
@@ -60,8 +68,6 @@ initial_velocity_max = 1.0
 angular_velocity_min = -355.95
 angular_velocity_max = 275.06
 angular_velocity_curve = SubResource("CurveTexture_y4l21")
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
 radial_accel_curve = SubResource("CurveTexture_0cbkl")
 angle_min = -360.0
 angle_max = 360.0
@@ -80,6 +86,11 @@ script = ExtResource("1_nodwn")
 unique_name_in_owner = true
 mesh = SubResource("CylinderMesh_gee0x")
 
+[node name="CoinMesh2" type="MeshInstance3D" parent="CoinMesh"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
+sorting_offset = -1.0
+mesh = SubResource("CylinderMesh_gxbou")
+
 [node name="CoinCollider" type="CollisionShape3D" parent="."]
 unique_name_in_owner = true
 shape = SubResource("CylinderShape3D_iyxr0")
@@ -95,6 +106,7 @@ lifetime = 0.25
 one_shot = true
 explosiveness = 1.0
 randomness = 0.39
+visibility_aabb = AABB(-1.37832, -1.33331, -1.2796, 2.74763, 2.65761, 2.55019)
 process_material = SubResource("ParticleProcessMaterial_ea22g")
 draw_pass_1 = SubResource("PrismMesh_fiuct")
 
