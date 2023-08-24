@@ -665,7 +665,7 @@ grow_horizontal = 2
 texture = ExtResource("22_0f4jb")
 stretch_mode = 2
 
-[node name="Intro" type="Panel" parent="UI/Menu"]
+[node name="Intro" type="PanelContainer" parent="UI/Menu"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -673,65 +673,47 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -244.0
+offset_top = -263.0
+offset_right = 244.0
+offset_bottom = 263.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("22_hwvbv")
 
-[node name="MenuButtons" type="VBoxContainer" parent="UI/Menu/Intro"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -252.5
-offset_top = -175.0
-offset_right = 252.5
-offset_bottom = 175.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Intro"]
+layout_mode = 2
+theme = ExtResource("22_hwvbv")
 
-[node name="PlayResume" type="Button" parent="UI/Menu/Intro/MenuButtons"]
+[node name="MenuButtons" type="VBoxContainer" parent="UI/Menu/Intro/MarginContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 75)
+layout_mode = 2
+
+[node name="PlayResume" type="Button" parent="UI/Menu/Intro/MarginContainer/MenuButtons"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Play"
 
-[node name="Help" type="Button" parent="UI/Menu/Intro/MenuButtons"]
-custom_minimum_size = Vector2(150, 75)
+[node name="Help" type="Button" parent="UI/Menu/Intro/MarginContainer/MenuButtons"]
 layout_mode = 2
 text = "Help"
 
-[node name="Settings" type="Button" parent="UI/Menu/Intro/MenuButtons"]
-custom_minimum_size = Vector2(150, 75)
+[node name="Settings" type="Button" parent="UI/Menu/Intro/MarginContainer/MenuButtons"]
 layout_mode = 2
 text = "Settings"
 
-[node name="Exit" type="Button" parent="UI/Menu/Intro/MenuButtons"]
-custom_minimum_size = Vector2(150, 75)
+[node name="Exit" type="Button" parent="UI/Menu/Intro/MarginContainer/MenuButtons"]
 layout_mode = 2
 text = "Exit"
 
-[node name="HelpScreen" type="VBoxContainer" parent="UI/Menu/Intro"]
+[node name="HelpScreen" type="VBoxContainer" parent="UI/Menu/Intro/MarginContainer"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/Menu/Intro/HelpScreen"]
+[node name="Label" type="Label" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("25_t8t7d")
 theme_override_font_sizes/font_size = 50
@@ -739,7 +721,7 @@ text = "Don't get hit by
 the mallet."
 horizontal_alignment = 1
 
-[node name="Label3" type="Label" parent="UI/Menu/Intro/HelpScreen"]
+[node name="Label3" type="Label" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("25_t8t7d")
 theme_override_font_sizes/font_size = 50
@@ -749,10 +731,10 @@ the faster your score grows.
 Getting hit resets this growth."
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="UI/Menu/Intro/HelpScreen"]
+[node name="HSeparator" type="HSeparator" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="UI/Menu/Intro/HelpScreen"]
+[node name="Label2" type="Label" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("25_t8t7d")
 theme_override_font_sizes/font_size = 50
@@ -761,77 +743,72 @@ Esc for Menu
 WASD to choose hole"
 horizontal_alignment = 1
 
-[node name="BackHelp" type="Button" parent="UI/Menu/Intro/HelpScreen"]
+[node name="BackHelp" type="Button" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
 layout_mode = 2
 text = "Back"
 
-[node name="SettingsMenu" type="VBoxContainer" parent="UI/Menu/Intro"]
+[node name="SettingsMenu" type="VBoxContainer" parent="UI/Menu/Intro/MarginContainer"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -194.0
-offset_top = -398.5
-offset_right = 194.0
-offset_bottom = 398.5
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/separation = 25
 script = ExtResource("23_u3q7w")
 
-[node name="WindowModeLabel" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="WindowModeLabel" type="Label" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 layout_mode = 2
 text = "Window Mode"
 horizontal_alignment = 1
 
-[node name="WindowMode" type="OptionButton" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="WindowMode" type="OptionButton" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="ResolutionLabel" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="ResolutionLabel" type="Label" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 layout_mode = 2
 text = "Resolution"
 horizontal_alignment = 1
 
-[node name="Resolution" type="OptionButton" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="Resolution" type="OptionButton" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="MasterVolume" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="MasterVolume" type="Label" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 layout_mode = 2
 text = "Master Volume"
 horizontal_alignment = 1
 
-[node name="MVSlider" type="HSlider" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="MVSlider" type="HSlider" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 layout_mode = 2
 min_value = -80.0
 max_value = 6.0
 value = -4.0
 
-[node name="MusicVolume" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="MusicVolume" type="Label" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 layout_mode = 2
 text = "Music Volume"
 horizontal_alignment = 1
 
-[node name="MusicSlider" type="HSlider" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="MusicSlider" type="HSlider" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 layout_mode = 2
 min_value = -80.0
 max_value = 6.0
 
-[node name="SFXVolume" type="Label" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="SFXVolume" type="Label" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 layout_mode = 2
 text = "SFX Volume"
+horizontal_alignment = 1
 
-[node name="sfx" type="HSlider" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="sfx" type="HSlider" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
 layout_mode = 2
 min_value = -80.0
 max_value = 6.0
 
-[node name="SettingsBack" type="Button" parent="UI/Menu/Intro/SettingsMenu"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="SettingsBack" type="Button" parent="UI/Menu/Intro/MarginContainer/SettingsMenu/HBoxContainer"]
 custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 text = "Back"
@@ -1039,17 +1016,17 @@ color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/OutTimer" to="Mole" method="_on_out_timer_timeout"]
-[connection signal="pressed" from="UI/Menu/Intro/MenuButtons/PlayResume" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Help" to="." method="_on_help_pressed"]
-[connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="UI/Menu/Intro/MenuButtons/Exit" to="." method="_on_exit_pressed"]
-[connection signal="pressed" from="UI/Menu/Intro/HelpScreen/BackHelp" to="." method="_on_back_help_pressed"]
-[connection signal="item_selected" from="UI/Menu/Intro/SettingsMenu/WindowMode" to="UI/Menu/Intro/SettingsMenu" method="_on_window_mode_item_selected"]
-[connection signal="item_selected" from="UI/Menu/Intro/SettingsMenu/Resolution" to="UI/Menu/Intro/SettingsMenu" method="_on_resolution_item_selected"]
-[connection signal="value_changed" from="UI/Menu/Intro/SettingsMenu/MVSlider" to="UI/Menu/Intro/SettingsMenu" method="_on_h_slider_value_changed"]
-[connection signal="value_changed" from="UI/Menu/Intro/SettingsMenu/MusicSlider" to="UI/Menu/Intro/SettingsMenu" method="_on_music_slider_value_changed"]
-[connection signal="value_changed" from="UI/Menu/Intro/SettingsMenu/sfx" to="UI/Menu/Intro/SettingsMenu" method="_on_sfx_value_changed"]
-[connection signal="pressed" from="UI/Menu/Intro/SettingsMenu/SettingsBack" to="." method="_on_settings_back_pressed"]
+[connection signal="pressed" from="UI/Menu/Intro/MarginContainer/MenuButtons/PlayResume" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="UI/Menu/Intro/MarginContainer/MenuButtons/Help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="UI/Menu/Intro/MarginContainer/MenuButtons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="UI/Menu/Intro/MarginContainer/MenuButtons/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="UI/Menu/Intro/MarginContainer/HelpScreen/BackHelp" to="." method="_on_back_help_pressed"]
+[connection signal="item_selected" from="UI/Menu/Intro/MarginContainer/SettingsMenu/WindowMode" to="UI/Menu/Intro/MarginContainer/SettingsMenu" method="_on_window_mode_item_selected"]
+[connection signal="item_selected" from="UI/Menu/Intro/MarginContainer/SettingsMenu/Resolution" to="UI/Menu/Intro/MarginContainer/SettingsMenu" method="_on_resolution_item_selected"]
+[connection signal="value_changed" from="UI/Menu/Intro/MarginContainer/SettingsMenu/MVSlider" to="UI/Menu/Intro/MarginContainer/SettingsMenu" method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="UI/Menu/Intro/MarginContainer/SettingsMenu/MusicSlider" to="UI/Menu/Intro/MarginContainer/SettingsMenu" method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="UI/Menu/Intro/MarginContainer/SettingsMenu/sfx" to="UI/Menu/Intro/MarginContainer/SettingsMenu" method="_on_sfx_value_changed"]
+[connection signal="pressed" from="UI/Menu/Intro/MarginContainer/SettingsMenu/HBoxContainer/SettingsBack" to="." method="_on_settings_back_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]

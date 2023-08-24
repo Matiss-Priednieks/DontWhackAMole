@@ -53,10 +53,8 @@ public partial class SaveManager : Node
 
     public void SaveConfig()
     {
-        // Create new ConfigFile object.
         var config = new ConfigFile();
 
-        // Store some values.
         config.SetValue("Settings", "Resolution", GetTree().Root.ContentScaleSize);
         config.SetValue("Settings", "WindowMode", GetWindow().Mode.ToString());
 
@@ -69,7 +67,6 @@ public partial class SaveManager : Node
         busIndex = AudioServer.GetBusIndex("SFX");
         config.SetValue("Volume", "SFX", AudioServer.GetBusVolumeDb(busIndex));
 
-        // Save it to a file (overwrite if already exists).
         config.Save(CONFIG_SAVE_PATH);
     }
 

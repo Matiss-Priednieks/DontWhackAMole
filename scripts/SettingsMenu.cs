@@ -44,8 +44,6 @@ public partial class SettingsMenu : VBoxContainer
         }
         WindowMode.Values.CopyTo(WinModeArray, 0);
     }
-
-
     public void _on_resolution_item_selected(int index)
     {
         GetTree().Root.ContentScaleSize = ResArray[index];

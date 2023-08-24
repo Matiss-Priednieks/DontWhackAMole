@@ -13,7 +13,7 @@ public partial class Game : Node3D
 
     Mallet Mallet;
     Mole Mole;
-    Panel MainMenu;
+    PanelContainer MainMenu;
     Control GameOverMenu;
     Button PlayResume;
     VBoxContainer MenuButtons, HelpMenu, SettingsMenu;
@@ -28,12 +28,13 @@ public partial class Game : Node3D
     public override void _Ready()
     {
         this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
+        this.SaveManager.LoadConfig();
 
         RNG = new RandomNumberGenerator();
         MenuButtons = GetNode<VBoxContainer>("%MenuButtons");
         HelpMenu = GetNode<VBoxContainer>("%HelpScreen");
         SettingsMenu = GetNode<VBoxContainer>("%SettingsMenu");
-        MainMenu = GetNode<Panel>("%Intro");
+        MainMenu = GetNode<PanelContainer>("%Intro");
         MainCam = GetNode<Camera3D>("Camera3D");
         Mallet = GetNode<Mallet>("%Mallet");
         Mole = GetNode<Mole>("%Mole");
@@ -61,6 +62,7 @@ public partial class Game : Node3D
     {
         if (Input.IsActionJustReleased("menu") && !Menu && !Mole.GetGameOver())
         {
+            this.SaveManager.SaveConfig();
             if (!MenuJustPressed)
             {
                 MenuJustPressed = true;
@@ -76,6 +78,7 @@ public partial class Game : Node3D
         }
         else if (Input.IsActionJustReleased("menu") && Menu)
         {
+            this.SaveManager.SaveConfig();
             if (!MenuJustPressed)
             {
                 MenuJustPressed = true;
@@ -95,6 +98,7 @@ public partial class Game : Node3D
             Menu = false;
             if (Input.IsActionJustReleased("menu"))
             {
+                this.SaveManager.SaveConfig();
                 Mole.SetGameOver(false);
                 Mole.Playing = false;
                 GameOverMenu.Hide();
@@ -155,9 +159,9 @@ public partial class Game : Node3D
 
     public void _on_settings_back_pressed()
     {
+        this.SaveManager.SaveConfig();
         SettingsMenu.Hide();
         MenuButtons.Show();
-        this.SaveManager.SaveConfig();
     }
 
     public void _on_help_pressed()
@@ -181,16 +185,14 @@ public partial class Game : Node3D
 
     public void _on_exit_pressed()
     {
+        this.SaveManager.SaveConfig();
         GetTree().Quit();
     }
 
     public void _on_combo_coin_timer_timeout()
     {
-        if (Playing)
-        {
-            var coinInstance = Coin.Instantiate<Area3D>();
-            AddChild(coinInstance);
-            ComboCointTimer.Start(4);
-        }
+        var coinInstance = Coin.Instantiate<Area3D>();
+        AddChild(coinInstance);
+        ComboCointTimer.Start(4);
     }
 }
