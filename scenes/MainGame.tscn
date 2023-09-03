@@ -1,23 +1,18 @@
-[gd_scene load_steps=89 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=148 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
-[ext_resource type="PackedScene" uid="uid://bvbmsl56sqem" path="res://scenes/WHACKmachine.tscn" id="2_utxrc"]
+[ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
 [ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="3_3a1g5"]
-[ext_resource type="PackedScene" uid="uid://i51y5mf06k3x" path="res://scenes/title.tscn" id="3_qd3qp"]
 [ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="4_keded"]
 [ext_resource type="Material" uid="uid://0sw35lpb5ar6" path="res://assets/WhackAMoleText.tres" id="5_uicb5"]
 [ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="6_8mjb7"]
 [ext_resource type="Material" uid="uid://b1lt464xj8qrb" path="res://assets/RedLED.tres" id="7_ldoth"]
 [ext_resource type="Script" path="res://scripts/HoleMiss.cs" id="8_dxwf0"]
 [ext_resource type="Script" path="res://scripts/Hole.cs" id="8_ngyci"]
-[ext_resource type="Material" uid="uid://b44prumhon888" path="res://resources/LeftHole.tres" id="9_c0ajq"]
 [ext_resource type="AudioStream" uid="uid://i0edq1mkdror" path="res://assets/audio/counter.wav" id="9_r60t1"]
-[ext_resource type="Material" uid="uid://tqcxug20otm0" path="res://resources/BottomHole.tres" id="10_1q4ro"]
-[ext_resource type="Material" uid="uid://kdgqu05dwp00" path="res://resources/RightHole.tres" id="11_bpvq6"]
-[ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://resources/SelectionRing.tres" id="12_81ver"]
 [ext_resource type="Script" path="res://scripts/SelectedHoleHighlighter.cs" id="13_pxcx6"]
 [ext_resource type="PackedScene" uid="uid://cns5jgoi61n88" path="res://scenes/WoodenSign.tscn" id="13_sdma7"]
-[ext_resource type="PackedScene" uid="uid://851uwy1h3jo2" path="res://scenes/coinslot.tscn" id="16_em7tp"]
+[ext_resource type="PackedScene" uid="uid://dxxf315ekx67o" path="res://scenes/ring.tscn" id="16_ia14k"]
 [ext_resource type="Script" path="res://scripts/Mole.cs" id="18_fkm07"]
 [ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/audio/boxing-bell.wav" id="20_kwaa8"]
 [ext_resource type="Script" path="res://scripts/DebugInfoUI.cs" id="21_bttn8"]
@@ -35,25 +30,6 @@
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
 [ext_resource type="Script" path="res://scenes/IntroTransition.cs" id="33_oyma7"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rxh1c"]
-albedo_color = Color(0.619608, 0.505882, 0.0980392, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_jlb5l"]
-material = SubResource("StandardMaterial3D_rxh1c")
-top_radius = 0.05
-bottom_radius = 0.05
-height = 0.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_etg6h"]
-albedo_texture = ExtResource("3_3a1g5")
-uv1_scale = Vector3(1.39, 1.39, 1.39)
-uv1_offset = Vector3(0.545, -0.435, 0)
-uv1_triplanar = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_u42rq"]
-material = SubResource("StandardMaterial3D_etg6h")
-size = Vector3(0.6, 0.6, 0.14)
-
 [sub_resource type="BoxMesh" id="BoxMesh_4lm6s"]
 material = ExtResource("6_8mjb7")
 size = Vector3(0.515, 0.515, 0.065)
@@ -67,6 +43,16 @@ font = ExtResource("4_keded")
 material = ExtResource("7_ldoth")
 text = "x1"
 font = ExtResource("4_keded")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_etg6h"]
+albedo_texture = ExtResource("3_3a1g5")
+uv1_scale = Vector3(1.39, 1.39, 1.39)
+uv1_offset = Vector3(0.545, -0.435, 0)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_u42rq"]
+material = SubResource("StandardMaterial3D_etg6h")
+size = Vector3(0.6, 0.6, 0.14)
 
 [sub_resource type="TextMesh" id="TextMesh_lgujk"]
 material = ExtResource("5_uicb5")
@@ -104,33 +90,53 @@ material = ExtResource("5_uicb5")
 text = "Score: "
 font = ExtResource("4_keded")
 
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qiggn"]
-default_input_values = [0, 0.0, 1, 32.0]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_uq8xj"]
+height = 0.298209
+radius = 0.12
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_485mh"]
+default_input_values = [0, 0.0, 1, 16.0]
 operator = 2
 
-[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_idkqn"]
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_ibamg"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_finh2"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_7rcni"]
+constant = 0.16
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_cn4y7"]
+output_port_for_preview = 0
+default_input_values = [0, 0.8, 1, 0.9]
+operator = 7
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_8khxu"]
+constant = Color(3, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_btu18"]
 constant = Color(1, 0, 0, 1)
 
-[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_txfry"]
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_qqrnn"]
 input_name = "time"
 
-[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_d1ua5"]
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_n5een"]
 output_port_for_preview = 0
 function = 0
 
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_gh1ko"]
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_voar5"]
 default_input_values = [0, 0.0, 1, 8.0]
 operator = 2
 
-[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_wsba3"]
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_up588"]
 parameter_name = "Flashing"
 default_value_enabled = true
 
-[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_25vdw"]
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_pdij2"]
 default_input_values = [0, false, 1, true, 2, false]
 op_type = 6
 
-[sub_resource type="VisualShader" id="VisualShader_pkanr"]
+[sub_resource type="VisualShader" id="VisualShader_ky818"]
 code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
 
@@ -163,7 +169,7 @@ void fragment() {
 
 
 // FloatOp:11
-	float n_in11p1 = 32.00000;
+	float n_in11p1 = 16.00000;
 	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
 
 
@@ -175,88 +181,755 @@ void fragment() {
 	float n_out5p0 = sin(n_out6p0);
 
 
+// FloatOp:15
+	float n_in15p0 = 0.80000;
+	float n_out15p0 = min(n_in15p0, n_out5p0);
+
+
+// FloatConstant:13
+	float n_out13p0 = 0.000000;
+
+
+// FloatConstant:14
+	float n_out14p0 = 0.160000;
+
+
+// FloatConstant:12
+	float n_out12p0 = 1.000000;
+
+
+// ColorConstant:16
+	vec4 n_out16p0 = vec4(3.000000, 0.000000, 0.000000, 1.000000);
+
+
 // Output:0
 	ALBEDO = vec3(n_out3p0.xyz);
-	ALPHA = n_out5p0;
+	ALPHA = n_out15p0;
+	METALLIC = n_out13p0;
+	ROUGHNESS = n_out14p0;
+	SPECULAR = n_out12p0;
+	EMISSION = vec3(n_out16p0.xyz);
 
 
 }
 "
-nodes/fragment/0/position = Vector2(740, -20)
-nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_idkqn")
-nodes/fragment/3/position = Vector2(200, -20)
-nodes/fragment/4/node = SubResource("VisualShaderNodeInput_txfry")
-nodes/fragment/4/position = Vector2(-1020, 300)
-nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_d1ua5")
-nodes/fragment/5/position = Vector2(200, 180)
-nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_gh1ko")
-nodes/fragment/6/position = Vector2(-60, 380)
-nodes/fragment/8/node = SubResource("VisualShaderNodeBooleanParameter_wsba3")
-nodes/fragment/8/position = Vector2(-900, 600)
-nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_25vdw")
-nodes/fragment/9/position = Vector2(-560, 500)
-nodes/fragment/11/node = SubResource("VisualShaderNodeFloatOp_qiggn")
-nodes/fragment/11/position = Vector2(-320, 460)
-nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 4, 0, 6, 0, 5, 0, 0, 1)
+nodes/fragment/0/position = Vector2(980, -120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_btu18")
+nodes/fragment/3/position = Vector2(480, -160)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_qqrnn")
+nodes/fragment/4/position = Vector2(-800, 140)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_n5een")
+nodes/fragment/5/position = Vector2(-20, 120)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_voar5")
+nodes/fragment/6/position = Vector2(-260, 240)
+nodes/fragment/8/node = SubResource("VisualShaderNodeBooleanParameter_up588")
+nodes/fragment/8/position = Vector2(-1160, 200)
+nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_pdij2")
+nodes/fragment/9/position = Vector2(-800, 300)
+nodes/fragment/11/node = SubResource("VisualShaderNodeFloatOp_485mh")
+nodes/fragment/11/position = Vector2(-520, 320)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatConstant_ibamg")
+nodes/fragment/12/position = Vector2(500, 280)
+nodes/fragment/13/node = SubResource("VisualShaderNodeFloatConstant_finh2")
+nodes/fragment/13/position = Vector2(500, 200)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatConstant_7rcni")
+nodes/fragment/14/position = Vector2(480, 380)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_cn4y7")
+nodes/fragment/15/position = Vector2(180, 20)
+nodes/fragment/16/node = SubResource("VisualShaderNodeColorConstant_8khxu")
+nodes/fragment/16/position = Vector2(500, 480)
+nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 12, 0, 0, 4, 13, 0, 0, 2, 14, 0, 0, 3, 15, 0, 0, 1, 5, 0, 15, 1, 16, 0, 0, 5)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkkgl"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_73m3s"]
 render_priority = 0
-shader = SubResource("VisualShader_pkanr")
+shader = SubResource("VisualShader_ky818")
 shader_parameter/Flashing = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t2kho"]
-next_pass = SubResource("ShaderMaterial_dkkgl")
-albedo_color = Color(0.188235, 0.101961, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qsrvs"]
+next_pass = SubResource("ShaderMaterial_73m3s")
+transparency = 1
+albedo_color = Color(0.141176, 0.141176, 0.141176, 0.466667)
+metallic_specular = 1.0
+roughness = 0.16
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_7wwu5"]
-material = SubResource("StandardMaterial3D_t2kho")
-top_radius = 0.15
-bottom_radius = 0.15
-height = 0.1
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_b4736"]
+material = SubResource("StandardMaterial3D_qsrvs")
+radius = 0.03
+height = 0.12
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_uq8xj"]
-height = 0.298209
-radius = 0.2
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cri31"]
+albedo_color = Color(0, 0, 0, 1)
+metallic_specular = 0.0
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_6r6q6"]
-material = ExtResource("9_c0ajq")
-top_radius = 0.15
-bottom_radius = 0.15
-height = 0.1
+[sub_resource type="CylinderMesh" id="CylinderMesh_7hxv4"]
+material = SubResource("StandardMaterial3D_cri31")
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.05
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_1l3pr"]
 height = 0.298209
-radius = 0.2
+radius = 0.12
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_2ern8"]
-material = ExtResource("10_1q4ro")
-top_radius = 0.15
-bottom_radius = 0.15
-height = 0.1
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_ehwnx"]
+default_input_values = [0, 0.0, 1, 16.0]
+operator = 2
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_pfs5w"]
-height = 0.298209
-radius = 0.2
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_edmyx"]
+constant = 1.0
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_d2oj1"]
-material = ExtResource("11_bpvq6")
-top_radius = 0.15
-bottom_radius = 0.15
-height = 0.1
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_usj3j"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_5olnt"]
+constant = 0.16
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_7iuad"]
+output_port_for_preview = 0
+default_input_values = [0, 0.8, 1, 0.9]
+operator = 7
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_nrkvr"]
+constant = Color(3, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_v7qnf"]
+constant = Color(1, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_rtuy2"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_uygtw"]
+output_port_for_preview = 0
+function = 0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_780hr"]
+default_input_values = [0, 0.0, 1, 8.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_0owoa"]
+parameter_name = "Flashing"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_8qx5b"]
+default_input_values = [0, false, 1, true, 2, false]
+op_type = 6
+
+[sub_resource type="VisualShader" id="VisualShader_uhctk"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform bool Flashing = false;
+
+
+
+void fragment() {
+// ColorConstant:3
+	vec4 n_out3p0 = vec4(1.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Input:4
+	float n_out4p0 = TIME;
+
+
+// BooleanParameter:8
+	bool n_out8p0 = Flashing;
+
+
+	bool n_out9p0;
+// Switch:9
+	bool n_in9p1 = true;
+	bool n_in9p2 = false;
+	if (n_out8p0) {
+		n_out9p0 = n_in9p1;
+	} else {
+		n_out9p0 = n_in9p2;
+	}
+
+
+// FloatOp:11
+	float n_in11p1 = 16.00000;
+	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
+
+
+// FloatOp:6
+	float n_out6p0 = n_out4p0 * n_out11p0;
+
+
+// FloatFunc:5
+	float n_out5p0 = sin(n_out6p0);
+
+
+// FloatOp:15
+	float n_in15p0 = 0.80000;
+	float n_out15p0 = min(n_in15p0, n_out5p0);
+
+
+// FloatConstant:13
+	float n_out13p0 = 0.000000;
+
+
+// FloatConstant:14
+	float n_out14p0 = 0.160000;
+
+
+// FloatConstant:12
+	float n_out12p0 = 1.000000;
+
+
+// ColorConstant:16
+	vec4 n_out16p0 = vec4(3.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Output:0
+	ALBEDO = vec3(n_out3p0.xyz);
+	ALPHA = n_out15p0;
+	METALLIC = n_out13p0;
+	ROUGHNESS = n_out14p0;
+	SPECULAR = n_out12p0;
+	EMISSION = vec3(n_out16p0.xyz);
+
+
+}
+"
+nodes/fragment/0/position = Vector2(980, -120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_v7qnf")
+nodes/fragment/3/position = Vector2(480, -160)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_rtuy2")
+nodes/fragment/4/position = Vector2(-800, 140)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_uygtw")
+nodes/fragment/5/position = Vector2(-20, 120)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_780hr")
+nodes/fragment/6/position = Vector2(-260, 240)
+nodes/fragment/8/node = SubResource("VisualShaderNodeBooleanParameter_0owoa")
+nodes/fragment/8/position = Vector2(-1160, 200)
+nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_8qx5b")
+nodes/fragment/9/position = Vector2(-800, 300)
+nodes/fragment/11/node = SubResource("VisualShaderNodeFloatOp_ehwnx")
+nodes/fragment/11/position = Vector2(-520, 320)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatConstant_edmyx")
+nodes/fragment/12/position = Vector2(500, 280)
+nodes/fragment/13/node = SubResource("VisualShaderNodeFloatConstant_usj3j")
+nodes/fragment/13/position = Vector2(500, 200)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatConstant_5olnt")
+nodes/fragment/14/position = Vector2(480, 380)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_7iuad")
+nodes/fragment/15/position = Vector2(180, 20)
+nodes/fragment/16/node = SubResource("VisualShaderNodeColorConstant_nrkvr")
+nodes/fragment/16/position = Vector2(500, 480)
+nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 12, 0, 0, 4, 13, 0, 0, 2, 14, 0, 0, 3, 15, 0, 0, 1, 5, 0, 15, 1, 16, 0, 0, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2iepn"]
+render_priority = 0
+shader = SubResource("VisualShader_uhctk")
+shader_parameter/Flashing = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wnmmu"]
+next_pass = SubResource("ShaderMaterial_2iepn")
+transparency = 1
+albedo_color = Color(0.141176, 0.141176, 0.141176, 0.466667)
+metallic_specular = 1.0
+roughness = 0.16
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_djttp"]
+material = SubResource("StandardMaterial3D_wnmmu")
+radius = 0.03
+height = 0.12
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_m2t5p"]
 height = 0.298209
-radius = 0.2
+radius = 0.12
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_86c15"]
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_tqc8k"]
+default_input_values = [0, 0.0, 1, 16.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_nphp4"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_b7idi"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_05e6d"]
+constant = 0.16
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_btyvk"]
+output_port_for_preview = 0
+default_input_values = [0, 0.8, 1, 0.9]
+operator = 7
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_3yqlt"]
+constant = Color(3, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_557r7"]
+constant = Color(1, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_sik8l"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_jdedf"]
+output_port_for_preview = 0
+function = 0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_is2fb"]
+default_input_values = [0, 0.0, 1, 8.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_u4nt1"]
+parameter_name = "Flashing"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_4nrf1"]
+default_input_values = [0, false, 1, true, 2, false]
+op_type = 6
+
+[sub_resource type="VisualShader" id="VisualShader_2ysrm"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform bool Flashing = false;
+
+
+
+void fragment() {
+// ColorConstant:3
+	vec4 n_out3p0 = vec4(1.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Input:4
+	float n_out4p0 = TIME;
+
+
+// BooleanParameter:8
+	bool n_out8p0 = Flashing;
+
+
+	bool n_out9p0;
+// Switch:9
+	bool n_in9p1 = true;
+	bool n_in9p2 = false;
+	if (n_out8p0) {
+		n_out9p0 = n_in9p1;
+	} else {
+		n_out9p0 = n_in9p2;
+	}
+
+
+// FloatOp:11
+	float n_in11p1 = 16.00000;
+	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
+
+
+// FloatOp:6
+	float n_out6p0 = n_out4p0 * n_out11p0;
+
+
+// FloatFunc:5
+	float n_out5p0 = sin(n_out6p0);
+
+
+// FloatOp:15
+	float n_in15p0 = 0.80000;
+	float n_out15p0 = min(n_in15p0, n_out5p0);
+
+
+// FloatConstant:13
+	float n_out13p0 = 0.000000;
+
+
+// FloatConstant:14
+	float n_out14p0 = 0.160000;
+
+
+// FloatConstant:12
+	float n_out12p0 = 1.000000;
+
+
+// ColorConstant:16
+	vec4 n_out16p0 = vec4(3.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Output:0
+	ALBEDO = vec3(n_out3p0.xyz);
+	ALPHA = n_out15p0;
+	METALLIC = n_out13p0;
+	ROUGHNESS = n_out14p0;
+	SPECULAR = n_out12p0;
+	EMISSION = vec3(n_out16p0.xyz);
+
+
+}
+"
+nodes/fragment/0/position = Vector2(980, -120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_557r7")
+nodes/fragment/3/position = Vector2(480, -160)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_sik8l")
+nodes/fragment/4/position = Vector2(-800, 140)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_jdedf")
+nodes/fragment/5/position = Vector2(-20, 120)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_is2fb")
+nodes/fragment/6/position = Vector2(-260, 240)
+nodes/fragment/8/node = SubResource("VisualShaderNodeBooleanParameter_u4nt1")
+nodes/fragment/8/position = Vector2(-1160, 200)
+nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_4nrf1")
+nodes/fragment/9/position = Vector2(-800, 300)
+nodes/fragment/11/node = SubResource("VisualShaderNodeFloatOp_tqc8k")
+nodes/fragment/11/position = Vector2(-520, 320)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatConstant_nphp4")
+nodes/fragment/12/position = Vector2(500, 280)
+nodes/fragment/13/node = SubResource("VisualShaderNodeFloatConstant_b7idi")
+nodes/fragment/13/position = Vector2(500, 200)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatConstant_05e6d")
+nodes/fragment/14/position = Vector2(480, 380)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_btyvk")
+nodes/fragment/15/position = Vector2(180, 20)
+nodes/fragment/16/node = SubResource("VisualShaderNodeColorConstant_3yqlt")
+nodes/fragment/16/position = Vector2(500, 480)
+nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 12, 0, 0, 4, 13, 0, 0, 2, 14, 0, 0, 3, 15, 0, 0, 1, 5, 0, 15, 1, 16, 0, 0, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d4qud"]
 render_priority = 0
-shader = ExtResource("12_81ver")
+shader = SubResource("VisualShader_2ysrm")
+shader_parameter/Flashing = false
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_dacsb"]
-material = SubResource("ShaderMaterial_86c15")
-top_radius = 0.17
-bottom_radius = 0.17
-height = 0.01
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oq071"]
+next_pass = SubResource("ShaderMaterial_d4qud")
+transparency = 1
+albedo_color = Color(0.141176, 0.141176, 0.141176, 0.466667)
+metallic_specular = 1.0
+roughness = 0.16
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x86wp"]
+material = SubResource("StandardMaterial3D_oq071")
+radius = 0.03
+height = 0.12
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pfs5w"]
+height = 0.298209
+radius = 0.12
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_5mnuw"]
+default_input_values = [0, 0.0, 1, 16.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_y7xav"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_2ib5c"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_o7idl"]
+constant = 0.16
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_nsuv7"]
+output_port_for_preview = 0
+default_input_values = [0, 0.8, 1, 0.9]
+operator = 7
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_udh3t"]
+constant = Color(3, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_xhyxi"]
+constant = Color(1, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_tpxw8"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_qa7wc"]
+output_port_for_preview = 0
+function = 0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_74prm"]
+default_input_values = [0, 0.0, 1, 8.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_oim0i"]
+parameter_name = "Flashing"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_v1tpj"]
+default_input_values = [0, false, 1, true, 2, false]
+op_type = 6
+
+[sub_resource type="VisualShader" id="VisualShader_e3ctj"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform bool Flashing = false;
+
+
+
+void fragment() {
+// ColorConstant:3
+	vec4 n_out3p0 = vec4(1.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Input:4
+	float n_out4p0 = TIME;
+
+
+// BooleanParameter:8
+	bool n_out8p0 = Flashing;
+
+
+	bool n_out9p0;
+// Switch:9
+	bool n_in9p1 = true;
+	bool n_in9p2 = false;
+	if (n_out8p0) {
+		n_out9p0 = n_in9p1;
+	} else {
+		n_out9p0 = n_in9p2;
+	}
+
+
+// FloatOp:11
+	float n_in11p1 = 16.00000;
+	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
+
+
+// FloatOp:6
+	float n_out6p0 = n_out4p0 * n_out11p0;
+
+
+// FloatFunc:5
+	float n_out5p0 = sin(n_out6p0);
+
+
+// FloatOp:15
+	float n_in15p0 = 0.80000;
+	float n_out15p0 = min(n_in15p0, n_out5p0);
+
+
+// FloatConstant:13
+	float n_out13p0 = 0.000000;
+
+
+// FloatConstant:14
+	float n_out14p0 = 0.160000;
+
+
+// FloatConstant:12
+	float n_out12p0 = 1.000000;
+
+
+// ColorConstant:16
+	vec4 n_out16p0 = vec4(3.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Output:0
+	ALBEDO = vec3(n_out3p0.xyz);
+	ALPHA = n_out15p0;
+	METALLIC = n_out13p0;
+	ROUGHNESS = n_out14p0;
+	SPECULAR = n_out12p0;
+	EMISSION = vec3(n_out16p0.xyz);
+
+
+}
+"
+nodes/fragment/0/position = Vector2(980, -120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_xhyxi")
+nodes/fragment/3/position = Vector2(480, -160)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_tpxw8")
+nodes/fragment/4/position = Vector2(-800, 140)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_qa7wc")
+nodes/fragment/5/position = Vector2(-20, 120)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_74prm")
+nodes/fragment/6/position = Vector2(-260, 240)
+nodes/fragment/8/node = SubResource("VisualShaderNodeBooleanParameter_oim0i")
+nodes/fragment/8/position = Vector2(-1160, 200)
+nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_v1tpj")
+nodes/fragment/9/position = Vector2(-800, 300)
+nodes/fragment/11/node = SubResource("VisualShaderNodeFloatOp_5mnuw")
+nodes/fragment/11/position = Vector2(-520, 320)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatConstant_y7xav")
+nodes/fragment/12/position = Vector2(500, 280)
+nodes/fragment/13/node = SubResource("VisualShaderNodeFloatConstant_2ib5c")
+nodes/fragment/13/position = Vector2(500, 200)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatConstant_o7idl")
+nodes/fragment/14/position = Vector2(480, 380)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_nsuv7")
+nodes/fragment/15/position = Vector2(180, 20)
+nodes/fragment/16/node = SubResource("VisualShaderNodeColorConstant_udh3t")
+nodes/fragment/16/position = Vector2(500, 480)
+nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 12, 0, 0, 4, 13, 0, 0, 2, 14, 0, 0, 3, 15, 0, 0, 1, 5, 0, 15, 1, 16, 0, 0, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jlsrd"]
+render_priority = 0
+shader = SubResource("VisualShader_e3ctj")
+shader_parameter/Flashing = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nybn5"]
+next_pass = SubResource("ShaderMaterial_jlsrd")
+transparency = 1
+albedo_color = Color(0.141176, 0.141176, 0.141176, 0.466667)
+metallic_specular = 1.0
+roughness = 0.16
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_c5aeb"]
+material = SubResource("StandardMaterial3D_nybn5")
+radius = 0.03
+height = 0.12
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_h3xnf"]
+default_input_values = [0, 0.0, 1, 16.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_c1vfn"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_clsb1"]
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_2e5uw"]
+constant = 0.16
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_tylwd"]
+output_port_for_preview = 0
+default_input_values = [0, 0.8, 1, 0.9]
+operator = 7
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_ctr5e"]
+constant = Color(3, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_rbt2g"]
+constant = Color(1, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_nw7km"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_uscys"]
+output_port_for_preview = 0
+function = 0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_l037b"]
+default_input_values = [0, 0.0, 1, 8.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_v6fwd"]
+parameter_name = "Flashing"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_7ufqn"]
+default_input_values = [0, false, 1, true, 2, false]
+op_type = 6
+
+[sub_resource type="VisualShader" id="VisualShader_ype0p"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform bool Flashing = false;
+
+
+
+void fragment() {
+// ColorConstant:3
+	vec4 n_out3p0 = vec4(1.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Input:4
+	float n_out4p0 = TIME;
+
+
+// BooleanParameter:8
+	bool n_out8p0 = Flashing;
+
+
+	bool n_out9p0;
+// Switch:9
+	bool n_in9p1 = true;
+	bool n_in9p2 = false;
+	if (n_out8p0) {
+		n_out9p0 = n_in9p1;
+	} else {
+		n_out9p0 = n_in9p2;
+	}
+
+
+// FloatOp:11
+	float n_in11p1 = 16.00000;
+	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
+
+
+// FloatOp:6
+	float n_out6p0 = n_out4p0 * n_out11p0;
+
+
+// FloatFunc:5
+	float n_out5p0 = sin(n_out6p0);
+
+
+// FloatOp:15
+	float n_in15p0 = 0.80000;
+	float n_out15p0 = min(n_in15p0, n_out5p0);
+
+
+// FloatConstant:13
+	float n_out13p0 = 0.000000;
+
+
+// FloatConstant:14
+	float n_out14p0 = 0.160000;
+
+
+// FloatConstant:12
+	float n_out12p0 = 1.000000;
+
+
+// ColorConstant:16
+	vec4 n_out16p0 = vec4(3.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Output:0
+	ALBEDO = vec3(n_out3p0.xyz);
+	ALPHA = n_out15p0;
+	METALLIC = n_out13p0;
+	ROUGHNESS = n_out14p0;
+	SPECULAR = n_out12p0;
+	EMISSION = vec3(n_out16p0.xyz);
+
+
+}
+"
+nodes/fragment/0/position = Vector2(980, -120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_rbt2g")
+nodes/fragment/3/position = Vector2(480, -160)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_nw7km")
+nodes/fragment/4/position = Vector2(-800, 140)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_uscys")
+nodes/fragment/5/position = Vector2(-20, 120)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_l037b")
+nodes/fragment/6/position = Vector2(-260, 240)
+nodes/fragment/8/node = SubResource("VisualShaderNodeBooleanParameter_v6fwd")
+nodes/fragment/8/position = Vector2(-1160, 200)
+nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_7ufqn")
+nodes/fragment/9/position = Vector2(-800, 300)
+nodes/fragment/11/node = SubResource("VisualShaderNodeFloatOp_h3xnf")
+nodes/fragment/11/position = Vector2(-520, 320)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatConstant_c1vfn")
+nodes/fragment/12/position = Vector2(500, 280)
+nodes/fragment/13/node = SubResource("VisualShaderNodeFloatConstant_clsb1")
+nodes/fragment/13/position = Vector2(500, 200)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatConstant_2e5uw")
+nodes/fragment/14/position = Vector2(480, 380)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_tylwd")
+nodes/fragment/15/position = Vector2(180, 20)
+nodes/fragment/16/node = SubResource("VisualShaderNodeColorConstant_ctr5e")
+nodes/fragment/16/position = Vector2(500, 480)
+nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 12, 0, 0, 4, 13, 0, 0, 2, 14, 0, 0, 3, 15, 0, 0, 1, 5, 0, 15, 1, 16, 0, 0, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_67erf"]
+render_priority = 0
+shader = SubResource("VisualShader_ype0p")
+shader_parameter/Flashing = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3rdy"]
+next_pass = SubResource("ShaderMaterial_67erf")
+transparency = 1
+albedo_color = Color(0.141176, 0.141176, 0.141176, 0.466667)
+metallic_specular = 1.0
+roughness = 0.16
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_054om"]
+material = SubResource("StandardMaterial3D_f3rdy")
+radius = 0.03
+height = 0.12
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tqhsi"]
 size = Vector3(1, 0.214042, 1)
@@ -366,177 +1039,206 @@ horizontal_alignment = 0
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7dit6")
 
-[node name="WHACKmachine" parent="." instance=ExtResource("2_utxrc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+[node name="NewWhackMachine" parent="." instance=ExtResource("2_3ylu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 
-[node name="Screen" parent="WHACKmachine" index="1"]
-transform = Transform3D(-1.31134e-09, 0, -0.377, 0, 0.246, 0, 0.03, 0, -1.64792e-08, 0, 1.13698, -0.645)
+[node name="ComboBonus" type="Node3D" parent="NewWhackMachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.896781, 1.56951, -0.283243)
 
-[node name="ScreenFrame" parent="WHACKmachine" index="2"]
-visible = false
-surface_material_override/0 = null
-
-[node name="ComboBonus" type="Node3D" parent="WHACKmachine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.78206, 1.39163, -0.373427)
-
-[node name="ComboHolder" type="MeshInstance3D" parent="WHACKmachine/ComboBonus"]
-transform = Transform3D(0.231435, -0.834529, 0.5, 0.963631, 0.267238, 0, -0.133619, 0.481815, 0.866026, 0.295102, -0.385515, -0.324228)
-mesh = SubResource("CylinderMesh_jlb5l")
-
-[node name="Comboboard" type="MeshInstance3D" parent="WHACKmachine/ComboBonus"]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.0608333, -0.0797756, -0.124437)
-mesh = SubResource("BoxMesh_u42rq")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WHACKmachine/ComboBonus/Comboboard"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.045)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/ComboBonus"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.0383333, -0.0797756, -0.0854659)
 mesh = SubResource("BoxMesh_4lm6s")
+skeleton = NodePath("../Comboboard")
 
-[node name="ComboText" type="MeshInstance3D" parent="WHACKmachine/ComboBonus/Comboboard"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.001, 0.115, 0.073)
+[node name="ComboText" type="MeshInstance3D" parent="NewWhackMachine/ComboBonus"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.0251993, 0.0352244, -0.0607172)
 mesh = SubResource("TextMesh_3f010")
-skeleton = NodePath("../..")
 
-[node name="ComboCounter" type="MeshInstance3D" parent="WHACKmachine/ComboBonus/Comboboard/ComboText"]
+[node name="ComboCounter" type="MeshInstance3D" parent="NewWhackMachine/ComboBonus/ComboText"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17126, 0)
 mesh = SubResource("TextMesh_rqqt5")
 
-[node name="HighestComboText" type="MeshInstance3D" parent="WHACKmachine/ComboBonus"]
+[node name="Comboboard" type="MeshInstance3D" parent="NewWhackMachine/ComboBonus"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.0608333, -0.0797756, -0.124437)
+visible = false
+mesh = SubResource("BoxMesh_u42rq")
+
+[node name="HighestComboText" type="MeshInstance3D" parent="NewWhackMachine/ComboBonus"]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.0876902, -0.277, -0.0401999)
 mesh = SubResource("TextMesh_lgujk")
 
-[node name="HighestCombo" type="MeshInstance3D" parent="WHACKmachine/ComboBonus/HighestComboText"]
+[node name="HighestCombo" type="MeshInstance3D" parent="NewWhackMachine/ComboBonus/HighestComboText"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.193331, 0, 1.0252e-05)
 mesh = SubResource("TextMesh_022s1")
 
-[node name="Title" parent="WHACKmachine" instance=ExtResource("3_qd3qp")]
-transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 0, 1.087, -0.671917)
+[node name="Lives" type="Node3D" parent="NewWhackMachine"]
+transform = Transform3D(0.57, 8.25575e-09, 6.79205e-10, -8.25575e-09, 0.57, 0, -6.79205e-10, -9.83744e-18, 0.57, -0.2, 0.817119, -0.502)
 
-[node name="Lives" type="Node3D" parent="WHACKmachine"]
-transform = Transform3D(0.57, 8.25575e-09, 6.79205e-10, -8.25575e-09, 0.57, 0, -6.79205e-10, -9.83744e-18, 0.57, -0.25, 0.735532, -0.608577)
-
-[node name="LivesBlock" type="MeshInstance3D" parent="WHACKmachine/Lives"]
+[node name="LivesBlock" type="MeshInstance3D" parent="NewWhackMachine/Lives"]
 transform = Transform3D(1, 0, 7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_2xuof")
 metadata/_edit_group_ = true
 
-[node name="LivesCounter" type="MeshInstance3D" parent="WHACKmachine/Lives/LivesBlock"]
+[node name="LivesCounter" type="MeshInstance3D" parent="NewWhackMachine/Lives/LivesBlock"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
 mesh = SubResource("TextMesh_5xp3d")
 
-[node name="LivesText" type="MeshInstance3D" parent="WHACKmachine/Lives"]
+[node name="LivesText" type="MeshInstance3D" parent="NewWhackMachine/Lives"]
 transform = Transform3D(1, 2.66454e-14, 0, -1.86517e-14, 1, 2.08616e-07, 1.42109e-14, -2.08616e-07, 1, 0.04, 0.175, 0)
 mesh = SubResource("TextMesh_q3gto")
 
-[node name="Score" type="Node3D" parent="WHACKmachine"]
-transform = Transform3D(0.57, 8.25577e-09, 6.79266e-10, -8.25577e-09, 0.57, 0, -6.79266e-10, -9.83836e-18, 0.57, 0.25, 0.735532, -0.608577)
+[node name="Score" type="Node3D" parent="NewWhackMachine"]
+transform = Transform3D(0.57, 8.25577e-09, 6.79266e-10, -8.25577e-09, 0.57, 0, -6.79266e-10, -9.83836e-18, 0.57, 0.2, 0.817119, -0.502)
 
-[node name="ScoreBlock" type="MeshInstance3D" parent="WHACKmachine/Score"]
+[node name="ScoreBlock" type="MeshInstance3D" parent="NewWhackMachine/Score"]
 mesh = SubResource("BoxMesh_2xuof")
 metadata/_edit_group_ = true
 
-[node name="ScoreCounter" type="MeshInstance3D" parent="WHACKmachine/Score/ScoreBlock"]
+[node name="ScoreCounter" type="MeshInstance3D" parent="NewWhackMachine/Score/ScoreBlock"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
 mesh = SubResource("TextMesh_0mb6q")
 
-[node name="ScoreText" type="MeshInstance3D" parent="WHACKmachine/Score"]
+[node name="ScoreText" type="MeshInstance3D" parent="NewWhackMachine/Score"]
 transform = Transform3D(1, 1.77636e-15, -7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0.04, 0.175, 0)
 mesh = SubResource("TextMesh_8o3ij")
 
-[node name="CounterSound" type="AudioStreamPlayer3D" parent="WHACKmachine/Score"]
+[node name="CounterSound" type="AudioStreamPlayer3D" parent="NewWhackMachine/Score"]
 unique_name_in_owner = true
 stream = ExtResource("9_r60t1")
 volume_db = -20.0
 bus = &"SFX"
 
-[node name="OmniLight3D" type="SpotLight3D" parent="WHACKmachine"]
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 2.58462, 0)
+[node name="OmniLight3D" type="SpotLight3D" parent="NewWhackMachine"]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 3.08462, 0)
 light_color = Color(0.568627, 0.568627, 1, 1)
 light_energy = 4.624
 spot_range = 6.292
 
-[node name="Holes" type="Node3D" parent="WHACKmachine"]
+[node name="Holes" type="Node3D" parent="NewWhackMachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0238988, 0)
 
-[node name="TopHole" type="Area3D" parent="WHACKmachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, -0.35)
+[node name="TopMiddleHole" type="Area3D" parent="NewWhackMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.564, -0.21)
 script = ExtResource("8_dxwf0")
 
-[node name="Top" type="MeshInstance3D" parent="WHACKmachine/Holes/TopHole"]
-unique_name_in_owner = true
-mesh = SubResource("CylinderMesh_7wwu5")
-skeleton = NodePath("")
-script = ExtResource("8_ngyci")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Holes/TopHole"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/TopMiddleHole"]
 shape = SubResource("CylinderShape3D_uq8xj")
 
-[node name="LeftHole" type="Area3D" parent="WHACKmachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.563582, 0)
-script = ExtResource("8_dxwf0")
-
-[node name="Left" type="MeshInstance3D" parent="WHACKmachine/Holes/LeftHole"]
+[node name="TopMiddleBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopMiddleHole"]
 unique_name_in_owner = true
-mesh = SubResource("CylinderMesh_6r6q6")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165303)
+mesh = SubResource("CapsuleMesh_b4736")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Holes/LeftHole"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopMiddleHole/TopMiddleBulb"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
+mesh = SubResource("CylinderMesh_7hxv4")
+skeleton = NodePath("../..")
+
+[node name="TopLeftHole" type="Area3D" parent="NewWhackMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.564, -0.21)
+script = ExtResource("8_dxwf0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/TopLeftHole"]
 shape = SubResource("CylinderShape3D_1l3pr")
 
-[node name="BottomHole" type="Area3D" parent="WHACKmachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.563582, 0.35)
-script = ExtResource("8_dxwf0")
-
-[node name="Bottom" type="MeshInstance3D" parent="WHACKmachine/Holes/BottomHole"]
+[node name="TopLeftBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopLeftHole"]
 unique_name_in_owner = true
-mesh = SubResource("CylinderMesh_2ern8")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165)
+mesh = SubResource("CapsuleMesh_djttp")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Holes/BottomHole"]
-shape = SubResource("CylinderShape3D_pfs5w")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopLeftHole/TopLeftBulb"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
+mesh = SubResource("CylinderMesh_7hxv4")
+skeleton = NodePath("../..")
 
-[node name="RightHole" type="Area3D" parent="WHACKmachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.563582, 0)
+[node name="TopRightHole" type="Area3D" parent="NewWhackMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.564, -0.21)
 script = ExtResource("8_dxwf0")
 
-[node name="Right" type="MeshInstance3D" parent="WHACKmachine/Holes/RightHole"]
-unique_name_in_owner = true
-mesh = SubResource("CylinderMesh_d2oj1")
-skeleton = NodePath("")
-script = ExtResource("8_ngyci")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/Holes/RightHole"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/TopRightHole"]
 shape = SubResource("CylinderShape3D_m2t5p")
 
-[node name="SelectedHoleHighlighter" type="MeshInstance3D" parent="WHACKmachine"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.345465, 0.607094, -3.02015e-08)
-mesh = SubResource("CylinderMesh_dacsb")
-skeleton = NodePath("../../Mole")
+[node name="TopRightBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopRightHole"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165)
+mesh = SubResource("CapsuleMesh_x86wp")
+skeleton = NodePath("")
+script = ExtResource("8_ngyci")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopRightHole/TopRightBulb"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
+mesh = SubResource("CylinderMesh_7hxv4")
+skeleton = NodePath("../..")
+
+[node name="BottomLeftHole" type="Area3D" parent="NewWhackMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.564, 0.05)
+script = ExtResource("8_dxwf0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/BottomLeftHole"]
+shape = SubResource("CylinderShape3D_pfs5w")
+
+[node name="BottomLeftBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomLeftHole"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165)
+mesh = SubResource("CapsuleMesh_c5aeb")
+skeleton = NodePath("")
+script = ExtResource("8_ngyci")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomLeftHole/BottomLeftBulb"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
+mesh = SubResource("CylinderMesh_7hxv4")
+skeleton = NodePath("../..")
+
+[node name="BottomRightHole" type="Area3D" parent="NewWhackMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.564, 0.05)
+script = ExtResource("8_dxwf0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/BottomRightHole"]
+shape = SubResource("CylinderShape3D_m2t5p")
+
+[node name="BottomRightBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomRightHole"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165)
+mesh = SubResource("CapsuleMesh_054om")
+skeleton = NodePath("")
+script = ExtResource("8_ngyci")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomRightHole/BottomRightBulb"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
+mesh = SubResource("CylinderMesh_7hxv4")
+skeleton = NodePath("../..")
+
+[node name="SelectedHoleHighlighter2" parent="NewWhackMachine" instance=ExtResource("16_ia14k")]
+transform = Transform3D(0.135, 0, 0, 0, 0.002, 0, 0, 0, 0.135, 0, 0.62, -0.21)
 script = ExtResource("13_pxcx6")
 
-[node name="Node3D4" parent="WHACKmachine" instance=ExtResource("13_sdma7")]
+[node name="Node3D4" parent="NewWhackMachine" instance=ExtResource("13_sdma7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0129501, 0.118684)
 
-[node name="DirectionalLight3D" parent="WHACKmachine/Node3D4" index="1"]
+[node name="DirectionalLight3D" parent="NewWhackMachine/Node3D4" index="1"]
 transform = Transform3D(1, 0, 0, 0, 0.175865, 0.984414, 0, -0.984414, 0.175865, 0, 0.533121, 2.10857)
 
-[node name="MissArea" type="Area3D" parent="WHACKmachine"]
+[node name="MissArea" type="Area3D" parent="NewWhackMachine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 visible = false
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WHACKmachine/MissArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/MissArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592885, 0)
 shape = SubResource("BoxShape3D_tqhsi")
 
-[node name="coinslot" parent="WHACKmachine" instance=ExtResource("16_em7tp")]
-
 [node name="Mole" type="Area3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.369, 1.08128, -0.00996652)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14241, -0.21)
 script = ExtResource("18_fkm07")
 metadata/_edit_group_ = true
 
@@ -1007,10 +1709,11 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 
-[connection signal="area_entered" from="WHACKmachine/Holes/TopHole" to="WHACKmachine/Holes/TopHole" method="_on_area_entered"]
-[connection signal="area_entered" from="WHACKmachine/Holes/LeftHole" to="WHACKmachine/Holes/LeftHole" method="_on_area_entered"]
-[connection signal="area_entered" from="WHACKmachine/Holes/BottomHole" to="WHACKmachine/Holes/BottomHole" method="_on_area_entered"]
-[connection signal="area_entered" from="WHACKmachine/Holes/RightHole" to="WHACKmachine/Holes/RightHole" method="_on_area_entered"]
+[connection signal="area_entered" from="NewWhackMachine/Holes/TopMiddleHole" to="NewWhackMachine/Holes/TopMiddleHole" method="_on_area_entered"]
+[connection signal="area_entered" from="NewWhackMachine/Holes/TopLeftHole" to="NewWhackMachine/Holes/TopLeftHole" method="_on_area_entered"]
+[connection signal="area_entered" from="NewWhackMachine/Holes/TopRightHole" to="NewWhackMachine/Holes/TopRightHole" method="_on_area_entered"]
+[connection signal="area_entered" from="NewWhackMachine/Holes/BottomLeftHole" to="NewWhackMachine/Holes/BottomLeftHole" method="_on_area_entered"]
+[connection signal="area_entered" from="NewWhackMachine/Holes/BottomRightHole" to="NewWhackMachine/Holes/BottomRightHole" method="_on_area_entered"]
 [connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
 [connection signal="area_entered" from="Mole" to="Mole" method="_on_area_entered"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
@@ -1032,7 +1735,6 @@ color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]
 [connection signal="timeout" from="ComboCoinTimer" to="." method="_on_combo_coin_timer_timeout"]
 
-[editable path="WHACKmachine"]
-[editable path="WHACKmachine/Node3D4"]
-[editable path="WHACKmachine/Node3D4/WoodenSign/woodenplank"]
+[editable path="NewWhackMachine/Node3D4"]
+[editable path="NewWhackMachine/Node3D4/WoodenSign/woodenplank"]
 [editable path="Node3D/arcademachine"]

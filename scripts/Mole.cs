@@ -31,6 +31,7 @@ public partial class Mole : Area3D
     public int HighestCombo;
     public float PopSpeed { get; set; }
     public float OutTooLongTime { get; set; }
+    int CurrentHole = 0;
     public override void _Ready()
     {
         OutTooLongTime = 1;
@@ -53,17 +54,19 @@ public partial class Mole : Area3D
         RNG = new RandomNumberGenerator();
 
         Holes = new Vector3[]{
-            new Vector3(0, 0.85f, -0.35f), //up (W)
-            new Vector3(-0.35f, 0.85f, 0), //left (A)
-            new Vector3(0, 0.85f, 0.35f), //down (S)
-            new Vector3(0.35f, 0.85f, 0) //right (D))
+            new (-0.3f, 1.142f, -0.21f), //top left (W)
+            new (0, 1.142f, -0.21f), //top middle (A)
+            new (0.3f, 1.142f, -0.21f), //top right (S)
+            new (-0.15f, 1.142f, 0.05f), //bottom left (D))
+            new (0.15f, 1.142f, 0.05f) //bottom right (D))
             };
         HoleDictionary = new Dictionary()
         {
-            {"Top",Holes[0]},
-            {"Left",Holes[1]},
-            {"Down",Holes[2]},
-            {"Right",Holes[3]}
+            {"TopLeft",Holes[0]},
+            {"TopMiddle",Holes[1]},
+            {"TopRight",Holes[2]},
+            {"BottomLeft",Holes[3]},
+            {"BottomRight",Holes[4]}
         };
         ChosenHole = Holes[0];
         Position = Holes[0];
@@ -119,31 +122,63 @@ public partial class Mole : Area3D
                 IFrames--;
             }
 
-
             if (Input.IsActionJustPressed("top_hole"))
             {
                 Move.Play();
-                ChosenHole = Holes[0];
+                if (CurrentHole == 3)
+                {
+                    CurrentHole = 0;
+                }
+                if (CurrentHole == 4)
+                {
+                    CurrentHole = 2;
+                }
+                ChosenHole = Holes[CurrentHole];
                 PopDown();
             }
             if (Input.IsActionJustPressed("left_hole"))
             {
                 Move.Play();
-                ChosenHole = Holes[1];
+                if (CurrentHole > 0)
+                {
+                    CurrentHole--;
+                }
+                if (CurrentHole > 3)
+                {
+                    CurrentHole--;
+                }
+                ChosenHole = Holes[CurrentHole];
                 PopDown();
             }
             if (Input.IsActionJustPressed("bottom_hole"))
             {
                 Move.Play();
-                ChosenHole = Holes[2];
+                if (CurrentHole == 0)
+                {
+                    CurrentHole = 3;
+                }
+                if (CurrentHole == 2)
+                {
+                    CurrentHole = 4;
+                }
+                if (CurrentHole == 1)
+                {
+                    CurrentHole = 4;
+                }
+                ChosenHole = Holes[CurrentHole];
                 PopDown();
             }
             if (Input.IsActionJustPressed("right_hole"))
             {
                 Move.Play();
-                ChosenHole = Holes[3];
+                if (CurrentHole < 4)
+                {
+                    CurrentHole++;
+                }
+                ChosenHole = Holes[CurrentHole];
                 PopDown();
             }
+
             if (!Down && !Paused)
             {
                 ScoreAcceleration += 0.005f * ComboBonus;

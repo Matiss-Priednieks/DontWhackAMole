@@ -30,15 +30,16 @@ public partial class Coin : Area3D
         Collected = GetNode<AudioStreamPlayer3D>("%Collected");
         Shatter = GetNode<AudioStreamPlayer3D>("%Shatter");
         Holes = new Vector3[]{
-            new Vector3(0, 0.85f, -0.35f), //up (W)
-            new Vector3(-0.35f, 0.85f, 0), //left (A)
-            new Vector3(0, 0.85f, 0.35f), //down (S)
-            new Vector3(0.35f, 0.85f, 0) //right (D))
+            new (-0.3f, 1.142f, -0.21f), //top left (W)
+            new (0, 1.142f, -0.21f), //top middle (A)
+            new (0.3f, 1.142f, -0.21f), //top right (S)
+            new (-0.15f, 1.142f, 0.05f), //bottom left (D))
+            new (0.15f, 1.142f, 0.05f) //bottom right (D))
             };
         GD.Randomize();
         MoleRef = GetNode<Mole>("../Mole");
         MalletRef = GetNode<Mallet>("../Mallet");
-        ComboCounter = GetNode<MeshInstance3D>("../WHACKmachine/ComboBonus/Comboboard/ComboText/ComboCounter");
+        ComboCounter = GetNode<MeshInstance3D>("../NewWhackMachine/ComboBonus/ComboText/ComboCounter");
         CoinMesh = GetNode<MeshInstance3D>("%CoinMesh");
         CoinBreakParticle = GetNode<GpuParticles3D>("%CoinBreakParticle");
         CoinCollider = GetNode<CollisionShape3D>("%CoinCollider");

@@ -1,8 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bjqfg2cg7ojt7"]
 
-[ext_resource type="Shader" uid="uid://b18r3l1vt83on" path="res://resources/RightFlashShader.tres" id="1_qemr5"]
+[ext_resource type="Shader" uid="uid://q465v5qungxg" path="res://assets/shaders/bulb/TopLMiddleBulb.tres" id="1_kea71"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_qemr5")
+shader = ExtResource("1_kea71")
 shader_parameter/Flashing = false

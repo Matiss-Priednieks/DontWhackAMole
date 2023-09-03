@@ -34,18 +34,20 @@ public partial class Mallet : Area3D
         PopOutTimer = GetNode<Timer>("%PopOutTimer");
         StartPosition = new Vector3(-0.8f, 1.325f, -0.115f);
         Holes = new Vector3[]{
-            new Vector3(0, 0.85f, -0.35f),
-            new Vector3(-0.35f, 0.85f, 0),
-            new Vector3(0, 0.85f, 0.35f),
-            new Vector3(0.35f, 0.85f, 0)
+            new (-0.3f, 1.142f, -0.21f), //top left (W)
+            new (0, 1.142f, -0.21f), //top middle (A)
+            new (0.3f, 1.142f, -0.21f), //top right (S)
+            new (-0.15f, 1.142f, 0.05f), //bottom left (D))
+            new (0.15f, 1.142f, 0.05f) //bottom right (D))
             };
 
         HoleDictionary = new Dictionary()
         {
-            {0,"%Top"},
-            {1,"%Left"},
-            {2,"%Bottom"},
-            {3,"%Right"}
+            {0,"%TopLeftBulb"},
+            {1,"%TopMiddleBulb"},
+            {2,"%TopRightBulb"},
+            {3,"%BottomLeftBulb"},
+            {4,"%BottomRightBulb"}
         };
         HoleIndex = GD.RandRange(0, 3);
         NextHit = Holes[HoleIndex];

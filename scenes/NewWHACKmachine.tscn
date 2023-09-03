@@ -1,7 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bvbmsl56sqem"]
+[gd_scene load_steps=17 format=3 uid="uid://t4m0b16vwc43"]
 
-[ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="1_seysm"]
-[ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="2_c3d12"]
+[ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="1_god1s"]
+[ext_resource type="PackedScene" uid="uid://8lm2kikw4jyi" path="res://scenes/BetterArcadeMachine.glb" id="1_va6ax"]
+[ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="2_0ovb7"]
+[ext_resource type="PackedScene" uid="uid://i51y5mf06k3x" path="res://scenes/title.tscn" id="4_ui3qv"]
+[ext_resource type="PackedScene" uid="uid://brg54618alwt2" path="res://scenes/BetterArcadeMachine.tscn" id="5_qdlfj"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3ls3g"]
 noise_type = 3
@@ -14,7 +17,7 @@ noise = SubResource("FastNoiseLite_3ls3g")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ie75"]
 diffuse_mode = 3
-albedo_texture = ExtResource("1_seysm")
+albedo_texture = ExtResource("1_god1s")
 metallic = 0.49
 metallic_specular = 0.6
 roughness_texture = SubResource("NoiseTexture2D_ix7cg")
@@ -71,7 +74,7 @@ _surfaces = [{
 "format": 4119,
 "index_count": 36,
 "index_data": PackedByteArray(0, 0, 9, 0, 3, 0, 0, 0, 6, 0, 9, 0, 8, 0, 21, 0, 10, 0, 8, 0, 19, 0, 21, 0, 20, 0, 17, 0, 23, 0, 20, 0, 14, 0, 17, 0, 13, 0, 4, 0, 15, 0, 13, 0, 2, 0, 4, 0, 7, 0, 12, 0, 18, 0, 7, 0, 1, 0, 12, 0, 22, 0, 5, 0, 11, 0, 22, 0, 16, 0, 5, 0),
-"material": ExtResource("2_c3d12"),
+"material": ExtResource("2_0ovb7"),
 "primitive": 3,
 "vertex_count": 24,
 "vertex_data": PackedByteArray(0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 128, 63, 255, 127, 0, 0, 255, 255, 255, 191, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 128, 63, 255, 127, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 128, 63, 255, 127, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 128, 63, 255, 127, 255, 255, 0, 0, 255, 191, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 128, 191, 255, 127, 0, 0, 255, 255, 255, 191, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 128, 191, 255, 255, 255, 255, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 255, 127, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 128, 191, 255, 255, 255, 255, 255, 127, 255, 255, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 128, 191, 255, 127, 255, 255, 0, 0, 255, 191, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 128, 63, 255, 127, 0, 0, 255, 255, 255, 191, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 128, 63, 255, 127, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 128, 63, 255, 255, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 255, 127, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 255, 127, 255, 255, 0, 0, 255, 191, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 255, 255, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 128, 191, 255, 127, 0, 0, 255, 255, 255, 191, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 128, 191, 255, 255, 255, 255, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 128, 191, 255, 255, 255, 127, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 191, 255, 255, 255, 255, 255, 127, 255, 255, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 191, 255, 127, 255, 255, 0, 0, 255, 191, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 191, 255, 255, 255, 127, 255, 127, 255, 255)
@@ -114,18 +117,29 @@ albedo_color = Color(0, 0, 0, 1)
 
 [node name="WHACKmachine" type="Node3D"]
 
+[node name="BetterArcadeMachine" parent="." instance=ExtResource("1_va6ax")]
+transform = Transform3D(-0.6, 0, 5.24537e-08, 0, 0.6, 0, -5.24537e-08, 0, -0.6, 0, -0.6, -0.245901)
+visible = false
+
 [node name="ArcadeCab" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -0.6, 0, 0.6, 0, 0.6, 0, 0, 0, 0, 0)
+visible = false
 mesh = SubResource("ArrayMesh_tut8e")
 skeleton = NodePath("")
 
 [node name="Screen" type="MeshInstance3D" parent="."]
-transform = Transform3D(0, 0, -0.376677, 0, 0.325862, 0, 0.0300461, 0, 0, 0, 1.01939, -0.620331)
+transform = Transform3D(0, 0, -0.376677, 0, 0.342052, 0, 0.0300461, 0, 0, 0, 1.08486, -0.527931)
 mesh = SubResource("ArrayMesh_5nbi1")
 skeleton = NodePath("")
 
 [node name="ScreenFrame" type="MeshInstance3D" parent="."]
-transform = Transform3D(0, 0, -0.421295, 0, 0.364461, 0, 0.0145336, 0, 0, 0, 1.01939, -0.616977)
+transform = Transform3D(0, 0, -0.421295, 0, 0.372561, 0, 0.0145336, 0, 0, 0, 1.08687, -0.525542)
 mesh = SubResource("ArrayMesh_j1qxh")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_ihvpo")
+
+[node name="Title" parent="." instance=ExtResource("4_ui3qv")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.11524, -0.530906)
+
+[node name="BetterArcadeMachine2" parent="." instance=ExtResource("5_qdlfj")]
+transform = Transform3D(-0.6, 0, 9.05975e-08, 0, 0.6, 0, -9.05975e-08, 0, -0.6, 0, -0.6, -0.245901)

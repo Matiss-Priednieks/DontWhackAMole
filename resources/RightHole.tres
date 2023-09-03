@@ -4,4 +4,7 @@
 
 [resource]
 next_pass = ExtResource("1_tjqod")
-albedo_color = Color(0.188235, 0.101961, 0, 1)
+transparency = 1
+albedo_color = Color(0.541176, 0.847059, 1, 0.392157)
+metallic_specular = 1.0
+roughness = 0.16

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbo74vm6r2hds"]
+
+[ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="1_rgmkh"]
+[ext_resource type="Material" uid="uid://b1lt464xj8qrb" path="res://assets/RedLED.tres" id="2_t1p8g"]
+
+[sub_resource type="TextMesh" id="TextMesh_5xp3d"]
+material = ExtResource("2_t1p8g")
+text = "3"
+font = ExtResource("1_rgmkh")
+
+[node name="LivesCounter" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
+mesh = SubResource("TextMesh_5xp3d")
