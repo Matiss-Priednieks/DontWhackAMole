@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="DontWhackAMole"
+config/tags=PackedStringArray("rc")
 run/main_scene="res://scenes/BootSplash.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
