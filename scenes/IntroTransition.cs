@@ -28,6 +28,7 @@ public partial class IntroTransition : CanvasLayer
         FadeIn();
         await ToSignal(GetTree().CreateTimer(2f), "timeout");
         colorRect.Hide();
+        Hide();
     }
 
 

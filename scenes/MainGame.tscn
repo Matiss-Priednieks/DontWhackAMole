@@ -1,4 +1,4 @@
-[gd_scene load_steps=148 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=153 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -15,12 +15,15 @@
 [ext_resource type="PackedScene" uid="uid://dxxf315ekx67o" path="res://scenes/ring.tscn" id="16_ia14k"]
 [ext_resource type="Script" path="res://scripts/Mole.cs" id="18_fkm07"]
 [ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/audio/boxing-bell.wav" id="20_kwaa8"]
+[ext_resource type="Texture2D" uid="uid://dtkrqkymxdfvn" path="res://assets/tutorial-image.png" id="21_3qhim"]
 [ext_resource type="Script" path="res://scripts/DebugInfoUI.cs" id="21_bttn8"]
 [ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/audio/penclick.mp3" id="21_ips1i"]
 [ext_resource type="Texture2D" uid="uid://ckmgqmm2dwqyq" path="res://assets/DWAM-transparent-noisy.png" id="22_0f4jb"]
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="22_hwvbv"]
+[ext_resource type="Texture2D" uid="uid://cei7ru7f36oxg" path="res://assets/mobilebuttons/Left_arrow.png" id="23_2gobj"]
 [ext_resource type="Script" path="res://scripts/SettingsMenu.cs" id="23_u3q7w"]
 [ext_resource type="Script" path="res://scripts/Mallet.cs" id="24_dcgg1"]
+[ext_resource type="Texture2D" uid="uid://cowxpmmqivww7" path="res://assets/mobilebuttons/Right_arrow.png" id="24_vq662"]
 [ext_resource type="FontFile" uid="uid://bg77ag14vmue2" path="res://assets/InclusiveSans-Regular.otf" id="25_t8t7d"]
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
@@ -28,7 +31,9 @@
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/audio/miss-smack.wav" id="28_kyjjl"]
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/audio/abouttohit2.0.wav" id="29_8xud1"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
+[ext_resource type="Texture2D" uid="uid://1vprfgjun2j0" path="res://assets/mobilebuttons/Left_arrow_pressed.png" id="33_oh4tb"]
 [ext_resource type="Script" path="res://scenes/IntroTransition.cs" id="33_oyma7"]
+[ext_resource type="Texture2D" uid="uid://bkyhmllgjgjif" path="res://assets/mobilebuttons/Right_arrow_pressed.png" id="34_gjqql"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_4lm6s"]
 material = ExtResource("6_8mjb7")
@@ -1009,7 +1014,6 @@ background_color = Color(0.211765, 0.227451, 1, 1)
 glow_enabled = true
 glow_intensity = 1.03
 glow_bloom = 0.14
-fog_enabled = true
 fog_light_color = Color(0.141176, 0, 0.341176, 1)
 fog_light_energy = 1.09
 fog_density = 0.1795
@@ -1293,6 +1297,7 @@ bus = &"SFX"
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.25, 1.53, -0.9)
+near = 0.001
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
@@ -1346,6 +1351,7 @@ text = "IFrames"
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Menu" type="Control" parent="UI"]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -1413,9 +1419,11 @@ text = "Exit"
 [node name="HelpScreen" type="VBoxContainer" parent="UI/Menu/Intro/MarginContainer"]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(663.545, 0)
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("25_t8t7d")
 theme_override_font_sizes/font_size = 50
@@ -1423,27 +1431,30 @@ text = "Don't get hit by
 the mallet."
 horizontal_alignment = 1
 
-[node name="Label3" type="Label" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("25_t8t7d")
-theme_override_font_sizes/font_size = 50
-text = "The longer you stay out
-the faster your score grows.
-
-Getting hit resets this growth."
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
-layout_mode = 2
-
 [node name="Label2" type="Label" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("25_t8t7d")
 theme_override_font_sizes/font_size = 50
-text = "Controls:
-Esc for Menu
-WASD to choose hole"
+text = "You will pop-out after a short delay
+
+Move to avoid the mallet's
+targeted location."
 horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("25_t8t7d")
+theme_override_font_sizes/font_size = 50
+text = "The longer you're out, the faster
+your score grows!"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
+layout_mode = 2
+texture = ExtResource("21_3qhim")
+expand_mode = 5
 
 [node name="BackHelp" type="Button" parent="UI/Menu/Intro/MarginContainer/HelpScreen"]
 layout_mode = 2
@@ -1457,20 +1468,24 @@ theme_override_constants/separation = 25
 script = ExtResource("23_u3q7w")
 
 [node name="WindowModeLabel" type="Label" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
+visible = false
 layout_mode = 2
 text = "Window Mode"
 horizontal_alignment = 1
 
 [node name="WindowMode" type="OptionButton" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
+visible = false
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
 [node name="ResolutionLabel" type="Label" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
+visible = false
 layout_mode = 2
 text = "Resolution"
 horizontal_alignment = 1
 
 [node name="Resolution" type="OptionButton" parent="UI/Menu/Intro/MarginContainer/SettingsMenu"]
+visible = false
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
@@ -1655,6 +1670,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197
 
 [node name="Node3D2" type="Node3D" parent="."]
 transform = Transform3D(-0.99961, 0, 0.0279215, 0, 1, 0, -0.0279215, 0, -0.99961, 2.88972, 0.5, -4.06418)
+visible = false
 
 [node name="arcademachine" parent="Node3D2" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
@@ -1670,6 +1686,7 @@ transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.1958
 
 [node name="Node3D3" type="Node3D" parent="."]
 transform = Transform3D(-0.0279215, 0, -0.99961, 0, 1, 0, 0.99961, 0, -0.0279215, -1.18806, 0.5, -7.20881)
+visible = false
 
 [node name="arcademachine" parent="Node3D3" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
@@ -1709,6 +1726,39 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="move_left_button" type="TextureButton" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -608.002
+offset_right = 608.0
+grow_vertical = 0
+texture_normal = ExtResource("23_2gobj")
+texture_pressed = ExtResource("33_oh4tb")
+
+[node name="move_right_button" type="TextureButton" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -608.0
+offset_top = -608.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("24_vq662")
+texture_pressed = ExtResource("34_gjqql")
+
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopMiddleHole" to="NewWhackMachine/Holes/TopMiddleHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopLeftHole" to="NewWhackMachine/Holes/TopLeftHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopRightHole" to="NewWhackMachine/Holes/TopRightHole" method="_on_area_entered"]
@@ -1734,6 +1784,8 @@ color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]
 [connection signal="timeout" from="ComboCoinTimer" to="." method="_on_combo_coin_timer_timeout"]
+[connection signal="pressed" from="Control/move_left_button" to="Mole" method="_on_move_left_button_pressed"]
+[connection signal="pressed" from="Control/move_right_button" to="Mole" method="_on_move_right_button_pressed"]
 
 [editable path="NewWhackMachine/Node3D4"]
 [editable path="NewWhackMachine/Node3D4/WoodenSign/woodenplank"]

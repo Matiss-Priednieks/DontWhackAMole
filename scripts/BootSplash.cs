@@ -52,6 +52,7 @@ public partial class BootSplash : CanvasLayer
 		await ToSignal(GetTree().CreateTimer(2f), "timeout");
 
 		GetTree().ChangeSceneToPacked(MainGameScene);
+
 	}
 
 	public void FadeIn()

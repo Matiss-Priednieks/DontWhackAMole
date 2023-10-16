@@ -21,23 +21,23 @@ public partial class SaveManager : Node
 			return;
 		}
 		// Fetch the data for each section.
-		var Resolution = (Vector2I)config.GetValue("Settings", "Resolution");
-		var WindowMode = (String)config.GetValue("Settings", "WindowMode");
+		// var Resolution = (Vector2I)config.GetValue("Settings", "Resolution");
+		// var WindowMode = (String)config.GetValue("Settings", "WindowMode");
 		var MasterVolume = (float)config.GetValue("Volume", "Master");
 		var MusicVolume = (float)config.GetValue("Volume", "Music");
 		var SFXVolume = (float)config.GetValue("Volume", "SFX");
 
 
-		GetTree().Root.ContentScaleSize = Resolution;
+		// GetTree().Root.ContentScaleSize = Resolution;
 
-		if (Window.ModeEnum.Fullscreen.ToString().Equals(WindowMode))
-		{
-			GetWindow().Mode = Window.ModeEnum.Fullscreen;
-		}
-		if (Window.ModeEnum.Windowed.ToString().Equals(WindowMode))
-		{
-			GetWindow().Mode = Window.ModeEnum.Windowed;
-		}
+		// if (Window.ModeEnum.Fullscreen.ToString().Equals(WindowMode))
+		// {
+		// 	GetWindow().Mode = Window.ModeEnum.Fullscreen;
+		// }
+		// if (Window.ModeEnum.Windowed.ToString().Equals(WindowMode))
+		// {
+		// 	GetWindow().Mode = Window.ModeEnum.Windowed;
+		// }
 
 
 		var busIndex = AudioServer.GetBusIndex("Master");
@@ -55,8 +55,8 @@ public partial class SaveManager : Node
 	{
 		var config = new ConfigFile();
 
-		config.SetValue("Settings", "Resolution", GetTree().Root.ContentScaleSize);
-		config.SetValue("Settings", "WindowMode", GetWindow().Mode.ToString());
+		// config.SetValue("Settings", "Resolution", GetTree().Root.ContentScaleSize);
+		// config.SetValue("Settings", "WindowMode", GetWindow().Mode.ToString());
 
 		var busIndex = AudioServer.GetBusIndex("Master");
 		config.SetValue("Volume", "Master", AudioServer.GetBusVolumeDb(busIndex));
