@@ -1006,6 +1006,9 @@ radius = 0.1
 [sub_resource type="Environment" id="Environment_uq3bh"]
 background_mode = 1
 background_color = Color(0.211765, 0.227451, 1, 1)
+tonemap_mode = 2
+ssr_enabled = true
+ssao_enabled = true
 glow_enabled = true
 glow_intensity = 1.03
 glow_bloom = 0.14
@@ -1370,15 +1373,9 @@ stretch_mode = 2
 [node name="Intro" type="PanelContainer" parent="UI/Menu"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -244.0
-offset_top = -263.0
-offset_right = 244.0
-offset_bottom = 263.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -1388,6 +1385,9 @@ theme = ExtResource("22_hwvbv")
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Intro"]
 layout_mode = 2
 theme = ExtResource("22_hwvbv")
+theme_override_constants/margin_left = 800
+theme_override_constants/margin_top = 350
+theme_override_constants/margin_right = 800
 
 [node name="MenuButtons" type="VBoxContainer" parent="UI/Menu/Intro/MarginContainer"]
 unique_name_in_owner = true
@@ -1514,6 +1514,10 @@ size_flags_vertical = 4
 custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 text = "Back"
+
+[node name="Leaderboard" type="PanelContainer" parent="UI/Menu/Intro"]
+layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="GameOver" type="Control" parent="UI"]
 unique_name_in_owner = true
