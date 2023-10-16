@@ -338,6 +338,33 @@ public partial class Mole : Area3D
         }
     }
 
+    public void _on_move_left_button_pressed()
+    {
+        GD.Print("TestLeft");
+        Move.Play();
+        if (CurrentHole > 0)
+        {
+            CurrentHole--;
+        }
+        if (CurrentHole > 3)
+        {
+            CurrentHole--;
+        }
+        ChosenHole = Holes[CurrentHole];
+        PopDown();
+    }
+    public void _on_move_right_button_pressed()
+    {
+        GD.Print("TestRight");
+        Move.Play();
+        if (CurrentHole < 4)
+        {
+            CurrentHole++;
+        }
+        ChosenHole = Holes[CurrentHole];
+        PopDown();
+    }
+
     public Vector3 GetChosenHole()
     {
         return ChosenHole;

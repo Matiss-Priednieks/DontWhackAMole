@@ -11,6 +11,7 @@ public partial class Game : Node3D
 	RandomNumberGenerator RNG;
 	SaveManager SaveManager;
 
+
 	Mallet Mallet;
 	Mole Mole;
 	PanelContainer MainMenu;
@@ -23,12 +24,16 @@ public partial class Game : Node3D
 
 	PackedScene Coin;
 
+
+
 	public bool MenuJustPressed { get; private set; }
 
 	public override void _Ready()
 	{
 		this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
 		this.SaveManager.LoadConfig();
+
+
 
 		RNG = new RandomNumberGenerator();
 		MenuButtons = GetNode<VBoxContainer>("%MenuButtons");
