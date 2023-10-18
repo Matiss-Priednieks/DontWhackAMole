@@ -18,8 +18,9 @@ public partial class LoggedInUser : Node
     public int UserHighScore { get; private set; }
     public override void _Ready()
     {
-        HTTPRequest = GetNode<HttpRequest>("../Node3D/CanvasLayer/HighscoreRequest");
-        UsernameLabel = GetNode<Label>("../Node3D/CanvasLayer/UIContainer/UsernamePanel/MarginContainer/Username");
+        HTTPRequest = GetNode<HttpRequest>("../Node3D/UI/HighscoreRequest");
+        UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/LoggedInUser");
+
         UsernameLabel.Text = "Guest";
         LoggedIn = false;
     }
@@ -66,7 +67,7 @@ public partial class LoggedInUser : Node
         UserCreditentials userData = new(Username, Email, GetHighscore());
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
-        var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/forwardvector/update-highscore", newRegHeaders, HttpClient.Method.Post, userDataJson);
+        var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-highscore", newRegHeaders, HttpClient.Method.Post, userDataJson);
         GD.Print(userData.email + ", " + userData.username + ", " + userData.highscore + ".");
         return error;
     }

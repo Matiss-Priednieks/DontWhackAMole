@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using FirebaseAdmin;
-using Google.Cloud.Firestore;
-using Google.Apis.Auth.OAuth2;
+// using FirebaseAdmin;
+// using Google.Cloud.Firestore;
+// using Google.Apis.Auth.OAuth2;
 
-public partial class RegistrationScreen : Panel
+public partial class Registration : Panel
 {
 	// Called when the node enters the scene tree for the first time.
 	private string Username, RegistrationEmail, RegistrationPassword, RegistrationPasswordConfirmation;
@@ -21,14 +21,13 @@ public partial class RegistrationScreen : Panel
 	Label UserLabel;
 	LoggedInUser User;
 
-	UI UIRef; //Refactor this so parent node isn't necessary!!!
-
+	Game UIRef;
 	public override void _Ready()
 	{
-		NameInput = GetNode<LineEdit>("%NameInput");
-		EmailInput = GetNode<LineEdit>("%EmailInput");
-		PasswordInput = GetNode<LineEdit>("%PasswordInput");
-		ConfirmPasswordInput = GetNode<LineEdit>("%ConfirmPassword");
+		NameInput = GetNode<LineEdit>("%UsernameReg");
+		EmailInput = GetNode<LineEdit>("%EmailReg");
+		PasswordInput = GetNode<LineEdit>("%PasswordReg");
+		ConfirmPasswordInput = GetNode<LineEdit>("%PasswordRegConfirm");
 		HTTPRequest = GetNode<HttpRequest>("%RegRequest");
 		HTTPLoginRequest = GetNode<HttpRequest>("%LoginRequest");
 		LoginScreen = GetNode<Panel>("%LoginScreen");
@@ -42,11 +41,11 @@ public partial class RegistrationScreen : Panel
 
 		Login = GetNode<Button>("%LoginConfirm");
 		RegisterConfirm = GetNode<Button>("%RegisterConfirm");
-		UIRef = (UI)GetParent().GetParent().GetParent();
+		UIRef = (Game)GetParent().GetParent().GetParent().GetParent().GetParent().GetParent();
 	}
 
 
-	public void _on_name_input_text_changed(string newText)
+	public void _on_username_reg_text_changed(string newText)
 	{
 		if (IsValidUsername(newText))
 		{
@@ -59,7 +58,7 @@ public partial class RegistrationScreen : Panel
 			ErrorPanel.Show();
 		}
 	}
-	public void _on_name_input_text_submitted(string newText)
+	public void _on_username_reg_text_submitted(string newText)
 	{
 		if (IsValidUsername(newText))
 		{
@@ -74,7 +73,7 @@ public partial class RegistrationScreen : Panel
 	}
 
 
-	public void _on_register_confirm_pressed()
+	public void _on_register_pressed()
 	{
 		//Confirm registration button
 		if (IsValidRegistration())
@@ -84,7 +83,7 @@ public partial class RegistrationScreen : Panel
 			CreateRegistration();
 		}
 	}
-	public void _on_password_text_submitted(string newText)
+	public void _on_password_reg_text_submitted(string newText)
 	{
 		RegistrationPassword = newText;
 		if (IsValidRegistration())
@@ -97,7 +96,7 @@ public partial class RegistrationScreen : Panel
 			ConfirmPasswordInput.GrabFocus();
 		}
 	}
-	public void _on_confirm_password_text_submitted(string newText)
+	public void _on_password_reg_confirm_text_submitted(string newText)
 	{
 		RegistrationPasswordConfirmation = newText;
 		//Confirm registration button
@@ -110,12 +109,12 @@ public partial class RegistrationScreen : Panel
 	}
 
 
-	public void _on_email_text_changed(string newText)
+	public void _on_email_reg_text_changed(string newText)
 	{
 		RegistrationEmail = newText;
 		ErrorPanel.Hide();
 	}
-	public void _on_email_text_submitted(string newText)
+	public void _on_email_reg_text_submitted(string newText)
 	{
 		RegistrationEmail = newText;
 		if (IsValidRegistration())
@@ -126,12 +125,12 @@ public partial class RegistrationScreen : Panel
 		ConfirmPasswordInput.GrabFocus();
 	}
 
-	public void _on_password_text_changed(string newText)
+	public void _on_password_reg_text_changed(string newText)
 	{
 		RegistrationPassword = newText;
 		ErrorPanel.Hide();
 	}
-	public void _on_confirm_password_text_changed(string newText)
+	public void _on_password_reg_confirm_text_changed(string newText)
 	{
 		RegistrationPasswordConfirmation = newText;
 		ErrorPanel.Hide();
@@ -217,6 +216,7 @@ public partial class RegistrationScreen : Panel
 	}
 	private void CreateRegistration()
 	{
+		GD.Print("New Registration started");
 		CallDeferred("NewRegRequest");
 	}
 	public async void _on_reg_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
@@ -237,13 +237,9 @@ public partial class RegistrationScreen : Panel
 		}
 		else
 		{
-			// if (responseCode == 201)
-			// {
-			//     ErrorPanel.Show();
-			//     ErrorMessage.Text = "User already exists!";
-			// }
 			if (dict.Count != 0)
 			{
+				GD.Print(dict.Keys);
 				if ((int)dict[key: "status_code"] == 400)
 				{
 					ErrorPanel.Show();
@@ -261,7 +257,7 @@ public partial class RegistrationScreen : Panel
 		UserCreditentials userData = new(Username, RegistrationEmail, User.GetHighscore());
 		string userDataJson = JsonSerializer.Serialize(userData);
 		string[] newRegHeaders = new string[] { "Content-Type: application/json" };
-		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/save-user", newRegHeaders, HttpClient.Method.Post, userDataJson);
+		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/save-user", newRegHeaders, HttpClient.Method.Post, userDataJson);
 	}
 
 	public void NewRegRequest()
@@ -269,7 +265,7 @@ public partial class RegistrationScreen : Panel
 		UserRegCreditentials newReg = new(RegistrationEmail, RegistrationPasswordConfirmation, true);
 		string newRegBody = JsonSerializer.Serialize(newReg);
 		string[] newRegHeaders = new string[] { "Content-Type: application/json" };
-		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/create-user", newRegHeaders, HttpClient.Method.Post, newRegBody);
+		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/create-user", newRegHeaders, HttpClient.Method.Post, newRegBody);
 	}
 	public Error LoginRequest()
 	{
@@ -281,7 +277,7 @@ public partial class RegistrationScreen : Panel
 			string[] newRegHeaders = new string[] { "Content-Type: application/json" };
 			UserRegCreditentials LoginCredentials = new(RegistrationEmail, RegistrationPasswordConfirmation, true);
 			string JsonString = JsonSerializer.Serialize(LoginCredentials);
-			var error = HTTPLoginRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/get-user/login", newRegHeaders, HttpClient.Method.Post, JsonString);
+			var error = HTTPLoginRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-user/login", newRegHeaders, HttpClient.Method.Post, JsonString);
 			return error;
 		}
 		else

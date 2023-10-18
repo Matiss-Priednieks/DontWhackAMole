@@ -16,7 +16,7 @@ public partial class Leaderboard : MarginContainer
 	{
 		HTTPRequest = GetNode<HttpRequest>("%LeaderboardRequest");
 
-		LeaderboardItem = ResourceLoader.Load<PackedScene>("res://leaderboard_score_object.tscn");
+		LeaderboardItem = ResourceLoader.Load<PackedScene>("res://scenes/LeaderboardScoreObject.tscn");
 
 		ScoreList = GetNode<VBoxContainer>("%ScoreList");
 
@@ -30,7 +30,7 @@ public partial class Leaderboard : MarginContainer
 	public Error PopulateLeaderboard()
 	{
 		string[] newRegHeaders = new string[] { "Content-Type: application/json" };
-		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/get-leaderboard", newRegHeaders, HttpClient.Method.Get, "{}");
+		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dawm/get-leaderboard", newRegHeaders, HttpClient.Method.Get, "{}");
 		return error;
 	}
 
@@ -72,8 +72,8 @@ public partial class Leaderboard : MarginContainer
 		}
 		else
 		{
-			var lbItemInst = LeaderboardItem.Instantiate<Panel>();
-			lbItemInst.GetNode<Label>("LBScoreLabel").Text = "Error loading leaderboard";
+			var lbItemInst = LeaderboardItem.Instantiate<MarginContainer>();
+			lbItemInst.GetNode<Label>("Panel/LBScoreLabel").Text = "Error loading leaderboard";
 			ScoreList.AddChild(lbItemInst);
 		}
 	}

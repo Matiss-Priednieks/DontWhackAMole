@@ -1,4 +1,4 @@
-[gd_scene load_steps=151 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=152 format=3 uid="uid://d7ivfxxratty"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -14,24 +14,24 @@
 [ext_resource type="PackedScene" uid="uid://cns5jgoi61n88" path="res://scenes/WoodenSign.tscn" id="13_sdma7"]
 [ext_resource type="PackedScene" uid="uid://dxxf315ekx67o" path="res://scenes/ring.tscn" id="16_ia14k"]
 [ext_resource type="Script" path="res://scripts/Mole.cs" id="18_fkm07"]
-[ext_resource type="Script" path="res://scenes/UI.cs" id="18_w5jef"]
+[ext_resource type="Script" path="res://scripts/UI.cs" id="18_jts4r"]
 [ext_resource type="Texture2D" uid="uid://dxn84fhdqo67k" path="res://assets/tutorial-image.png" id="20_b5hly"]
 [ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/audio/boxing-bell.wav" id="20_kwaa8"]
 [ext_resource type="Script" path="res://scripts/DebugInfoUI.cs" id="21_bttn8"]
 [ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/audio/penclick.mp3" id="21_ips1i"]
-[ext_resource type="Script" path="res://scenes/LoginScreen.cs" id="21_ob737"]
-[ext_resource type="Script" path="res://scenes/Registration.cs" id="22_ftg3j"]
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="22_hwvbv"]
-[ext_resource type="Script" path="res://scenes/Leaderboard.cs" id="22_kr8bx"]
+[ext_resource type="Script" path="res://scripts/LoginScreen.cs" id="22_nrd7c"]
+[ext_resource type="Script" path="res://scripts/Registration.cs" id="23_np4li"]
 [ext_resource type="Script" path="res://scripts/SettingsMenu.cs" id="23_u3q7w"]
 [ext_resource type="Script" path="res://scripts/Mallet.cs" id="24_dcgg1"]
+[ext_resource type="Script" path="res://scripts/Leaderboard.cs" id="24_qg2xs"]
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/audio/miss-smack.wav" id="28_kyjjl"]
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/audio/abouttohit2.0.wav" id="29_8xud1"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
-[ext_resource type="Script" path="res://scenes/IntroTransition.cs" id="33_oyma7"]
+[ext_resource type="Script" path="res://scripts/IntroTransition.cs" id="32_lacay"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_4lm6s"]
 material = ExtResource("6_8mjb7")
@@ -969,6 +969,9 @@ material = SubResource("StandardMaterial3D_anb42")
 radius = 0.015
 height = 0.055
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wu60a"]
+bg_color = Color(0.74902, 0.133333, 0.133333, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iyu64"]
 bg_color = Color(0.0980392, 0.305882, 0.74902, 1)
 corner_radius_top_left = 10
@@ -1350,9 +1353,10 @@ layout_mode = 2
 text = "IFrames"
 
 [node name="UI" type="CanvasLayer" parent="."]
-script = ExtResource("18_w5jef")
+script = ExtResource("18_jts4r")
 
 [node name="Menu" type="Control" parent="UI"]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -1378,6 +1382,7 @@ theme_override_constants/margin_right = 700
 theme_override_constants/margin_bottom = 150
 
 [node name="MenuButtons" type="PanelContainer" parent="UI/Menu/Menu"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
@@ -1385,7 +1390,6 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="MenuButtons" type="VBoxContainer" parent="UI/Menu/Menu/MenuButtons/MarginContainer"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -1404,7 +1408,7 @@ text = "Help"
 layout_mode = 2
 text = "Settings"
 
-[node name="Button" type="Button" parent="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons"]
+[node name="Account" type="Button" parent="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons"]
 layout_mode = 2
 text = "Account"
 
@@ -1413,6 +1417,7 @@ layout_mode = 2
 text = "Exit"
 
 [node name="HelpScreen" type="PanelContainer" parent="UI/Menu/Menu"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
@@ -1420,7 +1425,6 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="HelpScreen" type="VBoxContainer" parent="UI/Menu/Menu/HelpScreen/MarginContainer"]
-unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 15
 
@@ -1439,6 +1443,7 @@ layout_mode = 2
 text = "Back"
 
 [node name="SettingsMenu" type="PanelContainer" parent="UI/Menu/Menu"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
@@ -1446,7 +1451,6 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SettingsMenu" type="VBoxContainer" parent="UI/Menu/Menu/SettingsMenu/MarginContainer"]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1512,107 +1516,159 @@ custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 text = "Back"
 
-[node name="AccountPage" type="PanelContainer" parent="UI/Menu/Menu"]
+[node name="AccountMenu" type="PanelContainer" parent="UI/Menu/Menu"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/AccountPage"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/AccountMenu"]
 layout_mode = 2
 
-[node name="LoginScreen" type="Panel" parent="UI/Menu/Menu/AccountPage/MarginContainer"]
+[node name="LoginScreen" type="Panel" parent="UI/Menu/Menu/AccountMenu/MarginContainer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
-script = ExtResource("21_ob737")
+script = ExtResource("22_nrd7c")
 
-[node name="Login" type="VBoxContainer" parent="UI/Menu/Menu/AccountPage/MarginContainer/LoginScreen"]
-layout_mode = 2
-offset_right = 420.0
-offset_bottom = 715.0
-
-[node name="Label" type="Label" parent="UI/Menu/Menu/AccountPage/MarginContainer/LoginScreen/Login"]
-layout_mode = 2
-text = "Login"
-horizontal_alignment = 1
-
-[node name="LoginUsernameField" type="LineEdit" parent="UI/Menu/Menu/AccountPage/MarginContainer/LoginScreen/Login"]
-layout_mode = 2
-placeholder_text = "Username"
-alignment = 1
-
-[node name="LoginPasswordField" type="LineEdit" parent="UI/Menu/Menu/AccountPage/MarginContainer/LoginScreen/Login"]
-layout_mode = 2
-placeholder_text = "Password"
-alignment = 1
-
-[node name="LoginButton" type="Button" parent="UI/Menu/Menu/AccountPage/MarginContainer/LoginScreen/Login"]
-layout_mode = 2
-text = "Login"
-
-[node name="NoAccLabel" type="Label" parent="UI/Menu/Menu/AccountPage/MarginContainer/LoginScreen/Login"]
-layout_mode = 2
-text = "No account?"
-horizontal_alignment = 1
-
-[node name="GoToRegPage" type="Button" parent="UI/Menu/Menu/AccountPage/MarginContainer/LoginScreen/Login"]
-layout_mode = 2
-text = "Register"
-
-[node name="Registration" type="Panel" parent="UI/Menu/Menu/AccountPage/MarginContainer"]
-layout_mode = 2
-script = ExtResource("22_ftg3j")
-
-[node name="Register" type="VBoxContainer" parent="UI/Menu/Menu/AccountPage/MarginContainer/Registration"]
-layout_mode = 2
-offset_right = 420.0
-offset_bottom = 715.0
-
-[node name="Label" type="Label" parent="UI/Menu/Menu/AccountPage/MarginContainer/Registration/Register"]
-layout_mode = 2
-text = "Register"
-horizontal_alignment = 1
-
-[node name="UsernameReg" type="LineEdit" parent="UI/Menu/Menu/AccountPage/MarginContainer/Registration/Register"]
-layout_mode = 2
-placeholder_text = "Username"
-
-[node name="EmailReg" type="LineEdit" parent="UI/Menu/Menu/AccountPage/MarginContainer/Registration/Register"]
-layout_mode = 2
-placeholder_text = "Email"
-
-[node name="PasswordReg" type="LineEdit" parent="UI/Menu/Menu/AccountPage/MarginContainer/Registration/Register"]
-layout_mode = 2
-placeholder_text = "Password"
-
-[node name="PasswordRegConfirm" type="LineEdit" parent="UI/Menu/Menu/AccountPage/MarginContainer/Registration/Register"]
-layout_mode = 2
-placeholder_text = "Confirm Password"
-
-[node name="Button" type="Button" parent="UI/Menu/Menu/AccountPage/MarginContainer/Registration/Register"]
-layout_mode = 2
-text = "Register"
-
-[node name="Label2" type="Label" parent="UI/Menu/Menu/AccountPage/MarginContainer/Registration/Register"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Have an account?"
-horizontal_alignment = 1
-
-[node name="Button2" type="Button" parent="UI/Menu/Menu/AccountPage/MarginContainer/Registration/Register"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Login"
-
-[node name="Leaderboard" type="MarginContainer" parent="UI/Menu"]
+[node name="Login" type="VBoxContainer" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+layout_mode = 2
+text = "Login"
+horizontal_alignment = 1
+
+[node name="Email" type="LineEdit" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Username"
+alignment = 1
+
+[node name="Password" type="LineEdit" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Password"
+alignment = 1
+
+[node name="LoginConfirm" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Login"
+
+[node name="NoAccLabel" type="Label" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+layout_mode = 2
+text = "No account?"
+horizontal_alignment = 1
+
+[node name="GoToRegPage" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+layout_mode = 2
+text = "Register"
+
+[node name="AsGuest" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Play as Guest"
+
+[node name="RegistrationScreen" type="Panel" parent="UI/Menu/Menu/AccountMenu/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("23_np4li")
+
+[node name="Register" type="VBoxContainer" parent="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register"]
+layout_mode = 2
+text = "Register"
+horizontal_alignment = 1
+
+[node name="UsernameReg" type="LineEdit" parent="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Username"
+
+[node name="EmailReg" type="LineEdit" parent="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Email"
+
+[node name="PasswordReg" type="LineEdit" parent="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Password"
+secret = true
+
+[node name="PasswordRegConfirm" type="LineEdit" parent="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Confirm Password"
+secret = true
+
+[node name="RegisterConfirm" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Register"
+
+[node name="GoToLogin" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Have an Account?"
+
+[node name="LoggedInScreen" type="Panel" parent="UI/Menu/Menu/AccountMenu/MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -186.0
+offset_top = -166.0
+offset_right = 186.0
+offset_bottom = 166.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="LoggedInUser" type="Label" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer"]
+layout_mode = 2
+text = "Logged in as:"
+horizontal_alignment = 1
+
+[node name="UserLabel" type="Label" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "User"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Logout" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Logout"
+
+[node name="Leaderboard" type="MarginContainer" parent="UI/Menu"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 543.0
+grow_vertical = 2
 theme = ExtResource("22_hwvbv")
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 175
-theme_override_constants/margin_right = 1315
-theme_override_constants/margin_bottom = 195
-script = ExtResource("22_kr8bx")
+script = ExtResource("24_qg2xs")
 
 [node name="PanelContainer" type="PanelContainer" parent="UI/Menu/Leaderboard"]
 layout_mode = 2
@@ -1631,16 +1687,56 @@ size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="UI/Menu/Leaderboard/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 35
 text = "User"
 
 [node name="Label2" type="Label" parent="UI/Menu/Leaderboard/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 35
 text = "Score"
 
 [node name="ScoreList" type="VBoxContainer" parent="UI/Menu/Leaderboard/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+
+[node name="ErrorPanel" type="Panel" parent="UI/Menu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 200.0
+grow_horizontal = 2
+theme = ExtResource("22_hwvbv")
+theme_override_styles/panel = SubResource("StyleBoxFlat_wu60a")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Menu/ErrorPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.0
+offset_top = -90.0
+offset_right = 130.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ErrorMessage" type="Label" parent="UI/Menu/ErrorPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
+text = "ERROR"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="GameOver" type="Control" parent="UI"]
 unique_name_in_owner = true
@@ -1710,12 +1806,16 @@ layout_mode = 2
 text = "Restart"
 
 [node name="RegRequest" type="HTTPRequest" parent="UI"]
+unique_name_in_owner = true
 
 [node name="LoginRequest" type="HTTPRequest" parent="UI"]
+unique_name_in_owner = true
 
 [node name="HighscoreRequest" type="HTTPRequest" parent="UI"]
+unique_name_in_owner = true
 
 [node name="LeaderboardRequest" type="HTTPRequest" parent="UI"]
+unique_name_in_owner = true
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_7khsi")
@@ -1828,7 +1928,7 @@ unique_name_in_owner = true
 wait_time = 4.0
 
 [node name="IntroTransition" type="CanvasLayer" parent="."]
-script = ExtResource("33_oyma7")
+script = ExtResource("32_lacay")
 
 [node name="BlackBox" type="ColorRect" parent="IntroTransition"]
 unique_name_in_owner = true
@@ -1857,6 +1957,7 @@ color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/PlayResume" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Help" to="." method="_on_help_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Account" to="." method="_on_account_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/HelpScreen/MarginContainer/HelpScreen/BackHelp" to="." method="_on_back_help_pressed"]
 [connection signal="item_selected" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/WindowMode" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_window_mode_item_selected"]
@@ -1865,8 +1966,29 @@ color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 [connection signal="value_changed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/MusicSlider" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/sfx" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_sfx_value_changed"]
 [connection signal="pressed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/HBoxContainer/SettingsBack" to="." method="_on_settings_back_pressed"]
+[connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Email" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_email_field_text_changed"]
+[connection signal="text_submitted" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Email" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_email_field_text_submitted"]
+[connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Password" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_password_field_text_changed"]
+[connection signal="text_submitted" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Password" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_password_field_text_submitted"]
+[connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/LoginConfirm" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_button_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/GoToRegPage" to="." method="_on_go_to_reg_page_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/AsGuest" to="." method="_on_as_guest_pressed"]
+[connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/UsernameReg" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_username_reg_text_changed"]
+[connection signal="text_submitted" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/UsernameReg" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_username_reg_text_submitted"]
+[connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/EmailReg" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_email_reg_text_changed"]
+[connection signal="text_submitted" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/EmailReg" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_email_reg_text_submitted"]
+[connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/PasswordReg" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_password_reg_text_changed"]
+[connection signal="text_submitted" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/PasswordReg" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_password_reg_text_submitted"]
+[connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/PasswordRegConfirm" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_password_reg_confirm_text_changed"]
+[connection signal="text_submitted" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/PasswordRegConfirm" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_password_reg_confirm_text_submitted"]
+[connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/RegisterConfirm" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_register_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/GoToLogin" to="." method="_on_go_to_login_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/Logout" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_logout_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="request_completed" from="UI/RegRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_reg_request_request_completed"]
+[connection signal="request_completed" from="UI/LoginRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_request_request_completed"]
+[connection signal="request_completed" from="UI/LeaderboardRequest" to="UI/Menu/Leaderboard" method="_on_leaderboard_request_request_completed"]
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]
 [connection signal="timeout" from="ComboCoinTimer" to="." method="_on_combo_coin_timer_timeout"]
 

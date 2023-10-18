@@ -108,7 +108,6 @@ texture = ExtResource("4_213t1")
 
 [node name="BlackBox" type="ColorRect" parent="."]
 unique_name_in_owner = true
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

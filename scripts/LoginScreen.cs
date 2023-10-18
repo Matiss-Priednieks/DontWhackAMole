@@ -14,7 +14,7 @@ public partial class LoginScreen : Panel
 	Panel ErrorPanel;
 	Label ErrorMessage, UserLabel;
 	Button Logout, Login;
-	AnimatedSprite2D LoadingIconRef;
+	// AnimatedSprite2D LoadingIconRef;
 
 
 
@@ -32,7 +32,7 @@ public partial class LoginScreen : Panel
 		ErrorPanel = GetNode<Panel>("%ErrorPanel");
 		ErrorMessage = GetNode<Label>("%ErrorMessage");
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
-		LoadingIconRef = GetNode<AnimatedSprite2D>("%LoadingIcon");
+		// LoadingIconRef = GetNode<AnimatedSprite2D>("%LoadingIcon");
 
 		ErrorPanel.Hide();
 	}
@@ -41,34 +41,33 @@ public partial class LoginScreen : Panel
 	{
 		if (Login.Disabled == true)
 		{
-			LoadingIconRef.Show();
+			// LoadingIconRef.Show();
 		}
 	}
-	public void _on_email_text_changed(string newText)
+	public void _on_login_email_field_text_changed(string newText)
 	{
 		LoginEmail = newText;
 		ErrorPanel.Hide();
 
 	}
-	public void _on_email_text_submitted(string newText)
+	public void _on_login_email_field_text_submitted(string newText)
 	{
 		LoginEmail = newText;
 		PasswordInput.GrabFocus();
 	}
 
-	public void _on_password_text_changed(string newText)
+	public void _on_login_password_field_text_changed(string newText)
 	{
 		LoginPassword = newText;
 		ErrorPanel.Hide();
 	}
-	public void _on_password_text_submitted(string newText)
+	public void _on_login_password_field_text_submitted(string newText)
 	{
 		LoginPassword = newText;
 		LoginRequest();
 	}
 
-
-	public void _on_login_confirm_pressed()
+	public void _on_login_button_pressed()
 	{
 		LoginRequest();
 	}
@@ -100,7 +99,7 @@ public partial class LoginScreen : Panel
 			Login.Hide();
 			EmailInput.Editable = true;
 			PasswordInput.Editable = true;
-			LoadingIconRef.Hide();
+			// LoadingIconRef.Hide();
 		}
 		else
 		{
@@ -126,7 +125,7 @@ public partial class LoginScreen : Panel
 			ErrorPanel.Show();
 			EmailInput.Editable = true;
 			PasswordInput.Editable = true;
-			LoadingIconRef.Hide();
+			// LoadingIconRef.Hide();
 		}
 	}
 
@@ -156,7 +155,7 @@ public partial class LoginScreen : Panel
 			string[] newRegHeaders = new string[] { "Content-Type: application/json" };
 			UserRegCreditentials LoginCredentials = new(LoginEmail, LoginPassword, true);
 			string JsonString = JsonSerializer.Serialize(LoginCredentials);
-			var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/forwardvector/get-user/login", newRegHeaders, HttpClient.Method.Post, JsonString);
+			var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-user/login", newRegHeaders, HttpClient.Method.Post, JsonString);
 			// GD.Print(error);
 			return error;
 		}

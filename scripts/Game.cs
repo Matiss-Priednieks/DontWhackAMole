@@ -13,15 +13,17 @@ public partial class Game : Node3D
 
 	Mallet Mallet;
 	Mole Mole;
-	PanelContainer MainMenu;
+	Control MainMenu;
 	Control GameOverMenu;
 	Button PlayResume;
-	VBoxContainer MenuButtons, HelpMenu, SettingsMenu;
+	PanelContainer MenuButtons, HelpMenu, SettingsMenu, AccountMenu;
+	Panel LoginScreen, RegistrationScreen;
 	Timer ComboCointTimer;
 
 	Timer PopOutTimer;
 
 	PackedScene Coin;
+	public bool Login, Register = false;
 
 	public bool MenuJustPressed { get; private set; }
 
@@ -30,11 +32,15 @@ public partial class Game : Node3D
 		this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
 		this.SaveManager.LoadConfig();
 
+		LoginScreen = GetNode<Panel>("%LoginScreen");
+		RegistrationScreen = GetNode<Panel>("%RegistrationScreen");
+
 		RNG = new RandomNumberGenerator();
-		MenuButtons = GetNode<VBoxContainer>("%MenuButtons");
-		HelpMenu = GetNode<VBoxContainer>("%HelpScreen");
-		SettingsMenu = GetNode<VBoxContainer>("%SettingsMenu");
-		MainMenu = GetNode<PanelContainer>("%Intro");
+		MenuButtons = GetNode<PanelContainer>("%MenuButtons");
+		AccountMenu = GetNode<PanelContainer>("%AccountMenu");
+		HelpMenu = GetNode<PanelContainer>("%HelpScreen");
+		SettingsMenu = GetNode<PanelContainer>("%SettingsMenu");
+		MainMenu = GetNode<Control>("%Menu");
 		MainCam = GetNode<Camera3D>("Camera3D");
 		Mallet = GetNode<Mallet>("%Mallet");
 		Mole = GetNode<Mole>("%Mole");
@@ -49,10 +55,8 @@ public partial class Game : Node3D
 		CamPlayPos = new Vector3(0, 2.403f, 1.516f);
 		CamPlayRot = new Vector3(-36.8f, 0, 0);
 
-		// CamMenuPos = new Vector3(0, 1.621f, 0.667f); //old menu
-		// CamMenuRot = new Vector3(0, 30, 0);         //old menu
 		CamMenuPos = new Vector3(-3.25f, 1.53f, -0.9f); //old menu
-		CamMenuRot = new Vector3(0, 90, 0);         //old menu
+		CamMenuRot = new Vector3(0, 90, 0);             //old menu
 		PlayResume.Text = "Play";
 		MainCam.Position = CamMenuPos;
 	}
@@ -194,5 +198,38 @@ public partial class Game : Node3D
 		var coinInstance = Coin.Instantiate<Area3D>();
 		AddChild(coinInstance);
 		ComboCointTimer.Start(4);
+	}
+	public void _on_account_pressed()
+	{
+		MenuButtons.Hide();
+		SettingsMenu.Hide();
+		HelpMenu.Hide();
+		AccountMenu.Show();
+	}
+
+	public void _on_go_to_reg_page_pressed()
+	{
+		MenuButtons.Hide();
+		SettingsMenu.Hide();
+		HelpMenu.Hide();
+		LoginScreen.Hide();
+		AccountMenu.Show();
+		RegistrationScreen.Show();
+	}
+	public void _on_go_to_login_pressed()
+	{
+		MenuButtons.Hide();
+		SettingsMenu.Hide();
+		HelpMenu.Hide();
+		RegistrationScreen.Hide();
+		AccountMenu.Show();
+		LoginScreen.Show();
+	}
+	public void _on_as_guest_pressed()
+	{
+		MenuButtons.Show();
+		SettingsMenu.Hide();
+		HelpMenu.Hide();
+		AccountMenu.Hide();
 	}
 }

@@ -24,6 +24,7 @@ buses/default_bus_layout="res://resources/default_bus_layout.tres"
 [autoload]
 
 SaveManager="*res://scripts/SaveManager.cs"
+LoggedInUser="*res://scripts/LoggedInUser.cs"
 
 [display]
 
