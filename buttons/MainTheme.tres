@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=9 format=3 uid="uid://c6q2wfkhoat1u"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://c6q2wfkhoat1u"]
 
 [ext_resource type="StyleBox" uid="uid://ccqpjmnrpo8xt" path="res://buttons/disabledbutton.tres" id="1_61exf"]
 [ext_resource type="StyleBox" uid="uid://5cfs1vako45a" path="res://buttons/focusedbutton.tres" id="2_p2my6"]
@@ -12,6 +12,13 @@ color = Color(0.0976563, 0.304688, 0.746094, 1)
 grow_begin = 10.0
 grow_end = 10.0
 thickness = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_co2dn"]
+bg_color = Color(0.0976563, 0.304688, 0.746094, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orp6o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cppiu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yngxj"]
 bg_color = Color(0.945098, 0.529412, 0.00392157, 0)
@@ -34,13 +41,19 @@ Button/styles/normal = ExtResource("4_6brdf")
 Button/styles/pressed = ExtResource("5_4d677")
 HBoxContainer/constants/separation = 50
 HSeparator/styles/separator = SubResource("StyleBoxLine_ysmxg")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_co2dn")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_orp6o")
+HSlider/styles/slider = SubResource("StyleBoxFlat_cppiu")
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
 Label/constants/outline_size = 20
 Label/font_sizes/font_size = 64
 Label/fonts/font = ExtResource("6_w2d43")
+LineEdit/font_sizes/font_size = 32
 MarginContainer/constants/margin_bottom = 50
 MarginContainer/constants/margin_left = 50
 MarginContainer/constants/margin_right = 50
 MarginContainer/constants/margin_top = 50
 Panel/styles/panel = SubResource("StyleBoxFlat_yngxj")
+TextEdit/font_sizes/font_size = 16
+TextEdit/fonts/font = ExtResource("6_w2d43")
 VBoxContainer/constants/separation = 42
