@@ -59,6 +59,8 @@ public partial class Game : Node3D
 		CamMenuRot = new Vector3(0, 90, 0);             //old menu
 		PlayResume.Text = "Play";
 		MainCam.Position = CamMenuPos;
+
+		Mole.Paused = true;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -4,6 +4,8 @@ using System;
 
 public partial class Mole : Area3D
 {
+    LoggedInUser User;
+
     [Signal] public delegate void OutTooLongEventHandler(Vector3 Position);
     Vector3[] Holes;
     bool Down = true;
@@ -31,12 +33,16 @@ public partial class Mole : Area3D
     public int HighestCombo;
     public float PopSpeed { get; set; }
     public float OutTooLongTime { get; set; }
+    public bool RequestNotSent { get; private set; } = true;
+
+
     int CurrentHole = 0;
     public override void _Ready()
     {
         OutTooLongTime = 1;
         PopSpeed = 2;
-        this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
+        User = GetNode<LoggedInUser>("/root/LoggedInUser");
+        this.SaveManager = GetNode<SaveManager>("/root/SaveManager");
         Score = 0;
         ComboBonus = 1;
         CounterSound = GetNode<AudioStreamPlayer3D>("%CounterSound");
@@ -73,22 +79,24 @@ public partial class Mole : Area3D
 
         PopOutTimer = GetNode<Timer>("%PopOutTimer");
         OutTimer = GetNode<Timer>("%OutTimer");
-        HighScore = (int)this.SaveManager.LoadScore().X;
-        HighestCombo = (int)this.SaveManager.LoadScore().Y;
+        HighScore = (int)this.SaveManager.LoadScore(User.Username).X;
+        HighestCombo = (int)this.SaveManager.LoadScore(User.Username).Y;
         PopOutTimer.Start(PopSpeed);
     }
 
     public override void _Process(double delta)
     {
+
         if (Score > HighScore)
         {
             HighScore = (int)Score;
-            this.SaveManager.SaveScore(HighScore, HighestCombo);
+            User.SetHighscore(HighScore);
+            this.SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
         }
         if (ComboBonus > HighestCombo)
         {
             HighestCombo = ComboBonus;
-            this.SaveManager.SaveScore(HighScore, HighestCombo);
+            this.SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
         }
         var LivesMesh = (TextMesh)LivesCounter.Mesh;
         LivesMesh.Text = Lives.ToString();
@@ -114,7 +122,7 @@ public partial class Mole : Area3D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Playing || !Paused)
+        if (Playing && !Paused)
         {
 
             if (IFrames <= 60 && IFrames > 0)
@@ -186,9 +194,10 @@ public partial class Mole : Area3D
                 PlaySoundDelayed();
             }
 
-            if (Lives == 0)
+            if (Lives <= 0)
             {
                 SetGameOver(true);
+
                 Playing = false;
             }
         }
@@ -207,6 +216,12 @@ public partial class Mole : Area3D
     {
         Score = 0;
         Lives = 3;
+        DangerTimer = 0;
+        HighScore = (int)FinalScore;
+        User.SetHighscore(HighScore);
+        this.SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
+        Error requestResult = User.HighscoreUpdateRequest();
+        GD.Print("Score sent to server.");
     }
 
     public void _on_pop_out_timer_timeout()
@@ -227,6 +242,7 @@ public partial class Mole : Area3D
         if (DangerTimer >= OutTooLongTime * 0.75f && Playing && !Paused)
         {
             //Call the smack!
+            GD.Print(DangerTimer, OutTooLongTime);
             EmitSignal("OutTooLong", Position);
         }
         else
@@ -246,6 +262,7 @@ public partial class Mole : Area3D
 
     public async void GotHit()
     {
+        OutTooLongTime = 1;
         ScoreAcceleration = 0;
         PopSpeed = 2;
         ComboBonus = 1;
@@ -361,5 +378,14 @@ public partial class Mole : Area3D
     public void SetGameOver(bool value)
     {
         GameOver = value;
+    }
+    public async void _on_login_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
+    {
+        var response = Json.ParseString(body.GetStringFromUtf8());
+        await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
+        if (responseCode == 200)
+        {
+            HighScore = (int)User.GetHighscore();
+        }
     }
 }

@@ -15,7 +15,7 @@ public partial class Registration : Panel
 	LineEdit NameInput, EmailInput, PasswordInput, ConfirmPasswordInput, LoginEmailInput, LoginPass;
 	HttpRequest HTTPRequest, HTTPLoginRequest;
 
-	Panel ErrorPanel, LoginScreen;
+	Panel ErrorPanel, LoginScreen, LoggedInPage;
 	Label ErrorMessage;
 	Button Logout, Login, RegisterConfirm;
 	Label UserLabel;
@@ -24,6 +24,9 @@ public partial class Registration : Panel
 	Game UIRef;
 	public override void _Ready()
 	{
+		LoggedInPage = GetNode<Panel>("%LoggedInScreen");
+		UserLabel = GetNode<Label>("%UserLabel");
+		Logout = GetNode<Button>("%Logout");
 		NameInput = GetNode<LineEdit>("%UsernameReg");
 		EmailInput = GetNode<LineEdit>("%EmailReg");
 		PasswordInput = GetNode<LineEdit>("%PasswordReg");
@@ -42,6 +45,13 @@ public partial class Registration : Panel
 		Login = GetNode<Button>("%LoginConfirm");
 		RegisterConfirm = GetNode<Button>("%RegisterConfirm");
 		UIRef = (Game)GetParent().GetParent().GetParent().GetParent().GetParent().GetParent();
+	}
+	public override void _Process(double delta)
+	{
+		if (NameInput.Text == null || EmailInput.Text == null || PasswordInput.Text == null || ConfirmPasswordInput == null)
+		{
+			RegisterConfirm.Disabled = true;
+		}
 	}
 
 
@@ -216,7 +226,7 @@ public partial class Registration : Panel
 	}
 	private void CreateRegistration()
 	{
-		GD.Print("New Registration started");
+		// GD.Print("New Registration started");
 		CallDeferred("NewRegRequest");
 	}
 	public async void _on_reg_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
@@ -234,12 +244,12 @@ public partial class Registration : Panel
 			CallDeferred("UserDataRequest");
 			await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
 			CallDeferred("LoginRequest");
+			Hide();
 		}
 		else
 		{
 			if (dict.Count != 0)
 			{
-				GD.Print(dict.Keys);
 				if ((int)dict[key: "status_code"] == 400)
 				{
 					ErrorPanel.Show();
@@ -278,6 +288,7 @@ public partial class Registration : Panel
 			UserRegCreditentials LoginCredentials = new(RegistrationEmail, RegistrationPasswordConfirmation, true);
 			string JsonString = JsonSerializer.Serialize(LoginCredentials);
 			var error = HTTPLoginRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-user/login", newRegHeaders, HttpClient.Method.Post, JsonString);
+			// GD.Print(error);
 			return error;
 		}
 		else
@@ -286,6 +297,60 @@ public partial class Registration : Panel
 			UserLabel.Text = "Guest";
 			User.Logout();
 			return Error.Ok;
+		}
+	}
+	public async void _on_login_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
+	{
+		var response = Json.ParseString(body.GetStringFromUtf8());
+		await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
+		// GD.Print(responseCode);
+		if (responseCode == 200)
+		{
+			// GD.Print(responseCode);
+
+			Login.Disabled = false;
+			ErrorPanel.Hide();
+			var dict = (Godot.Collections.Dictionary)response;
+
+			User.Login(dict[key: "username"].ToString());
+
+			GD.Print(dict[key: "username"].ToString());
+			User.SetHighscore((float)dict[key: "highscore"]);
+			User.SetEmail(RegistrationEmail);
+			// User.SetUsername(username);
+			UserLabel.Text = dict[key: "username"].ToString();
+			LoggedInPage.Show();
+			Hide();
+
+			EmailInput.Editable = true;
+			PasswordInput.Editable = true;
+			// LoadingIconRef.Hide();
+		}
+		else
+		{
+			Login.Disabled = false;
+
+			EmailInput.Show();
+			PasswordInput.Show();
+			Login.Show();
+
+			Logout.Hide();
+			UserLabel.Hide();
+			var dict = (Godot.Collections.Dictionary)response;
+			// GD.Print(dict.Keys);
+			if (dict[key: "response_text"].ToString().Contains("TOO_MANY_ATTEMPTS_TRY_LATER"))
+			{
+				ErrorMessage.Text = "Too Many Attempts Try Again Later";
+			}
+			else
+			{
+				// GD.Print(response);
+				ErrorMessage.Text = "Invalid Login";
+			}
+			ErrorPanel.Show();
+			EmailInput.Editable = true;
+			PasswordInput.Editable = true;
+			// LoadingIconRef.Hide();
 		}
 	}
 }

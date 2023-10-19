@@ -19,9 +19,10 @@ public partial class LoggedInUser : Node
     public override void _Ready()
     {
         HTTPRequest = GetNode<HttpRequest>("../Node3D/UI/HighscoreRequest");
-        UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/LoggedInUser");
+        UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
 
         UsernameLabel.Text = "Guest";
+        Username = "Guest";
         LoggedIn = false;
     }
 

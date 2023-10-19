@@ -5,7 +5,7 @@ public partial class SaveManager : Node
 {
 
     const string CONFIG_SAVE_PATH = "user://settings.cfg";
-    const string PLAYER_SCORE_SAVE_PATH = "user://playerscore.cfg";
+
 
     public void LoadConfig()
     {
@@ -70,22 +70,23 @@ public partial class SaveManager : Node
         config.Save(CONFIG_SAVE_PATH);
     }
 
-    public void SaveScore(int highScore, int highestCombo)
+    public void SaveScore(string PlayerName, int highScore, int highestCombo)
     {
+        string PLAYER_SCORE_SAVE_PATH = "user://" + PlayerName + "playerscore.cfg";
         var score = new ConfigFile();
-        score.SetValue("Player", "Score", highScore);
-        score.SetValue("Player", "HighestCombo", highestCombo);
+        score.SetValue(PlayerName, "Score", highScore);
+        score.SetValue(PlayerName, "HighestCombo", highestCombo);
 
         score.Save(PLAYER_SCORE_SAVE_PATH);
-
     }
-    public Vector2 LoadScore()
+    public Vector2 LoadScore(string PlayerName)
     {
+        string PLAYER_SCORE_SAVE_PATH = "user://" + PlayerName + "playerscore.cfg";
         var score = new ConfigFile();
         Error err = score.Load(PLAYER_SCORE_SAVE_PATH);
 
-        var highScore = (int)score.GetValue("Player", "Score");
-        var highestCombo = (int)score.GetValue("Player", "HighestCombo");
+        var highScore = (int)score.GetValue(PlayerName, "Score");
+        var highestCombo = (int)score.GetValue(PlayerName, "HighestCombo");
 
         return new Vector2(highScore, highestCombo);
     }

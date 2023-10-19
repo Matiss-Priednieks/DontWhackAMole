@@ -1383,7 +1383,6 @@ theme_override_constants/margin_bottom = 150
 
 [node name="MenuButtons" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/MenuButtons"]
@@ -1518,6 +1517,7 @@ text = "Back"
 
 [node name="AccountMenu" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/AccountMenu"]
@@ -1525,7 +1525,6 @@ layout_mode = 2
 
 [node name="LoginScreen" type="Panel" parent="UI/Menu/Menu/AccountMenu/MarginContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 script = ExtResource("22_nrd7c")
 
@@ -1545,7 +1544,7 @@ horizontal_alignment = 1
 [node name="Email" type="LineEdit" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
 unique_name_in_owner = true
 layout_mode = 2
-placeholder_text = "Username"
+placeholder_text = "Email"
 alignment = 1
 
 [node name="Password" type="LineEdit" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
@@ -1553,28 +1552,30 @@ unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "Password"
 alignment = 1
+secret = true
 
 [node name="LoginConfirm" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Login"
 
-[node name="NoAccLabel" type="Label" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+[node name="HSeparator" type="HSeparator" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
 layout_mode = 2
-text = "No account?"
-horizontal_alignment = 1
 
 [node name="GoToRegPage" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Register"
+text = "No Account?"
 
 [node name="AsGuest" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Play as Guest"
 
 [node name="RegistrationScreen" type="Panel" parent="UI/Menu/Menu/AccountMenu/MarginContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 script = ExtResource("23_np4li")
 
@@ -1660,7 +1661,12 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Logout"
 
+[node name="BackToMenu" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer"]
+layout_mode = 2
+text = "Back to Menu"
+
 [node name="Leaderboard" type="MarginContainer" parent="UI/Menu"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -1700,6 +1706,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 
+[node name="UpdateLeaderboard" type="Timer" parent="UI/Menu/Leaderboard"]
+wait_time = 5.0
+autostart = true
+
 [node name="ErrorPanel" type="Panel" parent="UI/Menu"]
 unique_name_in_owner = true
 visible = false
@@ -1707,8 +1717,8 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -250.0
-offset_right = 250.0
+offset_left = -351.5
+offset_right = 351.5
 offset_bottom = 200.0
 grow_horizontal = 2
 theme = ExtResource("22_hwvbv")
@@ -1716,15 +1726,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_wu60a")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/ErrorPanel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -130.0
-offset_top = -90.0
-offset_right = 130.0
-offset_bottom = 90.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -1733,7 +1737,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 32
-text = "ERROR"
+text = "ERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERROR"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -1984,10 +1988,14 @@ color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/RegisterConfirm" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_register_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/GoToLogin" to="." method="_on_go_to_login_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/Logout" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_logout_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/BackToMenu" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_back_to_menu_pressed"]
+[connection signal="timeout" from="UI/Menu/Leaderboard/UpdateLeaderboard" to="UI/Menu/Leaderboard" method="_on_update_leaderboard_timeout"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="request_completed" from="UI/RegRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_reg_request_request_completed"]
+[connection signal="request_completed" from="UI/LoginRequest" to="Mole" method="_on_login_request_request_completed"]
 [connection signal="request_completed" from="UI/LoginRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_request_request_completed"]
+[connection signal="request_completed" from="UI/LoginRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_login_request_request_completed"]
 [connection signal="request_completed" from="UI/LeaderboardRequest" to="UI/Menu/Leaderboard" method="_on_leaderboard_request_request_completed"]
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]
 [connection signal="timeout" from="ComboCoinTimer" to="." method="_on_combo_coin_timer_timeout"]

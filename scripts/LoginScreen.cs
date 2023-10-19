@@ -11,15 +11,20 @@ public partial class LoginScreen : Panel
 	HttpRequest HTTPRequest;
 
 	LoggedInUser User;
-	Panel ErrorPanel;
+	Panel ErrorPanel, LoggedInPage;
 	Label ErrorMessage, UserLabel;
-	Button Logout, Login;
+	Button Logout, Login, RegButton, GuestButton;
+	PanelContainer MainMenu, AccountMenu;
 	// AnimatedSprite2D LoadingIconRef;
-
+	SaveManager SaveManager;
 
 
 	public override void _Ready()
 	{
+		SaveManager = GetNode<SaveManager>("/root/SaveManager");
+
+		MainMenu = GetNode<PanelContainer>("%MenuButtons");
+		AccountMenu = GetNode<PanelContainer>("%AccountMenu");
 		EmailInput = GetNode<LineEdit>("%Email");
 		PasswordInput = GetNode<LineEdit>("%Password");
 		HTTPRequest = GetNode<HttpRequest>("%LoginRequest");
@@ -27,7 +32,12 @@ public partial class LoginScreen : Panel
 		Logout = GetNode<Button>("%Logout");
 		Login = GetNode<Button>("%LoginConfirm");
 
+		RegButton = GetNode<Button>("%GoToRegPage");
+		GuestButton = GetNode<Button>("%AsGuest");
+
 		UserLabel = GetNode<Label>("%UserLabel");
+
+		LoggedInPage = GetNode<Panel>("%LoggedInScreen");
 
 		ErrorPanel = GetNode<Panel>("%ErrorPanel");
 		ErrorMessage = GetNode<Label>("%ErrorMessage");
@@ -39,10 +49,7 @@ public partial class LoginScreen : Panel
 
 	public override void _Process(double delta)
 	{
-		if (Login.Disabled == true)
-		{
-			// LoadingIconRef.Show();
-		}
+
 	}
 	public void _on_login_email_field_text_changed(string newText)
 	{
@@ -75,10 +82,10 @@ public partial class LoginScreen : Panel
 	{
 		var response = Json.ParseString(body.GetStringFromUtf8());
 		await ToSignal(GetTree().CreateTimer(1f), SceneTreeTimer.SignalName.Timeout);
-		GD.Print(responseCode);
+		// GD.Print(responseCode);
 		if (responseCode == 200)
 		{
-			GD.Print(responseCode);
+			// GD.Print(responseCode);
 
 			Login.Disabled = false;
 			ErrorPanel.Hide();
@@ -86,17 +93,14 @@ public partial class LoginScreen : Panel
 
 			User.Login(dict[key: "username"].ToString());
 
-			GD.Print(dict.Keys);
+			GD.Print(dict[key: "username"].ToString());
 			User.SetHighscore((float)dict[key: "highscore"]);
 			User.SetEmail(LoginEmail);
 			// User.SetUsername(username);
 			UserLabel.Text = dict[key: "username"].ToString();
-			Logout.Show();
-			UserLabel.Show();
+			LoggedInPage.Show();
+			Hide();
 
-			EmailInput.Hide();
-			PasswordInput.Hide();
-			Login.Hide();
 			EmailInput.Editable = true;
 			PasswordInput.Editable = true;
 			// LoadingIconRef.Hide();
@@ -131,12 +135,9 @@ public partial class LoginScreen : Panel
 
 	public Error _on_logout_pressed()
 	{
-		EmailInput.Show();
-		PasswordInput.Show();
-		Login.Show();
+		Show();
+		LoggedInPage.Hide();
 
-		Logout.Hide();
-		UserLabel.Hide();
 		User.SetUsername("Guest");
 		User.LoggedIn = false;
 		return Error.Ok;
@@ -165,5 +166,11 @@ public partial class LoginScreen : Panel
 			// User.Logout();
 			return Error.Ok;
 		}
+	}
+
+	public void _on_back_to_menu_pressed()
+	{
+		AccountMenu.Hide();
+		MainMenu.Show();
 	}
 }

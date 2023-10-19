@@ -30,7 +30,7 @@ public partial class Leaderboard : MarginContainer
 	public Error PopulateLeaderboard()
 	{
 		string[] newRegHeaders = new string[] { "Content-Type: application/json" };
-		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dawm/get-leaderboard", newRegHeaders, HttpClient.Method.Get, "{}");
+		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-leaderboard", newRegHeaders, HttpClient.Method.Get, "{}");
 		return error;
 	}
 
@@ -68,6 +68,7 @@ public partial class Leaderboard : MarginContainer
 					lbItemInst.GetNode<Label>("Panel/LBScoreLabel").Text = $"{Username} : {Score}";
 					ScoreList.AddChild(lbItemInst);
 				}
+				// }
 			}
 		}
 		else
@@ -79,7 +80,7 @@ public partial class Leaderboard : MarginContainer
 	}
 	public void _on_update_leaderboard_timeout()
 	{
-		if (ScoreList.GetParent<VBoxContainer>().GetParent<MarginContainer>().GetParent<PanelContainer>().Visible) //lazy way of getting if menu is on or not
+		if (Visible)
 		{
 			PopulateLeaderboard();
 		}

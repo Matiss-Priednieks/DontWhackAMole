@@ -48,7 +48,7 @@ public partial class Coin : Area3D
         NextLocation = Holes[HoleIndex];
         while (NextLocation == MoleRef.GetChosenHole())
         {
-            HoleIndex = GD.RandRange(0, 3);
+            HoleIndex = GD.RandRange(0, 4);
             NextLocation = Holes[HoleIndex];
         }
         // PopOut();
@@ -56,7 +56,7 @@ public partial class Coin : Area3D
 
     public override void _PhysicsProcess(double delta)
     {
-        GD.Print(CoinBreakParticle.Position);
+        // GD.Print(CoinBreakParticle.Position);
         if (!Finished && MoleRef.Playing)
         {
             PopOut();

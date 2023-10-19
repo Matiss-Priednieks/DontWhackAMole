@@ -99,7 +99,7 @@ public partial class Mallet : Area3D
 
             await ToSignal(GetTree().CreateTimer(MalletSlowSpeed), "timeout");
             MoveMallet(StartPosition);
-            HoleIndex = GD.RandRange(0, 3);
+            HoleIndex = GD.RandRange(0, 4);
             NextHit = Holes[HoleIndex];
         }
     }
@@ -136,7 +136,7 @@ public partial class Mallet : Area3D
 
     public async void Hit()
     {
-        GD.Print("Test");
+        // GD.Print("Test");
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
         ScreenShake();
         Tween velTween = GetTree().CreateTween();
