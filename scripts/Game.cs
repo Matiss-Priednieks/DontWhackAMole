@@ -10,7 +10,7 @@ public partial class Game : Node3D
 	Vector3 CamPlayPos, CamPlayRot, CamMenuPos, CamMenuRot;
 	RandomNumberGenerator RNG;
 	SaveManager SaveManager;
-
+	LoggedInUser User;
 	Mallet Mallet;
 	Mole Mole;
 	Control MainMenu;
@@ -29,6 +29,8 @@ public partial class Game : Node3D
 
 	public override void _Ready()
 	{
+		User = GetNode<LoggedInUser>("/root/LoggedInUser");
+		User.LoggedInFakeReady();
 		this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
 		this.SaveManager.LoadConfig();
 

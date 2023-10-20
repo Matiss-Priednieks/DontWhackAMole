@@ -18,6 +18,11 @@ public partial class LoggedInUser : Node
     public int UserHighScore { get; private set; }
     public override void _Ready()
     {
+
+    }
+
+    public void LoggedInFakeReady()
+    {
         HTTPRequest = GetNode<HttpRequest>("../Node3D/UI/HighscoreRequest");
         UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
 

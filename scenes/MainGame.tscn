@@ -1,4 +1,4 @@
-[gd_scene load_steps=152 format=3 uid="uid://d7ivfxxratty"]
+[gd_scene load_steps=153 format=3 uid="uid://d7ivfxxratty"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -30,6 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/audio/miss-smack.wav" id="28_kyjjl"]
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/audio/abouttohit2.0.wav" id="29_8xud1"]
+[ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="30_2fipm"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
 [ext_resource type="Script" path="res://scripts/IntroTransition.cs" id="32_lacay"]
 
@@ -1869,13 +1870,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96551, 0.5, -3.19612)
 [node name="arcademachine" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 2.29628)
 
+[node name="ArcadeCab" parent="Node3D/arcademachine" index="0"]
+material_override = ExtResource("30_2fipm")
+surface_material_override/0 = null
+
 [node name="Screen" parent="Node3D/arcademachine" index="1"]
+material_override = ExtResource("6_8mjb7")
 surface_material_override/0 = null
 
 [node name="ScreenWithBackground" type="MeshInstance3D" parent="Node3D/arcademachine/Screen" index="0"]
 mesh = SubResource("BoxMesh_4q6j0")
 
 [node name="ScreenFrame" parent="Node3D/arcademachine" index="2"]
+material_override = ExtResource("6_8mjb7")
 surface_material_override/0 = null
 
 [node name="Highscore" type="MeshInstance3D" parent="Node3D/arcademachine"]
