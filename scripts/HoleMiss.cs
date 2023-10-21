@@ -7,7 +7,7 @@ public partial class HoleMiss : Area3D
     PackedScene SmokeScene;
     public override void _Ready()
     {
-        SmokeScene = (PackedScene)ResourceLoader.Load<PackedScene>("scenes/smoke_particles.tscn");
+        SmokeScene = ResourceLoader.Load<PackedScene>("scenes/smoke_particles.tscn");
     }
 
     public void _on_area_entered(Area3D area)

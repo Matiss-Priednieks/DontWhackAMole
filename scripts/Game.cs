@@ -20,6 +20,9 @@ public partial class Game : Node3D
 	Panel LoginScreen, RegistrationScreen;
 	Timer ComboCointTimer;
 
+
+	Godot.WorldEnvironment worldEnvironment;
+
 	Timer PopOutTimer;
 
 	PackedScene Coin;
@@ -29,6 +32,7 @@ public partial class Game : Node3D
 
 	public override void _Ready()
 	{
+		worldEnvironment = GetNode<Godot.WorldEnvironment>("%WorldEnvironment");
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
 		User.LoggedInFakeReady();
 		this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
@@ -104,6 +108,9 @@ public partial class Game : Node3D
 		{
 			GameOverMenu.Show();
 			Menu = false;
+			Tween saturationTween = CreateTween();
+			saturationTween.TweenProperty(worldEnvironment.Environment, "adjustment_saturation", 0, 1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+			saturationTween.Play();
 			if (Input.IsActionJustReleased("menu"))
 			{
 				this.SaveManager.SaveConfig();
@@ -115,12 +122,21 @@ public partial class Game : Node3D
 				await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
 				MainMenu.Show();
 				Menu = true;
+				// Tween saturationTween = CreateTween();
+				saturationTween.Stop();
+				saturationTween.TweenProperty(worldEnvironment.Environment, "adjustment_saturation", 1, 1f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
+				saturationTween.Play();
 			}
+			await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+			saturationTween.Stop();
 		}
 	}
 
 	public void _on_restart_pressed()
 	{
+		Tween saturationTween = CreateTween();
+		saturationTween.TweenProperty(worldEnvironment.Environment, "adjustment_saturation", 1, 1f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
+		saturationTween.Play();
 		Mole.Playing = true;
 		Mole.Restart();
 		ComboCointTimer.Start(RNG.RandiRange(3, 6));
@@ -131,6 +147,9 @@ public partial class Game : Node3D
 	}
 	public void _on_main_menu_pressed()
 	{
+		Tween saturationTween = CreateTween();
+		saturationTween.TweenProperty(worldEnvironment.Environment, "adjustment_saturation", 1, 1f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
+		saturationTween.Play();
 		Mole.SetGameOver(false);
 		Mole.Playing = false;
 		Mole.Restart();

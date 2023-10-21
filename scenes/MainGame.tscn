@@ -1,4 +1,4 @@
-[gd_scene load_steps=153 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=138 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" path="res://scripts/SettingsMenu.cs" id="23_u3q7w"]
 [ext_resource type="Script" path="res://scripts/Mallet.cs" id="24_dcgg1"]
 [ext_resource type="Script" path="res://scripts/Leaderboard.cs" id="24_qg2xs"]
+[ext_resource type="PackedScene" uid="uid://b4mkxv7pasvru" path="res://scenes/LeaderboardScoreObject.tscn" id="25_ngwty"]
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
@@ -772,169 +773,6 @@ material = SubResource("StandardMaterial3D_nybn5")
 radius = 0.03
 height = 0.12
 
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_h3xnf"]
-default_input_values = [0, 0.0, 1, 16.0]
-operator = 2
-
-[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_c1vfn"]
-constant = 1.0
-
-[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_clsb1"]
-
-[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_2e5uw"]
-constant = 0.16
-
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_tylwd"]
-output_port_for_preview = 0
-default_input_values = [0, 0.8, 1, 0.9]
-operator = 7
-
-[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_ctr5e"]
-constant = Color(3, 0, 0, 1)
-
-[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_rbt2g"]
-constant = Color(1, 0, 0, 1)
-
-[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_nw7km"]
-input_name = "time"
-
-[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_uscys"]
-output_port_for_preview = 0
-function = 0
-
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_l037b"]
-default_input_values = [0, 0.0, 1, 8.0]
-operator = 2
-
-[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_v6fwd"]
-parameter_name = "Flashing"
-default_value_enabled = true
-
-[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_7ufqn"]
-default_input_values = [0, false, 1, true, 2, false]
-op_type = 6
-
-[sub_resource type="VisualShader" id="VisualShader_ype0p"]
-code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
-
-uniform bool Flashing = false;
-
-
-
-void fragment() {
-// ColorConstant:3
-	vec4 n_out3p0 = vec4(1.000000, 0.000000, 0.000000, 1.000000);
-
-
-// Input:4
-	float n_out4p0 = TIME;
-
-
-// BooleanParameter:8
-	bool n_out8p0 = Flashing;
-
-
-	bool n_out9p0;
-// Switch:9
-	bool n_in9p1 = true;
-	bool n_in9p2 = false;
-	if (n_out8p0) {
-		n_out9p0 = n_in9p1;
-	} else {
-		n_out9p0 = n_in9p2;
-	}
-
-
-// FloatOp:11
-	float n_in11p1 = 16.00000;
-	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
-
-
-// FloatOp:6
-	float n_out6p0 = n_out4p0 * n_out11p0;
-
-
-// FloatFunc:5
-	float n_out5p0 = sin(n_out6p0);
-
-
-// FloatOp:15
-	float n_in15p0 = 0.80000;
-	float n_out15p0 = min(n_in15p0, n_out5p0);
-
-
-// FloatConstant:13
-	float n_out13p0 = 0.000000;
-
-
-// FloatConstant:14
-	float n_out14p0 = 0.160000;
-
-
-// FloatConstant:12
-	float n_out12p0 = 1.000000;
-
-
-// ColorConstant:16
-	vec4 n_out16p0 = vec4(3.000000, 0.000000, 0.000000, 1.000000);
-
-
-// Output:0
-	ALBEDO = vec3(n_out3p0.xyz);
-	ALPHA = n_out15p0;
-	METALLIC = n_out13p0;
-	ROUGHNESS = n_out14p0;
-	SPECULAR = n_out12p0;
-	EMISSION = vec3(n_out16p0.xyz);
-
-
-}
-"
-nodes/fragment/0/position = Vector2(980, -120)
-nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_rbt2g")
-nodes/fragment/3/position = Vector2(480, -160)
-nodes/fragment/4/node = SubResource("VisualShaderNodeInput_nw7km")
-nodes/fragment/4/position = Vector2(-800, 140)
-nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_uscys")
-nodes/fragment/5/position = Vector2(-20, 120)
-nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_l037b")
-nodes/fragment/6/position = Vector2(-260, 240)
-nodes/fragment/8/node = SubResource("VisualShaderNodeBooleanParameter_v6fwd")
-nodes/fragment/8/position = Vector2(-1160, 200)
-nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_7ufqn")
-nodes/fragment/9/position = Vector2(-800, 300)
-nodes/fragment/11/node = SubResource("VisualShaderNodeFloatOp_h3xnf")
-nodes/fragment/11/position = Vector2(-520, 320)
-nodes/fragment/12/node = SubResource("VisualShaderNodeFloatConstant_c1vfn")
-nodes/fragment/12/position = Vector2(500, 280)
-nodes/fragment/13/node = SubResource("VisualShaderNodeFloatConstant_clsb1")
-nodes/fragment/13/position = Vector2(500, 200)
-nodes/fragment/14/node = SubResource("VisualShaderNodeFloatConstant_2e5uw")
-nodes/fragment/14/position = Vector2(480, 380)
-nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_tylwd")
-nodes/fragment/15/position = Vector2(180, 20)
-nodes/fragment/16/node = SubResource("VisualShaderNodeColorConstant_ctr5e")
-nodes/fragment/16/position = Vector2(500, 480)
-nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 12, 0, 0, 4, 13, 0, 0, 2, 14, 0, 0, 3, 15, 0, 0, 1, 5, 0, 15, 1, 16, 0, 0, 5)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_67erf"]
-render_priority = 0
-shader = SubResource("VisualShader_ype0p")
-shader_parameter/Flashing = false
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3rdy"]
-next_pass = SubResource("ShaderMaterial_67erf")
-transparency = 1
-albedo_color = Color(0.141176, 0.141176, 0.141176, 0.466667)
-metallic_specular = 1.0
-roughness = 0.16
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_054om"]
-material = SubResource("StandardMaterial3D_f3rdy")
-radius = 0.03
-height = 0.12
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_tqhsi"]
 size = Vector3(1, 0.214042, 1)
 
@@ -1023,6 +861,7 @@ fog_enabled = true
 fog_light_color = Color(0.141176, 0, 0.341176, 1)
 fog_light_energy = 1.09
 fog_density = 0.1795
+adjustment_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu8vm"]
 albedo_texture = ExtResource("28_0p3hs")
@@ -1131,103 +970,84 @@ spot_range = 6.292
 [node name="Holes" type="Node3D" parent="NewWhackMachine"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0238988, 0)
 
-[node name="TopMiddleHole" type="Area3D" parent="NewWhackMachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.564, -0.21)
+[node name="TopHole" type="Area3D" parent="NewWhackMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.564, -0.275)
 script = ExtResource("8_dxwf0")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/TopMiddleHole"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/TopHole"]
 shape = SubResource("CylinderShape3D_uq8xj")
 
-[node name="TopMiddleBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopMiddleHole"]
+[node name="TopBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopHole"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165303)
 mesh = SubResource("CapsuleMesh_b4736")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopMiddleHole/TopMiddleBulb"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopHole/TopBulb"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
 mesh = SubResource("CylinderMesh_7hxv4")
 skeleton = NodePath("../..")
 
-[node name="TopLeftHole" type="Area3D" parent="NewWhackMachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.564, -0.21)
+[node name="LeftHole" type="Area3D" parent="NewWhackMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 0.564, -0.066)
 script = ExtResource("8_dxwf0")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/TopLeftHole"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/LeftHole"]
 shape = SubResource("CylinderShape3D_1l3pr")
 
-[node name="TopLeftBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopLeftHole"]
+[node name="LeftBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/LeftHole"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165)
 mesh = SubResource("CapsuleMesh_djttp")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopLeftHole/TopLeftBulb"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/LeftHole/LeftBulb"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
 mesh = SubResource("CylinderMesh_7hxv4")
 skeleton = NodePath("../..")
 
-[node name="TopRightHole" type="Area3D" parent="NewWhackMachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.564, -0.21)
+[node name="RightHole" type="Area3D" parent="NewWhackMachine/Holes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.240373, 0.564, -0.0661932)
 script = ExtResource("8_dxwf0")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/TopRightHole"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/RightHole"]
 shape = SubResource("CylinderShape3D_m2t5p")
 
-[node name="TopRightBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopRightHole"]
+[node name="RightBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/RightHole"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165)
 mesh = SubResource("CapsuleMesh_x86wp")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/TopRightHole/TopRightBulb"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/RightHole/RightBulb"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
 mesh = SubResource("CylinderMesh_7hxv4")
 skeleton = NodePath("../..")
 
 [node name="BottomLeftHole" type="Area3D" parent="NewWhackMachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.564, 0.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.564, 0.145)
 script = ExtResource("8_dxwf0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/BottomLeftHole"]
 shape = SubResource("CylinderShape3D_pfs5w")
 
-[node name="BottomLeftBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomLeftHole"]
+[node name="BottomBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomLeftHole"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165)
 mesh = SubResource("CapsuleMesh_c5aeb")
 skeleton = NodePath("")
 script = ExtResource("8_ngyci")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomLeftHole/BottomLeftBulb"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
-mesh = SubResource("CylinderMesh_7hxv4")
-skeleton = NodePath("../..")
-
-[node name="BottomRightHole" type="Area3D" parent="NewWhackMachine/Holes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.564, 0.05)
-script = ExtResource("8_dxwf0")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="NewWhackMachine/Holes/BottomRightHole"]
-shape = SubResource("CylinderShape3D_m2t5p")
-
-[node name="BottomRightBulb" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomRightHole"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.165)
-mesh = SubResource("CapsuleMesh_054om")
-skeleton = NodePath("")
-script = ExtResource("8_ngyci")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomRightHole/BottomRightBulb"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/Holes/BottomLeftHole/BottomBulb"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010352, 0)
 mesh = SubResource("CylinderMesh_7hxv4")
 skeleton = NodePath("../..")
 
 [node name="SelectedHoleHighlighter2" parent="NewWhackMachine" instance=ExtResource("16_ia14k")]
-transform = Transform3D(0.135, 0, 0, 0, 0.002, 0, 0, 0, 0.135, 0, 0.62, -0.21)
+transform = Transform3D(0.135, 0, 0, 0, 0.002, 0, 0, 0, 0.135, 0.24, 0.62, -0.066)
 script = ExtResource("13_pxcx6")
 
 [node name="Node3D4" parent="NewWhackMachine" instance=ExtResource("13_sdma7")]
@@ -1248,7 +1068,7 @@ shape = SubResource("BoxShape3D_tqhsi")
 
 [node name="Mole" type="Area3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14241, -0.21)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 1.142, -0.066)
 script = ExtResource("18_fkm07")
 metadata/_edit_group_ = true
 
@@ -1369,28 +1189,31 @@ size_flags_vertical = 4
 metadata/_edit_group_ = true
 
 [node name="Menu" type="MarginContainer" parent="UI/Menu"]
-layout_mode = 2
-anchor_right = 1.0
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -261.5
+offset_right = 261.5
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("22_hwvbv")
-theme_override_constants/margin_left = 700
-theme_override_constants/margin_top = 150
-theme_override_constants/margin_right = 700
-theme_override_constants/margin_bottom = 150
 
 [node name="MenuButtons" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/MenuButtons"]
 layout_mode = 2
 
 [node name="MenuButtons" type="VBoxContainer" parent="UI/Menu/Menu/MenuButtons/MarginContainer"]
-custom_minimum_size = Vector2(500, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1420,6 +1243,8 @@ text = "Exit"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/HelpScreen"]
 layout_mode = 2
@@ -1446,6 +1271,7 @@ text = "Back"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/SettingsMenu"]
 layout_mode = 2
@@ -1454,11 +1280,12 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/separation = 25
+theme_override_constants/separation = 10
 script = ExtResource("23_u3q7w")
 
 [node name="WindowModeLabel" type="Label" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Window Mode"
 horizontal_alignment = 1
 
@@ -1468,6 +1295,7 @@ layout_mode = 2
 
 [node name="ResolutionLabel" type="Label" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Resolution"
 horizontal_alignment = 1
 
@@ -1477,6 +1305,7 @@ layout_mode = 2
 
 [node name="MasterVolume" type="Label" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Master Volume"
 horizontal_alignment = 1
 
@@ -1488,6 +1317,7 @@ value = -4.0
 
 [node name="MusicVolume" type="Label" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Music Volume"
 horizontal_alignment = 1
 
@@ -1498,6 +1328,7 @@ max_value = 6.0
 
 [node name="SFXVolume" type="Label" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "SFX Volume"
 horizontal_alignment = 1
 
@@ -1506,19 +1337,13 @@ layout_mode = 2
 min_value = -80.0
 max_value = 6.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="SettingsBack" type="Button" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/HBoxContainer"]
+[node name="SettingsBack" type="Button" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 text = "Back"
 
 [node name="AccountMenu" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/AccountMenu"]
@@ -1536,6 +1361,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 30
 
 [node name="Label" type="Label" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
 layout_mode = 2
@@ -1558,6 +1384,7 @@ secret = true
 [node name="LoginConfirm" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 36
 text = "Login"
 
 [node name="HSeparator" type="HSeparator" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
@@ -1566,6 +1393,7 @@ layout_mode = 2
 [node name="GoToRegPage" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 36
 text = "No Account?"
 
 [node name="AsGuest" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login"]
@@ -1671,20 +1499,23 @@ unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_right = 543.0
+offset_right = 386.0
 grow_vertical = 2
 theme = ExtResource("22_hwvbv")
-theme_override_constants/margin_left = 40
 script = ExtResource("24_qg2xs")
 
 [node name="PanelContainer" type="PanelContainer" parent="UI/Menu/Leaderboard"]
+custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Menu/Leaderboard/PanelContainer"]
 layout_mode = 2
+theme_override_constants/separation = 5
 
 [node name="Label" type="Label" parent="UI/Menu/Leaderboard/PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 41
 text = "Leaderboard"
 horizontal_alignment = 1
 
@@ -1702,10 +1533,21 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 35
 text = "Score"
 
+[node name="HSeparator" type="HSeparator" parent="UI/Menu/Leaderboard/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 55
+
 [node name="ScoreList" type="VBoxContainer" parent="UI/Menu/Leaderboard/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_constants/separation = 25
+
+[node name="MarginContainer" parent="UI/Menu/Leaderboard/PanelContainer/VBoxContainer/ScoreList" instance=ExtResource("25_ngwty")]
+layout_mode = 2
+
+[node name="MarginContainer2" parent="UI/Menu/Leaderboard/PanelContainer/VBoxContainer/ScoreList" instance=ExtResource("25_ngwty")]
+layout_mode = 2
 
 [node name="UpdateLeaderboard" type="Timer" parent="UI/Menu/Leaderboard"]
 wait_time = 5.0
@@ -1862,6 +1704,7 @@ stream = ExtResource("29_8xud1")
 bus = &"SFX"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+unique_name_in_owner = true
 environment = SubResource("Environment_uq3bh")
 
 [node name="Node3D" type="Node3D" parent="."]
@@ -1955,11 +1798,10 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 
-[connection signal="area_entered" from="NewWhackMachine/Holes/TopMiddleHole" to="NewWhackMachine/Holes/TopMiddleHole" method="_on_area_entered"]
-[connection signal="area_entered" from="NewWhackMachine/Holes/TopLeftHole" to="NewWhackMachine/Holes/TopLeftHole" method="_on_area_entered"]
-[connection signal="area_entered" from="NewWhackMachine/Holes/TopRightHole" to="NewWhackMachine/Holes/TopRightHole" method="_on_area_entered"]
+[connection signal="area_entered" from="NewWhackMachine/Holes/TopHole" to="NewWhackMachine/Holes/TopHole" method="_on_area_entered"]
+[connection signal="area_entered" from="NewWhackMachine/Holes/LeftHole" to="NewWhackMachine/Holes/LeftHole" method="_on_area_entered"]
+[connection signal="area_entered" from="NewWhackMachine/Holes/RightHole" to="NewWhackMachine/Holes/RightHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/BottomLeftHole" to="NewWhackMachine/Holes/BottomLeftHole" method="_on_area_entered"]
-[connection signal="area_entered" from="NewWhackMachine/Holes/BottomRightHole" to="NewWhackMachine/Holes/BottomRightHole" method="_on_area_entered"]
 [connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
 [connection signal="area_entered" from="Mole" to="Mole" method="_on_area_entered"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
@@ -1976,7 +1818,7 @@ color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 [connection signal="value_changed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/MVSlider" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/MusicSlider" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/sfx" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_sfx_value_changed"]
-[connection signal="pressed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/HBoxContainer/SettingsBack" to="." method="_on_settings_back_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/SettingsBack" to="." method="_on_settings_back_pressed"]
 [connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Email" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_email_field_text_changed"]
 [connection signal="text_submitted" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Email" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_email_field_text_submitted"]
 [connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Password" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_password_field_text_changed"]

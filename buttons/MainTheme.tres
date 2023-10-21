@@ -8,9 +8,9 @@
 [ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="6_w2d43"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_ysmxg"]
-color = Color(0.0976563, 0.304688, 0.746094, 1)
-grow_begin = 10.0
-grow_end = 10.0
+color = Color(0, 0, 0, 0.196078)
+grow_begin = -15.0
+grow_end = -15.0
 thickness = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r84f6"]

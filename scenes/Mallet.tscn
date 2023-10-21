@@ -41,10 +41,10 @@ noise = SubResource("FastNoiseLite_pjm5p")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i5mim"]
 albedo_color = Color(0.141176, 0.0666667, 0.027451, 1)
-roughness = 0.73
+metallic = 0.22
+metallic_specular = 0.05
 roughness_texture = SubResource("NoiseTexture2D_kiexj")
 clearcoat = 0.02
-subsurf_scatter_strength = 0.57
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1qat"]
 albedo_color = Color(0.701961, 0.701961, 0.701961, 1)

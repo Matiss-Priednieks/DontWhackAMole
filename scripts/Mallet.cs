@@ -1,6 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System;
 
 public partial class Mallet : Area3D
 {
@@ -34,37 +33,31 @@ public partial class Mallet : Area3D
         PopOutTimer = GetNode<Timer>("%PopOutTimer");
         StartPosition = new Vector3(-0.8f, 1.325f, -0.115f);
         Holes = new Vector3[]{
-            new (-0.3f, 1.142f, -0.21f), //top left (W)
-            new (0, 1.142f, -0.21f), //top middle (A)
-            new (0.3f, 1.142f, -0.21f), //top right (S)
-            new (-0.15f, 1.142f, 0.05f), //bottom left (D))
-            new (0.15f, 1.142f, 0.05f) //bottom right (D))
-            };
-
+            new (0, 1.142f, -0.27f), 		//top(W)
+			new (-0.24f, 1.142f, -0.066f), 	//left (A)
+			new (0, 1.142f, 0.15f), 		//bottom (S)
+			new (0.24f, 1.142f, -0.066f) 	//right (D))
+			};
         HoleDictionary = new Dictionary()
         {
-            {0,"%TopLeftBulb"},
-            {1,"%TopMiddleBulb"},
-            {2,"%TopRightBulb"},
-            {3,"%BottomLeftBulb"},
-            {4,"%BottomRightBulb"}
+            {0,"%TopBulb"},
+            {1,"%LeftBulb"},
+            {2,"%BottomBulb"},
+            {3,"%RightBulb"}
         };
         HoleIndex = GD.RandRange(0, 3);
         NextHit = Holes[HoleIndex];
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-
-
         Playing = Player.Playing;
         if (Playing && !Player.Paused)
         {
-            if (MoleOutTooLong)
-            {
-                MoleOutTooLong = !Player.GetDownStatus();
-            }
+            // if (MoleOutTooLong)
+            // {
+            //     MoleOutTooLong = !Player.GetDownStatus();
+            // }
 
             if (PopOutTimer.TimeLeft < 0.75f && !Player.GetGameOver())
             {
@@ -99,7 +92,7 @@ public partial class Mallet : Area3D
 
             await ToSignal(GetTree().CreateTimer(MalletSlowSpeed), "timeout");
             MoveMallet(StartPosition);
-            HoleIndex = GD.RandRange(0, 4);
+            HoleIndex = GD.RandRange(0, 3);
             NextHit = Holes[HoleIndex];
         }
     }
@@ -111,7 +104,11 @@ public partial class Mallet : Area3D
             MoveMallet(playerPosition);
             if (!HasHit)
             {
-                Hit();
+                if (Player.GetDownStatus() == false)
+                {
+                    Hit();
+                    MoleOutTooLong = false;
+                }
                 await ToSignal(GetTree().CreateTimer(MalletSlowSpeed), "timeout");
                 MoveMallet(StartPosition);
             }

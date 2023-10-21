@@ -30,12 +30,11 @@ public partial class Coin : Area3D
         Collected = GetNode<AudioStreamPlayer3D>("%Collected");
         Shatter = GetNode<AudioStreamPlayer3D>("%Shatter");
         Holes = new Vector3[]{
-            new (-0.3f, 1.142f, -0.21f), //top left (W)
-            new (0, 1.142f, -0.21f), //top middle (A)
-            new (0.3f, 1.142f, -0.21f), //top right (S)
-            new (-0.15f, 1.142f, 0.05f), //bottom left (D))
-            new (0.15f, 1.142f, 0.05f) //bottom right (D))
-            };
+            new (0, 1.142f, -0.27f), 		//top(W)
+			new (-0.24f, 1.142f, -0.066f), 	//left (A)
+			new (0, 1.142f, 0.15f), 		//bottom (S)
+			new (0.24f, 1.142f, -0.066f) 	//right (D))
+			};
         GD.Randomize();
         MoleRef = GetNode<Mole>("../Mole");
         MalletRef = GetNode<Mallet>("../Mallet");
@@ -48,7 +47,7 @@ public partial class Coin : Area3D
         NextLocation = Holes[HoleIndex];
         while (NextLocation == MoleRef.GetChosenHole())
         {
-            HoleIndex = GD.RandRange(0, 4);
+            HoleIndex = GD.RandRange(0, 3);
             NextLocation = Holes[HoleIndex];
         }
         // PopOut();
@@ -57,7 +56,7 @@ public partial class Coin : Area3D
     public override void _PhysicsProcess(double delta)
     {
         // GD.Print(CoinBreakParticle.Position);
-        if (!Finished && MoleRef.Playing)
+        if (!Finished && MoleRef.Playing && !MoleRef.Paused)
         {
             PopOut();
             Finished = true;
@@ -74,7 +73,7 @@ public partial class Coin : Area3D
         YPos = Position.Y;
         Tween tempTween = CreateTween();
         tempTween.Parallel().TweenProperty(this, "YPos", UpPosition.Y, 1.25f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
-        tempTween.Parallel().TweenProperty(this, "rotation", tempRotation, 2.15f).SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+        tempTween.Parallel().TweenProperty(this, "rotation", tempRotation, 2.15f).SetTrans(Tween.TransitionType.Circ).SetEase(Tween.EaseType.Out);
 
         await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
         Out = true;

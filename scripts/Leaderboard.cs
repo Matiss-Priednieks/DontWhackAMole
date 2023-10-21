@@ -66,7 +66,10 @@ public partial class Leaderboard : MarginContainer
 					var lbItemInst = LeaderboardItem.Instantiate<PanelContainer>();
 
 					lbItemInst.GetNode<Label>("Panel/LBScoreLabel").Text = $"{Username} : {Score}";
+
 					ScoreList.AddChild(lbItemInst);
+					HSeparator leadboardItemSeperator = new();
+					ScoreList.AddChild(leadboardItemSeperator);
 				}
 				// }
 			}

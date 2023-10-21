@@ -60,19 +60,17 @@ public partial class Mole : Area3D
 		RNG = new RandomNumberGenerator();
 
 		Holes = new Vector3[]{
-			new (-0.3f, 1.142f, -0.21f), //top left (W)
-			new (0, 1.142f, -0.21f), //top middle (A)
-			new (0.3f, 1.142f, -0.21f), //top right (S)
-			new (-0.15f, 1.142f, 0.05f), //bottom left (D))
-			new (0.15f, 1.142f, 0.05f) //bottom right (D))
+			new (0, 1.142f, -0.27f), 		//top(W)
+			new (-0.24f, 1.142f, -0.066f), 	//left (A)
+			new (0, 1.142f, 0.15f), 		//bottom (S)
+			new (0.24f, 1.142f, -0.066f) 	//right (D))
 			};
 		HoleDictionary = new Dictionary()
 		{
-			{"TopLeft",Holes[0]},
-			{"TopMiddle",Holes[1]},
-			{"TopRight",Holes[2]},
-			{"BottomLeft",Holes[3]},
-			{"BottomRight",Holes[4]}
+			{"Top",Holes[0]},
+			{"Left",Holes[1]},
+			{"Down",Holes[2]},
+			{"Right",Holes[3]}
 		};
 		ChosenHole = Holes[0];
 		Position = Holes[0];
@@ -133,57 +131,25 @@ public partial class Mole : Area3D
 			if (Input.IsActionJustPressed("top_hole"))
 			{
 				Move.Play();
-				if (CurrentHole == 3)
-				{
-					CurrentHole = 0;
-				}
-				if (CurrentHole == 4)
-				{
-					CurrentHole = 2;
-				}
-				ChosenHole = Holes[CurrentHole];
+				ChosenHole = Holes[0];
 				PopDown();
 			}
 			if (Input.IsActionJustPressed("left_hole"))
 			{
 				Move.Play();
-				if (CurrentHole > 0)
-				{
-					CurrentHole--;
-				}
-				if (CurrentHole > 3)
-				{
-					CurrentHole--;
-				}
-				ChosenHole = Holes[CurrentHole];
+				ChosenHole = Holes[1];
 				PopDown();
 			}
 			if (Input.IsActionJustPressed("bottom_hole"))
 			{
 				Move.Play();
-				if (CurrentHole == 0)
-				{
-					CurrentHole = 3;
-				}
-				if (CurrentHole == 2)
-				{
-					CurrentHole = 4;
-				}
-				if (CurrentHole == 1)
-				{
-					CurrentHole = 4;
-				}
-				ChosenHole = Holes[CurrentHole];
+				ChosenHole = Holes[2];
 				PopDown();
 			}
 			if (Input.IsActionJustPressed("right_hole"))
 			{
 				Move.Play();
-				if (CurrentHole < 4)
-				{
-					CurrentHole++;
-				}
-				ChosenHole = Holes[CurrentHole];
+				ChosenHole = Holes[3];
 				PopDown();
 			}
 
@@ -242,7 +208,7 @@ public partial class Mole : Area3D
 		if (DangerTimer >= OutTooLongTime * 0.75f && Playing && !Paused)
 		{
 			//Call the smack!
-			GD.Print(DangerTimer, OutTooLongTime);
+			GD.Print(DangerTimer + " : " + OutTooLongTime);
 			EmitSignal("OutTooLong", Position);
 		}
 		else
