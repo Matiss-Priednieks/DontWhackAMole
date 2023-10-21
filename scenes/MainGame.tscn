@@ -1,4 +1,4 @@
-[gd_scene load_steps=153 format=3 uid="uid://d7ivfxxratty"]
+[gd_scene load_steps=153 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]

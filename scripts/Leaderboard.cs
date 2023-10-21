@@ -63,7 +63,7 @@ public partial class Leaderboard : MarginContainer
 
 				foreach (var (Username, Score) in sortedPlayers.Take(10))
 				{
-					var lbItemInst = LeaderboardItem.Instantiate<MarginContainer>();
+					var lbItemInst = LeaderboardItem.Instantiate<PanelContainer>();
 
 					lbItemInst.GetNode<Label>("Panel/LBScoreLabel").Text = $"{Username} : {Score}";
 					ScoreList.AddChild(lbItemInst);
@@ -73,7 +73,7 @@ public partial class Leaderboard : MarginContainer
 		}
 		else
 		{
-			var lbItemInst = LeaderboardItem.Instantiate<MarginContainer>();
+			var lbItemInst = LeaderboardItem.Instantiate<PanelContainer>();
 			lbItemInst.GetNode<Label>("Panel/LBScoreLabel").Text = "Error loading leaderboard";
 			ScoreList.AddChild(lbItemInst);
 		}

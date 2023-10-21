@@ -1,13 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://mtdy8nwgd62w"]
+[gd_scene load_steps=3 format=3 uid="uid://b4mkxv7pasvru"]
 
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="1_ei8xv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xaamj"]
-bg_color = Color(0.87451, 0.466667, 0.176471, 1)
+bg_color = Color(0.145098, 0.301961, 1, 0.462745)
 
-[node name="MarginContainer" type="MarginContainer"]
-offset_right = 351.0
-offset_bottom = 89.0
+[node name="MarginContainer" type="PanelContainer"]
+offset_right = 339.0
+offset_bottom = 73.0
 theme = ExtResource("1_ei8xv")
 
 [node name="Panel" type="Panel" parent="."]
@@ -16,15 +16,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_xaamj")
 
 [node name="LBScoreLabel" type="Label" parent="Panel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -164.5
-offset_top = -40.0
-offset_right = 164.5
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 35
