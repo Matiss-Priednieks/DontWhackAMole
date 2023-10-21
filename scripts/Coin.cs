@@ -15,10 +15,13 @@ public partial class Coin : Area3D
     public bool Out { get; private set; }
     public bool Finished { get; private set; }
     public bool IsCollected { get; private set; }
+    public float CoinCollectionBonus { get; private set; } = 1000;
+
+
     float YPos;
 
     MeshInstance3D ComboCounter;
-    MeshInstance3D CoinMesh;
+    Node3D CoinMesh;
     GpuParticles3D CoinBreakParticle;
     CollisionShape3D CoinCollider;
     AudioStreamPlayer3D Shatter, Collected;
@@ -39,7 +42,7 @@ public partial class Coin : Area3D
         MoleRef = GetNode<Mole>("../Mole");
         MalletRef = GetNode<Mallet>("../Mallet");
         ComboCounter = GetNode<MeshInstance3D>("../NewWhackMachine/ComboBonus/ComboText/ComboCounter");
-        CoinMesh = GetNode<MeshInstance3D>("%CoinMesh");
+        CoinMesh = GetNode<Node3D>("%CoinMesh");
         CoinBreakParticle = GetNode<GpuParticles3D>("%CoinBreakParticle");
         CoinCollider = GetNode<CollisionShape3D>("%CoinCollider");
 
@@ -98,6 +101,7 @@ public partial class Coin : Area3D
             if (mole.PopSpeed > 0.75f)
             {
                 mole.PopSpeed -= 0.025f;
+                mole.Score += CoinCollectionBonus;
             }
             if (MalletRef.MalletFastSpeed >= 0.1)
             {

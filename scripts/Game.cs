@@ -29,7 +29,7 @@ public partial class Game : Node3D
 	public bool Login, Register = false;
 
 	public bool MenuJustPressed { get; private set; }
-
+	int[] CoinSpawnTimes = { 4, 4, 6, 8, 8, 8, 16 };
 	public override void _Ready()
 	{
 		worldEnvironment = GetNode<Godot.WorldEnvironment>("%WorldEnvironment");
@@ -54,7 +54,6 @@ public partial class Game : Node3D
 		PlayResume = GetNode<Button>("%PlayResume");
 		ComboCointTimer = GetNode<Timer>("%ComboCoinTimer");
 		PopOutTimer = GetNode<Timer>("%PopOutTimer");
-
 
 		Coin = ResourceLoader.Load<PackedScene>("scenes/Coin.tscn");
 
@@ -220,7 +219,7 @@ public partial class Game : Node3D
 	{
 		var coinInstance = Coin.Instantiate<Area3D>();
 		AddChild(coinInstance);
-		ComboCointTimer.Start(4);
+		ComboCointTimer.Start(CoinSpawnTimes[RNG.RandiRange(0, CoinSpawnTimes.Length - 1)]);
 	}
 	public void _on_account_pressed()
 	{

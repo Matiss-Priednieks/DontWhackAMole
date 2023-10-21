@@ -1204,7 +1204,6 @@ theme = ExtResource("22_hwvbv")
 
 [node name="MenuButtons" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1344,6 +1343,7 @@ text = "Back"
 
 [node name="AccountMenu" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/AccountMenu"]
