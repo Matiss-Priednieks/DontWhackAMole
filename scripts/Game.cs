@@ -25,13 +25,16 @@ public partial class Game : Node3D
 
 	Timer PopOutTimer;
 
-	PackedScene Coin;
+	PackedScene Coin, Heart;
 	public bool Login, Register = false;
 
 	public bool MenuJustPressed { get; private set; }
-	int[] CoinSpawnTimes = { 4, 4, 6, 8, 8, 8, 16 };
+	int[] CollectableSpawnTimes = { 4, 4, 6, 8, 8, 8, 16 };
+
+	PackedScene[] Collectables;
 	public override void _Ready()
 	{
+		Collectables = new PackedScene[2];
 		worldEnvironment = GetNode<Godot.WorldEnvironment>("%WorldEnvironment");
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
 		User.LoggedInFakeReady();
@@ -56,6 +59,7 @@ public partial class Game : Node3D
 		PopOutTimer = GetNode<Timer>("%PopOutTimer");
 
 		Coin = ResourceLoader.Load<PackedScene>("scenes/Coin.tscn");
+		Heart = ResourceLoader.Load<PackedScene>("scenes/HeartContainer.tscn");
 
 		CamPlayPos = new Vector3(0, 2.403f, 1.516f);
 		CamPlayRot = new Vector3(-36.8f, 0, 0);
@@ -66,6 +70,9 @@ public partial class Game : Node3D
 		MainCam.Position = CamMenuPos;
 
 		Mole.Paused = true;
+
+		Collectables[0] = Coin;
+		Collectables[1] = Heart;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -217,9 +224,26 @@ public partial class Game : Node3D
 
 	public void _on_combo_coin_timer_timeout()
 	{
-		var coinInstance = Coin.Instantiate<Area3D>();
-		AddChild(coinInstance);
-		ComboCointTimer.Start(CoinSpawnTimes[RNG.RandiRange(0, CoinSpawnTimes.Length - 1)]);
+		int index = RNG.RandiRange(0, 1);
+
+		Node sceneInstance;
+		if (Mole.GetLives() < 3)
+		{
+			if (index == 0)
+			{
+				sceneInstance = Collectables[0].Instantiate<Area3D>();
+			}
+			else
+			{
+				sceneInstance = Collectables[1].Instantiate<Area3D>();
+			}
+		}
+		else
+		{
+			sceneInstance = Collectables[0].Instantiate<Area3D>();
+		}
+		AddChild(sceneInstance);
+		ComboCointTimer.Start(CollectableSpawnTimes[RNG.RandiRange(0, CollectableSpawnTimes.Length - 1)]);
 	}
 	public void _on_account_pressed()
 	{

@@ -3,7 +3,7 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 
-public partial class Coin : Area3D
+public partial class HeartContainer : Area3D
 {
 	public Vector3[] Holes { get; private set; }
 	public Dictionary HoleDictionary { get; private set; }
@@ -21,9 +21,9 @@ public partial class Coin : Area3D
 	float YPos;
 
 	MeshInstance3D ComboCounter;
-	Node3D CoinMesh;
-	GpuParticles3D CoinBreakParticle;
-	CollisionShape3D CoinCollider;
+	Node3D HeartMesh;
+	GpuParticles3D HeartBreakParticle;
+	CollisionShape3D HeartCollider;
 	AudioStreamPlayer3D Shatter, Collected;
 
 	Mole MoleRef;
@@ -42,9 +42,9 @@ public partial class Coin : Area3D
 		MoleRef = GetNode<Mole>("../Mole");
 		MalletRef = GetNode<Mallet>("../Mallet");
 		ComboCounter = GetNode<MeshInstance3D>("../NewWhackMachine/ComboBonus/ComboText/ComboCounter");
-		CoinMesh = GetNode<Node3D>("%CoinMesh");
-		CoinBreakParticle = GetNode<GpuParticles3D>("%CoinBreakParticle");
-		CoinCollider = GetNode<CollisionShape3D>("%CoinCollider");
+		HeartMesh = GetNode<Node3D>("%HeartMesh");
+		HeartBreakParticle = GetNode<GpuParticles3D>("%HeartBreakParticle");
+		HeartCollider = GetNode<CollisionShape3D>("%HeartCollider");
 
 		HoleIndex = GD.RandRange(0, 3);
 		NextLocation = Holes[HoleIndex];
@@ -58,7 +58,7 @@ public partial class Coin : Area3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		// GD.Print(CoinBreakParticle.Position);
+		// GD.Print(HeartBreakParticle.Position);
 		if (!Finished && MoleRef.Playing && !MoleRef.Paused)
 		{
 			PopOut();
@@ -86,8 +86,8 @@ public partial class Coin : Area3D
 		if (!IsCollected)
 		{
 			CallDeferred("DisableCollisions");
-			CoinMesh.Hide();
-			CoinBreakParticle.Emitting = true;
+			HeartMesh.Hide();
+			HeartBreakParticle.Emitting = true;
 			Shatter.Play(0);
 			await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 			CallDeferred("queue_free");
@@ -98,22 +98,9 @@ public partial class Coin : Area3D
 	{
 		if (area is Mole mole && Out)
 		{
-			if (mole.PopSpeed > 0.75f)
+			if (mole.GetLives() < 3)
 			{
-				mole.PopSpeed -= 0.025f;
-				mole.Score += CoinCollectionBonus;
-			}
-			if (MalletRef.MalletFastSpeed >= 0.1)
-			{
-				MalletRef.MalletFastSpeed -= 0.0025f;
-			}
-			if (MalletRef.MalletSlowSpeed >= 0.2)
-			{
-				MalletRef.MalletSlowSpeed -= 0.0025f;
-			}
-			if (mole.OutTooLongTime > 0.5)
-			{
-				mole.OutTooLongTime -= 0.025f;
+				mole.AddLives(1);
 			}
 			Collected.Play(0);
 			IsCollected = true;
@@ -123,12 +110,12 @@ public partial class Coin : Area3D
 			tempTween.Parallel().TweenProperty(this, "scale", new Vector3(0.01f, 0.01f, 0.01f), 0.5f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
 			mole.AnimateScoreCombo();
 			await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
-			CoinMesh.Hide();
+			HeartMesh.Hide();
 			CallDeferred("queue_free");
 		}
 	}
 	public void DisableCollisions()
 	{
-		CoinCollider.Disabled = true;
+		HeartCollider.Disabled = true;
 	}
 }

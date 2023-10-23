@@ -320,6 +320,14 @@ public partial class Mole : Area3D
 			scoreBoomScale.TweenProperty(ComboCounter, "scale", defaultScale, 0.1f).SetTrans(Tween.TransitionType.Elastic);
 		}
 	}
+	public int GetLives()
+	{
+		return Lives;
+	}
+	public void AddLives(int LivesToAdd)
+	{
+		Lives += LivesToAdd;
+	}
 
 	public Vector3 GetChosenHole()
 	{
