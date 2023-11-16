@@ -133,3 +133,4 @@ nodes/fragment/14/position = Vector2(480, 380)
 nodes/fragment/16/node = SubResource("VisualShaderNodeColorConstant_q5fp0")
 nodes/fragment/16/position = Vector2(500, 480)
 nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 12, 0, 0, 4, 13, 0, 0, 2, 14, 0, 0, 3, 16, 0, 0, 5, 5, 0, 0, 1)
+metadata/_edit_res_path = "res://assets/shaders/bulb/TopLMiddleBulb.tres"

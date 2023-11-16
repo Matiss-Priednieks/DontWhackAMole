@@ -145,3 +145,4 @@ nodes/fragment/15/position = Vector2(180, 20)
 nodes/fragment/16/node = SubResource("VisualShaderNodeColorConstant_4y0se")
 nodes/fragment/16/position = Vector2(500, 480)
 nodes/fragment/connections = PackedInt32Array(3, 0, 0, 0, 4, 0, 6, 0, 6, 0, 5, 0, 8, 0, 9, 0, 9, 0, 11, 0, 11, 0, 6, 1, 12, 0, 0, 4, 13, 0, 0, 2, 14, 0, 0, 3, 15, 0, 0, 1, 5, 0, 15, 1, 16, 0, 0, 5)
+metadata/_edit_res_path = "res://resources/RightFlashShader.tres"

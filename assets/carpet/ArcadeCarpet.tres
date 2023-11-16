@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://bs4eugrvso8w8"]
+
+[ext_resource type="Texture2D" uid="uid://b7qn5vp54nmrp" path="res://assets/carpet/ArcadeCarpet_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://btmbv0gra0bas" path="res://assets/carpet/ArcadeCarpet_emission.png" id="5"]
+
+[resource]
+albedo_texture = ExtResource("1")
+emission_enabled = true
+emission_energy_multiplier = 3.35
+emission_operator = 1
+emission_texture = ExtResource("5")
+uv1_scale = Vector3(0.355, 0.355, 0.355)
+uv1_triplanar = true

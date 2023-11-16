@@ -122,6 +122,7 @@ public partial class Coin : Area3D
 			tempTween.Parallel().TweenProperty(this, "position", new Vector3(ComboCounter.GlobalPosition.X + 0.05f, ComboCounter.GlobalPosition.Y, ComboCounter.GlobalPosition.Z + 0.05f), 0.2f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
 			tempTween.Parallel().TweenProperty(this, "scale", new Vector3(0.01f, 0.01f, 0.01f), 0.5f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
 			mole.AnimateScoreCombo();
+			mole.AnimateScore();
 			await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 			CoinMesh.Hide();
 			CallDeferred("queue_free");

@@ -34,7 +34,7 @@ public partial class Mole : Area3D
 	public float PopSpeed { get; set; }
 	public float OutTooLongTime { get; set; }
 	public bool RequestNotSent { get; private set; } = true;
-
+	AudioStream CounterSound2;
 
 	int CurrentHole = 0;
 	public override void _Ready()
@@ -80,6 +80,7 @@ public partial class Mole : Area3D
 		HighScore = (int)this.SaveManager.LoadScore(User.Username).X;
 		HighestCombo = (int)this.SaveManager.LoadScore(User.Username).Y;
 		PopOutTimer.Start(PopSpeed);
+		CounterSound2 = (AudioStream)ResourceLoader.Load("res://assets/audio/counter.wav");
 	}
 
 	public override void _Process(double delta)
@@ -130,34 +131,29 @@ public partial class Mole : Area3D
 
 			if (Input.IsActionJustPressed("top_hole"))
 			{
-				Move.Play();
-				ChosenHole = Holes[0];
-				PopDown();
+				MoveMole(0);
 			}
 			if (Input.IsActionJustPressed("left_hole"))
 			{
-				Move.Play();
-				ChosenHole = Holes[1];
-				PopDown();
+				MoveMole(1);
 			}
 			if (Input.IsActionJustPressed("bottom_hole"))
 			{
-				Move.Play();
-				ChosenHole = Holes[2];
-				PopDown();
+				MoveMole(2);
 			}
 			if (Input.IsActionJustPressed("right_hole"))
 			{
-				Move.Play();
-				ChosenHole = Holes[3];
-				PopDown();
+				MoveMole(3);
 			}
 
 			if (!Down && !Paused)
 			{
 				ScoreAcceleration += 0.005f * ComboBonus;
 				Score += ScoreAcceleration;
-				PlaySoundDelayed();
+				if (Score / Mathf.Round(Score) >= 1)
+				{
+					PlaySoundDelayed();
+				}
 			}
 
 			if (Lives <= 0)
@@ -172,10 +168,45 @@ public partial class Mole : Area3D
 
 
 	}
+
+	public void _on_down_swipe(int Hole)
+	{
+		MoveMole(Hole);
+	}
+	public void _on_right_swipe(int Hole)
+	{
+		MoveMole(Hole);
+	}
+	public void _on_left_swipe(int Hole)
+	{
+		MoveMole(Hole);
+	}
+	public void _on_up_swipe(int Hole)
+	{
+		MoveMole(Hole);
+	}
+
+	public void MoveMole(int Hole)
+	{
+		Move.Play();
+		ChosenHole = Holes[Hole];
+		PopDown();
+	}
+
 	public async void PlaySoundDelayed()
 	{
-		CounterSound.Play(0);
-		await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
+		AudioStreamPlayer3D scoreCounter = new()
+		{
+			Stream = CounterSound2,
+			VolumeDb = -20
+		};
+		AddChild(scoreCounter);
+		scoreCounter.Play(0);
+
+
+		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+		scoreCounter.QueueFree();
+		// CounterSound.Play(0);
 	}
 
 	public void Restart()
@@ -282,8 +313,29 @@ public partial class Mole : Area3D
 		Vector3 defaultRot = Vector3.Zero;
 		Vector3 lifeLostRot = new Vector3(360, 0, 0);
 		Tween scoreBoomRot = GetTree().CreateTween();
-		scoreBoomRot.TweenProperty(LivesCounter, "rotation", lifeLostRot, 0.5f).SetTrans(Tween.TransitionType.Elastic);
-		scoreBoomRot.TweenProperty(LivesCounter, "rotation", defaultRot, 0.1f).SetTrans(Tween.TransitionType.Elastic);
+		scoreBoomRot.TweenProperty(LivesCounter, "rotation", lifeLostRot, 0.5f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+		scoreBoomRot.TweenProperty(LivesCounter, "rotation", defaultRot, 0.1f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+	}
+	public void AnimateScore()
+	{
+		Vector3 defaultScale = Vector3.One;
+		Vector3 defaultPos = new(0, 0, 0.01f);
+		Vector3 defaultRot = Vector3.Zero;
+
+		Vector3 comboScale = new(1.3f, 1.3f, 1.3f);
+		Vector3 comboPos = new(0, 0.1f, 0.25f);
+		Vector3 comboRot = new(0, (float)GD.RandRange(-0.25f, 0.25f), (float)GD.RandRange(-0.6f, 0f));
+		Tween scoreBoomPos = GetTree().CreateTween();
+		scoreBoomPos.TweenProperty(ScoreCounter, "position", comboPos, 0.5f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+		scoreBoomPos.TweenProperty(ScoreCounter, "position", defaultPos, 0.5f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+
+		Tween scoreBoomScale = GetTree().CreateTween();
+		scoreBoomScale.TweenProperty(ScoreCounter, "scale", comboScale, 0.5f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+		scoreBoomScale.TweenProperty(ScoreCounter, "scale", defaultScale, 0.5f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+
+		Tween scoreBoomRot = GetTree().CreateTween();
+		scoreBoomRot.TweenProperty(ScoreCounter, "rotation", comboRot, 0.5f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+		scoreBoomRot.TweenProperty(ScoreCounter, "rotation", defaultRot, 0.5f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
 	}
 	public void AnimateScoreCombo()
 	{
