@@ -34,6 +34,7 @@
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/audio/miss-smack.wav" id="28_kyjjl"]
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/audio/abouttohit2.0.wav" id="29_8xud1"]
 [ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="30_2fipm"]
+[ext_resource type="Environment" uid="uid://22rh6576sufl" path="res://scenes/MainEnvironment-android.tres" id="32_7mqcg"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
 [ext_resource type="Script" path="res://scripts/IntroTransition.cs" id="32_lacay"]
 [ext_resource type="PackedScene" uid="uid://bwuyqs3i552o3" path="res://assets/stool/ArcadeStool.glb" id="37_uiokx"]
@@ -851,21 +852,6 @@ height = 0.4
 height = 0.2
 radius = 0.1
 
-[sub_resource type="Environment" id="Environment_uq3bh"]
-background_mode = 1
-background_color = Color(0.211765, 0.227451, 1, 1)
-tonemap_mode = 2
-ssr_enabled = true
-ssao_enabled = true
-glow_enabled = true
-glow_intensity = 1.03
-glow_bloom = 0.14
-fog_enabled = true
-fog_light_color = Color(0.141176, 0, 0.341176, 1)
-fog_light_energy = 1.09
-fog_density = 0.1795
-adjustment_enabled = true
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu8vm"]
 albedo_texture = ExtResource("28_0p3hs")
 emission_enabled = true
@@ -1135,6 +1121,7 @@ bus = &"SFX"
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.25, 1.53, -0.9)
+current = true
 script = ExtResource("17_hh5yl")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
@@ -1719,7 +1706,7 @@ bus = &"SFX"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 unique_name_in_owner = true
-environment = SubResource("Environment_uq3bh")
+environment = ExtResource("32_7mqcg")
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96551, 0.5, -3.19612)
@@ -1812,15 +1799,15 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 
-[node name="Decor" type="Node3D" parent="."]
 
+[node name="Decor" type="Node3D" parent="."]
 [node name="LeftWall" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 15.9534, -7.24012, 1.13836, -6.33714)
+transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 21.2134, -7.24012, 1.13836, -6.33714)
 mesh = SubResource("BoxMesh_31shi")
 skeleton = NodePath("../..")
 
 [node name="RightWall" type="MeshInstance3D" parent="Decor"]
-transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 15.9534, 6.03661, 1.13836, -6.33714)
+transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 21.2134, 6.03661, 1.13836, -6.33714)
 mesh = SubResource("BoxMesh_dsinm")
 skeleton = NodePath("../..")
 
