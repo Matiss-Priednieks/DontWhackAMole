@@ -224,12 +224,16 @@ public partial class Game : Node3D
 
 	public void _on_combo_coin_timer_timeout()
 	{
-		int index = RNG.RandiRange(0, 1);
+		//Generates random number from 0 to 100, this is then used to determine whether or not a regular coin or an extra life coin will be spawned.
+		//Extra life coin is approx 1 in 10.
 
+		int coinFavour = RNG.RandiRange(0, 100);
 		Node sceneInstance;
+
+		//Extra life only has a chance to spawn if your lives are below 3.
 		if (Mole.GetLives() < 3)
 		{
-			if (index == 0)
+			if (coinFavour >= 10)
 			{
 				sceneInstance = Collectables[0].Instantiate<Area3D>();
 			}

@@ -65,6 +65,7 @@ public partial class Coin : Area3D
 			Finished = true;
 		}
 		Position = new(Position.X, YPos, Position.Z);
+		RotationDegrees += new Vector3(GD.RandRange(-10, 10), GD.RandRange(-10, 10), GD.RandRange(-10, 10));
 	}
 
 	public async void PopOut()
@@ -76,8 +77,7 @@ public partial class Coin : Area3D
 		YPos = Position.Y;
 		Tween tempTween = CreateTween();
 		tempTween.Parallel().TweenProperty(this, "YPos", UpPosition.Y, 1.25f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
-		tempTween.Parallel().TweenProperty(this, "rotation", tempRotation, 2.15f).SetTrans(Tween.TransitionType.Circ).SetEase(Tween.EaseType.Out);
-
+		tempTween.Parallel().TweenProperty(this, "rotation", tempRotation, 2.15f).SetTrans(Tween.TransitionType.Circ).SetEase(Tween.EaseType.OutIn);
 		await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
 		Out = true;
 	}
@@ -122,6 +122,7 @@ public partial class Coin : Area3D
 			tempTween.Parallel().TweenProperty(this, "position", new Vector3(ComboCounter.GlobalPosition.X + 0.05f, ComboCounter.GlobalPosition.Y, ComboCounter.GlobalPosition.Z + 0.05f), 0.2f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
 			tempTween.Parallel().TweenProperty(this, "scale", new Vector3(0.01f, 0.01f, 0.01f), 0.5f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
 			mole.AnimateScoreCombo();
+			mole.AnimateScore();
 			await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 			CoinMesh.Hide();
 			CallDeferred("queue_free");

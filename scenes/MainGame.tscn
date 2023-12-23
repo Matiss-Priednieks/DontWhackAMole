@@ -1,4 +1,4 @@
-[gd_scene load_steps=138 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=145 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/SelectedHoleHighlighter.cs" id="13_pxcx6"]
 [ext_resource type="PackedScene" uid="uid://cns5jgoi61n88" path="res://scenes/WoodenSign.tscn" id="13_sdma7"]
 [ext_resource type="PackedScene" uid="uid://dxxf315ekx67o" path="res://scenes/ring.tscn" id="16_ia14k"]
+[ext_resource type="Script" path="res://scenes/MainCamera.cs" id="17_hh5yl"]
 [ext_resource type="Script" path="res://scripts/Mole.cs" id="18_fkm07"]
 [ext_resource type="Script" path="res://scripts/UI.cs" id="18_jts4r"]
 [ext_resource type="Texture2D" uid="uid://dxn84fhdqo67k" path="res://assets/tutorial-image.png" id="20_b5hly"]
@@ -27,6 +28,7 @@
 [ext_resource type="Script" path="res://scripts/Leaderboard.cs" id="24_qg2xs"]
 [ext_resource type="PackedScene" uid="uid://b4mkxv7pasvru" path="res://scenes/LeaderboardScoreObject.tscn" id="25_ngwty"]
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
+[ext_resource type="Material" uid="uid://bs4eugrvso8w8" path="res://assets/carpet/ArcadeCarpet.tres" id="27_lglfh"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/audio/miss-smack.wav" id="28_kyjjl"]
@@ -35,6 +37,7 @@
 [ext_resource type="Environment" uid="uid://22rh6576sufl" path="res://scenes/MainEnvironment-android.tres" id="32_7mqcg"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
 [ext_resource type="Script" path="res://scripts/IntroTransition.cs" id="32_lacay"]
+[ext_resource type="PackedScene" uid="uid://bwuyqs3i552o3" path="res://assets/stool/ArcadeStool.glb" id="37_uiokx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_4lm6s"]
 material = ExtResource("6_8mjb7")
@@ -871,6 +874,14 @@ font = ExtResource("4_keded")
 font_size = 8
 horizontal_alignment = 0
 
+[sub_resource type="BoxMesh" id="BoxMesh_31shi"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dsinm"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gq054"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_frt35"]
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7dit6")
 
@@ -944,13 +955,14 @@ mesh = SubResource("TextMesh_8o3ij")
 [node name="CounterSound" type="AudioStreamPlayer3D" parent="NewWhackMachine/Score"]
 unique_name_in_owner = true
 stream = ExtResource("9_r60t1")
-volume_db = -20.0
+volume_db = -30.0
+pitch_scale = 0.9
 bus = &"SFX"
 
 [node name="OmniLight3D" type="SpotLight3D" parent="NewWhackMachine"]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 3.08462, 0)
 light_color = Color(0.568627, 0.568627, 1, 1)
-light_energy = 4.624
+light_energy = 0.788
 spot_range = 6.292
 
 [node name="Holes" type="Node3D" parent="NewWhackMachine"]
@@ -1109,11 +1121,8 @@ bus = &"SFX"
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.25, 1.53, -0.9)
-<<<<<<< Updated upstream
-=======
 current = true
 script = ExtResource("17_hh5yl")
->>>>>>> Stashed changes
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
@@ -1121,7 +1130,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.965926, -1.54268e-08, 0.258819, -0.258819, -5.75736e-08, 0.965926, 0, -1, -5.96046e-08, 0, 2, -3)
 light_color = Color(0.346955, 0.316682, 1, 1)
-light_energy = 1.53
+light_energy = 0.159
 shadow_enabled = true
 shadow_blur = 2.238
 
@@ -1656,6 +1665,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="Floor" type="MeshInstance3D" parent="."]
+material_override = ExtResource("27_lglfh")
 mesh = SubResource("PlaneMesh_7khsi")
 
 [node name="Mallet" type="Area3D" parent="."]
@@ -1725,16 +1735,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345985, 0.772237, -0.60162
 mesh = SubResource("TextMesh_ld7fd")
 
 [node name="arcademachine2" parent="Node3D" instance=ExtResource("27_r22r8")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, 0.791597)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.88702, 0, 0.791597)
 
 [node name="arcademachine3" parent="Node3D" instance=ExtResource("27_r22r8")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, -0.825161)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.90753, 0, -0.825161)
 
 [node name="arcademachine4" parent="Node3D" instance=ExtResource("27_r22r8")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197298, 0, -2.54985)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.86906, 0, -2.54985)
 
 [node name="Node3D2" type="Node3D" parent="."]
-transform = Transform3D(-0.99961, 0, 0.0279215, 0, 1, 0, -0.0279215, 0, -0.99961, 2.88972, 0.5, -4.06418)
+transform = Transform3D(-0.99961, 0, 0.0279215, 0, 1, 0, -0.0279215, 0, -0.99961, 4.8728, 0.5, -4.06418)
 
 [node name="arcademachine" parent="Node3D2" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
@@ -1749,7 +1759,7 @@ transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.1958
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -3.70604)
 
 [node name="Node3D3" type="Node3D" parent="."]
-transform = Transform3D(-0.0279215, 0, -0.99961, 0, 1, 0, 0.99961, 0, -0.0279215, -1.18806, 0.5, -7.20881)
+transform = Transform3D(-0.0279215, 0, -0.99961, 0, 1, 0, 0.99961, 0, -0.0279215, -1.18806, 0.5, -11.5071)
 
 [node name="arcademachine" parent="Node3D3" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
@@ -1789,10 +1799,8 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 
-<<<<<<< Updated upstream
-=======
-[node name="Decor" type="Node3D" parent="."]
 
+[node name="Decor" type="Node3D" parent="."]
 [node name="LeftWall" type="MeshInstance3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 21.2134, -7.24012, 1.13836, -6.33714)
 mesh = SubResource("BoxMesh_31shi")
@@ -1846,7 +1854,6 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.69867, 0, -2.1078)
 [node name="ArcadeStool11" parent="Decor" instance=ExtResource("37_uiokx")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.69867, 0, -0.373542)
 
->>>>>>> Stashed changes
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopHole" to="NewWhackMachine/Holes/TopHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/LeftHole" to="NewWhackMachine/Holes/LeftHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/RightHole" to="NewWhackMachine/Holes/RightHole" method="_on_area_entered"]
@@ -1856,6 +1863,10 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.69867, 0, -0.373542)
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="Mole/OutTimer" to="Mole" method="_on_out_timer_timeout"]
+[connection signal="DownSwipe" from="Camera3D" to="Mole" method="_on_down_swipe"]
+[connection signal="LeftSwipe" from="Camera3D" to="Mole" method="_on_left_swipe"]
+[connection signal="RightSwipe" from="Camera3D" to="Mole" method="_on_right_swipe"]
+[connection signal="UpSwipe" from="Camera3D" to="Mole" method="_on_up_swipe"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/PlayResume" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Help" to="." method="_on_help_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Settings" to="." method="_on_settings_pressed"]

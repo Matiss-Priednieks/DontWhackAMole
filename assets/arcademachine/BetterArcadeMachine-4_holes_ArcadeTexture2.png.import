@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cgk4hraj4uy5d"
 path.s3tc="res://.godot/imported/BetterArcadeMachine-4_holes_ArcadeTexture2.png-15181ef3a9420d7f4f2f0acbd016eb43.s3tc.ctex"
+path.etc2="res://.godot/imported/BetterArcadeMachine-4_holes_ArcadeTexture2.png-15181ef3a9420d7f4f2f0acbd016eb43.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={}
@@ -13,7 +14,7 @@ generator_parameters={}
 [deps]
 
 source_file="res://assets/arcademachine/BetterArcadeMachine-4_holes_ArcadeTexture2.png"
-dest_files=["res://.godot/imported/BetterArcadeMachine-4_holes_ArcadeTexture2.png-15181ef3a9420d7f4f2f0acbd016eb43.s3tc.ctex"]
+dest_files=["res://.godot/imported/BetterArcadeMachine-4_holes_ArcadeTexture2.png-15181ef3a9420d7f4f2f0acbd016eb43.s3tc.ctex", "res://.godot/imported/BetterArcadeMachine-4_holes_ArcadeTexture2.png-15181ef3a9420d7f4f2f0acbd016eb43.etc2.ctex"]
 
 [params]
 
