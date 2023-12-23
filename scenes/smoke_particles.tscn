@@ -32,9 +32,7 @@ color_ramp = SubResource("GradientTexture1D_kj2ph")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s46cn"]
 transparency = 1
 albedo_color = Color(0.6, 0.529412, 0.529412, 0.760784)
-subsurf_scatter_enabled = true
 subsurf_scatter_strength = 1.0
-refraction_enabled = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_lsk13"]
 material = SubResource("StandardMaterial3D_s46cn")

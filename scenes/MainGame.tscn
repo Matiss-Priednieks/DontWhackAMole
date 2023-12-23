@@ -32,6 +32,7 @@
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/audio/miss-smack.wav" id="28_kyjjl"]
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/audio/abouttohit2.0.wav" id="29_8xud1"]
 [ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="30_2fipm"]
+[ext_resource type="Environment" uid="uid://22rh6576sufl" path="res://scenes/MainEnvironment-android.tres" id="32_7mqcg"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
 [ext_resource type="Script" path="res://scripts/IntroTransition.cs" id="32_lacay"]
 
@@ -848,21 +849,6 @@ height = 0.4
 height = 0.2
 radius = 0.1
 
-[sub_resource type="Environment" id="Environment_uq3bh"]
-background_mode = 1
-background_color = Color(0.211765, 0.227451, 1, 1)
-tonemap_mode = 2
-ssr_enabled = true
-ssao_enabled = true
-glow_enabled = true
-glow_intensity = 1.03
-glow_bloom = 0.14
-fog_enabled = true
-fog_light_color = Color(0.141176, 0, 0.341176, 1)
-fog_light_energy = 1.09
-fog_density = 0.1795
-adjustment_enabled = true
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu8vm"]
 albedo_texture = ExtResource("28_0p3hs")
 emission_enabled = true
@@ -1123,6 +1109,11 @@ bus = &"SFX"
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.25, 1.53, -0.9)
+<<<<<<< Updated upstream
+=======
+current = true
+script = ExtResource("17_hh5yl")
+>>>>>>> Stashed changes
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
@@ -1705,7 +1696,7 @@ bus = &"SFX"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 unique_name_in_owner = true
-environment = SubResource("Environment_uq3bh")
+environment = ExtResource("32_7mqcg")
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96551, 0.5, -3.19612)
@@ -1798,6 +1789,64 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 
+<<<<<<< Updated upstream
+=======
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="LeftWall" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 21.2134, -7.24012, 1.13836, -6.33714)
+mesh = SubResource("BoxMesh_31shi")
+skeleton = NodePath("../..")
+
+[node name="RightWall" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 21.2134, 6.03661, 1.13836, -6.33714)
+mesh = SubResource("BoxMesh_dsinm")
+skeleton = NodePath("../..")
+
+[node name="BackWall" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(-4.37114e-08, 0, 15.9534, 0, 7.61852, 0, -1, 0, -6.97343e-07, -0.972308, 1.13836, -12.9518)
+mesh = SubResource("BoxMesh_gq054")
+skeleton = NodePath("../..")
+
+[node name="Ceiling" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(-4.37114e-08, 0, 15.9534, 1, -9.54822e-07, 6.97343e-07, 4.37114e-08, 21.8438, 3.04818e-14, -0.972308, 5.2682, -8.65597)
+mesh = SubResource("BoxMesh_frt35")
+skeleton = NodePath("../..")
+
+[node name="ArcadeStool" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.82933, 0, -2.41324)
+
+[node name="ArcadeStool2" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.82933, 0, -4.01696)
+
+[node name="ArcadeStool3" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.82933, 0, -5.78204)
+
+[node name="ArcadeStool4" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -2.39313, 0, -10.349)
+
+[node name="ArcadeStool5" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.866216, 0, -10.349)
+
+[node name="ArcadeStool6" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.735178, 0, -10.349)
+
+[node name="ArcadeStool7" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 2.42207, 0, -10.349)
+
+[node name="ArcadeStool8" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.69867, 0, -5.30126)
+
+[node name="ArcadeStool9" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.69867, 0, -3.7723)
+
+[node name="ArcadeStool10" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.69867, 0, -2.1078)
+
+[node name="ArcadeStool11" parent="Decor" instance=ExtResource("37_uiokx")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.69867, 0, -0.373542)
+
+>>>>>>> Stashed changes
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopHole" to="NewWhackMachine/Holes/TopHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/LeftHole" to="NewWhackMachine/Holes/LeftHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/RightHole" to="NewWhackMachine/Holes/RightHole" method="_on_area_entered"]
