@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=8 format=3 uid="uid://1ydd2rxj83do"]
+[gd_resource type="VisualShader" load_steps=9 format=3 uid="uid://1ydd2rxj83do"]
 
 [sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_yp75a"]
 output_port_for_preview = 0
@@ -13,8 +13,12 @@ input_name = "time"
 
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_t8hfy"]
 output_port_for_preview = 0
-default_input_values = [0, 0.0, 1, 12.0]
+default_input_values = [0, 0.0, 1, 6.0]
 operator = 2
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_ggrcu"]
+output_port_for_preview = 0
+function = 10
 
 [sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_3qhy0"]
 constant = Color(0, 0.0313726, 1, 1)
@@ -44,7 +48,7 @@ void fragment() {
 
 
 // FloatOp:4
-	float n_in4p1 = 12.00000;
+	float n_in4p1 = 6.00000;
 	float n_out4p0 = n_out3p0 * n_in4p1;
 
 
@@ -76,6 +80,8 @@ nodes/fragment/3/node = SubResource("VisualShaderNodeInput_ef4c7")
 nodes/fragment/3/position = Vector2(-900, 180)
 nodes/fragment/4/node = SubResource("VisualShaderNodeFloatOp_t8hfy")
 nodes/fragment/4/position = Vector2(-520, 180)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_ggrcu")
+nodes/fragment/5/position = Vector2(60, 240)
 nodes/fragment/6/node = SubResource("VisualShaderNodeColorConstant_3qhy0")
 nodes/fragment/6/position = Vector2(-220, 40)
 nodes/fragment/7/node = SubResource("VisualShaderNodeVec3Constant_5w5of")
@@ -84,5 +90,5 @@ nodes/fragment/9/node = SubResource("VisualShaderNodeFloatOp_3q436")
 nodes/fragment/9/position = Vector2(-20, 180)
 nodes/fragment/10/node = SubResource("VisualShaderNodeFloatConstant_yp75a")
 nodes/fragment/10/position = Vector2(-280, 440)
-nodes/fragment/connections = PackedInt32Array(3, 0, 4, 0, 4, 0, 2, 0, 6, 0, 0, 0, 7, 0, 0, 5, 9, 0, 0, 1, 2, 0, 9, 1)
+nodes/fragment/connections = PackedInt32Array(3, 0, 4, 0, 4, 0, 2, 0, 2, 0, 5, 0, 5, 0, 0, 1, 6, 0, 0, 0, 7, 0, 0, 5, 9, 0, 0, 1, 2, 0, 9, 1)
 metadata/_edit_res_path = "res://resources/SelectionRing.tres"

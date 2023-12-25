@@ -1,9 +1,8 @@
 using Godot;
-using System;
+
 
 public partial class SaveManager : Node
 {
-
 	const string CONFIG_SAVE_PATH = "user://settings.cfg";
 
 
@@ -13,7 +12,15 @@ public partial class SaveManager : Node
 		var config = new ConfigFile();
 
 		// Load data from a file.
-		Error err = config.Load(CONFIG_SAVE_PATH);
+		Error err;
+		if (OS.HasFeature("mobile"))
+		{
+			err = config.Load(OS.GetUserDataDir() + "settings.cfg");
+		}
+		else
+		{
+			err = config.Load(CONFIG_SAVE_PATH);
+		}
 
 		// If the file didn't load, ignore it.
 		if (err != Error.Ok)
@@ -22,7 +29,7 @@ public partial class SaveManager : Node
 		}
 		// Fetch the data for each section.
 		var Resolution = (Vector2I)config.GetValue("Settings", "Resolution");
-		var WindowMode = (String)config.GetValue("Settings", "WindowMode");
+		var WindowMode = (string)config.GetValue("Settings", "WindowMode");
 		var MasterVolume = (float)config.GetValue("Volume", "Master");
 		var MusicVolume = (float)config.GetValue("Volume", "Music");
 		var SFXVolume = (float)config.GetValue("Volume", "SFX");
@@ -53,6 +60,7 @@ public partial class SaveManager : Node
 
 	public void SaveConfig()
 	{
+		GD.Print(OS.HasFeature("mobile"));
 		var config = new ConfigFile();
 
 		config.SetValue("Settings", "Resolution", GetTree().Root.ContentScaleSize);
@@ -67,17 +75,31 @@ public partial class SaveManager : Node
 		busIndex = AudioServer.GetBusIndex("SFX");
 		config.SetValue("Volume", "SFX", AudioServer.GetBusVolumeDb(busIndex));
 
-		config.Save(CONFIG_SAVE_PATH);
+		GD.Print("\n_________\nCongigSaving Data\n_________");
+		if (OS.HasFeature("mobile"))
+		{
+			GD.Print(config.Save(OS.GetUserDataDir() + "settings.cfg"));
+		}
+		else
+		{
+			GD.Print(config.Save(CONFIG_SAVE_PATH));
+		}
+		GD.Print(OS.GetUserDataDir());
 	}
 
-	public void SaveScore(string PlayerName, int highScore, int highestCombo)
+	public Error SaveScore(string PlayerName, int highScore, int highestCombo)
 	{
-		string PLAYER_SCORE_SAVE_PATH = "user://" + PlayerName + "playerscore.cfg";
+		string PLAYER_SCORE_SAVE_PATH;
+
+		PLAYER_SCORE_SAVE_PATH = "user://" + PlayerName + "playerscore.cfg";
+		GD.Print(PlayerName);
 		var score = new ConfigFile();
 		score.SetValue(PlayerName, "Score", highScore);
 		score.SetValue(PlayerName, "HighestCombo", highestCombo);
 
-		score.Save(PLAYER_SCORE_SAVE_PATH);
+		Error err = score.Save(PLAYER_SCORE_SAVE_PATH);
+
+		return err;
 	}
 	public Vector2 LoadScore(string PlayerName)
 	{
@@ -85,9 +107,10 @@ public partial class SaveManager : Node
 		var score = new ConfigFile();
 		Error err = score.Load(PLAYER_SCORE_SAVE_PATH);
 
+		GD.Print("\n" + err + "\n" + PlayerName + "\n");
 		var highScore = (int)score.GetValue(PlayerName, "Score");
 		var highestCombo = (int)score.GetValue(PlayerName, "HighestCombo");
-
+		GD.Print(highScore, highestCombo);
 		return new Vector2(highScore, highestCombo);
 	}
 }

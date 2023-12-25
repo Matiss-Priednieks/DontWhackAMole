@@ -38,8 +38,8 @@ public partial class Game : Node3D
 		worldEnvironment = GetNode<Godot.WorldEnvironment>("%WorldEnvironment");
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
 		User.LoggedInFakeReady();
-		this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
-		this.SaveManager.LoadConfig();
+		SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
+		SaveManager.LoadConfig();
 
 		LoginScreen = GetNode<Panel>("%LoginScreen");
 		RegistrationScreen = GetNode<Panel>("%RegistrationScreen");
@@ -80,7 +80,7 @@ public partial class Game : Node3D
 	{
 		if (Input.IsActionJustReleased("menu") && !Menu && !Mole.GetGameOver())
 		{
-			this.SaveManager.SaveConfig();
+			SaveManager.SaveConfig();
 			if (!MenuJustPressed)
 			{
 				MenuJustPressed = true;
@@ -96,7 +96,7 @@ public partial class Game : Node3D
 		}
 		else if (Input.IsActionJustReleased("menu") && Menu)
 		{
-			this.SaveManager.SaveConfig();
+			SaveManager.SaveConfig();
 			if (!MenuJustPressed)
 			{
 				MenuJustPressed = true;
@@ -140,6 +140,7 @@ public partial class Game : Node3D
 
 	public void _on_restart_pressed()
 	{
+		GD.Print(SaveManager.SaveScore(User.Username, Mole.GetHighScore(), Mole.GetHighestCombo()));
 		Tween saturationTween = CreateTween();
 		saturationTween.TweenProperty(worldEnvironment.Environment, "adjustment_saturation", 1, 1f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
 		saturationTween.Play();
@@ -153,11 +154,13 @@ public partial class Game : Node3D
 	}
 	public void _on_main_menu_pressed()
 	{
+		GD.Print(SaveManager.SaveScore(User.Username, Mole.GetHighScore(), Mole.GetHighestCombo()));
 		Tween saturationTween = CreateTween();
 		saturationTween.TweenProperty(worldEnvironment.Environment, "adjustment_saturation", 1, 1f).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
 		saturationTween.Play();
 		Mole.SetGameOver(false);
 		Mole.Playing = false;
+		Mole.Paused = true;
 		Mole.Restart();
 		GameOverMenu.Hide();
 		MainMenu.Show();
@@ -246,8 +249,12 @@ public partial class Game : Node3D
 		{
 			sceneInstance = Collectables[0].Instantiate<Area3D>();
 		}
-		AddChild(sceneInstance);
-		ComboCointTimer.Start(CollectableSpawnTimes[RNG.RandiRange(0, CollectableSpawnTimes.Length - 1)]);
+		if (!Mole.GetGameOver() && !Mole.Paused)
+		{
+			GD.Print(Mole.GetGameOver() + " " + " " + Mole.Paused);
+			AddChild(sceneInstance);
+			ComboCointTimer.Start(CollectableSpawnTimes[RNG.RandiRange(0, CollectableSpawnTimes.Length - 1)]);
+		}
 	}
 	public void _on_account_pressed()
 	{

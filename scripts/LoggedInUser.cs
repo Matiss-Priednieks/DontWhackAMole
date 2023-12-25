@@ -18,7 +18,7 @@ public partial class LoggedInUser : Node
     public int UserHighScore { get; private set; }
     public override void _Ready()
     {
-
+        Username = "Guest";
     }
 
     public void LoggedInFakeReady()

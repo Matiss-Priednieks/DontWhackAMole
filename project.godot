@@ -37,6 +37,10 @@ window/stretch/mode="viewport"
 
 project/assembly_name="DontWhackAMole"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/admob/plugin.cfg")
+
 [input]
 
 top_hole={

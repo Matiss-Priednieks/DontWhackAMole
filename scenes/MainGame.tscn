@@ -13,7 +13,7 @@
 [ext_resource type="Script" path="res://scripts/SelectedHoleHighlighter.cs" id="13_pxcx6"]
 [ext_resource type="PackedScene" uid="uid://cns5jgoi61n88" path="res://scenes/WoodenSign.tscn" id="13_sdma7"]
 [ext_resource type="PackedScene" uid="uid://dxxf315ekx67o" path="res://scenes/ring.tscn" id="16_ia14k"]
-[ext_resource type="Script" path="res://scenes/MainCamera.cs" id="17_hh5yl"]
+[ext_resource type="Script" path="res://scripts/MainCamera.cs" id="17_6nx8f"]
 [ext_resource type="Script" path="res://scripts/Mole.cs" id="18_fkm07"]
 [ext_resource type="Script" path="res://scripts/UI.cs" id="18_jts4r"]
 [ext_resource type="Texture2D" uid="uid://dxn84fhdqo67k" path="res://assets/tutorial-image.png" id="20_b5hly"]
@@ -34,7 +34,7 @@
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/audio/miss-smack.wav" id="28_kyjjl"]
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/audio/abouttohit2.0.wav" id="29_8xud1"]
 [ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="30_2fipm"]
-[ext_resource type="Environment" uid="uid://22rh6576sufl" path="res://scenes/MainEnvironment-android.tres" id="32_7mqcg"]
+[ext_resource type="Environment" uid="uid://gov5g3o06qnc" path="res://scenes/MainEnvironment-android.tres" id="32_7mqcg"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
 [ext_resource type="Script" path="res://scripts/IntroTransition.cs" id="32_lacay"]
 [ext_resource type="PackedScene" uid="uid://bwuyqs3i552o3" path="res://assets/stool/ArcadeStool.glb" id="37_uiokx"]
@@ -1122,7 +1122,7 @@ bus = &"SFX"
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.25, 1.53, -0.9)
 current = true
-script = ExtResource("17_hh5yl")
+script = ExtResource("17_6nx8f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
@@ -1799,8 +1799,8 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 
-
 [node name="Decor" type="Node3D" parent="."]
+
 [node name="LeftWall" type="MeshInstance3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 21.2134, -7.24012, 1.13836, -6.33714)
 mesh = SubResource("BoxMesh_31shi")

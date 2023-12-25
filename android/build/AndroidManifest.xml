@@ -28,14 +28,14 @@
 
         <!-- Records the version of the Godot editor used for building -->
         <meta-data
-            android:name="org.godotengine.editor.version"
-            android:value="${godotEditorVersion}" />
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+	        android:value="ca-app-pub-6136854208594469~6592626216"/>
 
         <activity
             android:name=".GodotApp"
             android:label="@string/godot_project_name_string"
             android:theme="@style/GodotAppSplashTheme"
-            android:launchMode="singleInstance"
+            android:launchMode="singleInstancePerTask"
             android:excludeFromRecents="false"
             android:exported="true"
             android:screenOrientation="landscape"

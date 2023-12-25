@@ -42,7 +42,7 @@ public partial class Mole : Area3D
 		OutTooLongTime = 1;
 		PopSpeed = 2;
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
-		this.SaveManager = GetNode<SaveManager>("/root/SaveManager");
+		SaveManager = GetNode<SaveManager>("/root/SaveManager");
 		Score = 0;
 		ComboBonus = 1;
 		CounterSound = GetNode<AudioStreamPlayer3D>("%CounterSound");
@@ -77,8 +77,8 @@ public partial class Mole : Area3D
 
 		PopOutTimer = GetNode<Timer>("%PopOutTimer");
 		OutTimer = GetNode<Timer>("%OutTimer");
-		HighScore = (int)this.SaveManager.LoadScore(User.Username).X;
-		HighestCombo = (int)this.SaveManager.LoadScore(User.Username).Y;
+		HighScore = (int)SaveManager.LoadScore(User.Username).X;
+		HighestCombo = (int)SaveManager.LoadScore(User.Username).Y;
 		PopOutTimer.Start(PopSpeed);
 		CounterSound2 = (AudioStream)ResourceLoader.Load("res://assets/audio/counter.wav");
 	}
@@ -90,12 +90,12 @@ public partial class Mole : Area3D
 		{
 			HighScore = (int)Score;
 			User.SetHighscore(HighScore);
-			this.SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
+			// SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
 		}
 		if (ComboBonus > HighestCombo)
 		{
 			HighestCombo = ComboBonus;
-			this.SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
+			// SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
 		}
 		var LivesMesh = (TextMesh)LivesCounter.Mesh;
 		LivesMesh.Text = Lives.ToString();
@@ -216,7 +216,7 @@ public partial class Mole : Area3D
 		DangerTimer = 0;
 		HighScore = (int)FinalScore;
 		User.SetHighscore(HighScore);
-		this.SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
+		SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
 		Error requestResult = User.HighscoreUpdateRequest();
 		GD.Print("Score sent to server.");
 	}
@@ -413,5 +413,13 @@ public partial class Mole : Area3D
 		{
 			HighScore = (int)User.GetHighscore();
 		}
+	}
+	public int GetHighScore()
+	{
+		return HighScore;
+	}
+	public int GetHighestCombo()
+	{
+		return HighestCombo;
 	}
 }
