@@ -31,12 +31,12 @@ public partial class Mallet : Area3D
         MalletCollider = GetNode<CollisionShape3D>("%MalletCollider");
         Player = GetNode<Mole>("%Mole");
         PopOutTimer = GetNode<Timer>("%PopOutTimer");
-        StartPosition = new Vector3(-0.8f, 1.325f, -0.115f);
+        StartPosition = new Vector3(-0.8f, 1.17f, -11.688f);
         Holes = new Vector3[]{
-            new (0, 1.142f, -0.27f), 		//top(W)
-			new (-0.24f, 1.142f, -0.066f), 	//left (A)
-			new (0, 1.142f, 0.15f), 		//bottom (S)
-			new (0.24f, 1.142f, -0.066f) 	//right (D))
+            new (0, 1.142f, -11.848f), 		//top(W)
+			new (-0.24f, 1.142f, -11.638f), //left (A)
+			new (0, 1.142f, -11.428f), 		//bottom (S)
+			new (0.24f, 1.142f, -11.638f) 	//right (D))
 			};
         HoleDictionary = new Dictionary()
         {

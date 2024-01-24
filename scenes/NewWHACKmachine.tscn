@@ -87,3 +87,5 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.11524, -0.530906)
 
 [node name="BetterArcadeMachine-4_holes2" parent="." instance=ExtResource("6_o1iiy")]
 transform = Transform3D(-0.6, 0, 9.05975e-08, 0, 0.6, 0, -9.05975e-08, 0, -0.6, 0, -0.6, -0.245901)
+
+[editable path="BetterArcadeMachine-4_holes2"]

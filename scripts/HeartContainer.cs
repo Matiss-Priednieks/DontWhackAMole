@@ -33,10 +33,10 @@ public partial class HeartContainer : Area3D
 		Collected = GetNode<AudioStreamPlayer3D>("%Collected");
 		Shatter = GetNode<AudioStreamPlayer3D>("%Shatter");
 		Holes = new Vector3[]{
-			new (0, 1.142f, -0.27f), 		//top(W)
-			new (-0.24f, 1.142f, -0.066f), 	//left (A)
-			new (0, 1.142f, 0.15f), 		//bottom (S)
-			new (0.24f, 1.142f, -0.066f) 	//right (D))
+			new (0, 1.142f, -11.848f), 		//top(W)
+			new (-0.24f, 1.142f, -11.638f), 	//left (A)
+			new (0, 1.142f, -11.428f), 		//bottom (S)
+			new (0.24f, 1.142f, -11.638f) 	//right (D))
 			};
 		GD.Randomize();
 		MoleRef = GetNode<Mole>("../Mole");

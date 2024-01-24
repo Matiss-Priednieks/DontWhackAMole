@@ -6,6 +6,8 @@ public partial class Game : Node3D
 	// Called when the node enters the scene tree for the first time.
 	bool Menu = true;
 	bool Playing = false;
+	float CamPlayFOV;
+	float CamMenuFOV;
 	Camera3D MainCam;
 	Vector3 CamPlayPos, CamPlayRot, CamMenuPos, CamMenuRot;
 	RandomNumberGenerator RNG;
@@ -61,11 +63,14 @@ public partial class Game : Node3D
 		Coin = ResourceLoader.Load<PackedScene>("scenes/Coin.tscn");
 		Heart = ResourceLoader.Load<PackedScene>("scenes/HeartContainer.tscn");
 
-		CamPlayPos = new Vector3(0, 2.403f, 1.516f);
-		CamPlayRot = new Vector3(-36.8f, 0, 0);
+		CamPlayPos = new Vector3(0, 2.403f, -9.956f);
+		CamPlayRot = new Vector3(-28.7f, 0, 0);
+		CamPlayFOV = 55f;
 
-		CamMenuPos = new Vector3(-3.25f, 1.53f, -0.9f); //old menu
+		CamMenuPos = new Vector3(-3.25f, 1.53f, -9.841f); //old menu
 		CamMenuRot = new Vector3(0, 90, 0);             //old menu
+		CamMenuFOV = 80f;
+
 		PlayResume.Text = "Play";
 		MainCam.Position = CamMenuPos;
 
@@ -84,7 +89,7 @@ public partial class Game : Node3D
 			if (!MenuJustPressed)
 			{
 				MenuJustPressed = true;
-				MoveCamera(CamMenuPos, CamMenuRot);
+				MoveCamera(CamMenuPos, CamMenuRot, CamMenuFOV);
 				PlayResume.Text = "Resume";
 				Menu = true;
 				Mole.Paused = true;
@@ -101,7 +106,7 @@ public partial class Game : Node3D
 			{
 				MenuJustPressed = true;
 				MainMenu.Hide();
-				MoveCamera(CamPlayPos, CamPlayRot);
+				MoveCamera(CamPlayPos, CamPlayRot, CamPlayFOV);
 				Menu = false;
 				await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
 				PopOutTimer.Paused = false;
@@ -123,7 +128,7 @@ public partial class Game : Node3D
 				Mole.SetGameOver(false);
 				Mole.Playing = false;
 				GameOverMenu.Hide();
-				MoveCamera(CamMenuPos, CamMenuRot);
+				MoveCamera(CamMenuPos, CamMenuRot, CamMenuFOV);
 				PlayResume.Text = "Play";
 				await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
 				MainMenu.Show();
@@ -164,7 +169,7 @@ public partial class Game : Node3D
 		Mole.Restart();
 		GameOverMenu.Hide();
 		MainMenu.Show();
-		MoveCamera(CamMenuPos, CamMenuRot);
+		MoveCamera(CamMenuPos, CamMenuRot, CamMenuFOV);
 		PlayResume.Text = "Play";
 		Menu = true;
 	}
@@ -181,7 +186,7 @@ public partial class Game : Node3D
 		}
 		MainMenu.Hide();
 		ComboCointTimer.Start(RNG.RandiRange(3, 6));
-		MoveCamera(CamPlayPos, CamPlayRot);
+		MoveCamera(CamPlayPos, CamPlayRot, CamPlayFOV);
 		await ToSignal(GetTree().CreateTimer(2f), "timeout");
 		Mole.Playing = true;
 		Mole.Paused = false;
@@ -211,12 +216,14 @@ public partial class Game : Node3D
 		HelpMenu.Hide();
 	}
 
-	public void MoveCamera(Vector3 Pos, Vector3 Rot)
+	public void MoveCamera(Vector3 Pos, Vector3 Rot, float CamFOV)
 	{
 		Tween MoveCam = GetTree().CreateTween();
 		MoveCam.TweenProperty(MainCam, "position", Pos, 1.5f).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
 		Tween RotCam = GetTree().CreateTween();
 		RotCam.TweenProperty(MainCam, "rotation_degrees", Rot, 1.5f).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
+		Tween FovCam = GetTree().CreateTween();
+		FovCam.TweenProperty(MainCam, "fov", CamFOV, 1.5f).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
 	}
 
 	public void _on_exit_pressed()
