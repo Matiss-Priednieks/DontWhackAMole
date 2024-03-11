@@ -843,15 +843,6 @@ shadow_color = Color(0, 0, 1, 0.6)
 shadow_size = 10
 shadow_offset = Vector2(10, 10)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v0ebq"]
-albedo_color = Color(0.372549, 0.286275, 0.768627, 1)
-metallic = 1.0
-roughness = 0.88
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_7khsi"]
-material = SubResource("StandardMaterial3D_v0ebq")
-size = Vector2(50, 50)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu8vm"]
 albedo_texture = ExtResource("28_0p3hs")
 emission_enabled = true
@@ -881,6 +872,15 @@ horizontal_alignment = 0
 [sub_resource type="BoxMesh" id="BoxMesh_gq054"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_frt35"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v0ebq"]
+albedo_color = Color(0.372549, 0.286275, 0.768627, 1)
+metallic = 1.0
+roughness = 0.88
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7khsi"]
+material = SubResource("StandardMaterial3D_v0ebq")
+size = Vector2(50, 50)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7dit6")
@@ -1701,10 +1701,6 @@ unique_name_in_owner = true
 [node name="LeaderboardRequest" type="HTTPRequest" parent="UI"]
 unique_name_in_owner = true
 
-[node name="Floor" type="MeshInstance3D" parent="."]
-material_override = ExtResource("27_lglfh")
-mesh = SubResource("PlaneMesh_7khsi")
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 unique_name_in_owner = true
 environment = ExtResource("32_7mqcg")
@@ -1745,7 +1741,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197
 transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0.0584812, -0.5, 1.23527)
 
 [node name="arcademachine3" parent="Node3D" instance=ExtResource("27_r22r8")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197, 0, -2.63313)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197, 0, -2.43911)
 
 [node name="ArcadeStool13" parent="Node3D/arcademachine3" instance=ExtResource("37_uiokx")]
 transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0, -0.5, 1.32)
@@ -1757,7 +1753,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197
 transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0, -0.5, 1.155)
 
 [node name="Node3D2" type="Node3D" parent="."]
-transform = Transform3D(-0.99961, 0, 0.0279215, 0, 1, 0, -0.0279215, 0, -0.99961, 4.8728, 0.5, -4.06418)
+transform = Transform3D(-0.99961, 0, 0.0279215, 0, 1, 0, -0.0279215, 0, -0.99961, 4.8728, 0.5, -10.545)
 
 [node name="arcademachine" parent="Node3D2" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
@@ -1784,7 +1780,7 @@ transform = Transform3D(-0.299883, 0, -0.00837645, 0, 0.3, 0, 0.00837645, 0, -0.
 transform = Transform3D(-0.299883, 0, -0.00837645, 0, 0.3, 0, 0.00837645, 0, -0.299883, 1.07062, -0.5, -3.72198)
 
 [node name="Node3D3" type="Node3D" parent="."]
-transform = Transform3D(0.99961, 0, -0.0279215, 0, 1, 0, 0.0279215, 0, 0.99961, -5.15021, 0.5, 3.09992)
+transform = Transform3D(0.0279215, 0, 0.99961, 0, 1, 0, -0.99961, 0, 0.0279215, 1.73827, 0.5, -3.32524)
 
 [node name="arcademachine" parent="Node3D3" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
@@ -1869,6 +1865,11 @@ visible = false
 [node name="ArcadeStool3" parent="Decor" instance=ExtResource("37_uiokx")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.82933, 0, -5.78204)
 visible = false
+
+[node name="Floor" type="MeshInstance3D" parent="Decor"]
+material_override = ExtResource("27_lglfh")
+mesh = SubResource("PlaneMesh_7khsi")
+skeleton = NodePath("../..")
 
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopHole" to="NewWhackMachine/Holes/TopHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/LeftHole" to="NewWhackMachine/Holes/LeftHole" method="_on_area_entered"]

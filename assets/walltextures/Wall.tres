@@ -1,0 +1,31 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://c201qommmd25i"]
+
+[ext_resource type="Texture2D" uid="uid://bb1d4vs3vku4h" path="res://assets/walltextures/Wall_albedo.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://ghvvhi6vxpd8" path="res://assets/walltextures/Wall_orm.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://vdu0qkt8gxda" path="res://assets/walltextures/Wall_normal.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cmfq0jery28ok" path="res://assets/walltextures/Wall_heightmap.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://dyyldk8fe7b8" path="res://assets/walltextures/Wall_emission.png" id="5"]
+
+[resource]
+albedo_color = Color(0.691406, 0.691406, 0.691406, 1)
+albedo_texture = ExtResource("1")
+metallic_texture = ExtResource("2")
+metallic_texture_channel = 2
+roughness = 0.62
+roughness_texture = ExtResource("2")
+roughness_texture_channel = 1
+emission_enabled = true
+emission_texture = ExtResource("5")
+normal_enabled = true
+normal_texture = ExtResource("3")
+ao_enabled = true
+ao_texture = ExtResource("2")
+heightmap_enabled = true
+heightmap_scale = 0.75
+heightmap_deep_parallax = true
+heightmap_min_layers = 8
+heightmap_max_layers = 32
+heightmap_texture = ExtResource("4")
+uv1_scale = Vector3(0.145, 0.145, 0.145)
+uv1_triplanar = true
+uv1_world_triplanar = true
