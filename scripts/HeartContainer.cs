@@ -59,7 +59,7 @@ public partial class HeartContainer : Area3D
 	public override void _PhysicsProcess(double delta)
 	{
 		// GD.Print(HeartBreakParticle.Position);
-		if (!Finished && MoleRef.Playing && !MoleRef.Paused)
+		if (!Finished && MoleRef.CurrentGameState == Mole.GameState.Playing)
 		{
 			PopOut();
 			Finished = true;

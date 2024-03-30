@@ -107,10 +107,10 @@ public partial class SaveManager : Node
 		var score = new ConfigFile();
 		Error err = score.Load(PLAYER_SCORE_SAVE_PATH);
 
-		GD.Print("\n" + err + "\n" + PlayerName + "\n");
+		// GD.Print("\n" + err + "\n" + PlayerName + "\n");
 		var highScore = (int)score.GetValue(PlayerName, "Score");
 		var highestCombo = (int)score.GetValue(PlayerName, "HighestCombo");
-		GD.Print(highScore, highestCombo);
+		// GD.Print(highScore, highestCombo);
 		return new Vector2(highScore, highestCombo);
 	}
 }

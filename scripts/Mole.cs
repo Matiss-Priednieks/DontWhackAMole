@@ -24,7 +24,15 @@ public partial class Mole : Area3D
 
 	int IFrames = 60;
 	bool GameOver = false;
-	public bool Playing, Paused = false;
+
+	//TODO: make safer
+	public enum GameState
+	{
+		Playing,
+		Paused,
+		GameOver
+	}
+	public GameState CurrentGameState = GameState.Paused; //TODO: make safer
 	Camera3D CameraRef;
 	RandomNumberGenerator RNG;
 	AudioStreamPlayer3D Bonk, Move, CounterSound;
@@ -59,12 +67,12 @@ public partial class Mole : Area3D
 
 		RNG = new RandomNumberGenerator();
 
-		Holes = new Vector3[]{
+		Holes = [
 			new (0, 1.142f, -11.848f), 		//top(W)
 			new (-0.24f, 1.142f, -11.638f), 	//left (A)
 			new (0, 1.142f, -11.428f), 		//bottom (S)
 			new (0.24f, 1.142f, -11.638f) 	//right (D))
-			};
+			];
 		HoleDictionary = new Dictionary()
 		{
 			{"Top",Holes[0]},
@@ -121,53 +129,71 @@ public partial class Mole : Area3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (Playing && !Paused)
+		switch (CurrentGameState)
 		{
-
-			if (IFrames <= 60 && IFrames > 0)
-			{
-				IFrames--;
-			}
-
-			if (Input.IsActionJustPressed("top_hole"))
-			{
-				MoveMole(0);
-			}
-			if (Input.IsActionJustPressed("left_hole"))
-			{
-				MoveMole(1);
-			}
-			if (Input.IsActionJustPressed("bottom_hole"))
-			{
-				MoveMole(2);
-			}
-			if (Input.IsActionJustPressed("right_hole"))
-			{
-				MoveMole(3);
-			}
-
-			if (!Down && !Paused)
-			{
-				ScoreAcceleration += 0.005f * ComboBonus;
-				Score += ScoreAcceleration;
-				if (Score / Mathf.Round(Score) >= 1)
+			case GameState.Playing:
+				ProcessInput();
+				UpdateScore();
+				CheckGameOver();
+				if (IFrames <= 60 && IFrames > 0)
 				{
-					PlaySoundDelayed();
+					IFrames--;
 				}
-			}
-
-			if (Lives <= 0)
-			{
-				SetGameOver(true);
-
-				Playing = false;
-			}
+				break;
+			case GameState.Paused:
+				// Handle paused state if needed
+				break;
+			case GameState.GameOver:
+				// Handle game over state if needed
+				break;
 		}
+
 		FinalScore = (int)Score;
 		GetNode<Label>("%FinalScore").Text = FinalScore.ToString();
-
-
 	}
+
+
+	private void ProcessInput()
+	{
+		if (Input.IsActionJustPressed("top_hole"))
+		{
+			MoveMole(0);
+		}
+		else if (Input.IsActionJustPressed("left_hole"))
+		{
+			MoveMole(1);
+		}
+		else if (Input.IsActionJustPressed("bottom_hole"))
+		{
+			MoveMole(2);
+		}
+		else if (Input.IsActionJustPressed("right_hole"))
+		{
+			MoveMole(3);
+		}
+	}
+
+	private void UpdateScore()
+	{
+		if (!Down)
+		{
+			ScoreAcceleration += 0.005f * ComboBonus;
+			Score += ScoreAcceleration;
+			if (Score / Mathf.Round(Score) >= 1)
+			{
+				PlaySoundDelayed();
+			}
+		}
+	}
+
+	private void CheckGameOver()
+	{
+		if (Lives <= 0)
+		{
+			CurrentGameState = GameState.GameOver;
+		}
+	}
+
 
 	public void _on_down_swipe(int Hole)
 	{
@@ -224,7 +250,7 @@ public partial class Mole : Area3D
 	public void _on_pop_out_timer_timeout()
 	{
 		//Pop Mole out
-		if (Down && Lives > 0 && Playing && !Paused)
+		if (Down && Lives > 0 && CurrentGameState == GameState.Playing)
 		{
 			Position = ChosenHole;
 			Tween velTween = GetTree().CreateTween();
@@ -236,7 +262,7 @@ public partial class Mole : Area3D
 	}
 	public void _on_out_timer_timeout()
 	{
-		if (DangerTimer >= OutTooLongTime * 0.75f && Playing && !Paused)
+		if (DangerTimer >= OutTooLongTime * 0.75f && CurrentGameState == GameState.Playing)
 		{
 			//Call the smack!
 			GD.Print(DangerTimer + " : " + OutTooLongTime);
@@ -397,14 +423,7 @@ public partial class Mole : Area3D
 	{
 		return IFrames;
 	}
-	public bool GetGameOver()
-	{
-		return GameOver;
-	}
-	public void SetGameOver(bool value)
-	{
-		GameOver = value;
-	}
+
 	public async void _on_login_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
 	{
 		var response = Json.ParseString(body.GetStringFromUtf8());

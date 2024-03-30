@@ -47,7 +47,7 @@ public partial class SettingsMenu : VBoxContainer
     public void _on_resolution_item_selected(int index)
     {
         GetTree().Root.ContentScaleSize = ResArray[index];
-        GD.Print(ResArray[index]);
+        // GD.Print(ResArray[index]);
     }
     public void _on_window_mode_item_selected(int index)
     {

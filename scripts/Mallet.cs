@@ -13,7 +13,6 @@ public partial class Mallet : Area3D
     public CollisionShape3D MalletCollider;
     int HoleIndex;
     Timer PopOutTimer;
-    public bool Playing;
     Camera3D CameraRef;
     RandomNumberGenerator RNG;
     AudioStreamPlayer3D Miss;
@@ -33,11 +32,11 @@ public partial class Mallet : Area3D
         PopOutTimer = GetNode<Timer>("%PopOutTimer");
         StartPosition = new Vector3(-0.8f, 1.17f, -11.688f);
         Holes = new Vector3[]{
-            new (0, 1.142f, -11.848f), 		//top(W)
-			new (-0.24f, 1.142f, -11.638f), //left (A)
-			new (0, 1.142f, -11.428f), 		//bottom (S)
-			new (0.24f, 1.142f, -11.638f) 	//right (D))
-			};
+            new (0, 1.142f, -11.848f),      //top(W)
+            new (-0.24f, 1.142f, -11.638f), //left (A)
+            new (0, 1.142f, -11.428f),      //bottom (S)
+            new (0.24f, 1.142f, -11.638f)   //right (D))
+        };
         HoleDictionary = new Dictionary()
         {
             {0,"%TopBulb"},
@@ -51,15 +50,9 @@ public partial class Mallet : Area3D
 
     public override void _Process(double delta)
     {
-        Playing = Player.Playing;
-        if (Playing && !Player.Paused)
+        if (Player.CurrentGameState == Mole.GameState.Playing)
         {
-            // if (MoleOutTooLong)
-            // {
-            //     MoleOutTooLong = !Player.GetDownStatus();
-            // }
-
-            if (PopOutTimer.TimeLeft < 0.75f && !Player.GetGameOver())
+            if (PopOutTimer.TimeLeft < 0.75f)
             {
                 GetNode<Hole>(HoleDictionary[HoleIndex].ToString()).Flash(true);
 
@@ -74,7 +67,7 @@ public partial class Mallet : Area3D
                 AboutToHit.Stop();
             }
         }
-        else if (!Playing || Player.Paused)
+        else
         {
             if (AboutToHit.Playing)
             {
@@ -82,9 +75,10 @@ public partial class Mallet : Area3D
             }
         }
     }
+
     public async void _on_pop_out_timer_timeout()
     {
-        if (!Player.GetGameOver() && Playing && !Player.Paused)
+        if (Player.CurrentGameState == Mole.GameState.Playing)
         {
             MoveMallet(NextHit);
 
@@ -96,9 +90,10 @@ public partial class Mallet : Area3D
             NextHit = Holes[HoleIndex];
         }
     }
+
     public async void _on_mole_out_too_long(Vector3 playerPosition)
     {
-        if (!Player.GetGameOver() && Playing && !Player.Paused)
+        if (Player.CurrentGameState == Mole.GameState.Playing)
         {
             MoleOutTooLong = true;
             MoveMallet(playerPosition);
@@ -133,7 +128,6 @@ public partial class Mallet : Area3D
 
     public async void Hit()
     {
-        // GD.Print("Test");
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
         ScreenShake();
         Tween velTween = GetTree().CreateTween();
@@ -154,4 +148,3 @@ public partial class Mallet : Area3D
         camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X, CameraRef.Rotation.Y, CameraRef.Rotation.Z), 0.1f).SetTrans(Tween.TransitionType.Bounce).SetEase(Tween.EaseType.Out);
     }
 }
-

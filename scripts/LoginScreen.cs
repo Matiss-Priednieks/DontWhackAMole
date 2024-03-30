@@ -93,7 +93,7 @@ public partial class LoginScreen : Panel
 
 			User.Login(dict[key: "username"].ToString());
 
-			GD.Print(dict[key: "username"].ToString());
+			// GD.Print(dict[key: "username"].ToString());
 			User.SetHighscore((float)dict[key: "highscore"]);
 			User.SetEmail(LoginEmail);
 			// User.SetUsername(username);
@@ -162,7 +162,7 @@ public partial class LoginScreen : Panel
 		}
 		else
 		{
-			GD.Print("Already Logged in");
+			// GD.Print("Already Logged in");
 			// User.Logout();
 			return Error.Ok;
 		}

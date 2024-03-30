@@ -163,15 +163,15 @@ public partial class Registration : Panel
 
 	public bool IsValidRegistration()
 	{
-		GD.Print(IsValidPassword());
+		// GD.Print(IsValidPassword());
 		if (IsValidEmail() && IsValidPassword() && IsValidUsername(Username))
 		{
-			GD.Print("Valid registration!");
+			// GD.Print("Valid registration!");
 			return true;
 		}
 		else
 		{
-			GD.Print("Invalid registration!");
+			// GD.Print("Invalid registration!");
 			//do code for error message
 			return false;
 		}
@@ -181,7 +181,7 @@ public partial class Registration : Panel
 	{
 		if (RegistrationPasswordConfirmation.Equals(RegistrationPassword))
 		{
-			GD.Print("Passwords match");
+			// GD.Print("Passwords match");
 			if (IsStrongPassword(RegistrationPasswordConfirmation))
 			{
 				return true;
@@ -190,7 +190,7 @@ public partial class Registration : Panel
 			{
 				ErrorMessage.Text = "Password min length is 6 and must contain a digit";
 				ErrorPanel.Show();
-				GD.Print("Password is too weak!");
+				// GD.Print("Password is too weak!");
 				return false;
 			}
 		}
@@ -198,7 +198,7 @@ public partial class Registration : Panel
 		{
 			ErrorMessage.Text = "Passwords Must Match";
 			ErrorPanel.Show();
-			GD.Print("Passwords do not match!");
+			// GD.Print("Passwords do not match!");
 			return false;
 		}
 	}
@@ -206,14 +206,14 @@ public partial class Registration : Panel
 	{
 		if (IsValidEmail(EmailInput.Text))
 		{
-			GD.Print("Valid Email!");
+			// GD.Print("Valid Email!");
 			return true;
 		}
 		else
 		{
 			ErrorMessage.Text = "Invalid Email";
 			ErrorPanel.Show();
-			GD.Print("Not Valid Email!");
+			// GD.Print("Not Valid Email!");
 			return false;
 		}
 	}
@@ -293,7 +293,7 @@ public partial class Registration : Panel
 		}
 		else
 		{
-			GD.Print("Already Logged in");
+			// GD.Print("Already Logged in");
 			UserLabel.Text = "Guest";
 			User.Logout();
 			return Error.Ok;
@@ -314,7 +314,7 @@ public partial class Registration : Panel
 
 			User.Login(dict[key: "username"].ToString());
 
-			GD.Print(dict[key: "username"].ToString());
+			// GD.Print(dict[key: "username"].ToString());
 			User.SetHighscore((float)dict[key: "highscore"]);
 			User.SetEmail(RegistrationEmail);
 			// User.SetUsername(username);
