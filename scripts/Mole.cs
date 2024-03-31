@@ -36,6 +36,7 @@ public partial class Mole : Area3D
 	Camera3D CameraRef;
 	RandomNumberGenerator RNG;
 	AudioStreamPlayer3D Bonk, Move, CounterSound;
+	Node3D WarningIndicator;
 	int FinalScore, HighScore;
 	public int ComboBonus { get; set; }
 	public int HighestCombo;
@@ -57,6 +58,7 @@ public partial class Mole : Area3D
 
 		CameraRef = GetNode<Camera3D>("%Camera3D");
 		MoleMesh = GetNode<MeshInstance3D>("%MoleMesh");
+		WarningIndicator = GetNode<Node3D>("%WarningIndicator");
 		LivesCounter = GetNode<MeshInstance3D>("%LivesCounter");
 		ScoreCounter = GetNode<MeshInstance3D>("%ScoreCounter");
 		ComboCounter = GetNode<MeshInstance3D>("%ComboCounter");
@@ -265,17 +267,24 @@ public partial class Mole : Area3D
 		if (DangerTimer >= OutTooLongTime * 0.75f && CurrentGameState == GameState.Playing)
 		{
 			//Call the smack!
+			if (!Down)
+			{
+				WarningIndicator.Show();
+			}
+
 			GD.Print(DangerTimer + " : " + OutTooLongTime);
 			EmitSignal("OutTooLong", Position);
 		}
 		else
 		{
+			WarningIndicator.Hide();
 			DangerTimer += OutTooLongTime * 0.25f;
 		}
 	}
 
 	public void PopDown()
 	{
+		WarningIndicator.Hide();
 		DangerTimer = 0;
 		Tween velTween = GetTree().CreateTween();
 		velTween.TweenProperty(this, "position", new Vector3(Position.X, 0.85f, Position.Z), 0.2f).SetTrans(Tween.TransitionType.Elastic);
