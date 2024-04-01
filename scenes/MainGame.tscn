@@ -1129,6 +1129,7 @@ mesh = SubResource("CapsuleMesh_2qkde")
 [node name="WarningIndicator" type="Node3D" parent="Mole"]
 unique_name_in_owner = true
 transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0.079455, 0)
+visible = false
 
 [node name="Node3D" type="Node3D" parent="Mole/WarningIndicator"]
 
