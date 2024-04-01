@@ -1,0 +1,125 @@
+[gd_scene load_steps=20 format=3 uid="uid://bb2872qm0qmv7"]
+
+[ext_resource type="Script" path="res://scripts/EarlyPopUp.cs" id="1_uja5s"]
+[ext_resource type="Material" uid="uid://dfcwnevd2gyv2" path="res://resources/EarlyPopMat.tres" id="2_6vvob"]
+[ext_resource type="QuadMesh" uid="uid://m0jv5kbbd7t6" path="res://resources/bluefluff_mat.tres" id="3_gmukq"]
+[ext_resource type="Material" uid="uid://dacdlfp55jcyx" path="res://scenes/EarlyPopParticlePM.tres" id="3_ppc27"]
+[ext_resource type="AudioStream" uid="uid://co73u8qkdmjaa" path="res://assets/audio/coinshatter2.wav" id="5_uen48"]
+[ext_resource type="AudioStream" uid="uid://7u7wouqojq36" path="res://assets/audio/coincollected2.wav" id="6_cvk8k"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7e74s"]
+material = ExtResource("2_6vvob")
+size = Vector3(0.06, 0.03, 0.15)
+
+[sub_resource type="PrismMesh" id="PrismMesh_r0fjv"]
+material = ExtResource("2_6vvob")
+size = Vector3(0.125, 0.095, 0.03)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_iyxr0"]
+height = 0.075
+radius = 0.1
+
+[sub_resource type="Curve" id="Curve_1hr5s"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, 360), 0.0, 0.0, 0, 0, Vector2(1, -360), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_dwsbg"]
+curve = SubResource("Curve_1hr5s")
+
+[sub_resource type="Curve" id="Curve_va2u5"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, 360), 0.0, 0.0, 0, 0, Vector2(1, -360), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_77ep5"]
+curve = SubResource("Curve_va2u5")
+
+[sub_resource type="Curve" id="Curve_x8pfs"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, 90.5263), 0.0, 0.0, 0, 0, Vector2(1, 90.5263), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_c5qed"]
+curve = SubResource("Curve_x8pfs")
+
+[sub_resource type="Curve" id="Curve_vywgg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_u0166"]
+curve = SubResource("Curve_vywgg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xg26s"]
+particle_flag_rotate_y = true
+angle_min = -360.0
+angle_max = 360.0
+angle_curve = SubResource("CurveTexture_dwsbg")
+spread = 180.0
+initial_velocity_min = 0.1
+initial_velocity_max = 1.0
+angular_velocity_min = -355.95
+angular_velocity_max = 275.06
+angular_velocity_curve = SubResource("CurveTexture_77ep5")
+gravity = Vector3(0, 0, 0)
+radial_accel_curve = SubResource("CurveTexture_c5qed")
+scale_curve = SubResource("CurveTexture_u0166")
+color = Color(0.768627, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_3iwdy"]
+material = ExtResource("2_6vvob")
+left_to_right = 0.4
+size = Vector3(0.07, 0.105, 0.01)
+
+[node name="EarlyPop" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1_uja5s")
+
+[node name="UpMesh" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="UpMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0217198)
+mesh = SubResource("BoxMesh_7e74s")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="UpMesh"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.0604205)
+mesh = SubResource("PrismMesh_r0fjv")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="UpMesh"]
+process_material = ExtResource("3_ppc27")
+draw_pass_1 = ExtResource("3_gmukq")
+
+[node name="EarlyPopCollider" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CylinderShape3D_iyxr0")
+
+[node name="DespawnTimer" type="Timer" parent="."]
+wait_time = 2.5
+autostart = true
+
+[node name="EarlyPopBreakParticle" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
+emitting = false
+lifetime = 0.25
+one_shot = true
+explosiveness = 1.0
+randomness = 0.39
+visibility_aabb = AABB(-1.37832, -1.33331, -1.2796, 2.74763, 2.65761, 2.55019)
+process_material = SubResource("ParticleProcessMaterial_xg26s")
+draw_pass_1 = SubResource("PrismMesh_3iwdy")
+
+[node name="Shatter" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_uen48")
+pitch_scale = 0.9
+
+[node name="Collected" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("6_cvk8k")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn_timer_timeout"]

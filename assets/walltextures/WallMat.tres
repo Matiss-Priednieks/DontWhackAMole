@@ -1,0 +1,35 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://bm6n35pmav7xy"]
+
+[ext_resource type="Texture2D" uid="uid://blynm8safiuf1" path="res://assets/walltextures/wallpaperforgame_light.png" id="1_44cwn"]
+[ext_resource type="Texture2D" uid="uid://ghvvhi6vxpd8" path="res://assets/walltextures/Wall_orm.png" id="2_03v08"]
+[ext_resource type="Texture2D" uid="uid://b5wrd1qj1nulr" path="res://assets/walltextures/emmisionlayer.png" id="3_4ecq7"]
+[ext_resource type="Texture2D" uid="uid://cmfq0jery28ok" path="res://assets/walltextures/Wall_heightmap.png" id="4_xyhgu"]
+[ext_resource type="Texture2D" uid="uid://vdu0qkt8gxda" path="res://assets/walltextures/Wall_normal.png" id="5_ll8pa"]
+
+[resource]
+albedo_color = Color(0.691406, 0.691406, 0.691406, 1)
+albedo_texture = ExtResource("1_44cwn")
+metallic_texture = ExtResource("2_03v08")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_03v08")
+roughness_texture_channel = 1
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.05
+emission_operator = 1
+emission_texture = ExtResource("3_4ecq7")
+normal_scale = 0.5
+normal_texture = ExtResource("5_ll8pa")
+ao_enabled = true
+ao_texture = ExtResource("2_03v08")
+heightmap_enabled = true
+heightmap_scale = 0.75
+heightmap_deep_parallax = true
+heightmap_min_layers = 8
+heightmap_max_layers = 32
+heightmap_texture = ExtResource("4_xyhgu")
+uv1_scale = Vector3(0.25, 0.25, 0.25)
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv2_scale = Vector3(0.25, 0.25, 0.25)
+uv2_triplanar = true
+uv2_world_triplanar = true

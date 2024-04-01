@@ -21,6 +21,7 @@ public partial class Mole : Area3D
 	SaveManager SaveManager;
 
 	public float Score { get; set; }
+	public int EarlyPops = 0;
 
 	int IFrames = 60;
 	bool GameOver = false;
@@ -173,6 +174,14 @@ public partial class Mole : Area3D
 		{
 			MoveMole(3);
 		}
+		if (Input.IsActionJustReleased("popout") && EarlyPops > 0)
+		{
+			if (Down && Lives > 0 && CurrentGameState == GameState.Playing)
+			{
+				PopOut();
+				EarlyPops--;
+			}
+		}
 	}
 
 	private void UpdateScore()
@@ -254,13 +263,18 @@ public partial class Mole : Area3D
 		//Pop Mole out
 		if (Down && Lives > 0 && CurrentGameState == GameState.Playing)
 		{
-			Position = ChosenHole;
-			Tween velTween = GetTree().CreateTween();
-			velTween.TweenProperty(this, "position", new Vector3(ChosenHole.X, 1.13f, ChosenHole.Z), 0.2f).SetTrans(Tween.TransitionType.Elastic);
-			Down = false;
-			OutTimer.Start(OutTooLongTime * 0.25f);
+			PopOut();
 		}
 		PopOutTimer.Start(PopSpeed);
+	}
+
+	public void PopOut()
+	{
+		Position = ChosenHole;
+		Tween velTween = GetTree().CreateTween();
+		velTween.TweenProperty(this, "position", new Vector3(ChosenHole.X, 1.13f, ChosenHole.Z), 0.2f).SetTrans(Tween.TransitionType.Elastic);
+		Down = false;
+		OutTimer.Start(OutTooLongTime * 0.25f);
 	}
 	public void _on_out_timer_timeout()
 	{
@@ -307,12 +321,12 @@ public partial class Mole : Area3D
 		tempScale = new Vector3(1.25f, 0.5f, 1.25f);
 		MoleMesh.Scale = tempScale;
 		velTween.TweenProperty(this, "position", new Vector3(Position.X, 0.85f, Position.Z), 0.15f).SetTrans(Tween.TransitionType.Elastic);
-		Down = true;
 		PopOutTimer.Start(PopSpeed);
 		OutTimer.Stop();
 		await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
 		tempScale = new Vector3(1, 1, 1);
 		MoleMesh.Scale = tempScale;
+		PopDown();
 	}
 
 	public void _on_area_entered(Area3D area)
@@ -431,6 +445,15 @@ public partial class Mole : Area3D
 	public float GetIFrames()
 	{
 		return IFrames;
+	}
+
+	public void AddPops()
+	{
+		EarlyPops++;
+	}
+	public int GetPops()
+	{
+		return EarlyPops;
 	}
 
 	public async void _on_login_request_request_completed(long result, long responseCode, string[] headers, byte[] body)

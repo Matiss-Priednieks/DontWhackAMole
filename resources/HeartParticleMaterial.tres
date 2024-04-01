@@ -1,0 +1,91 @@
+[gd_resource type="QuadMesh" load_steps=9 format=3 uid="uid://dpt0oo8fuuko8"]
+
+[sub_resource type="Gradient" id="Gradient_0nr5j"]
+offsets = PackedFloat32Array(0.197531, 0.746914)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_quexl"]
+gradient = SubResource("Gradient_0nr5j")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 1)
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_xo4yt"]
+output_port_for_preview = 0
+texture = SubResource("GradientTexture2D_quexl")
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_km2pa"]
+constant = Color(1, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeVec3Constant" id="VisualShaderNodeVec3Constant_yt1on"]
+output_port_for_preview = 0
+constant = Vector3(255, 0, 0)
+
+[sub_resource type="VisualShaderNodeBillboard" id="VisualShaderNodeBillboard_1c3rq"]
+keep_scale = true
+
+[sub_resource type="VisualShader" id="VisualShader_3mdsl"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D tex_frg_2;
+
+
+
+void vertex() {
+	mat4 n_out13p0;
+// GetBillboardMatrix:13
+	{
+		mat4 __mvm = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);
+		__mvm = __mvm * mat4(vec4(length(MODEL_MATRIX[0].xyz), 0.0, 0.0, 0.0), vec4(0.0, length(MODEL_MATRIX[1].xyz), 0.0, 0.0), vec4(0.0, 0.0, length(MODEL_MATRIX[2].xyz), 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+		n_out13p0 = __mvm;
+	}
+
+
+// Output:0
+	MODELVIEW_MATRIX = n_out13p0;
+
+
+}
+
+void fragment() {
+// ColorConstant:3
+	vec4 n_out3p0 = vec4(1.000000, 0.000000, 0.000000, 1.000000);
+
+
+// Texture2D:2
+	vec4 n_out2p0 = texture(tex_frg_2, UV);
+
+
+// Vector3Constant:4
+	vec3 n_out4p0 = vec3(255.000000, 0.000000, 0.000000);
+
+
+// Output:0
+	ALBEDO = vec3(n_out3p0.xyz);
+	ALPHA = n_out2p0.x;
+	EMISSION = n_out4p0;
+
+
+}
+"
+nodes/vertex/0/position = Vector2(860, 180)
+nodes/vertex/13/node = SubResource("VisualShaderNodeBillboard_1c3rq")
+nodes/vertex/13/position = Vector2(460, 220)
+nodes/vertex/connections = PackedInt32Array(13, 0, 0, 10)
+nodes/fragment/0/position = Vector2(580, 60)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_xo4yt")
+nodes/fragment/2/position = Vector2(-160, -160)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_km2pa")
+nodes/fragment/3/position = Vector2(80, -200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVec3Constant_yt1on")
+nodes/fragment/4/position = Vector2(120, 120)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 1, 3, 0, 0, 0, 4, 0, 0, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y0ya5"]
+render_priority = 0
+shader = SubResource("VisualShader_3mdsl")
+
+[resource]
+material = SubResource("ShaderMaterial_y0ya5")
+size = Vector2(0.03, 0.03)

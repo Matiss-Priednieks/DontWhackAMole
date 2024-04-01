@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://k47bsnnfpjjs"]
+[gd_scene load_steps=35 format=3 uid="uid://k47bsnnfpjjs"]
 
 [ext_resource type="Script" path="res://scripts/Coin.cs" id="1_nodwn"]
 [ext_resource type="PackedScene" uid="uid://b4yuqj58usb14" path="res://assets/coin/coin.glb" id="2_4khaj"]
@@ -12,9 +12,9 @@ resource_name = "Material"
 cull_mode = 2
 vertex_color_use_as_albedo = true
 albedo_color = Color(1, 0.843137, 0, 1)
-metallic = 0.87
-metallic_specular = 0.79
-roughness = 0.6
+metallic = 0.84
+metallic_specular = 0.61
+roughness = 0.54
 normal_enabled = true
 normal_scale = 0.4
 normal_texture = ExtResource("3_dx2ds")
@@ -54,21 +54,124 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_wsrar")
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_gee0x"]
-material = ExtResource("2_jnv8x")
-top_radius = 0.075
-bottom_radius = 0.075
-height = 0.035
+[sub_resource type="Curve" id="Curve_y7e7p"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_an1uh"]
-shading_mode = 0
+[sub_resource type="CurveTexture" id="CurveTexture_808re"]
+curve = SubResource("Curve_y7e7p")
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_gxbou"]
-material = SubResource("StandardMaterial3D_an1uh")
-flip_faces = true
-top_radius = 0.075
-bottom_radius = 0.075
-height = 0.035
+[sub_resource type="Curve" id="Curve_xibkh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.31463, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2nbpl"]
+curve = SubResource("Curve_xibkh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yl8n2"]
+emission_shape_scale = Vector3(0.1, 0, 0.1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = 720.0
+angle_max = 720.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 0.05
+initial_velocity_max = 0.1
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_2nbpl")
+alpha_curve = SubResource("CurveTexture_808re")
+
+[sub_resource type="Gradient" id="Gradient_0nr5j"]
+offsets = PackedFloat32Array(0.197531, 0.746914)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_quexl"]
+gradient = SubResource("Gradient_0nr5j")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 1)
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_lj50q"]
+output_port_for_preview = 0
+texture = SubResource("GradientTexture2D_quexl")
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_7cylr"]
+constant = Color(1, 1, 0, 1)
+
+[sub_resource type="VisualShaderNodeVec3Constant" id="VisualShaderNodeVec3Constant_qakb1"]
+output_port_for_preview = 0
+constant = Vector3(155, 155, 0.5)
+
+[sub_resource type="VisualShaderNodeBillboard" id="VisualShaderNodeBillboard_ne5tp"]
+keep_scale = true
+
+[sub_resource type="VisualShader" id="VisualShader_eptpc"]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D tex_frg_2;
+
+
+
+void vertex() {
+	mat4 n_out13p0;
+// GetBillboardMatrix:13
+	{
+		mat4 __mvm = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);
+		__mvm = __mvm * mat4(vec4(length(MODEL_MATRIX[0].xyz), 0.0, 0.0, 0.0), vec4(0.0, length(MODEL_MATRIX[1].xyz), 0.0, 0.0), vec4(0.0, 0.0, length(MODEL_MATRIX[2].xyz), 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+		n_out13p0 = __mvm;
+	}
+
+
+// Output:0
+	MODELVIEW_MATRIX = n_out13p0;
+
+
+}
+
+void fragment() {
+// ColorConstant:3
+	vec4 n_out3p0 = vec4(1.000000, 1.000000, 0.000000, 1.000000);
+
+
+// Texture2D:2
+	vec4 n_out2p0 = texture(tex_frg_2, UV);
+
+
+// Vector3Constant:4
+	vec3 n_out4p0 = vec3(155.000000, 155.000000, 0.500000);
+
+
+// Output:0
+	ALBEDO = vec3(n_out3p0.xyz);
+	ALPHA = n_out2p0.x;
+	EMISSION = n_out4p0;
+
+
+}
+"
+graph_offset = Vector2(-154.2, 66.3)
+nodes/vertex/0/position = Vector2(860, 180)
+nodes/vertex/13/node = SubResource("VisualShaderNodeBillboard_ne5tp")
+nodes/vertex/13/position = Vector2(460, 220)
+nodes/vertex/connections = PackedInt32Array(13, 0, 0, 10)
+nodes/fragment/0/position = Vector2(580, 60)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_lj50q")
+nodes/fragment/2/position = Vector2(-160, -160)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_7cylr")
+nodes/fragment/3/position = Vector2(80, -200)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVec3Constant_qakb1")
+nodes/fragment/4/position = Vector2(120, 120)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 1, 3, 0, 0, 0, 4, 0, 0, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ugrj0"]
+render_priority = 0
+shader = SubResource("VisualShader_eptpc")
+
+[sub_resource type="QuadMesh" id="QuadMesh_2ny6c"]
+material = SubResource("ShaderMaterial_ugrj0")
+size = Vector2(0.03, 0.03)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_iyxr0"]
 height = 0.075
@@ -129,6 +232,7 @@ left_to_right = 0.4
 size = Vector3(0.07, 0.105, 0.01)
 
 [node name="Coin" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_nodwn")
 
 [node name="CoinMesh" parent="." instance=ExtResource("2_4khaj")]
@@ -138,14 +242,11 @@ transform = Transform3D(1.305, 0, 0, 0, 1.305, 0, 0, 0, 1.305, 0, 0, 0)
 [node name="Cylinder" parent="CoinMesh" index="0"]
 mesh = SubResource("ArrayMesh_5q0vu")
 
-[node name="oldCoinMesh" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("CylinderMesh_gee0x")
-
-[node name="CoinMesh2" type="MeshInstance3D" parent="oldCoinMesh"]
-transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
-sorting_offset = -1.0
-mesh = SubResource("CylinderMesh_gxbou")
+[node name="GPUParticles3D" type="GPUParticles3D" parent="CoinMesh"]
+amount = 16
+lifetime = 0.75
+process_material = SubResource("ParticleProcessMaterial_yl8n2")
+draw_pass_1 = SubResource("QuadMesh_2ny6c")
 
 [node name="CoinCollider" type="CollisionShape3D" parent="."]
 unique_name_in_owner = true

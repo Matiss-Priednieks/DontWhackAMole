@@ -1,4 +1,4 @@
-[gd_scene load_steps=153 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=156 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -33,12 +33,15 @@
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
 [ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/audio/miss-smack.wav" id="28_kyjjl"]
+[ext_resource type="Material" uid="uid://bm6n35pmav7xy" path="res://assets/walltextures/WallMat.tres" id="29_04ar7"]
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/audio/abouttohit2.0.wav" id="29_8xud1"]
 [ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="30_2fipm"]
+[ext_resource type="Texture2D" uid="uid://b7qn5vp54nmrp" path="res://assets/carpet/ArcadeCarpet_albedo.png" id="31_hituk"]
 [ext_resource type="Texture2D" uid="uid://cfjbroa3dnn21" path="res://assets/UI/down_arrow.png" id="32_0ch2i"]
 [ext_resource type="Environment" uid="uid://gov5g3o06qnc" path="res://scenes/MainEnvironment-android.tres" id="32_7mqcg"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
 [ext_resource type="Script" path="res://scripts/IntroTransition.cs" id="32_lacay"]
+[ext_resource type="Texture2D" uid="uid://btmbv0gra0bas" path="res://assets/carpet/ArcadeCarpet_emission.png" id="32_xc0rk"]
 [ext_resource type="PackedScene" uid="uid://bwuyqs3i552o3" path="res://assets/stool/ArcadeStool.glb" id="37_uiokx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_4lm6s"]
@@ -883,13 +886,21 @@ horizontal_alignment = 0
 [sub_resource type="BoxMesh" id="BoxMesh_dsinm"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_gq054"]
+material = ExtResource("29_04ar7")
 
 [sub_resource type="BoxMesh" id="BoxMesh_frt35"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v0ebq"]
 albedo_color = Color(0.372549, 0.286275, 0.768627, 1)
+albedo_texture = ExtResource("31_hituk")
 metallic = 1.0
 roughness = 0.88
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 16.0
+emission_operator = 1
+emission_texture = ExtResource("32_xc0rk")
+ao_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7khsi"]
 material = SubResource("StandardMaterial3D_v0ebq")
@@ -1356,11 +1367,13 @@ transform = Transform3D(-0.00837645, 0, 0.299883, 0, 0.3, 0, -0.299883, 0, -0.00
 
 [node name="LeftWall" type="MeshInstance3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 21.2134, -7.24012, 1.13836, -6.33714)
+material_override = ExtResource("29_04ar7")
 mesh = SubResource("BoxMesh_31shi")
 skeleton = NodePath("../..")
 
 [node name="RightWall" type="MeshInstance3D" parent="Decor"]
 transform = Transform3D(1, 0, 0, 0, 7.61852, 0, 0, 0, 21.2134, 6.03661, 1.13836, -6.33714)
+material_override = ExtResource("29_04ar7")
 mesh = SubResource("BoxMesh_dsinm")
 skeleton = NodePath("../..")
 
@@ -1371,6 +1384,7 @@ skeleton = NodePath("../..")
 
 [node name="Ceiling" type="MeshInstance3D" parent="Decor"]
 transform = Transform3D(-4.37114e-08, 0, 15.9534, 1, -9.54822e-07, 6.97343e-07, 4.37114e-08, 21.8438, 3.04818e-14, -0.972308, 5.2682, -8.65597)
+material_override = ExtResource("29_04ar7")
 mesh = SubResource("BoxMesh_frt35")
 skeleton = NodePath("../..")
 

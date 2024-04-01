@@ -10,6 +10,12 @@ public partial class Game : Node3D
 		PLAYING,
 		PAUSED
 	}
+	public enum GameMode
+	{
+		STORY,
+		ARCADE
+	}
+	GameMode CurrentGameMode = GameMode.ARCADE;
 	private GameState currentState = GameState.MENU;
 
 	float CamPlayFOV;
@@ -32,17 +38,18 @@ public partial class Game : Node3D
 
 	Timer PopOutTimer;
 
-	PackedScene Coin, Heart;
+	PackedScene Coin, Heart, EarlyPop;
 	public bool Login, Register, CameraMoving = false;
 
 	public bool MenuJustPressed { get; private set; }
 	int[] CollectableSpawnTimes = { 4, 4, 6, 8, 8, 8, 16 };
 
 	PackedScene[] Collectables;
+
 	public override void _Ready()
 	{
-		Collectables = new PackedScene[2];
-		worldEnvironment = GetNode<Godot.WorldEnvironment>("%WorldEnvironment");
+		Collectables = new PackedScene[3];
+		worldEnvironment = GetNode<WorldEnvironment>("%WorldEnvironment");
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
 		User.LoggedInFakeReady();
 		SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
@@ -67,6 +74,7 @@ public partial class Game : Node3D
 
 		Coin = ResourceLoader.Load<PackedScene>("scenes/Coin.tscn");
 		Heart = ResourceLoader.Load<PackedScene>("scenes/HeartContainer.tscn");
+		EarlyPop = ResourceLoader.Load<PackedScene>("scenes/EarlyPop.tscn");
 
 		CamPlayPos = new Vector3(0, 2.403f, -9.956f);
 		CamPlayRot = new Vector3(-28.7f, 0, 0);
@@ -83,6 +91,7 @@ public partial class Game : Node3D
 
 		Collectables[0] = Coin;
 		Collectables[1] = Heart;
+		Collectables[2] = EarlyPop;
 	}
 
 	public override void _Process(double delta)
@@ -100,47 +109,6 @@ public partial class Game : Node3D
 			HandleGameOver();
 		}
 	}
-	public void _on_restart_pressed()
-	{
-		// GD.Print(SaveManager.SaveScore(User.Username, Mole.GetHighScore(), Mole.GetHighestCombo()));
-		MoveToMenuState(GameState.PLAYING);
-		Mole.CurrentGameState = Mole.GameState.Playing;
-		Mole.Restart();
-		ComboCointTimer.Start(RNG.RandiRange(3, 6));
-		// Mole.SetGameOver(false);
-		// Mole.Paused = false;
-		GameOverMenu.Hide();
-	}
-
-	public void _on_main_menu_pressed()
-	{
-		// GD.Print(SaveManager.SaveScore(User.Username, Mole.GetHighScore(), Mole.GetHighestCombo()));
-		MoveToMenuState(GameState.MENU);
-		Mole.CurrentGameState = Mole.GameState.Paused;
-		Mole.Restart();
-		GameOverMenu.Hide();
-		MainMenu.Show();
-		PlayResume.Text = "Play";
-	}
-
-	//play/resume button
-	public async void _on_button_pressed()
-	{
-		if (Mole.CurrentGameState != Mole.GameState.Paused)
-		{
-			Mole.Restart();
-			ComboCointTimer.Start(RNG.RandiRange(3, 6));
-			Mole.CurrentGameState = Mole.GameState.Playing;
-		}
-		MainMenu.Hide();
-		ComboCointTimer.Start(RNG.RandiRange(3, 6));
-		MoveToMenuState(GameState.PLAYING);
-		await ToSignal(GetTree().CreateTimer(2f), "timeout");
-		Mole.CurrentGameState = Mole.GameState.Playing;
-	}
-
-
-
 
 	public async void MoveCamera(Vector3 Pos, Vector3 Rot, float CamFOV)
 	{
@@ -167,9 +135,9 @@ public partial class Game : Node3D
 		//Extra life only has a chance to spawn if your lives are below 3.
 		if (Mole.GetLives() < 3)
 		{
-			if (coinFavour >= 10)
+			if (coinFavour > 10)
 			{
-				sceneInstance = Collectables[0].Instantiate<Area3D>();
+				sceneInstance = Collectables[PickRandomPickup()].Instantiate<Area3D>();
 			}
 			else
 			{
@@ -178,7 +146,7 @@ public partial class Game : Node3D
 		}
 		else
 		{
-			sceneInstance = Collectables[0].Instantiate<Area3D>();
+			sceneInstance = Collectables[PickRandomPickup()].Instantiate<Area3D>();
 		}
 		if (Mole.CurrentGameState == Mole.GameState.Playing)
 		{
@@ -186,6 +154,24 @@ public partial class Game : Node3D
 			AddChild(sceneInstance);
 			ComboCointTimer.Start(CollectableSpawnTimes[RNG.RandiRange(0, CollectableSpawnTimes.Length - 1)]);
 		}
+	}
+	int PickRandomPickup()
+	{
+		int secondCoinFavour = RNG.RandiRange(0, 100);
+		int randomIndex;
+		if (secondCoinFavour <= 60)
+		{
+			randomIndex = 0;
+		}
+		else if (Mole.EarlyPops < 1)
+		{
+			randomIndex = 2;
+		}
+		else
+		{
+			randomIndex = 0;
+		}
+		return randomIndex;
 	}
 
 	private async void ToggleMenu()
@@ -284,6 +270,46 @@ public partial class Game : Node3D
 		AccountMenu.Visible = accountMenuVisible;
 		LoginScreen.Visible = loginScreenVisible;
 		RegistrationScreen.Visible = registrationScreenVisible;
+	}
+
+
+	public void _on_restart_pressed()
+	{
+		// GD.Print(SaveManager.SaveScore(User.Username, Mole.GetHighScore(), Mole.GetHighestCombo()));
+		MoveToMenuState(GameState.PLAYING);
+		Mole.CurrentGameState = Mole.GameState.Playing;
+		Mole.Restart();
+		ComboCointTimer.Start(RNG.RandiRange(3, 6));
+		// Mole.SetGameOver(false);
+		// Mole.Paused = false;
+		GameOverMenu.Hide();
+	}
+
+	public void _on_main_menu_pressed()
+	{
+		// GD.Print(SaveManager.SaveScore(User.Username, Mole.GetHighScore(), Mole.GetHighestCombo()));
+		MoveToMenuState(GameState.MENU);
+		Mole.CurrentGameState = Mole.GameState.Paused;
+		Mole.Restart();
+		GameOverMenu.Hide();
+		MainMenu.Show();
+		PlayResume.Text = "Play";
+	}
+
+	//play/resume button
+	public async void _on_button_pressed()
+	{
+		if (Mole.CurrentGameState != Mole.GameState.Paused)
+		{
+			Mole.Restart();
+			ComboCointTimer.Start(RNG.RandiRange(3, 6));
+			Mole.CurrentGameState = Mole.GameState.Playing;
+		}
+		MainMenu.Hide();
+		ComboCointTimer.Start(RNG.RandiRange(3, 6));
+		MoveToMenuState(GameState.PLAYING);
+		await ToSignal(GetTree().CreateTimer(2f), "timeout");
+		Mole.CurrentGameState = Mole.GameState.Playing;
 	}
 
 	public void _on_settings_pressed()

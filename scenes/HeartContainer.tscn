@@ -1,10 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://gjo4tc2y1h6e"]
+[gd_scene load_steps=23 format=3 uid="uid://gjo4tc2y1h6e"]
 
 [ext_resource type="Script" path="res://scripts/HeartContainer.cs" id="1_dg3cn"]
 [ext_resource type="PackedScene" uid="uid://b4yuqj58usb14" path="res://assets/coin/coin.glb" id="2_6igvy"]
 [ext_resource type="Texture2D" uid="uid://dus5qn320lo70" path="res://assets/coin/coinnormalmap.png" id="3_2sjuj"]
-[ext_resource type="Material" uid="uid://ckfdvfsaj2th5" path="res://resources/Coin.tres" id="4_xm33x"]
+[ext_resource type="Material" uid="uid://jtc4k627sne" path="res://scenes/HeartParticlePM.tres" id="4_3uicg"]
 [ext_resource type="AudioStream" uid="uid://co73u8qkdmjaa" path="res://assets/audio/coinshatter2.wav" id="5_4w3gi"]
+[ext_resource type="QuadMesh" uid="uid://dpt0oo8fuuko8" path="res://resources/HeartParticleMaterial.tres" id="5_vk8co"]
 [ext_resource type="AudioStream" uid="uid://7u7wouqojq36" path="res://assets/audio/coincollected2.wav" id="6_7k18m"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lmhcg"]
@@ -12,8 +13,10 @@ resource_name = "Material"
 cull_mode = 2
 vertex_color_use_as_albedo = true
 albedo_color = Color(1, 0, 0, 1)
-metallic = 1.0
-metallic_specular = 1.0
+metallic = 0.84
+metallic_specular = 0.61
+roughness = 0.54
+roughness_texture = ExtResource("3_2sjuj")
 normal_enabled = true
 normal_scale = 0.4
 normal_texture = ExtResource("3_2sjuj")
@@ -52,22 +55,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_wsrar")
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_gee0x"]
-material = ExtResource("4_xm33x")
-top_radius = 0.075
-bottom_radius = 0.075
-height = 0.035
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_an1uh"]
-shading_mode = 0
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_gxbou"]
-material = SubResource("StandardMaterial3D_an1uh")
-flip_faces = true
-top_radius = 0.075
-bottom_radius = 0.075
-height = 0.035
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_iyxr0"]
 height = 0.075
@@ -146,14 +133,11 @@ transform = Transform3D(1.305, 0, 0, 0, 1.305, 0, 0, 0, 1.305, 0, 0, 0)
 [node name="Cylinder" parent="HeartMesh" index="0"]
 mesh = SubResource("ArrayMesh_pe283")
 
-[node name="oldCoinMesh" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("CylinderMesh_gee0x")
-
-[node name="CoinMesh2" type="MeshInstance3D" parent="oldCoinMesh"]
-transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
-sorting_offset = -1.0
-mesh = SubResource("CylinderMesh_gxbou")
+[node name="GPUParticles3D" type="GPUParticles3D" parent="HeartMesh"]
+amount = 16
+lifetime = 0.5
+process_material = ExtResource("4_3uicg")
+draw_pass_1 = ExtResource("5_vk8co")
 
 [node name="HeartCollider" type="CollisionShape3D" parent="."]
 unique_name_in_owner = true

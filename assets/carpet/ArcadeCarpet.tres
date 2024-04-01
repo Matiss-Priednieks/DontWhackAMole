@@ -6,7 +6,8 @@
 [resource]
 albedo_texture = ExtResource("1")
 emission_enabled = true
-emission_energy_multiplier = 3.35
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 1.55
 emission_operator = 1
 emission_texture = ExtResource("5")
 uv1_scale = Vector3(0.355, 0.355, 0.355)
