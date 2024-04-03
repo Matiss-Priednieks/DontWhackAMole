@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgfd72lpvwvu6"]
+
+[ext_resource type="ArrayMesh" uid="uid://dy0twcd56ar5n" path="res://assets/arcademachine/MainArcadeMachineMESH.tres" id="1_fiilt"]
+
+[node name="BetterArcadeMachine-4_holes" type="Node3D"]
+
+[node name="Cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.6, 0, 1.66885e-07, 0, 0.6, 0, -1.66885e-07, 0, -0.6, 0, 0.6, -0.246)
+mesh = ExtResource("1_fiilt")
+skeleton = NodePath("")

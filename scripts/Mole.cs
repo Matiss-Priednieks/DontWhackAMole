@@ -14,7 +14,7 @@ public partial class Mole : Area3D
 	float DangerTimer = 0;
 	int Lives = 3;
 	MeshInstance3D MoleMesh;
-	MeshInstance3D LivesCounter, ScoreCounter, ComboCounter, HighScoreMesh, HighestComboMesh;
+	MeshInstance3D LivesCounter, ScoreCounter, ComboCounter, HighScoreMesh, HighestComboMesh, EarlyPopCounter;
 	Dictionary HoleDictionary;
 	float ScoreAcceleration = 0;
 
@@ -63,6 +63,7 @@ public partial class Mole : Area3D
 		LivesCounter = GetNode<MeshInstance3D>("%LivesCounter");
 		ScoreCounter = GetNode<MeshInstance3D>("%ScoreCounter");
 		ComboCounter = GetNode<MeshInstance3D>("%ComboCounter");
+		EarlyPopCounter = GetNode<MeshInstance3D>("%EarlyPopCounter");
 		HighScoreMesh = GetNode<MeshInstance3D>("%Highscore");
 		HighestComboMesh = GetNode<MeshInstance3D>("%HighestCombo");
 		Bonk = GetNode<AudioStreamPlayer3D>("%BonkSound");
@@ -111,6 +112,11 @@ public partial class Mole : Area3D
 		var LivesMesh = (TextMesh)LivesCounter.Mesh;
 		LivesMesh.Text = Lives.ToString();
 		LivesCounter.Mesh = LivesMesh;
+
+
+		var EarlyPopMesh = (TextMesh)EarlyPopCounter.Mesh;
+		EarlyPopMesh.Text = EarlyPops.ToString() + "/1";
+		EarlyPopCounter.Mesh = EarlyPopMesh;
 
 		var ScoreMesh = (TextMesh)ScoreCounter.Mesh;
 		ScoreMesh.Text = Math.Round(Score).ToString();

@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://t4m0b16vwc43"]
 
 [ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="2_0ovb7"]
+[ext_resource type="PackedScene" uid="uid://cgfd72lpvwvu6" path="res://assets/arcademachine/MainArcadeMachine.tscn" id="4_ebfxv"]
 [ext_resource type="PackedScene" uid="uid://i51y5mf06k3x" path="res://scenes/title.tscn" id="4_ui3qv"]
-[ext_resource type="PackedScene" uid="uid://dth27db4rjnjh" path="res://assets/arcademachine/BetterArcadeMachine-4_holes.glb" id="6_o1iiy"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_44fh2"]
 _surfaces = [{
@@ -72,20 +72,17 @@ albedo_color = Color(0, 0, 0, 1)
 [node name="WHACKmachine" type="Node3D"]
 
 [node name="Screen" type="MeshInstance3D" parent="."]
-transform = Transform3D(0, 0, -0.376677, 0, 0.342052, 0, 0.0300461, 0, 0, 0, 1.08486, -0.527931)
+transform = Transform3D(0, 0, -0.376677, 0, 0.342052, 0, 0.0300461, 0, 0, 0, 1.685, -0.528)
 mesh = SubResource("ArrayMesh_5nbi1")
 skeleton = NodePath("")
 
 [node name="ScreenFrame" type="MeshInstance3D" parent="."]
-transform = Transform3D(0, 0, -0.421295, 0, 0.372561, 0, 0.0145336, 0, 0, 0, 1.08687, -0.525542)
+transform = Transform3D(0, 0, -0.421295, 0, 0.372561, 0, 0.0145336, 0, 0, 0, 1.687, -0.526)
 mesh = SubResource("ArrayMesh_j1qxh")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_ihvpo")
 
 [node name="Title" parent="." instance=ExtResource("4_ui3qv")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.11524, -0.530906)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.715, -0.531)
 
-[node name="BetterArcadeMachine-4_holes2" parent="." instance=ExtResource("6_o1iiy")]
-transform = Transform3D(-0.6, 0, 9.05975e-08, 0, 0.6, 0, -9.05975e-08, 0, -0.6, 0, -0.6, -0.245901)
-
-[editable path="BetterArcadeMachine-4_holes2"]
+[node name="BetterArcadeMachine-4_holes" parent="." instance=ExtResource("4_ebfxv")]

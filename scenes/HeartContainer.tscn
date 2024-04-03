@@ -18,7 +18,7 @@ metallic_specular = 0.61
 roughness = 0.54
 roughness_texture = ExtResource("3_2sjuj")
 normal_enabled = true
-normal_scale = 0.4
+normal_scale = -3.74
 normal_texture = ExtResource("3_2sjuj")
 grow = true
 
@@ -124,6 +124,7 @@ left_to_right = 0.4
 size = Vector3(0.07, 0.105, 0.01)
 
 [node name="Heart" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_dg3cn")
 
 [node name="HeartMesh" parent="." instance=ExtResource("2_6igvy")]

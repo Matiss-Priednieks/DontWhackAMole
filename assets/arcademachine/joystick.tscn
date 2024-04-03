@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://c0cxh7a573kws"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dcshf"]
+albedo_color = Color(0.572549, 0.572549, 0.572549, 1)
+metallic = 0.45
+metallic_specular = 0.12
+roughness = 0.35
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fwi3x"]
+material = SubResource("StandardMaterial3D_dcshf")
+top_radius = 0.025
+bottom_radius = 0.025
+height = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_odhe0"]
+albedo_color = Color(0.721569, 0, 0, 1)
+metallic_specular = 0.22
+roughness = 0.23
+
+[sub_resource type="SphereMesh" id="SphereMesh_pixlc"]
+material = SubResource("StandardMaterial3D_odhe0")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6oe0t"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_khth3"]
+material = SubResource("StandardMaterial3D_6oe0t")
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.05
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.316096, 0.682127, 0.0303267)
+mesh = SubResource("CylinderMesh_fwi3x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.116673, 0)
+mesh = SubResource("SphereMesh_pixlc")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0640756, 0)
+mesh = SubResource("CylinderMesh_khth3")

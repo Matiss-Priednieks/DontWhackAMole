@@ -1,4 +1,4 @@
-[gd_scene load_steps=156 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=161 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -43,6 +43,8 @@
 [ext_resource type="Script" path="res://scripts/IntroTransition.cs" id="32_lacay"]
 [ext_resource type="Texture2D" uid="uid://btmbv0gra0bas" path="res://assets/carpet/ArcadeCarpet_emission.png" id="32_xc0rk"]
 [ext_resource type="PackedScene" uid="uid://bwuyqs3i552o3" path="res://assets/stool/ArcadeStool.glb" id="37_uiokx"]
+[ext_resource type="Texture2D" uid="uid://dm1wl14bpkyv" path="res://assets/UI/early-pop.png" id="44_lwfxe"]
+[ext_resource type="PackedScene" uid="uid://blpatshw8kfl5" path="res://scenes/EarlyPopUIDummy.tscn" id="45_v3tv0"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_4lm6s"]
 material = ExtResource("6_8mjb7")
@@ -919,14 +921,29 @@ shadow_color = Color(0, 0, 1, 0.6)
 shadow_size = 10
 shadow_offset = Vector2(10, 10)
 
+[sub_resource type="TextMesh" id="TextMesh_h7it4"]
+material = ExtResource("5_uicb5")
+text = "0/1"
+font = ExtResource("4_keded")
+font_size = 10
+depth = 0.015
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pebsn"]
+transparency = 1
+albedo_texture = ExtResource("44_lwfxe")
+
+[sub_resource type="QuadMesh" id="QuadMesh_c3ybb"]
+material = SubResource("StandardMaterial3D_pebsn")
+size = Vector2(0.4, 0.4)
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7dit6")
 
 [node name="NewWhackMachine" parent="." instance=ExtResource("2_3ylu7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -11.5721)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11.572)
 
 [node name="ComboBonus" type="Node3D" parent="NewWhackMachine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.896781, 1.56951, -0.283243)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.897, 2.17, -0.283)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NewWhackMachine/ComboBonus"]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.0383333, -0.0797756, -0.0854659)
@@ -957,7 +974,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.193331, 0, 1.0252e-05)
 mesh = SubResource("TextMesh_022s1")
 
 [node name="Lives" type="Node3D" parent="NewWhackMachine"]
-transform = Transform3D(0.57, 8.25575e-09, 6.79205e-10, -8.25575e-09, 0.57, 0, -6.79205e-10, -9.83744e-18, 0.57, -0.2, 0.817119, -0.502)
+transform = Transform3D(0.57, 8.25575e-09, 6.79205e-10, -8.25575e-09, 0.57, 0, -6.79205e-10, -9.83744e-18, 0.57, -0.2, 1.417, -0.502)
 
 [node name="LivesBlock" type="MeshInstance3D" parent="NewWhackMachine/Lives"]
 transform = Transform3D(1, 0, 7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0, 0, 0)
@@ -974,7 +991,7 @@ transform = Transform3D(1, 2.66454e-14, 0, -1.86517e-14, 1, 2.08616e-07, 1.42109
 mesh = SubResource("TextMesh_q3gto")
 
 [node name="Score" type="Node3D" parent="NewWhackMachine"]
-transform = Transform3D(0.57, 8.25577e-09, 6.79266e-10, -8.25577e-09, 0.57, 0, -6.79266e-10, -9.83836e-18, 0.57, 0.2, 0.817119, -0.502)
+transform = Transform3D(0.57, 8.25577e-09, 6.79266e-10, -8.25577e-09, 0.57, 0, -6.79266e-10, -9.83836e-18, 0.57, 0.2, 1.417, -0.502)
 
 [node name="ScoreBlock" type="MeshInstance3D" parent="NewWhackMachine/Score"]
 mesh = SubResource("BoxMesh_2xuof")
@@ -997,13 +1014,13 @@ pitch_scale = 0.9
 bus = &"SFX"
 
 [node name="OmniLight3D" type="SpotLight3D" parent="NewWhackMachine"]
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 3.08462, -0.363686)
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 3.685, -0.364)
 light_color = Color(0.568627, 0.568627, 1, 1)
 light_energy = 0.788
 spot_range = 6.292
 
 [node name="Holes" type="Node3D" parent="NewWhackMachine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0238988, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.624, 0)
 
 [node name="TopHole" type="Area3D" parent="NewWhackMachine/Holes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.564, -0.275)
@@ -1082,13 +1099,13 @@ mesh = SubResource("CylinderMesh_7hxv4")
 skeleton = NodePath("../..")
 
 [node name="Node3D4" parent="NewWhackMachine" instance=ExtResource("13_sdma7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0129501, 0.118684)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.587, 0.119)
 
 [node name="DirectionalLight3D" parent="NewWhackMachine/Node3D4" index="1"]
 transform = Transform3D(1, 0, 0, 0, 0.175865, 0.984414, 0, -0.984414, 0.175865, 0, 0.533121, 2.10857)
 
 [node name="MissArea" type="Area3D" parent="NewWhackMachine"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 visible = false
 monitoring = false
 monitorable = false
@@ -1198,7 +1215,7 @@ bus = &"SFX"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.25, 1.53, -9.841)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.25, 1.62924, -9.841)
 current = true
 fov = 80.0
 script = ExtResource("17_6nx8f")
@@ -1230,7 +1247,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.323693, 0)
 shape = SubResource("CylinderShape3D_p4cgf")
 
 [node name="bonktool" parent="Mallet" instance=ExtResource("25_vvumv")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.095, 0)
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.0267652, -0.095, 0)
 
 [node name="Miss" type="AudioStreamPlayer3D" parent="Mallet"]
 unique_name_in_owner = true
@@ -1285,7 +1302,7 @@ surface_material_override/0 = null
 
 [node name="Highscore" type="MeshInstance3D" parent="Node3D/MenuArcade"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345985, 0.772237, -0.601629)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345985, 0.855432, -0.601629)
 mesh = SubResource("TextMesh_ld7fd")
 
 [node name="ArcadeStool15" parent="Node3D/MenuArcade" instance=ExtResource("37_uiokx")]
@@ -1972,6 +1989,26 @@ offset_bottom = 207.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+
+[node name="EarlyPopUI" parent="." instance=ExtResource("45_v3tv0")]
+unique_name_in_owner = false
+transform = Transform3D(0.898695, -0.438575, 1.91707e-08, 0, -4.37114e-08, -1, 0.438575, 0.898695, -3.92832e-08, 0.77027, 1.48627, -11.5471)
+
+[node name="EarlyPopCounter" type="MeshInstance3D" parent="EarlyPopUI"]
+unique_name_in_owner = true
+transform = Transform3D(0.993457, 2.05036e-08, -0.114209, 0.114209, -2.63549e-08, 0.993457, 7.69641e-08, -0.999998, -9.89781e-09, 0.126253, 0.011692, 0.044781)
+mesh = SubResource("TextMesh_h7it4")
+skeleton = NodePath("../../EarlyUpUI")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="EarlyPopUI"]
+transform = Transform3D(1, 0, -1.77636e-15, 0, 1, 6.75016e-14, 0, -7.10543e-14, 1, 0.0523705, 0.0223503, 0)
+light_color = Color(0, 0.564706, 1, 1)
+omni_range = 0.592421
+
+[node name="EarlyUpUI" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.842725, 0, -0.538344, 0, 1, 0, 0.538344, 0, 0.842725, 0.782381, 1.46366, -11.5515)
+visible = false
+mesh = SubResource("QuadMesh_c3ybb")
 
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopHole" to="NewWhackMachine/Holes/TopHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/LeftHole" to="NewWhackMachine/Holes/LeftHole" method="_on_area_entered"]
