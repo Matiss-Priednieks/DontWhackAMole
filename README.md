@@ -15,12 +15,12 @@ You have 3 lives, after which you will need to restart and try again!
 - **Esc**
 
 ## Credits & Tools
-Made entirely by myself!
+All assets, code and sound effects made by Gurki (Matiss Priednieks)
 ### Tools used
 #### Gameplay and visuals
-- Godot 4.1
+- Godot 4 Mono
 - Blender
-- Photoshop
+- Krita
 #### Audio
 - Labchirp
 - LMMS
