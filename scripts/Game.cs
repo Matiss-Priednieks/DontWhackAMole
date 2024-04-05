@@ -80,7 +80,7 @@ public partial class Game : Node3D
 		CamPlayRot = new Vector3(-28.7f, 0, 0);
 		CamPlayFOV = 55f;
 
-		CamMenuPos = new Vector3(-3.25f, 1.53f, -9.841f); //old menu
+		CamMenuPos = new Vector3(-3.25f, 1.63f, -9.841f); //old menu
 		CamMenuRot = new Vector3(0, 90, 0);             //old menu
 		CamMenuFOV = 80f;
 

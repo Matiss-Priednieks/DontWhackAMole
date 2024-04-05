@@ -10,9 +10,11 @@ public partial class BootSplash : CanvasLayer
 	Color colour;
 	ColorRect colorRect;
 	SaveManager SaveManager;
+	SceneTree _SceneTree;
 	public override void _Ready()
 	{
-		this.SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
+		_SceneTree = GetTree();
+		this.SaveManager = _SceneTree.Root.GetNode<SaveManager>("SaveManager");
 		this.SaveManager.LoadConfig();
 		ScreenAlpha = 1;
 		FadeFirstScreen();
@@ -33,25 +35,27 @@ public partial class BootSplash : CanvasLayer
 	}
 	public async void FadeFirstScreen()
 	{
-		await ToSignal(GetTree().CreateTimer(1f), "timeout");
+		await ToSignal(_SceneTree.CreateTimer(1f), "timeout");
 		FadeIn();
 
-		await ToSignal(GetTree().CreateTimer(2f), "timeout");
+		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
 		FadeOut();
-		await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+		await ToSignal(_SceneTree.CreateTimer(1.5f), "timeout");
 		GetNode<Control>("%FirstScreen").Hide();
-		await ToSignal(GetTree().CreateTimer(2f), "timeout");
+		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
 		GetNode<Control>("%SecondScreen").Show();
 		FadeSecondScreen();
 	}
 	public async void FadeSecondScreen()
 	{
 		FadeIn();
-		await ToSignal(GetTree().CreateTimer(2f), "timeout");
+		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
 		FadeOut();
-		await ToSignal(GetTree().CreateTimer(2f), "timeout");
+		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
 
-		GetTree().ChangeSceneToPacked(MainGameScene);
+		GD.Print(MainGameScene + "\n");
+		GD.Print(_SceneTree);
+		_SceneTree.ChangeSceneToPacked(MainGameScene);
 	}
 
 	public void FadeIn()
