@@ -1,4 +1,4 @@
-[gd_scene load_steps=161 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=162 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -910,6 +910,14 @@ size = Vector2(50, 50)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wu60a"]
 bg_color = Color(0.74902, 0.133333, 0.133333, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xk3gj"]
+bg_color = Color(0.0980392, 0.305882, 0.74902, 1)
+border_blend = true
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iyu64"]
 bg_color = Color(0.0980392, 0.305882, 0.74902, 1)
@@ -1897,6 +1905,10 @@ theme_override_constants/margin_bottom = 25
 
 [node name="PanelContainer" type="PanelContainer" parent="UI/Menu/MarginContainer/MarginContainer"]
 layout_mode = 2
+
+[node name="Panel" type="Panel" parent="UI/Menu/MarginContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xk3gj")
 
 [node name="Settings" type="TextureButton" parent="UI/Menu/MarginContainer/MarginContainer/PanelContainer"]
 custom_minimum_size = Vector2(85, 85)
