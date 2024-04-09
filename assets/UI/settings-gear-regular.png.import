@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgeae8nsld6wi"
-path="res://.godot/imported/SettingsIcon.png-547e54166d4c46d46ee712c5d884f106.ctex"
+uid="uid://wj73nwolj5b6"
+path="res://.godot/imported/settings-gear-regular.png-1b398b29bb55bdcde5be4d01c0bb7566.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/SettingsIcon.png"
-dest_files=["res://.godot/imported/SettingsIcon.png-547e54166d4c46d46ee712c5d884f106.ctex"]
+source_file="res://assets/UI/settings-gear-regular.png"
+dest_files=["res://.godot/imported/settings-gear-regular.png-1b398b29bb55bdcde5be4d01c0bb7566.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

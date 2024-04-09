@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3bmuhxoiylqf"
-path="res://.godot/imported/WhiteGear.png-2bd473f3418aab2ea44d9dfa85b72fd4.ctex"
+uid="uid://d113c65exvune"
+path="res://.godot/imported/settings-gear-hovered.png-43855c54bb3eb4759ca4bc74ebfddc4b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/WhiteGear.png"
-dest_files=["res://.godot/imported/WhiteGear.png-2bd473f3418aab2ea44d9dfa85b72fd4.ctex"]
+source_file="res://assets/UI/settings-gear-hovered.png"
+dest_files=["res://.godot/imported/settings-gear-hovered.png-43855c54bb3eb4759ca4bc74ebfddc4b.ctex"]
 
 [params]
 

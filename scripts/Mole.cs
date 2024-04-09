@@ -257,8 +257,14 @@ public partial class Mole : Area3D
 		Score = 0;
 		Lives = 3;
 		DangerTimer = 0;
-		HighScore = (int)FinalScore;
-		User.SetHighscore(HighScore);
+		// HighScore = (int)FinalScore;
+		// User.SetHighscore(HighScore);
+		if (FinalScore > HighScore)
+		{
+			HighScore = (int)FinalScore;
+			User.SetHighscore(HighScore);
+			// SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
+		}
 		SaveManager.SaveScore(User.Username, HighScore, HighestCombo);
 		Error requestResult = User.HighscoreUpdateRequest();
 		GD.Print("Score sent to server.");

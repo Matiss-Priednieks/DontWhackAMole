@@ -151,6 +151,7 @@ public partial class Game : Node3D
 		if (Mole.CurrentGameState == Mole.GameState.Playing)
 		{
 			// GD.Print(Mole.CurrentGameState);
+			// CallDeferred(Node3D.MethodName.AddChild, sceneInstance); //neat tidbit
 			AddChild(sceneInstance);
 			ComboCointTimer.Start(CollectableSpawnTimes[RNG.RandiRange(0, CollectableSpawnTimes.Length - 1)]);
 		}
