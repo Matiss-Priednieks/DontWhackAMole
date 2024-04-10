@@ -91,12 +91,15 @@ public partial class LoginScreen : Panel
 			ErrorPanel.Hide();
 			var dict = (Godot.Collections.Dictionary)response;
 
-			User.Login(dict[key: "username"].ToString());
-
-			// GD.Print(dict[key: "username"].ToString());
+			if (!String.IsNullOrWhiteSpace(dict[key: "username"].ToString()))
+			{
+				User.Login(dict[key: "username"].ToString());
+			}
 			User.SetHighscore((float)dict[key: "highscore"]);
-			User.SetEmail(LoginEmail);
-			// User.SetUsername(username);
+			if (!String.IsNullOrWhiteSpace(LoginEmail))
+			{
+				User.SetEmail(LoginEmail);
+			}
 			UserLabel.Text = dict[key: "username"].ToString();
 			LoggedInPage.Show();
 			Hide();

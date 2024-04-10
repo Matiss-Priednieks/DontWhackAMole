@@ -1,5 +1,8 @@
 using Godot;
+using Godot.Collections;
 using System;
+using System.Collections;
+using System.Linq;
 
 public partial class Game : Node3D
 {
@@ -320,6 +323,8 @@ public partial class Game : Node3D
 
 	public void _on_settings_back_pressed()
 	{
+		// User.UnlockableContentSaveRequest();
+		User.GetUnlockedContentRequest();
 		SaveManager.SaveConfig();
 		ToggleMenuVisibility(true, false, false, false, false, false);
 	}
@@ -341,7 +346,7 @@ public partial class Game : Node3D
 
 	public void _on_go_to_reg_page_pressed()
 	{
-		ToggleMenuVisibility(false, false, false, true, true, true);
+		ToggleMenuVisibility(false, false, false, true, false, true);
 	}
 
 	public void _on_go_to_login_pressed()
@@ -359,5 +364,31 @@ public partial class Game : Node3D
 		GetTree().Quit();
 	}
 
+	public void _on_unlocks_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
+	{
+		if (responseCode == 200 || responseCode == 201)
+		{
 
+			Json json = new();
+			json.Parse(body.GetStringFromUtf8());
+			GD.Print("json data: " + json.Data);
+			var dict = (Dictionary<int, bool>)json.Data;
+			User.SetUnlocksDict(dict);
+			GD.Print("dict data: " + dict);
+			GD.Print(User.Email + User.Username);
+			// System.Collections.Generic.List<(string Username, int Score)> PlayerScores = new System.Collections.Generic.List<(string, int)>();
+
+			// foreach (var (key, value) in dict)
+			// {
+			// 	foreach (var score in value)
+			// 	{
+			// 		// PlayerScores.Add((key, score));
+			// 	}
+			// }
+		}
+		else
+		{
+
+		}
+	}
 }

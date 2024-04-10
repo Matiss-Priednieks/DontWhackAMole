@@ -1,14 +1,18 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Linq;
 public partial class LoggedInUser : Node
 {
     public HttpRequest HTTPRequest { get; private set; }
+    public HttpRequest UnlocksHTTPRequest { get; private set; }
 
     // Called when the node enters the scene tree for the first time.
 
+    UnlockableContentManager Unlockables = new();
     Label UsernameLabel;
 
     public bool LoggedIn { get; set; }
@@ -16,14 +20,37 @@ public partial class LoggedInUser : Node
     public string Username { get; set; }
 
     public int UserHighScore { get; private set; }
+
+    UnlockableContent[] unlockables;
+    Dictionary<int, bool> unlockables_dict;
     public override void _Ready()
     {
+        unlockables = Unlockables.GetUnlockableContent();
+        // unlockables_dict = new Dictionary<int, bool>();
+        unlockables_dict = new Dictionary<int, bool>(){
+            {0, false},
+            {1, false},
+            {2, false},
+            {3, false}
+        };
+        for (int i = 0; i < unlockables.Count(); i++)
+        {
+            GD.Print(unlockables[i].ContentID, unlockables[i].ContentName, unlockables[i].Description, unlockables[i].IsUnlocked);
+        }
         Username = "Guest";
     }
-
+    public void SetUnlocksDict(Dictionary<int, bool> unlockables)
+    {
+        unlockables_dict = unlockables;
+    }
+    public Dictionary<int, bool> GetUnlocksDict()
+    {
+        return unlockables_dict;
+    }
     public void LoggedInFakeReady()
     {
         HTTPRequest = GetNode<HttpRequest>("../Node3D/UI/HighscoreRequest");
+        UnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksRequest");
         UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
 
         UsernameLabel.Text = "Guest";
@@ -66,6 +93,16 @@ public partial class LoggedInUser : Node
         return UserHighScore;
     }
 
+    public Error GetUnlockedContentRequest()
+    {
+        GD.Print(Email);
+        UserCreditentials userData = new(Username, Email, unlockables_dict);
+        string userDataJson = JsonSerializer.Serialize(userData);
+        string[] newRegHeaders = new string[] { "Content-Type: application/json" };
+        var error = UnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-unlocks", newRegHeaders, HttpClient.Method.Get, userDataJson);
+        return error;
+    }
+
 
     //TODO
     public Error HighscoreUpdateRequest()
@@ -75,6 +112,16 @@ public partial class LoggedInUser : Node
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-highscore", newRegHeaders, HttpClient.Method.Post, userDataJson);
         // GD.Print(userData.email + ", " + userData.username + ", " + userData.highscore + ".");
+        return error;
+    }
+    public Error UnlockableContentSaveRequest()
+    {
+        GD.Print(Email);
+
+        UserCreditentials userData = new(Username, Email, unlockables_dict);
+        string userDataJson = JsonSerializer.Serialize(userData);
+        string[] newRegHeaders = new string[] { "Content-Type: application/json" };
+        var error = UnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-unlocks", newRegHeaders, HttpClient.Method.Post, userDataJson);
         return error;
     }
 }

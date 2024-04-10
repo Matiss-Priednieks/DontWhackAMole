@@ -264,7 +264,7 @@ public partial class Registration : Panel
 
 	public void UserDataRequest()
 	{
-		UserCreditentials userData = new(Username, RegistrationEmail, User.GetHighscore());
+		UserCreditentials userData = new(Username, RegistrationEmail, User.GetHighscore(), User.GetUnlocksDict());
 		string userDataJson = JsonSerializer.Serialize(userData);
 		string[] newRegHeaders = new string[] { "Content-Type: application/json" };
 		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/save-user", newRegHeaders, HttpClient.Method.Post, userDataJson);
@@ -312,12 +312,17 @@ public partial class Registration : Panel
 			ErrorPanel.Hide();
 			var dict = (Godot.Collections.Dictionary)response;
 
-			User.Login(dict[key: "username"].ToString());
+			if (!String.IsNullOrWhiteSpace(dict[key: "username"].ToString()))
+			{
+				User.Login(dict[key: "username"].ToString());
+			}
 
-			// GD.Print(dict[key: "username"].ToString());
 			User.SetHighscore((float)dict[key: "highscore"]);
-			User.SetEmail(RegistrationEmail);
-			// User.SetUsername(username);
+			if (!String.IsNullOrWhiteSpace(RegistrationEmail))
+			{
+				User.SetEmail(RegistrationEmail);
+			}
+
 			UserLabel.Text = dict[key: "username"].ToString();
 			LoggedInPage.Show();
 			Hide();

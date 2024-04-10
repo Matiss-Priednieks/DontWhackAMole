@@ -10,4 +10,6 @@ public partial class UserRegCreditentials
         this.password = _Password;
         this.returnSecuredToken = _SecuredToken;
     }
+
+
 }
