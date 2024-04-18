@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Xml.Schema;
 
 public partial class Mole : Area3D
 {
@@ -21,6 +22,15 @@ public partial class Mole : Area3D
 	SaveManager SaveManager;
 
 	public float Score { get; set; }
+	public float score
+	{
+		get => Score;
+		set
+		{
+			Score = value;
+			PlaySoundDelayed();
+		}
+	}
 	public int EarlyPops = 0;
 
 	int IFrames = 60;
@@ -55,17 +65,17 @@ public partial class Mole : Area3D
 		SaveManager = GetNode<SaveManager>("/root/SaveManager");
 		Score = 0;
 		ComboBonus = 1;
-		CounterSound = GetNode<AudioStreamPlayer3D>("%CounterSound");
+		CounterSound = GetNode<AudioStreamPlayer3D>("../%CounterSound");
 
-		CameraRef = GetNode<Camera3D>("%Camera3D");
+		CameraRef = GetNode<Camera3D>("../%Camera3D");
 		MoleMesh = GetNode<MeshInstance3D>("%MoleMesh");
 		WarningIndicator = GetNode<Node3D>("%WarningIndicator");
-		LivesCounter = GetNode<MeshInstance3D>("%LivesCounter");
-		ScoreCounter = GetNode<MeshInstance3D>("%ScoreCounter");
-		ComboCounter = GetNode<MeshInstance3D>("%ComboCounter");
-		EarlyPopCounter = GetNode<MeshInstance3D>("%EarlyPopCounter");
-		HighScoreMesh = GetNode<MeshInstance3D>("%Highscore");
-		HighestComboMesh = GetNode<MeshInstance3D>("%HighestCombo");
+		LivesCounter = GetNode<MeshInstance3D>("../%LivesCounter");
+		ScoreCounter = GetNode<MeshInstance3D>("../%ScoreCounter");
+		ComboCounter = GetNode<MeshInstance3D>("../%ComboCounter");
+		EarlyPopCounter = GetNode<MeshInstance3D>("../%EarlyPopCounter");
+		HighScoreMesh = GetNode<MeshInstance3D>("../%Highscore");
+		HighestComboMesh = GetNode<MeshInstance3D>("../%HighestCombo");
 		Bonk = GetNode<AudioStreamPlayer3D>("%BonkSound");
 		Move = GetNode<AudioStreamPlayer3D>("%MoveSound");
 
@@ -87,7 +97,7 @@ public partial class Mole : Area3D
 		ChosenHole = Holes[0];
 		Position = Holes[0];
 
-		PopOutTimer = GetNode<Timer>("%PopOutTimer");
+		PopOutTimer = GetNode<Timer>("../%PopOutTimer");
 		OutTimer = GetNode<Timer>("%OutTimer");
 		HighScore = (int)SaveManager.LoadScore(User.Username).X;
 		HighestCombo = (int)SaveManager.LoadScore(User.Username).Y;
@@ -158,7 +168,7 @@ public partial class Mole : Area3D
 		}
 
 		FinalScore = (int)Score;
-		GetNode<Label>("%FinalScore").Text = FinalScore.ToString();
+		GetNode<Label>("../%FinalScore").Text = FinalScore.ToString();
 	}
 
 
@@ -195,11 +205,12 @@ public partial class Mole : Area3D
 		if (!Down)
 		{
 			ScoreAcceleration += 0.005f * ComboBonus;
-			Score += ScoreAcceleration;
-			if (Score / Mathf.Round(Score) >= 1)
-			{
-				PlaySoundDelayed();
-			}
+			score += ScoreAcceleration;
+			// if (Score / Mathf.Round(Score) >= 1)
+			// {
+			// 	PlaySoundDelayed();
+			// }
+			// PlaySoundDelayed();
 		}
 	}
 

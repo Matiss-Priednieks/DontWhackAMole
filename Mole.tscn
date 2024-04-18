@@ -1,0 +1,158 @@
+[gd_scene load_steps=19 format=3 uid="uid://c2stcpf7g74mg"]
+
+[ext_resource type="Script" path="res://scripts/Mole.cs" id="1_3vpt4"]
+[ext_resource type="Material" uid="uid://ixx4vlgsxgje" path="res://resources/warning_indicator.tres" id="2_80ew2"]
+[ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/audio/boxing-bell.wav" id="3_kaa38"]
+[ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/audio/penclick.mp3" id="4_4v3tl"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kign4"]
+radius = 0.075
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bvwv6"]
+albedo_color = Color(0.529412, 0.396078, 0.298039, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rskkd"]
+material = SubResource("StandardMaterial3D_bvwv6")
+radius = 0.075
+height = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_xbc5a"]
+radius = 0.025
+height = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t888p"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8nrox"]
+material = SubResource("StandardMaterial3D_t888p")
+radius = 0.005
+height = 0.01
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_anb42"]
+albedo_color = Color(0.670588, 0.345098, 0.235294, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2qkde"]
+material = SubResource("StandardMaterial3D_anb42")
+radius = 0.015
+height = 0.055
+
+[sub_resource type="QuadMesh" id="QuadMesh_vko53"]
+material = ExtResource("2_80ew2")
+size = Vector2(0.035, 0.115)
+
+[sub_resource type="QuadMesh" id="QuadMesh_yp0bq"]
+material = ExtResource("2_80ew2")
+size = Vector2(0.035, 0.03)
+
+[sub_resource type="QuadMesh" id="QuadMesh_ggf60"]
+material = ExtResource("2_80ew2")
+size = Vector2(0.035, 0.115)
+
+[sub_resource type="QuadMesh" id="QuadMesh_u70p3"]
+material = ExtResource("2_80ew2")
+size = Vector2(0.035, 0.03)
+
+[sub_resource type="QuadMesh" id="QuadMesh_m5xet"]
+material = ExtResource("2_80ew2")
+size = Vector2(0.035, 0.115)
+
+[sub_resource type="QuadMesh" id="QuadMesh_lmxy5"]
+material = ExtResource("2_80ew2")
+size = Vector2(0.035, 0.03)
+
+[node name="Mole" type="Area3D"]
+script = ExtResource("1_3vpt4")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_kign4")
+
+[node name="MoleMesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("CapsuleMesh_rskkd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MoleMesh"]
+transform = Transform3D(0.943391, 0.109774, -0.312992, 0, 0.943645, 0.330959, 0.331684, -0.312224, 0.890226, -0.025, 0.2, 0.054)
+mesh = SubResource("SphereMesh_xbc5a")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MoleMesh/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.505, 0, 0, 0.023801)
+mesh = SubResource("SphereMesh_8nrox")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="MoleMesh"]
+transform = Transform3D(0.956646, 0, 0.291253, 0, 1, 0, -0.291253, 0, 0.956646, 0.025, 0.2, 0.054)
+mesh = SubResource("SphereMesh_xbc5a")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MoleMesh/MeshInstance3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.505, 0, 0, 0.023801)
+mesh = SubResource("SphereMesh_8nrox")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="MoleMesh"]
+transform = Transform3D(-4.47988e-08, -0.839684, 0, 1.02488, -3.67037e-08, 0, 0, 0, -0.705793, 0, 0.161077, 0.0698679)
+visible = false
+mesh = SubResource("CapsuleMesh_2qkde")
+
+[node name="WarningIndicator" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0.079455, 0)
+visible = false
+
+[node name="Node3D" type="Node3D" parent="WarningIndicator"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WarningIndicator/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.377877, 0)
+mesh = SubResource("QuadMesh_vko53")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="WarningIndicator/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.288808, 0)
+mesh = SubResource("QuadMesh_yp0bq")
+skeleton = NodePath("../..")
+
+[node name="Node3D2" type="Node3D" parent="WarningIndicator"]
+transform = Transform3D(0.742188, -0.107969, 0, 0.107969, 0.742188, 0, 0, 0, 0.75, -0.00861776, 0.0859944, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WarningIndicator/Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.377877, 0)
+mesh = SubResource("QuadMesh_ggf60")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="WarningIndicator/Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.288808, 0)
+mesh = SubResource("QuadMesh_u70p3")
+
+[node name="Node3D3" type="Node3D" parent="WarningIndicator"]
+transform = Transform3D(0.630698, 0.157227, 0, -0.157227, 0.630698, 0, 0, 0, 0.65, 0.00262664, 0.123146, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WarningIndicator/Node3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.377877, 0)
+mesh = SubResource("QuadMesh_m5xet")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="WarningIndicator/Node3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.288808, 0)
+mesh = SubResource("QuadMesh_lmxy5")
+
+[node name="OutTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.25
+
+[node name="BonkSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00219452, -0.0280215, 0.00579929)
+stream = ExtResource("3_kaa38")
+bus = &"SFX"
+
+[node name="MoveSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_4v3tl")
+bus = &"SFX"
+
+[node name="HatMount" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.235529, -0.00329876)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="OutTimer" to="." method="_on_out_timer_timeout"]
