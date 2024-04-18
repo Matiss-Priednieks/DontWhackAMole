@@ -190,7 +190,15 @@ public partial class Mole : Area3D
 		{
 			MoveMole(3);
 		}
-		if (Input.IsActionJustReleased("popout") && EarlyPops > 0)
+		if (Input.IsActionJustReleased("popout"))
+		{
+			EarlyPopOut();
+		}
+	}
+
+	public void EarlyPopOut()
+	{
+		if (EarlyPops > 0)
 		{
 			if (Down && Lives > 0 && CurrentGameState == GameState.Playing)
 			{
@@ -198,6 +206,10 @@ public partial class Mole : Area3D
 				EarlyPops--;
 			}
 		}
+	}
+	public void _on_use_powerup_pressed()
+	{
+		EarlyPopOut();
 	}
 
 	private void UpdateScore()

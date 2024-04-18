@@ -39,29 +39,31 @@ public partial class MainCamera : Camera3D
 					var Direction = new Vector2((float)(CurPos.X - StartPos.X), CurPos.Y - StartPos.Y);
 					var NormalisedDirection = Direction.Normalized();
 
-					if (NormalisedDirection.X > -1 && NormalisedDirection.X < 0 && NormalisedDirection.Y < 0.5f && NormalisedDirection.Y > -0.5f)
+					if (NormalisedDirection.X >= -1 && NormalisedDirection.X <= 0 && NormalisedDirection.Y <= 0.8f && NormalisedDirection.Y >= -0.8f)
 					{
 						GD.Print("Left Swipe");
 						EmitSignal("LeftSwipe", 1);
 					}
-					else if (NormalisedDirection.X > 0 && NormalisedDirection.X < 1 && NormalisedDirection.Y < 0.5f && NormalisedDirection.Y > -0.5f)
+					else if (NormalisedDirection.X >= 0 && NormalisedDirection.X <= 1 && NormalisedDirection.Y <= 0.8f && NormalisedDirection.Y >= -0.8f)
 					{
 						GD.Print("Right Swipe");
 						EmitSignal("RightSwipe", 3);
 					}
-					else if (NormalisedDirection.Y > -1 && NormalisedDirection.Y < 0 && NormalisedDirection.X < 0.5f && NormalisedDirection.X > -0.5f)
+					else if (NormalisedDirection.Y >= -1 && NormalisedDirection.Y <= 0 && NormalisedDirection.X <= 0.8f && NormalisedDirection.X >= -0.8f)
 					{
 						GD.Print("Up Swipe");
 						EmitSignal("UpSwipe", 0);
 					}
-					else if (NormalisedDirection.Y > 0 && NormalisedDirection.Y < 1 && NormalisedDirection.X < 0.5f && NormalisedDirection.X > -0.5f)
+					else if (NormalisedDirection.Y >= 0 && NormalisedDirection.Y <= 1 && NormalisedDirection.X <= 0.8f && NormalisedDirection.X >= -0.8f)
 					{
 						GD.Print("Down Swipe");
 						EmitSignal("DownSwipe", 2);
 					}
 
+
 					GD.Print("Swipe detected");
 					Swiping = false;
+					GD.Print(NormalisedDirection);
 				}
 			}
 		}

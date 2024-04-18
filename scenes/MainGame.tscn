@@ -1850,6 +1850,55 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Restart"
 
+[node name="GameplayUI" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+size_flags_vertical = 4
+
+[node name="Powerup" type="MarginContainer" parent="UI/GameplayUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -145.0
+offset_right = 145.0
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/GameplayUI/Powerup"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/GameplayUI/Powerup/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1s0ka")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/GameplayUI/Powerup/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Panel" type="Panel" parent="UI/GameplayUI/Powerup/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("42_2q0o6")
+
+[node name="UsePowerup" type="TextureButton" parent="UI/GameplayUI/Powerup/MarginContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("44_lwfxe")
+ignore_texture_size = true
+stretch_mode = 5
+
 [node name="RegRequest" type="HTTPRequest" parent="UI"]
 unique_name_in_owner = true
 
@@ -1907,6 +1956,10 @@ unique_name_in_owner = true
 [connection signal="area_entered" from="NewWhackMachine/Holes/RightHole" to="NewWhackMachine/Holes/RightHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/BottomLeftHole" to="NewWhackMachine/Holes/BottomLeftHole" method="_on_area_entered"]
 [connection signal="OutTooLong" from="Mole" to="Mallet" method="_on_mole_out_too_long"]
+[connection signal="DownSwipe" from="Camera3D" to="Mole" method="_on_down_swipe"]
+[connection signal="LeftSwipe" from="Camera3D" to="Mole" method="_on_left_swipe"]
+[connection signal="RightSwipe" from="Camera3D" to="Mole" method="_on_right_swipe"]
+[connection signal="UpSwipe" from="Camera3D" to="Mole" method="_on_up_swipe"]
 [connection signal="area_entered" from="Mallet" to="Mallet" method="_on_area_entered"]
 [connection signal="timeout" from="PopOutTimer" to="Mole" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
@@ -1945,6 +1998,7 @@ unique_name_in_owner = true
 [connection signal="pressed" from="UI/Menu/MarginContainer/MarginContainer/PanelContainer/MarginContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="UI/GameplayUI/Powerup/MarginContainer/PanelContainer/MarginContainer/UsePowerup" to="Mole" method="_on_use_powerup_pressed"]
 [connection signal="request_completed" from="UI/RegRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_reg_request_request_completed"]
 [connection signal="request_completed" from="UI/LoginRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_request_request_completed"]
 [connection signal="request_completed" from="UI/LoginRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_login_request_request_completed"]

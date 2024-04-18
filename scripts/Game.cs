@@ -40,6 +40,7 @@ public partial class Game : Node3D
 	WorldEnvironment worldEnvironment;
 
 	Timer PopOutTimer;
+	MarginContainer PowerUpUI;
 
 	PackedScene Coin, Heart, EarlyPop;
 	public bool Login, Register, CameraMoving = false;
@@ -51,6 +52,7 @@ public partial class Game : Node3D
 
 	public override void _Ready()
 	{
+		PowerUpUI = GetNode<MarginContainer>("%Powerup");
 		Collectables = new PackedScene[3];
 		worldEnvironment = GetNode<WorldEnvironment>("%WorldEnvironment");
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
@@ -95,6 +97,8 @@ public partial class Game : Node3D
 		Collectables[0] = Coin;
 		Collectables[1] = Heart;
 		Collectables[2] = EarlyPop;
+		ToggleMenuVisibility(true, false, false, false, false, false, false);
+
 	}
 
 	public override void _Process(double delta)
@@ -184,10 +188,12 @@ public partial class Game : Node3D
 		{
 			case GameState.MENU:
 				SaveManager.SaveConfig();
-				ToggleMenuVisibility(true, false, false, false, false, false);
+				ToggleMenuVisibility(true, false, false, false, false, false, false);
 				break;
 			case GameState.PLAYING:
 				SaveManager.SaveConfig();
+				ToggleMenuVisibility(false, false, false, false, false, false, true);
+
 				if (!MenuJustPressed)
 				{
 					MenuJustPressed = true;
@@ -202,6 +208,7 @@ public partial class Game : Node3D
 
 			case GameState.PAUSED:
 				SaveManager.SaveConfig();
+				ToggleMenuVisibility(false, false, false, false, false, false, false);
 				if (!MenuJustPressed)
 				{
 					MenuJustPressed = true;
@@ -266,7 +273,7 @@ public partial class Game : Node3D
 			saturationTween.Stop();
 		}
 	}
-	public void ToggleMenuVisibility(bool menuButtonsVisible, bool settingsMenuVisible, bool helpMenuVisible, bool accountMenuVisible, bool loginScreenVisible, bool registrationScreenVisible)
+	public void ToggleMenuVisibility(bool menuButtonsVisible, bool settingsMenuVisible, bool helpMenuVisible, bool accountMenuVisible, bool loginScreenVisible, bool registrationScreenVisible, bool powerupUIVisible)
 	{
 		MenuButtons.Visible = menuButtonsVisible;
 		SettingsMenu.Visible = settingsMenuVisible;
@@ -274,6 +281,9 @@ public partial class Game : Node3D
 		AccountMenu.Visible = accountMenuVisible;
 		LoginScreen.Visible = loginScreenVisible;
 		RegistrationScreen.Visible = registrationScreenVisible;
+		PowerUpUI.Visible = powerupUIVisible;
+
+		GD.Print(PowerUpUI.Visible);
 	}
 
 
@@ -287,6 +297,8 @@ public partial class Game : Node3D
 		// Mole.SetGameOver(false);
 		// Mole.Paused = false;
 		GameOverMenu.Hide();
+		ToggleMenuVisibility(false, false, false, false, false, false, true);
+
 	}
 
 	public void _on_main_menu_pressed()
@@ -314,11 +326,12 @@ public partial class Game : Node3D
 		MoveToMenuState(GameState.PLAYING);
 		await ToSignal(GetTree().CreateTimer(2f), "timeout");
 		Mole.CurrentGameState = Mole.GameState.Playing;
+		ToggleMenuVisibility(false, false, false, false, false, false, true);
 	}
 
 	public void _on_settings_pressed()
 	{
-		ToggleMenuVisibility(false, true, false, false, false, false);
+		ToggleMenuVisibility(false, true, false, false, false, false, false);
 	}
 
 	public void _on_settings_back_pressed()
@@ -326,37 +339,37 @@ public partial class Game : Node3D
 		// User.UnlockableContentSaveRequest();
 		User.GetUnlockedContentRequest();
 		SaveManager.SaveConfig();
-		ToggleMenuVisibility(true, false, false, false, false, false);
+		ToggleMenuVisibility(true, false, false, false, false, false, false);
 	}
 
 	public void _on_help_pressed()
 	{
-		ToggleMenuVisibility(false, false, true, false, false, false);
+		ToggleMenuVisibility(false, false, true, false, false, false, false);
 	}
 
 	public void _on_back_help_pressed()
 	{
-		ToggleMenuVisibility(true, false, false, false, false, false);
+		ToggleMenuVisibility(true, false, false, false, false, false, false);
 	}
 
 	public void _on_account_pressed()
 	{
-		ToggleMenuVisibility(false, false, false, true, true, false);
+		ToggleMenuVisibility(false, false, false, true, true, false, false);
 	}
 
 	public void _on_go_to_reg_page_pressed()
 	{
-		ToggleMenuVisibility(false, false, false, true, false, true);
+		ToggleMenuVisibility(false, false, false, true, false, true, false);
 	}
 
 	public void _on_go_to_login_pressed()
 	{
-		ToggleMenuVisibility(false, false, false, true, true, false);
+		ToggleMenuVisibility(false, false, false, true, true, false, false);
 	}
 
 	public void _on_as_guest_pressed()
 	{
-		ToggleMenuVisibility(true, false, false, false, false, false);
+		ToggleMenuVisibility(true, false, false, false, false, false, false);
 	}
 	public void _on_exit_pressed()
 	{
