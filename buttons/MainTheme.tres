@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://c6q2wfkhoat1u"]
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://c6q2wfkhoat1u"]
 
 [ext_resource type="StyleBox" uid="uid://ccqpjmnrpo8xt" path="res://buttons/disabledbutton.tres" id="1_61exf"]
 [ext_resource type="StyleBox" uid="uid://5cfs1vako45a" path="res://buttons/focusedbutton.tres" id="2_p2my6"]
@@ -35,6 +35,12 @@ shadow_color = Color(0.968627, 0.721569, 0.00392157, 0)
 shadow_size = 10
 shadow_offset = Vector2(5, 5)
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_otr6b"]
+color = Color(0.678431, 0.764706, 1, 1)
+grow_begin = -10.0
+grow_end = -10.0
+thickness = 2
+
 [resource]
 default_font = ExtResource("6_w2d43")
 Button/font_sizes/font_size = 60
@@ -43,7 +49,7 @@ Button/styles/focus = ExtResource("2_p2my6")
 Button/styles/hover = ExtResource("3_q6u4i")
 Button/styles/normal = ExtResource("4_6brdf")
 Button/styles/pressed = ExtResource("5_4d677")
-HBoxContainer/constants/separation = 0
+HBoxContainer/constants/separation = 30
 HSeparator/styles/separator = SubResource("StyleBoxLine_ysmxg")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_r84f6")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ap5fp")
@@ -63,6 +69,13 @@ MenuButton/styles/hover = ExtResource("3_q6u4i")
 MenuButton/styles/normal = ExtResource("4_6brdf")
 MenuButton/styles/pressed = ExtResource("5_4d677")
 Panel/styles/panel = SubResource("StyleBoxFlat_yngxj")
+PopupMenu/constants/h_separation = 16
+PopupMenu/constants/item_start_padding = 20
+PopupMenu/constants/v_separation = 48
+PopupMenu/font_sizes/font_size = 32
+PopupMenu/styles/hover = ExtResource("3_q6u4i")
+PopupMenu/styles/panel = ExtResource("4_6brdf")
+PopupMenu/styles/separator = SubResource("StyleBoxLine_otr6b")
 TextEdit/font_sizes/font_size = 16
 TextEdit/fonts/font = ExtResource("6_w2d43")
 VBoxContainer/constants/separation = 42

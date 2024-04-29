@@ -140,11 +140,11 @@ public partial class Mallet : Area3D
     {
         var OriginalTransform = CameraRef;
         Tween camShakePosTween = GetTree().CreateTween();
-        camShakePosTween.TweenProperty(CameraRef, "position", new Vector3(CameraRef.Position.X + RNG.RandfRange(-0.005f, 0.005f), CameraRef.Position.Y + RNG.RandfRange(-0.001f, 0.001f), CameraRef.Position.Z + RNG.RandfRange(-0.005f, 0.005f)), 0.1f).SetTrans(Tween.TransitionType.Elastic);
+        camShakePosTween.TweenProperty(CameraRef, "position", new Vector3(CameraRef.Position.X + RNG.RandfRange(-0.010f, 0.010f), CameraRef.Position.Y + RNG.RandfRange(-0.001f, 0.001f), CameraRef.Position.Z + RNG.RandfRange(-0.010f, 0.010f)), 0.1f).SetTrans(Tween.TransitionType.Elastic);
         camShakePosTween.TweenProperty(CameraRef, "position", new Vector3(CameraRef.Position.X, CameraRef.Position.Y, CameraRef.Position.Z), 0.1f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
 
         Tween camShakeRotTween = GetTree().CreateTween();
-        camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X + RNG.RandfRange(-0.005f, 0.005f), CameraRef.Rotation.Y + RNG.RandfRange(-0.001f, 0.001f), CameraRef.Rotation.Z + RNG.RandfRange(-0.005f, 0.005f)), 0.1f).SetTrans(Tween.TransitionType.Bounce);
-        camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X, CameraRef.Rotation.Y, CameraRef.Rotation.Z), 0.1f).SetTrans(Tween.TransitionType.Bounce).SetEase(Tween.EaseType.Out);
+        camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X + RNG.RandfRange(-0.010f, 0.010f), CameraRef.Rotation.Y + RNG.RandfRange(-0.001f, 0.001f), CameraRef.Rotation.Z + RNG.RandfRange(-0.010f, 0.010f)), 0.1f).SetTrans(Tween.TransitionType.Bounce);
+        camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X, CameraRef.Rotation.Y, CameraRef.Rotation.Z), 0.1f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
     }
 }

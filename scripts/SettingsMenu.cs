@@ -6,6 +6,14 @@ public partial class SettingsMenu : VBoxContainer
     OptionButton ResOptions, WinOptions;
     Vector2I[] ResArray;
     Window.ModeEnum[] WinModeArray;
+    Label WindowLabel, ResolutionLabel;
+    OptionButton WindowOption, ResolutionOption;
+    public enum CurrentOS
+    {
+        ANDROID,
+        PC
+    }
+    CurrentOS currentOS = new CurrentOS();
     Godot.Collections.Dictionary<string, Vector2I> Resolutions = new Godot.Collections.Dictionary<string, Vector2I>(){
             {"1280×720", new Vector2I(1280, 720)},
             {"1920x1080", new Vector2I(1920, 1080)},
@@ -18,9 +26,26 @@ public partial class SettingsMenu : VBoxContainer
     };
     public override void _Ready()
     {
+        WindowLabel = GetNode<Label>("WindowModeLabel");
+        ResolutionLabel = GetNode<Label>("ResolutionLabel");
+        WindowOption = GetNode<OptionButton>("WindowMode");
+        ResolutionOption = GetNode<OptionButton>("Resolution");
+
+        OS.HasFeature("mobile");
+
+        if (OS.HasFeature("mobile"))
+        {
+            currentOS = CurrentOS.ANDROID;
+        }
+        else if (OS.HasFeature("pc"))
+        {
+            currentOS = CurrentOS.PC;
+        }
+
         ResArray = new Vector2I[4];
         ResOptions = GetNode<OptionButton>("Resolution");
         int optionIndex = 0;
+        ResOptions.Selected = 1;
         foreach (var item in Resolutions)
         {
             ResOptions.AddItem(item.Key);
@@ -29,7 +54,7 @@ public partial class SettingsMenu : VBoxContainer
         }
         Resolutions.Values.CopyTo(ResArray, 0);
         GetTree().Root.ContentScaleSize = ResArray[1];
-        ResOptions.Selected = 1;
+
 
         WinModeArray = new Window.ModeEnum[2];
         WinOptions = GetNode<OptionButton>("WindowMode");
@@ -43,6 +68,28 @@ public partial class SettingsMenu : VBoxContainer
             winOptionIndex++;
         }
         WindowMode.Values.CopyTo(WinModeArray, 0);
+
+
+        switch (currentOS)
+        {
+            case CurrentOS.ANDROID:
+                //Hide settings only pc should see.
+                WindowLabel.Hide();
+                WindowOption.Hide();
+                // ResolutionLabel.Hide();
+                // ResolutionOption.Hide();
+                break;
+            case CurrentOS.PC:
+                //show settings for pc build#
+                WindowLabel.Show();
+                WindowOption.Show();
+                // ResolutionLabel.Show();
+                // ResolutionOption.Show();
+                break;
+            default:
+                GD.Print("Invalid operating system");
+                break;
+        }
     }
     public void _on_resolution_item_selected(int index)
     {

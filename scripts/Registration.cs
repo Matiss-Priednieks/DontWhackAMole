@@ -188,7 +188,7 @@ public partial class Registration : Panel
 			}
 			else
 			{
-				ErrorMessage.Text = "Password min length is 6 and must contain a digit";
+				ErrorMessage.Text = "Password must be at least 6 characters with at least one uppercase letter and a digit.";
 				ErrorPanel.Show();
 				// GD.Print("Password is too weak!");
 				return false;

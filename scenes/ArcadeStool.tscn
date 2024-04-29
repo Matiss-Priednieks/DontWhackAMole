@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dg1nthmtfujyd"]
+
+[ext_resource type="PackedScene" uid="uid://bwuyqs3i552o3" path="res://assets/stool/ArcadeStool.glb" id="1_ra85i"]
+
+[node name="ArcadeStool" instance=ExtResource("1_ra85i")]

@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://c2stcpf7g74mg" path="res://Mole.tscn" id="14_pt7so"]
 [ext_resource type="PackedScene" uid="uid://dxxf315ekx67o" path="res://scenes/ring.tscn" id="16_ia14k"]
 [ext_resource type="Script" path="res://scripts/MainCamera.cs" id="17_6nx8f"]
+[ext_resource type="AudioStream" uid="uid://ct2ic4d1nxt5n" path="res://assets/audio/LoudQuickSmack.wav" id="18_5vvrd"]
 [ext_resource type="Script" path="res://scripts/UI.cs" id="18_jts4r"]
 [ext_resource type="Texture2D" uid="uid://dxn84fhdqo67k" path="res://assets/tutorial-image.png" id="20_b5hly"]
 [ext_resource type="Script" path="res://scripts/DebugInfoUI.cs" id="21_bttn8"]
@@ -29,7 +30,6 @@
 [ext_resource type="Material" uid="uid://bs4eugrvso8w8" path="res://assets/carpet/ArcadeCarpet.tres" id="27_lglfh"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
-[ext_resource type="AudioStream" uid="uid://xsyt1be08o4w" path="res://assets/audio/miss-smack.wav" id="28_kyjjl"]
 [ext_resource type="Material" uid="uid://bm6n35pmav7xy" path="res://assets/walltextures/WallMat.tres" id="29_04ar7"]
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/audio/abouttohit2.0.wav" id="29_8xud1"]
 [ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="30_2fipm"]
@@ -1108,7 +1108,8 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.0267652, -0.095, 0)
 
 [node name="Miss" type="AudioStreamPlayer3D" parent="Mallet"]
 unique_name_in_owner = true
-stream = ExtResource("28_kyjjl")
+stream = ExtResource("18_5vvrd")
+volume_db = 3.0
 bus = &"SFX"
 
 [node name="AboutToHit" type="AudioStreamPlayer" parent="Mallet"]
@@ -1147,6 +1148,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96551, 0.5, -9.02002)
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197, 0, -0.811623)
 
 [node name="ArcadeCab" parent="Node3D/MenuArcade" index="0"]
+transform = Transform3D(-0.6, 0, 5.24537e-08, 0, 0.6, 0, -5.24537e-08, 0, -0.6, 0, 0, -0.332545)
 material_override = ExtResource("30_2fipm")
 surface_material_override/0 = null
 
@@ -1167,7 +1169,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345985, 0.855432, -0.60162
 mesh = SubResource("TextMesh_ld7fd")
 
 [node name="ArcadeStool15" parent="Node3D/MenuArcade" instance=ExtResource("37_uiokx")]
-transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0.0837572, -0.5, 1.23557)
+transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0.0837574, -0.5, 1.23557)
 
 [node name="arcademachine2" parent="Node3D" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197, 0, 0.949883)
@@ -1442,6 +1444,7 @@ horizontal_alignment = 1
 [node name="WindowMode" type="OptionButton" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+allow_reselect = true
 
 [node name="ResolutionLabel" type="Label" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 layout_mode = 2

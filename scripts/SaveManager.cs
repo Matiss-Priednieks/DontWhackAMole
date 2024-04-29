@@ -4,8 +4,12 @@ using Godot;
 public partial class SaveManager : Node
 {
 	const string CONFIG_SAVE_PATH = "user://settings.cfg";
-
-
+	Vector2I[] Resolutions = new Vector2I[]{
+			new Vector2I(1280, 720),
+			new Vector2I(1920, 1080),
+			new Vector2I(2560, 1440),
+			new Vector2I(3840, 2160)};
+	OptionButton ResOptions;
 	public void LoadConfig()
 	{
 
@@ -36,6 +40,10 @@ public partial class SaveManager : Node
 
 
 		GetTree().Root.ContentScaleSize = Resolution;
+		ResOptions = GetNode<OptionButton>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/Resolution");
+
+
+		ResOptions.Selected = GetResolutionIndex(Resolutions, Resolution);
 
 		if (Window.ModeEnum.Fullscreen.ToString().Equals(WindowMode))
 		{
@@ -112,5 +120,17 @@ public partial class SaveManager : Node
 		var highestCombo = (int)score.GetValue(PlayerName, "HighestCombo");
 		// GD.Print(highScore, highestCombo);
 		return new Vector2(highScore, highestCombo);
+	}
+
+	public int GetResolutionIndex(Vector2I[] resolutions, Vector2I targetRes)
+	{
+		for (int i = 0; i < resolutions.Length; i++)
+		{
+			if (resolutions[i] == targetRes)
+			{
+				return i; // Return the index if the current element matches the target
+			}
+		}
+		return -1;
 	}
 }
