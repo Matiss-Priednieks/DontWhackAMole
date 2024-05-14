@@ -1,4 +1,4 @@
-[gd_scene load_steps=149 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=151 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -27,6 +27,8 @@
 [ext_resource type="Script" path="res://scripts/Leaderboard.cs" id="24_qg2xs"]
 [ext_resource type="PackedScene" uid="uid://b4mkxv7pasvru" path="res://scenes/LeaderboardScoreObject.tscn" id="25_ngwty"]
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
+[ext_resource type="PackedScene" uid="uid://lrtqjp5q3rfr" path="res://ShopFront.tscn" id="26_ssd8i"]
+[ext_resource type="PackedScene" uid="uid://bn183652vwt43" path="res://assets/hats/cowboy_hat_1/cowboy_hat.tscn" id="27_e3wfv"]
 [ext_resource type="Material" uid="uid://bs4eugrvso8w8" path="res://assets/carpet/ArcadeCarpet.tres" id="27_lglfh"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
@@ -1141,52 +1143,51 @@ stream = ExtResource("32_8otsk")
 autoplay = true
 bus = &"Music"
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="MenuArcadeStack" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96551, 0.5, -9.02002)
 
-[node name="MenuArcade" parent="Node3D" instance=ExtResource("27_r22r8")]
+[node name="MenuArcade" parent="MenuArcadeStack" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197, 0, -0.811623)
 
-[node name="ArcadeCab" parent="Node3D/MenuArcade" index="0"]
-transform = Transform3D(-0.6, 0, 5.24537e-08, 0, 0.6, 0, -5.24537e-08, 0, -0.6, 0, 0, -0.332545)
+[node name="ArcadeCab" parent="MenuArcadeStack/MenuArcade" index="0"]
 material_override = ExtResource("30_2fipm")
 surface_material_override/0 = null
 
-[node name="Screen" parent="Node3D/MenuArcade" index="1"]
+[node name="Screen" parent="MenuArcadeStack/MenuArcade" index="1"]
 material_override = ExtResource("6_8mjb7")
 surface_material_override/0 = null
 
-[node name="ScreenWithBackground" type="MeshInstance3D" parent="Node3D/MenuArcade/Screen" index="0"]
+[node name="ScreenWithBackground" type="MeshInstance3D" parent="MenuArcadeStack/MenuArcade/Screen" index="0"]
 mesh = SubResource("BoxMesh_4q6j0")
 
-[node name="ScreenFrame" parent="Node3D/MenuArcade" index="2"]
+[node name="ScreenFrame" parent="MenuArcadeStack/MenuArcade" index="2"]
 material_override = ExtResource("6_8mjb7")
 surface_material_override/0 = null
 
-[node name="Highscore" type="MeshInstance3D" parent="Node3D/MenuArcade"]
+[node name="Highscore" type="MeshInstance3D" parent="MenuArcadeStack/MenuArcade"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345985, 0.855432, -0.601629)
 mesh = SubResource("TextMesh_ld7fd")
 
-[node name="ArcadeStool15" parent="Node3D/MenuArcade" instance=ExtResource("37_uiokx")]
+[node name="ArcadeStool15" parent="MenuArcadeStack/MenuArcade" instance=ExtResource("37_uiokx")]
 transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0.0837574, -0.5, 1.23557)
 
-[node name="arcademachine2" parent="Node3D" instance=ExtResource("27_r22r8")]
+[node name="arcademachine2" parent="MenuArcadeStack" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197, 0, 0.949883)
 
-[node name="ArcadeStool14" parent="Node3D/arcademachine2" instance=ExtResource("37_uiokx")]
+[node name="ArcadeStool14" parent="MenuArcadeStack/arcademachine2" instance=ExtResource("37_uiokx")]
 transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0.0584812, -0.5, 1.23527)
 
-[node name="arcademachine3" parent="Node3D" instance=ExtResource("27_r22r8")]
+[node name="arcademachine3" parent="MenuArcadeStack" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197, 0, -2.43911)
 
-[node name="ArcadeStool13" parent="Node3D/arcademachine3" instance=ExtResource("37_uiokx")]
+[node name="ArcadeStool13" parent="MenuArcadeStack/arcademachine3" instance=ExtResource("37_uiokx")]
 transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0, -0.5, 1.32)
 
-[node name="arcademachine4" parent="Node3D" instance=ExtResource("27_r22r8")]
+[node name="arcademachine4" parent="MenuArcadeStack" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.197, 0, 2.73274)
 
-[node name="ArcadeStool12" parent="Node3D/arcademachine4" instance=ExtResource("37_uiokx")]
+[node name="ArcadeStool12" parent="MenuArcadeStack/arcademachine4" instance=ExtResource("37_uiokx")]
 transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 0, -0.5, 1.155)
 
 [node name="Node3D2" type="Node3D" parent="."]
@@ -1195,29 +1196,36 @@ transform = Transform3D(-0.99961, 0, 0.0279215, 0, 1, 0, -0.0279215, 0, -0.99961
 [node name="arcademachine" parent="Node3D2" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
 
+[node name="ArcadeStool8" parent="Node3D2/arcademachine" instance=ExtResource("37_uiokx")]
+transform = Transform3D(-0.00837644, 0, 0.299883, 0, 0.3, 0, -0.299883, 0, -0.00837644, -0.0637207, -0.5, 1.01236)
+
 [node name="arcademachine2" parent="Node3D2" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -0.364595)
 
+[node name="ArcadeStool9" parent="Node3D2/arcademachine2" instance=ExtResource("37_uiokx")]
+transform = Transform3D(-0.00837644, 0, 0.299883, 0, 0.3, 0, -0.299883, 0, -0.00837644, -0.0379372, -0.5, 1.04519)
+
 [node name="arcademachine3" parent="Node3D2" instance=ExtResource("27_r22r8")]
-transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195844, 0, -1.98135)
+transform = Transform3D(-4.65661e-08, 0, 1, 0, 1, 0, -1, 0, -4.65661e-08, 0.078289, 0, -6.18994)
+
+[node name="ArcadeStool10" parent="Node3D2/arcademachine3" instance=ExtResource("37_uiokx")]
+transform = Transform3D(-0.00837644, 0, 0.299883, 0, 0.3, 0, -0.299883, 0, -0.00837644, 0.00704956, -0.5, 0.923206)
 
 [node name="arcademachine4" parent="Node3D2" instance=ExtResource("27_r22r8")]
-transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, -3.70604)
+transform = Transform3D(-4.84288e-08, 0, 1, 0, 1, 0, -1, 0, -4.84288e-08, 0.078289, 0, -7.91463)
 
-[node name="ArcadeStool8" parent="Node3D2" instance=ExtResource("37_uiokx")]
-transform = Transform3D(-0.299883, 0, -0.00837645, 0, 0.3, 0, 0.00837645, 0, -0.299883, 1.20821, -0.5, 1.20381)
+[node name="ArcadeStool11" parent="Node3D2/arcademachine4" instance=ExtResource("37_uiokx")]
+transform = Transform3D(-0.00837644, 0, 0.299883, 0, 0.3, 0, -0.299883, 0, -0.00837644, 0.0159402, -0.5, 0.874775)
 
-[node name="ArcadeStool9" parent="Node3D2" instance=ExtResource("37_uiokx")]
-transform = Transform3D(-0.299883, 0, -0.00837645, 0, 0.3, 0, 0.00837645, 0, -0.299883, 1.24104, -0.5, -0.326659)
+[node name="Shop" parent="Node3D2" instance=ExtResource("26_ssd8i")]
+transform = Transform3D(-2.8871e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.8871e-08, 0.0475035, 0.434295, -3.36839)
 
-[node name="ArcadeStool10" parent="Node3D2" instance=ExtResource("37_uiokx")]
-transform = Transform3D(-0.299883, 0, -0.00837645, 0, 0.3, 0, 0.00837645, 0, -0.299883, 1.11905, -0.5, -1.9884)
-
-[node name="ArcadeStool11" parent="Node3D2" instance=ExtResource("37_uiokx")]
-transform = Transform3D(-0.299883, 0, -0.00837645, 0, 0.3, 0, 0.00837645, 0, -0.299883, 1.07062, -0.5, -3.72198)
+[node name="cowboy_hat" parent="Node3D2/Shop" instance=ExtResource("27_e3wfv")]
+transform = Transform3D(0.5, 0, 4.65661e-09, 0, 0.5, 0, -4.65661e-09, 0, 0.5, -1.68878, 0.224829, 0.0471716)
 
 [node name="Node3D3" type="Node3D" parent="."]
 transform = Transform3D(0.0279215, 0, 0.99961, 0, 1, 0, -0.99961, 0, 0.0279215, 1.73827, 0.5, -3.32524)
+visible = false
 
 [node name="arcademachine" parent="Node3D3" instance=ExtResource("27_r22r8")]
 transform = Transform3D(-4.28408e-08, 0, 1, 0, 1, 0, -1, 0, -4.28408e-08, 0.195845, 0, 1.14009)
@@ -1267,18 +1275,6 @@ transform = Transform3D(-4.37114e-08, 0, 15.9534, 1, -9.54822e-07, 6.97343e-07, 
 material_override = ExtResource("29_04ar7")
 mesh = SubResource("BoxMesh_frt35")
 skeleton = NodePath("../..")
-
-[node name="ArcadeStool" parent="Decor" instance=ExtResource("37_uiokx")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.82933, 0, -2.41324)
-visible = false
-
-[node name="ArcadeStool2" parent="Decor" instance=ExtResource("37_uiokx")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.82933, 0, -4.01696)
-visible = false
-
-[node name="ArcadeStool3" parent="Decor" instance=ExtResource("37_uiokx")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.82933, 0, -5.78204)
-visible = false
 
 [node name="Floor" type="MeshInstance3D" parent="Decor"]
 material_override = ExtResource("27_lglfh")
@@ -2011,4 +2007,4 @@ unique_name_in_owner = true
 [editable path="NewWhackMachine/Node3D4"]
 [editable path="NewWhackMachine/Node3D4/WoodenSign/woodenplank"]
 [editable path="Mole"]
-[editable path="Node3D/MenuArcade"]
+[editable path="MenuArcadeStack/MenuArcade"]

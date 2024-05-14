@@ -1,0 +1,84 @@
+[gd_scene load_steps=10 format=3 uid="uid://lrtqjp5q3rfr"]
+
+[ext_resource type="PackedScene" uid="uid://bgorn1u4mhvp0" path="res://assets/shopfront/woodenplank.glb" id="1_rml1n"]
+[ext_resource type="Material" uid="uid://dejvhfg3dsr2w" path="res://assets/shopfront/ShopFrontWoodMat.tres" id="1_wn3ji"]
+[ext_resource type="Material" uid="uid://d4kde24n7pk0w" path="res://assets/shopfront/ShopFrontWoodMat_Light.tres" id="2_v6dke"]
+[ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="2_w2g1n"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ler18"]
+size = Vector3(6, 0.1, 2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0ltmu"]
+top_radius = 0.1
+bottom_radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hr5xr"]
+albedo_color = Color(0.160784, 0.0705882, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_pdfs5"]
+material = SubResource("StandardMaterial3D_hr5xr")
+text = "Shop"
+font = ExtResource("2_w2g1n")
+font_size = 127
+depth = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qlvji"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 3.0
+
+[node name="Shop" type="Node3D"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+material_override = ExtResource("1_wn3ji")
+mesh = SubResource("BoxMesh_ler18")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -1, 0.8)
+material_override = ExtResource("2_v6dke")
+mesh = SubResource("CylinderMesh_0ltmu")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, -1, 0.8)
+material_override = ExtResource("2_v6dke")
+mesh = SubResource("CylinderMesh_0ltmu")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, -1, -0.8)
+material_override = ExtResource("2_v6dke")
+mesh = SubResource("CylinderMesh_0ltmu")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -1, -0.8)
+material_override = ExtResource("2_v6dke")
+mesh = SubResource("CylinderMesh_0ltmu")
+
+[node name="woodenplank" parent="." instance=ExtResource("1_rml1n")]
+transform = Transform3D(0.996583, -6.49262e-10, -0.0825997, -0.0825997, -1.5694e-08, -0.996583, -1.7788e-09, 0.365, -4.29971e-08, 0, 2.85836, -0.640793)
+
+[node name="Cube" parent="woodenplank" index="0"]
+surface_material_override/0 = ExtResource("1_wn3ji")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="woodenplank"]
+transform = Transform3D(0.993177, -0.0825997, -0.0823174, 0.0825997, -4.37114e-08, 0.996583, -0.0823174, -0.996583, 0.00682266, 0, 0.216731, 0)
+mesh = SubResource("TextMesh_pdfs5")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="woodenplank"]
+transform = Transform3D(0.996583, -0.0825997, -1.77883e-09, -4.8735e-09, -1.178e-07, 2.73973, -0.0825997, -0.996583, -4.29971e-08, -2.4376, -0.260305, 1.52541)
+mesh = SubResource("CylinderMesh_qlvji")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_v6dke")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="woodenplank"]
+transform = Transform3D(0.996583, -0.0825997, -1.77883e-09, -4.8735e-09, -1.178e-07, 2.73973, -0.0825997, -0.996583, -4.29971e-08, 2.25807, -0.260305, 1.13622)
+mesh = SubResource("CylinderMesh_qlvji")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_v6dke")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58356, 0.511023)
+light_color = Color(0.968627, 0.862745, 0.854902, 1)
+shadow_enabled = true
+omni_range = 4.719
+
+[editable path="woodenplank"]
