@@ -9,6 +9,7 @@ public partial class LoggedInUser : Node
 {
     public HttpRequest HTTPRequest { get; private set; }
     public HttpRequest UnlocksHTTPRequest { get; private set; }
+    public HttpRequest CurrencyHTTPRequest { get; private set; }
 
     // Called when the node enters the scene tree for the first time.
 
@@ -23,6 +24,9 @@ public partial class LoggedInUser : Node
 
     UnlockableContent[] unlockables;
     Dictionary<int, bool> unlockables_dict;
+    int EquippedHatIndex = -1;
+    public Node3D CurrentHat;
+
     public override void _Ready()
     {
         unlockables = Unlockables.GetUnlockableContent();
@@ -35,6 +39,19 @@ public partial class LoggedInUser : Node
         };
         for (int i = 0; i < unlockables.Count(); i++)
         {
+            unlockables_dict[unlockables[i].ContentID] = unlockables[i].IsUnlocked;
+            // unlockables_dict[EquippedHatIndex] = true;
+            if (EquippedHatIndex != -1)
+            {
+                if (unlockables_dict[EquippedHatIndex] == true && EquippedHatIndex == unlockables[i].ContentID)
+                {
+                    GD.Print(i);
+                    CurrentHat = unlockables[i].ContentScene.Instantiate<Node3D>();
+                    GD.Print(unlockables[i].Description);
+                    if (CurrentHat != null) break;
+                    // break;
+                }
+            }
             GD.Print(unlockables[i].ContentID, unlockables[i].ContentName, unlockables[i].Description, unlockables[i].IsUnlocked);
         }
         Username = "Guest";
@@ -51,6 +68,8 @@ public partial class LoggedInUser : Node
     {
         HTTPRequest = GetNode<HttpRequest>("../Node3D/UI/HighscoreRequest");
         UnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksRequest");
+        CurrencyHTTPRequest = GetNode<HttpRequest>("../Node3D/CurrencyUpdateRequest");
+
         UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
 
         UsernameLabel.Text = "Guest";
@@ -104,7 +123,6 @@ public partial class LoggedInUser : Node
     }
 
 
-    //TODO
     public Error HighscoreUpdateRequest()
     {
         UserCreditentials userData = new(Username, Email, GetHighscore());
@@ -114,7 +132,7 @@ public partial class LoggedInUser : Node
         // GD.Print(userData.email + ", " + userData.username + ", " + userData.highscore + ".");
         return error;
     }
-    public Error UnlockableContentSaveRequest()
+    public Error UpdateUnlockedContentRequest()
     {
         GD.Print(Email);
 
@@ -122,6 +140,16 @@ public partial class LoggedInUser : Node
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = UnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-unlocks", newRegHeaders, HttpClient.Method.Post, userDataJson);
+        return error;
+    }
+    public Error UpdateUserCurrency(int CollectedCoins)
+    {
+        // GD.Print(CollectedCoins);
+        UserCreditentials userData = new(Username, Email, CollectedCoins);
+        string userDataJson = JsonSerializer.Serialize(userData);
+        string[] newRegHeaders = new string[] { "Content-Type: application/json" };
+        var error = CurrencyHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-user-currency", newRegHeaders, HttpClient.Method.Post, userDataJson);
+        // GD.Print(userData.email + ", " + userData.username + ", " + userData.highscore + ".");
         return error;
     }
 }

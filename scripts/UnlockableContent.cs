@@ -9,13 +9,15 @@ public partial class UnlockableContent : Node
 	public string ContentName { get; set; }
 	public string Description { get; set; }
 	public bool IsUnlocked { get; set; }
+	public PackedScene ContentScene { get; set; }
 
 
-	public UnlockableContent(int contentId, string name, string description, bool isUnlocked)
+	public UnlockableContent(int contentId, string name, string description, bool isUnlocked, PackedScene contentScene)
 	{
 		ContentID = contentId;
 		ContentName = name;
 		Description = description;
 		IsUnlocked = isUnlocked;
+		ContentScene = contentScene;
 	}
 }

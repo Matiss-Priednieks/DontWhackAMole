@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxu0qmq3bmoer"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_v03sp"]
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.01
+
+[sub_resource type="BoxMesh" id="BoxMesh_7wxly"]
+size = Vector3(0.005, 0.07, 0.005)
+
+[node name="MonocleHat" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.0345626, 0.20178, 0.092544)
+mesh = SubResource("CylinderMesh_v03sp")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0516416, 0.136164, 0.0890938)
+mesh = SubResource("BoxMesh_7wxly")

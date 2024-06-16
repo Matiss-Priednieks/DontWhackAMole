@@ -71,9 +71,8 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ujqf5")
 
 [node name="cowboy_hat" type="Node3D"]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
 [node name="Circle" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 0, 0)
+transform = Transform3D(0.0693802, -0.0111887, -0.0711422, 0.0157364, 0.0987539, -0.000184655, 0.0702763, -0.0110671, 0.0702763, -0.00344509, 0.238521, -0.00589611)
 mesh = SubResource("ArrayMesh_8wam3")
 skeleton = NodePath("")

@@ -54,7 +54,6 @@ public partial class Registration : Panel
 		}
 	}
 
-
 	public void _on_username_reg_text_changed(string newText)
 	{
 		if (IsValidUsername(newText))
@@ -82,10 +81,9 @@ public partial class Registration : Panel
 		}
 	}
 
-
 	public void _on_register_pressed()
 	{
-		//Confirm registration button
+		// confirm registration button
 		if (IsValidRegistration())
 		{
 			//create registration
@@ -172,6 +170,7 @@ public partial class Registration : Panel
 		else
 		{
 			// GD.Print("Invalid registration!");
+			// TODO
 			//do code for error message
 			return false;
 		}
@@ -229,6 +228,51 @@ public partial class Registration : Panel
 		// GD.Print("New Registration started");
 		CallDeferred("NewRegRequest");
 	}
+
+	#region REQUEST FUNCTIONS
+	public void UserDataRequest()
+	{
+		//grabs user data from server
+		UserCreditentials userData = new(Username, RegistrationEmail, User.GetHighscore(), User.GetUnlocksDict());
+		string userDataJson = JsonSerializer.Serialize(userData);
+		string[] newRegHeaders = new string[] { "Content-Type: application/json" };
+		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/save-user", newRegHeaders, HttpClient.Method.Post, userDataJson);
+	}
+
+	public void NewRegRequest()
+	{
+		//sends new registration request
+		UserRegCreditentials newReg = new(RegistrationEmail, RegistrationPasswordConfirmation, true);
+		string newRegBody = JsonSerializer.Serialize(newReg);
+		string[] newRegHeaders = new string[] { "Content-Type: application/json" };
+		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/create-user", newRegHeaders, HttpClient.Method.Post, newRegBody);
+	}
+	public Error LoginRequest()
+	{
+		//sends login request
+		Login.Disabled = true;
+		LoginEmailInput.Editable = false;
+		LoginPass.Editable = false;
+		if (User.GetUsername() == "Guest")
+		{
+			string[] newRegHeaders = new string[] { "Content-Type: application/json" };
+			UserRegCreditentials LoginCredentials = new(RegistrationEmail, RegistrationPasswordConfirmation, true);
+			string JsonString = JsonSerializer.Serialize(LoginCredentials);
+			var error = HTTPLoginRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-user/login", newRegHeaders, HttpClient.Method.Post, JsonString);
+			// GD.Print(error);
+			return error;
+		}
+		else
+		{
+			// GD.Print("Already Logged in");
+			UserLabel.Text = "Guest";
+			User.Logout();
+			return Error.Ok;
+		}
+	}
+	#endregion
+
+	#region COMPLETED REQUESTS
 	public async void _on_reg_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
 	{
 		var response = Json.ParseString(body.GetStringFromUtf8());
@@ -259,44 +303,6 @@ public partial class Registration : Panel
 			RegisterConfirm.Disabled = false;
 			UIRef.Login = false;
 			UIRef.Register = true;
-		}
-	}
-
-	public void UserDataRequest()
-	{
-		UserCreditentials userData = new(Username, RegistrationEmail, User.GetHighscore(), User.GetUnlocksDict());
-		string userDataJson = JsonSerializer.Serialize(userData);
-		string[] newRegHeaders = new string[] { "Content-Type: application/json" };
-		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/save-user", newRegHeaders, HttpClient.Method.Post, userDataJson);
-	}
-
-	public void NewRegRequest()
-	{
-		UserRegCreditentials newReg = new(RegistrationEmail, RegistrationPasswordConfirmation, true);
-		string newRegBody = JsonSerializer.Serialize(newReg);
-		string[] newRegHeaders = new string[] { "Content-Type: application/json" };
-		var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/create-user", newRegHeaders, HttpClient.Method.Post, newRegBody);
-	}
-	public Error LoginRequest()
-	{
-		Login.Disabled = true;
-		LoginEmailInput.Editable = false;
-		LoginPass.Editable = false;
-		if (User.GetUsername() == "Guest")
-		{
-			string[] newRegHeaders = new string[] { "Content-Type: application/json" };
-			UserRegCreditentials LoginCredentials = new(RegistrationEmail, RegistrationPasswordConfirmation, true);
-			string JsonString = JsonSerializer.Serialize(LoginCredentials);
-			var error = HTTPLoginRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-user/login", newRegHeaders, HttpClient.Method.Post, JsonString);
-			// GD.Print(error);
-			return error;
-		}
-		else
-		{
-			// GD.Print("Already Logged in");
-			UserLabel.Text = "Guest";
-			User.Logout();
-			return Error.Ok;
 		}
 	}
 	public async void _on_login_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
@@ -358,4 +364,5 @@ public partial class Registration : Panel
 			// LoadingIconRef.Hide();
 		}
 	}
+	#endregion
 }

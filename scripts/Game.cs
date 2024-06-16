@@ -192,7 +192,8 @@ public partial class Game : Node3D
 				break;
 			case GameState.PLAYING:
 				SaveManager.SaveConfig();
-				ToggleMenuVisibility(false, false, false, false, false, false, true);
+
+				ToggleMenuVisibility(true, false, false, false, false, false, true);
 
 				if (!MenuJustPressed)
 				{
@@ -208,7 +209,8 @@ public partial class Game : Node3D
 
 			case GameState.PAUSED:
 				SaveManager.SaveConfig();
-				ToggleMenuVisibility(false, false, false, false, false, false, false);
+
+				ToggleMenuVisibility(false, false, false, false, false, false, true);
 				if (!MenuJustPressed)
 				{
 					MenuJustPressed = true;
@@ -402,6 +404,17 @@ public partial class Game : Node3D
 		else
 		{
 
+		}
+	}
+	public void _on_currency_update_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
+	{
+		if (responseCode == 200 || responseCode == 201)
+		{
+			GD.Print("curreny update attempted");
+		}
+		else
+		{
+			GD.Print("failed");
 		}
 	}
 }

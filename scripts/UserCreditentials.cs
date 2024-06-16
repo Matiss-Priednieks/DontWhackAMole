@@ -6,6 +6,7 @@ public partial class UserCreditentials
 
     public float highscore { get; set; }
     public Dictionary<int, bool> unlocks { get; set; }
+    public int collected_coins { get; set; }
 
 
     public UserCreditentials(string _Username, string _Email, float _Highscore)
@@ -26,5 +27,13 @@ public partial class UserCreditentials
         this.username = _Username;
         this.highscore = _Highscore;
         this.unlocks = Unlocks;
+    }
+
+    public UserCreditentials(string _Username, string _Email, float _Highscore, int _CollectedCoins)
+    {
+        this.email = _Email;
+        this.username = _Username;
+        this.highscore = _Highscore;
+        this.collected_coins = _CollectedCoins;
     }
 }

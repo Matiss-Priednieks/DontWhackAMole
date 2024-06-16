@@ -18,8 +18,8 @@ public partial class Mole : Area3D
 	MeshInstance3D LivesCounter, ScoreCounter, ComboCounter, HighScoreMesh, HighestComboMesh, EarlyPopCounter;
 	Dictionary HoleDictionary;
 	float ScoreAcceleration = 0;
-
 	SaveManager SaveManager;
+	int TotalCollectedCoins = 0;
 
 	public float Score { get; set; }
 	public float score
@@ -29,6 +29,16 @@ public partial class Mole : Area3D
 		{
 			Score = value;
 			PlaySoundDelayed();
+		}
+	}
+	bool CoinsAdded;
+	public Node3D CurrentHat { get; set; }
+	public Node3D currentHat
+	{
+		get => CurrentHat;
+		set
+		{
+			PlayEquipSound();
 		}
 	}
 	public int EarlyPops = 0;
@@ -151,6 +161,7 @@ public partial class Mole : Area3D
 		switch (CurrentGameState)
 		{
 			case GameState.Playing:
+				CoinsAdded = false;
 				ProcessInput();
 				UpdateScore();
 				CheckGameOver();
@@ -164,6 +175,14 @@ public partial class Mole : Area3D
 				break;
 			case GameState.GameOver:
 				// Handle game over state if needed
+				if (!CoinsAdded)
+				{
+					// User.collectedCoins += TotalCollectedCoins;
+					CoinsAdded = true;
+					GD.Print("Coin update called");
+					User.UpdateUserCurrency(TotalCollectedCoins);
+					TotalCollectedCoins = 0;
+				}
 				break;
 		}
 
@@ -273,6 +292,12 @@ public partial class Mole : Area3D
 		await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
 		scoreCounter.QueueFree();
 		// CounterSound.Play(0);
+	}
+
+	public void PlayEquipSound()
+	{
+		GD.Print(User.CurrentHat);
+		//TODO add hat equip sound
 	}
 
 	public void Restart()
@@ -424,7 +449,8 @@ public partial class Mole : Area3D
 	public void AnimateScoreCombo()
 	{
 		ComboBonus++;
-
+		TotalCollectedCoins++;
+		GD.Print("Within Mole Class: " + TotalCollectedCoins);
 		Vector3 defaultScale = Vector3.One;
 		Vector3 defaultPos = new Vector3(0, -0.171f, 0.01f);
 		Vector3 defaultRot = Vector3.Zero;
@@ -498,6 +524,7 @@ public partial class Mole : Area3D
 		if (responseCode == 200)
 		{
 			HighScore = (int)User.GetHighscore();
+			AddChild(User.CurrentHat);
 		}
 	}
 	public int GetHighScore()
