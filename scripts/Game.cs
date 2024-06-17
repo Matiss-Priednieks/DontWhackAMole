@@ -356,7 +356,15 @@ public partial class Game : Node3D
 
 	public void _on_account_pressed()
 	{
-		ToggleMenuVisibility(false, false, false, true, true, false, false);
+		if (User.LoggedIn)
+		{
+			ToggleMenuVisibility(false, false, false, true, false, false, false);
+		}
+		else
+		{
+			ToggleMenuVisibility(false, false, false, true, true, false, false);
+
+		}
 	}
 
 	public void _on_go_to_reg_page_pressed()
