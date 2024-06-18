@@ -9,13 +9,13 @@ public partial class BootSplash : CanvasLayer
 	// Called when the node enters the scene tree for the first time.
 	Color colour;
 	ColorRect colorRect;
-	SaveManager SaveManager;
+	SaveManager SaveManagerRef;
 	SceneTree _SceneTree;
 	public override void _Ready()
 	{
 		_SceneTree = GetTree();
-		this.SaveManager = _SceneTree.Root.GetNode<SaveManager>("SaveManager");
-		this.SaveManager.LoadConfig();
+		SaveManagerRef = _SceneTree.Root.GetNode<SaveManager>("SaveManager");
+		SaveManagerRef.LoadConfig();
 		ScreenAlpha = 1;
 		FadeFirstScreen();
 		GetNode<Control>("%FirstScreen").Show();

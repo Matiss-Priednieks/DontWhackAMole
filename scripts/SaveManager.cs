@@ -4,6 +4,7 @@ using Godot;
 public partial class SaveManager : Node
 {
 	const string CONFIG_SAVE_PATH = "user://settings.cfg";
+	public bool GameScene;
 	Vector2I[] Resolutions = new Vector2I[]{
 			new Vector2I(1280, 720),
 			new Vector2I(1920, 1080),
@@ -40,29 +41,32 @@ public partial class SaveManager : Node
 
 
 		GetTree().Root.ContentScaleSize = Resolution;
-		ResOptions = GetNode<OptionButton>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/Resolution");
-
-
-		ResOptions.Selected = GetResolutionIndex(Resolutions, Resolution);
-
-		if (Window.ModeEnum.Fullscreen.ToString().Equals(WindowMode))
+		if (GameScene)
 		{
-			GetWindow().Mode = Window.ModeEnum.Fullscreen;
+			ResOptions = GetNode<OptionButton>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/Resolution");
+
+
+			ResOptions.Selected = GetResolutionIndex(Resolutions, Resolution);
+
+			if (Window.ModeEnum.Fullscreen.ToString().Equals(WindowMode))
+			{
+				GetWindow().Mode = Window.ModeEnum.Fullscreen;
+			}
+			if (Window.ModeEnum.Windowed.ToString().Equals(WindowMode))
+			{
+				GetWindow().Mode = Window.ModeEnum.Windowed;
+			}
+
+
+			var busIndex = AudioServer.GetBusIndex("Master");
+			AudioServer.SetBusVolumeDb(busIndex, MasterVolume);
+
+			busIndex = AudioServer.GetBusIndex("Music");
+			AudioServer.SetBusVolumeDb(busIndex, MusicVolume);
+
+			busIndex = AudioServer.GetBusIndex("SFX");
+			AudioServer.SetBusVolumeDb(busIndex, SFXVolume);
 		}
-		if (Window.ModeEnum.Windowed.ToString().Equals(WindowMode))
-		{
-			GetWindow().Mode = Window.ModeEnum.Windowed;
-		}
-
-
-		var busIndex = AudioServer.GetBusIndex("Master");
-		AudioServer.SetBusVolumeDb(busIndex, MasterVolume);
-
-		busIndex = AudioServer.GetBusIndex("Music");
-		AudioServer.SetBusVolumeDb(busIndex, MusicVolume);
-
-		busIndex = AudioServer.GetBusIndex("SFX");
-		AudioServer.SetBusVolumeDb(busIndex, SFXVolume);
 
 	}
 

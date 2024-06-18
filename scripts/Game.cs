@@ -59,6 +59,7 @@ public partial class Game : Node3D
 		User.LoggedInFakeReady();
 		SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
 		SaveManager.LoadConfig();
+		SaveManager.GameScene = true;
 
 		LoginScreen = GetNode<Panel>("%LoginScreen");
 		RegistrationScreen = GetNode<Panel>("%RegistrationScreen");
