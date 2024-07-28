@@ -1460,7 +1460,7 @@ horizontal_alignment = 1
 
 [node name="MVSlider" type="HSlider" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 layout_mode = 2
-min_value = -80.0
+min_value = -50.0
 max_value = 6.0
 value = -4.0
 
@@ -1472,7 +1472,7 @@ horizontal_alignment = 1
 
 [node name="MusicSlider" type="HSlider" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 layout_mode = 2
-min_value = -80.0
+min_value = -50.0
 max_value = 6.0
 
 [node name="SFXVolume" type="Label" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
@@ -1483,7 +1483,7 @@ horizontal_alignment = 1
 
 [node name="sfx" type="HSlider" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
 layout_mode = 2
-min_value = -80.0
+min_value = -50.0
 max_value = 6.0
 
 [node name="SettingsBack" type="Button" parent="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu"]
@@ -1925,6 +1925,7 @@ offset_right = 265.0
 offset_bottom = 207.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 
 [node name="EarlyPopUI" parent="." instance=ExtResource("45_v3tv0")]
@@ -2005,6 +2006,7 @@ unique_name_in_owner = true
 [connection signal="request_completed" from="UI/LoginRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_request_request_completed"]
 [connection signal="request_completed" from="UI/LoginRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_login_request_request_completed"]
 [connection signal="request_completed" from="UI/LeaderboardRequest" to="UI/Menu/Leaderboard" method="_on_leaderboard_request_request_completed"]
+[connection signal="gui_input" from="IntroTransition/BlackBox" to="IntroTransition" method="_on_black_box_gui_input"]
 [connection signal="request_completed" from="UnlocksRequest" to="." method="_on_unlocks_request_request_completed"]
 [connection signal="request_completed" from="CurrencyUpdateRequest" to="." method="_on_currency_update_request_request_completed"]
 

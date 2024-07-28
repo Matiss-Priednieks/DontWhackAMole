@@ -4,12 +4,14 @@ using Godot;
 public partial class SaveManager : Node
 {
 	const string CONFIG_SAVE_PATH = "user://settings.cfg";
+	public bool PostTitleScreen = false;
 	Vector2I[] Resolutions = new Vector2I[]{
 			new Vector2I(1280, 720),
 			new Vector2I(1920, 1080),
 			new Vector2I(2560, 1440),
 			new Vector2I(3840, 2160)};
 	OptionButton ResOptions;
+	Slider MVSlider, MusicSlider, SFXSlider;
 	public void LoadConfig()
 	{
 
@@ -40,10 +42,21 @@ public partial class SaveManager : Node
 
 
 		GetTree().Root.ContentScaleSize = Resolution;
-		ResOptions = GetNode<OptionButton>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/Resolution");
 
+		if (PostTitleScreen)
+		{
+			ResOptions = GetNode<OptionButton>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/Resolution");
+			ResOptions.Selected = GetResolutionIndex(Resolutions, Resolution);
 
-		ResOptions.Selected = GetResolutionIndex(Resolutions, Resolution);
+			MVSlider = GetNode<Slider>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/MVSlider");
+			MVSlider.Value = MasterVolume;
+
+			SFXSlider = GetNode<Slider>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/MusicSlider");
+			SFXSlider.Value = SFXVolume;
+
+			MusicSlider = GetNode<Slider>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/sfx");
+			MusicSlider.Value = MusicVolume;
+		}
 
 		if (Window.ModeEnum.Fullscreen.ToString().Equals(WindowMode))
 		{

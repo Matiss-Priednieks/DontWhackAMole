@@ -11,6 +11,7 @@ public partial class BootSplash : CanvasLayer
 	ColorRect colorRect;
 	SaveManager SaveManager;
 	SceneTree _SceneTree;
+	bool BannerDisplayed;
 	public override void _Ready()
 	{
 		_SceneTree = GetTree();
@@ -32,6 +33,11 @@ public partial class BootSplash : CanvasLayer
 	{
 		colour = new Color(0.04f, 0.04f, 0.04f, ScreenAlpha);
 		colorRect.Color = colour;
+
+		if (Input.IsActionJustPressed("press") && BannerDisplayed)
+		{
+			_SceneTree.ChangeSceneToPacked(MainGameScene);
+		}
 	}
 	public async void FadeFirstScreen()
 	{
@@ -40,6 +46,7 @@ public partial class BootSplash : CanvasLayer
 
 		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
 		FadeOut();
+		BannerDisplayed = true;
 		await ToSignal(_SceneTree.CreateTimer(1.5f), "timeout");
 		GetNode<Control>("%FirstScreen").Hide();
 		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
@@ -53,8 +60,8 @@ public partial class BootSplash : CanvasLayer
 		FadeOut();
 		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
 
-		GD.Print(MainGameScene + "\n");
-		GD.Print(_SceneTree);
+		// GD.Print(MainGameScene + "\n");
+		// GD.Print(_SceneTree);
 		_SceneTree.ChangeSceneToPacked(MainGameScene);
 	}
 

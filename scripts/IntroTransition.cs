@@ -35,5 +35,11 @@ public partial class IntroTransition : CanvasLayer
     {
         Tween tempTween = CreateTween();
         tempTween.TweenProperty(this, "ScreenAlpha", 0, 2).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
+
     }
+    public void _on_black_box_gui_input(InputEvent _event)
+    {
+
+    }
+
 }

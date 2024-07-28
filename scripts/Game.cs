@@ -58,7 +58,6 @@ public partial class Game : Node3D
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
 		User.LoggedInFakeReady();
 		SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
-		SaveManager.LoadConfig();
 
 		LoginScreen = GetNode<Panel>("%LoginScreen");
 		RegistrationScreen = GetNode<Panel>("%RegistrationScreen");
@@ -98,7 +97,8 @@ public partial class Game : Node3D
 		Collectables[1] = Heart;
 		Collectables[2] = EarlyPop;
 		ToggleMenuVisibility(true, false, false, false, false, false, false);
-
+		SaveManager.PostTitleScreen = true;
+		SaveManager.LoadConfig();
 	}
 
 	public override void _Process(double delta)
