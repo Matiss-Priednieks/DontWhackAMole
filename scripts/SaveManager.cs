@@ -56,34 +56,35 @@ public partial class SaveManager : Node
 
 			MusicSlider = GetNode<Slider>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/sfx");
 			MusicSlider.Value = MusicVolume;
-		}
-
-		if (Window.ModeEnum.Fullscreen.ToString().Equals(WindowMode))
-		{
-			ResOptions = GetNode<OptionButton>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/Resolution");
-
-
-			ResOptions.Selected = GetResolutionIndex(Resolutions, Resolution);
-
 			if (Window.ModeEnum.Fullscreen.ToString().Equals(WindowMode))
 			{
-				GetWindow().Mode = Window.ModeEnum.Fullscreen;
+				ResOptions = GetNode<OptionButton>("../Node3D/UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/Resolution");
+
+
+				ResOptions.Selected = GetResolutionIndex(Resolutions, Resolution);
+
+				if (Window.ModeEnum.Fullscreen.ToString().Equals(WindowMode))
+				{
+					GetWindow().Mode = Window.ModeEnum.Fullscreen;
+				}
+				if (Window.ModeEnum.Windowed.ToString().Equals(WindowMode))
+				{
+					GetWindow().Mode = Window.ModeEnum.Windowed;
+				}
+
+
+				var busIndex = AudioServer.GetBusIndex("Master");
+				AudioServer.SetBusVolumeDb(busIndex, MasterVolume);
+
+				busIndex = AudioServer.GetBusIndex("Music");
+				AudioServer.SetBusVolumeDb(busIndex, MusicVolume);
+
+				busIndex = AudioServer.GetBusIndex("SFX");
+				AudioServer.SetBusVolumeDb(busIndex, SFXVolume);
 			}
-			if (Window.ModeEnum.Windowed.ToString().Equals(WindowMode))
-			{
-				GetWindow().Mode = Window.ModeEnum.Windowed;
-			}
-
-
-			var busIndex = AudioServer.GetBusIndex("Master");
-			AudioServer.SetBusVolumeDb(busIndex, MasterVolume);
-
-			busIndex = AudioServer.GetBusIndex("Music");
-			AudioServer.SetBusVolumeDb(busIndex, MusicVolume);
-
-			busIndex = AudioServer.GetBusIndex("SFX");
-			AudioServer.SetBusVolumeDb(busIndex, SFXVolume);
 		}
+
+
 
 	}
 
