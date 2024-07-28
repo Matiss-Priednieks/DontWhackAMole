@@ -144,12 +144,15 @@ public partial class LoggedInUser : Node
     }
     public Error UpdateUserCurrency(int CollectedCoins)
     {
-        // GD.Print(CollectedCoins);
-        UserCreditentials userData = new(Username, Email, CollectedCoins);
+        GD.Print("CoinsInPOSTCall: " + CollectedCoins);
+        UserCreditentials userData = new(Username, Email, GetHighscore(), CollectedCoins);
+        GD.Print("CoinsInUserData:" + userData.collected_coins);
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = CurrencyHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-user-currency", newRegHeaders, HttpClient.Method.Post, userDataJson);
         // GD.Print(userData.email + ", " + userData.username + ", " + userData.highscore + ".");
+        GD.Print(userDataJson);
+
         return error;
     }
 }

@@ -180,6 +180,7 @@ public partial class Mole : Area3D
 					// User.collectedCoins += TotalCollectedCoins;
 					CoinsAdded = true;
 					GD.Print("Coin update called");
+					GD.Print(TotalCollectedCoins);
 					User.UpdateUserCurrency(TotalCollectedCoins);
 					TotalCollectedCoins = 0;
 				}

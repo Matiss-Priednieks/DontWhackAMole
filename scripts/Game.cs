@@ -312,6 +312,7 @@ public partial class Game : Node3D
 		GameOverMenu.Hide();
 		MainMenu.Show();
 		PlayResume.Text = "Play";
+		ToggleMenuVisibility(true, false, false, false, false, false, false);
 	}
 
 	//play/resume button
