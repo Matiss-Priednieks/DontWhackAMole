@@ -43,6 +43,8 @@ thickness = 2
 
 [resource]
 default_font = ExtResource("6_w2d43")
+Button/constants/h_separation = -50
+Button/constants/icon_max_width = 40
 Button/font_sizes/font_size = 60
 Button/styles/disabled = ExtResource("1_61exf")
 Button/styles/focus = ExtResource("2_p2my6")
@@ -54,6 +56,16 @@ HSeparator/styles/separator = SubResource("StyleBoxLine_ysmxg")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_r84f6")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ap5fp")
 HSlider/styles/slider = SubResource("StyleBoxLine_c0qws")
+ItemList/colors/font_color = Color(0.890196, 0.890196, 0.890196, 1)
+ItemList/constants/h_separation = 10
+ItemList/constants/icon_margin = 20
+ItemList/constants/v_separation = 20
+ItemList/font_sizes/font_size = 30
+ItemList/styles/focus = ExtResource("2_p2my6")
+ItemList/styles/hovered = ExtResource("3_q6u4i")
+ItemList/styles/panel = ExtResource("4_6brdf")
+ItemList/styles/selected = ExtResource("5_4d677")
+ItemList/styles/selected_focus = null
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
 Label/constants/outline_size = 20
 Label/font_sizes/font_size = 64

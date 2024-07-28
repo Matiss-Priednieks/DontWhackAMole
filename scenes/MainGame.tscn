@@ -1,4 +1,4 @@
-[gd_scene load_steps=151 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=157 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -40,9 +40,15 @@
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
 [ext_resource type="Script" path="res://scripts/IntroTransition.cs" id="32_lacay"]
 [ext_resource type="Texture2D" uid="uid://btmbv0gra0bas" path="res://assets/carpet/ArcadeCarpet_emission.png" id="32_xc0rk"]
+[ext_resource type="Texture2D" uid="uid://cipvq5wdnsqcd" path="res://assets/UI/ShoppingcartIcon-lightgrey.png" id="35_kk8sj"]
 [ext_resource type="PackedScene" uid="uid://bwuyqs3i552o3" path="res://assets/stool/ArcadeStool.glb" id="37_uiokx"]
+[ext_resource type="Texture2D" uid="uid://3jjb5kn6r6dc" path="res://assets/hats/astronaut_hat_1/Layer 0.png" id="40_4qdej"]
+[ext_resource type="Script" path="res://scripts/ShopMenu.cs" id="40_bmvfs"]
+[ext_resource type="Texture2D" uid="uid://cee3414870qto" path="res://assets/hats/cat_ears_hat_1/Layer 0 copy.png" id="41_h2thy"]
 [ext_resource type="StyleBox" uid="uid://c457hr3hm5g5u" path="res://buttons/basebutton.tres" id="42_2q0o6"]
+[ext_resource type="Texture2D" uid="uid://cj0v3wuwb768q" path="res://assets/hats/cowboy_hat_1/Layer 0 copy 2.png" id="42_ecv2v"]
 [ext_resource type="Texture2D" uid="uid://wj73nwolj5b6" path="res://assets/UI/settings-gear-regular.png" id="43_ibvky"]
+[ext_resource type="Texture2D" uid="uid://djvt1t1gfv3s1" path="res://assets/hats/monocle_hat_1/Layer 0 copy 3.png" id="43_op1k2"]
 [ext_resource type="Texture2D" uid="uid://dm1wl14bpkyv" path="res://assets/UI/early-pop.png" id="44_lwfxe"]
 [ext_resource type="Texture2D" uid="uid://dwosqvm5w30s8" path="res://assets/UI/settings-gear-pressed.png" id="44_shdha"]
 [ext_resource type="PackedScene" uid="uid://blpatshw8kfl5" path="res://scenes/EarlyPopUIDummy.tscn" id="45_v3tv0"]
@@ -1221,7 +1227,7 @@ transform = Transform3D(-0.00837644, 0, 0.299883, 0, 0.3, 0, -0.299883, 0, -0.00
 transform = Transform3D(-2.8871e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.8871e-08, 0.0475035, 0.434295, -3.36839)
 
 [node name="cowboy_hat" parent="Node3D2/Shop" instance=ExtResource("27_e3wfv")]
-transform = Transform3D(0.5, 0, 4.65661e-09, 0, 0.5, 0, -4.65661e-09, 0, 0.5, -1.68878, 0.224829, 0.0471716)
+transform = Transform3D(1, 0, 9.31322e-09, 0, 1, 0, -9.31322e-09, 0, 1, -1.68878, 0.224829, 0.0471716)
 
 [node name="Node3D3" type="Node3D" parent="."]
 transform = Transform3D(0.0279215, 0, 0.99961, 0, 1, 0, -0.99961, 0, 0.0279215, 1.73827, 0.5, -3.32524)
@@ -1369,6 +1375,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(325, 0)
 layout_mode = 2
 text = "Play"
+
+[node name="Shop" type="Button" parent="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons"]
+layout_mode = 2
+text = "Shop"
+icon = ExtResource("35_kk8sj")
+icon_alignment = 2
+expand_icon = true
 
 [node name="Help" type="Button" parent="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons"]
 layout_mode = 2
@@ -1643,6 +1656,28 @@ text = "Logout"
 [node name="BackToMenu" type="Button" parent="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer"]
 layout_mode = 2
 text = "Back to Menu"
+
+[node name="ShopMenu" type="PanelContainer" parent="UI/Menu/Menu"]
+layout_mode = 2
+theme = ExtResource("22_hwvbv")
+script = ExtResource("40_bmvfs")
+
+[node name="ShopMenuContainer" type="MarginContainer" parent="UI/Menu/Menu/ShopMenu"]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer"]
+layout_mode = 2
+item_count = 4
+same_column_width = true
+icon_scale = 0.1
+item_0/text = "Cowboy hat"
+item_0/icon = ExtResource("40_4qdej")
+item_1/text = "Cat Ears"
+item_1/icon = ExtResource("41_h2thy")
+item_2/text = "Monocle"
+item_2/icon = ExtResource("42_ecv2v")
+item_3/text = "Astronaut Helmet"
+item_3/icon = ExtResource("43_op1k2")
 
 [node name="Leaderboard" type="MarginContainer" parent="UI/Menu"]
 unique_name_in_owner = true
@@ -1968,6 +2003,7 @@ unique_name_in_owner = true
 [connection signal="timeout" from="PopOutTimer" to="Mallet" method="_on_pop_out_timer_timeout"]
 [connection signal="timeout" from="ComboCoinTimer" to="." method="_on_combo_coin_timer_timeout"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/PlayResume" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Shop" to="." method="_on_shop_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Help" to="." method="_on_help_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Account" to="." method="_on_account_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Exit" to="." method="_on_exit_pressed"]

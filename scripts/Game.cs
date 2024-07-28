@@ -11,7 +11,8 @@ public partial class Game : Node3D
 	{
 		MENU,
 		PLAYING,
-		PAUSED
+		PAUSED,
+		SHOP
 	}
 	public enum GameMode
 	{
@@ -24,7 +25,7 @@ public partial class Game : Node3D
 	float CamPlayFOV;
 	float CamMenuFOV;
 	Camera3D MainCam;
-	Vector3 CamPlayPos, CamPlayRot, CamMenuPos, CamMenuRot;
+	Vector3 CamPlayPos, CamPlayRot, CamMenuPos, CamMenuRot, CamShopPos, CamShopRot;
 	RandomNumberGenerator RNG;
 	SaveManager SaveManager;
 	LoggedInUser User;
@@ -87,6 +88,9 @@ public partial class Game : Node3D
 		CamMenuPos = new Vector3(-3.25f, 1.63f, -9.841f); //old menu
 		CamMenuRot = new Vector3(0, 90, 0);             //old menu
 		CamMenuFOV = 80f;
+
+		CamShopPos = new Vector3(3.5f, 1.5f, -7.1f);
+		CamShopRot = new Vector3(0, -91.1f, 0);
 
 		PlayResume.Text = "Play";
 		MainCam.Position = CamMenuPos;
@@ -235,9 +239,11 @@ public partial class Game : Node3D
 				case GameState.MENU:
 					MoveCamera(CamMenuPos, CamMenuRot, CamMenuFOV);
 					break;
-
 				case GameState.PLAYING:
 					MoveCamera(CamPlayPos, CamPlayRot, CamPlayFOV);
+					break;
+				case GameState.SHOP:
+					MoveCamera(CamShopPos, CamShopRot, CamMenuFOV);
 					break;
 				case GameState.PAUSED:
 					MoveCamera(CamMenuPos, CamMenuRot, CamMenuFOV);
@@ -313,6 +319,10 @@ public partial class Game : Node3D
 		MainMenu.Show();
 		PlayResume.Text = "Play";
 		ToggleMenuVisibility(true, false, false, false, false, false, false);
+	}
+	public void _on_shop_pressed()
+	{
+
 	}
 
 	//play/resume button
