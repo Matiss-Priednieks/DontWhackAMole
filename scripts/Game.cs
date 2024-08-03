@@ -342,6 +342,7 @@ public partial class Game : Node3D
 	public void _on_shop_pressed()
 	{
 		MoveToMenuState(GameState.SHOP);
+		User.GetUnlockedContentRequest();
 		Mole.CurrentGameState = Mole.GameState.Paused;
 		GameOverMenu.Hide();
 		MainMenu.Show();
@@ -421,29 +422,22 @@ public partial class Game : Node3D
 	{
 		if (responseCode == 200 || responseCode == 201)
 		{
-
 			Json json = new();
 			json.Parse(body.GetStringFromUtf8());
-			GD.Print("json data: " + json.Data);
-			var dict = (Dictionary<int, bool>)json.Data;
-			User.SetUnlocksDict(dict);
-			GD.Print("dict data: " + dict);
-			GD.Print(User.Email + User.Username);
-			// System.Collections.Generic.List<(string Username, int Score)> PlayerScores = new System.Collections.Generic.List<(string, int)>();
+			// GD.Print("json data: " + json.Data);
+			var unlocks = (Dictionary<string, Dictionary<string, bool>>)json.Data;
+			var coins = (Dictionary<string, int>)json.Data;
+			// GD.Print("dict data: " + unlocks["unlocks"]);
+			// GD.Print("dict data: " + coins["collected_coins"]);
 
-			// foreach (var (key, value) in dict)
-			// {
-			// 	foreach (var score in value)
-			// 	{
-			// 		// PlayerScores.Add((key, score));
-			// 	}
-			// }
-		}
-		else
-		{
+			var unlockDictionary = unlocks["unlocks"];
+			// GD.Print(unlockDictionary["0"]);
+			User.AccountCurrency = coins["collected_coins"];
+			User.SetUnlocksDict(unlockDictionary);
 
 		}
 	}
+
 	public void _on_currency_update_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
 	{
 		if (responseCode == 200 || responseCode == 201)
@@ -453,6 +447,30 @@ public partial class Game : Node3D
 		else
 		{
 			GD.Print("failed");
+		}
+	}
+
+	public void _on_buy_attempt_request_completed(long result, long responseCode, string[] headers, byte[] body)
+	{
+		if (responseCode == 200 || responseCode == 201)
+		{
+			GD.Print("Buy request 4");
+			Json json = new();
+			json.Parse(body.GetStringFromUtf8());
+			// GD.Print("json data: " + json.Data);
+			var unlocks = (Dictionary<string, Dictionary<string, bool>>)json.Data;
+			var coins = (Dictionary<string, int>)json.Data;
+			// GD.Print("dict data: " + unlocks["unlocks"]);
+			// GD.Print("dict data: " + coins["collected_coins"]);
+
+			var unlockDictionary = unlocks["unlocks"];
+
+			User.SetUnlocksDict(unlockDictionary);
+			User.ConfirmBuy(unlockDictionary);
+		}
+		else
+		{
+			GD.Print(responseCode);
 		}
 	}
 }

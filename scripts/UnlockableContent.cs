@@ -11,9 +11,10 @@ public partial class UnlockableContent : Node
 	public bool IsUnlocked { get; set; }
 	public Texture2D ContentIcon { get; set; }
 	public PackedScene ContentScene { get; set; }
+	public int ContentPrice { get; set; }
 
 
-	public UnlockableContent(int contentId, string name, string description, bool isUnlocked, Texture2D contentIcon, PackedScene contentScene)
+	public UnlockableContent(int contentId, string name, string description, bool isUnlocked, Texture2D contentIcon, PackedScene contentScene, int contentPrice)
 	{
 		ContentID = contentId;
 		ContentName = name;
@@ -21,5 +22,6 @@ public partial class UnlockableContent : Node
 		IsUnlocked = isUnlocked;
 		ContentIcon = contentIcon;
 		ContentScene = contentScene;
+		ContentPrice = contentPrice;
 	}
 }

@@ -10,6 +10,7 @@ public partial class LoggedInUser : Node
     public HttpRequest HTTPRequest { get; private set; }
     public HttpRequest UnlocksHTTPRequest { get; private set; }
     public HttpRequest CurrencyHTTPRequest { get; private set; }
+    public HttpRequest BuyContentHTTPRequest { get; private set; }
 
     // Called when the node enters the scene tree for the first time.
 
@@ -26,6 +27,10 @@ public partial class LoggedInUser : Node
     Dictionary<int, bool> unlockables_dict;
     int EquippedHatIndex = -1;
     public Node3D CurrentHat;
+
+    public int AccountCurrency;
+
+    int BuyRequestID;
 
     public override void _Ready()
     {
@@ -56,9 +61,17 @@ public partial class LoggedInUser : Node
         }
         Username = "Guest";
     }
-    public void SetUnlocksDict(Dictionary<int, bool> unlockables)
+    public void SetUnlocksDict(Dictionary<string, bool> unlockables)
     {
-        unlockables_dict = unlockables;
+        foreach (string key in unlockables.Keys)
+        {
+            if (int.TryParse(key, out int intKey))
+            {
+                unlockables_dict[intKey] = (bool)unlockables[key];
+            }
+        }
+        GD.Print(unlockables_dict);
+        // unlockables_dict = unlockables;
     }
     public Dictionary<int, bool> GetUnlocksDict()
     {
@@ -69,6 +82,7 @@ public partial class LoggedInUser : Node
         HTTPRequest = GetNode<HttpRequest>("../Node3D/UI/HighscoreRequest");
         UnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksRequest");
         CurrencyHTTPRequest = GetNode<HttpRequest>("../Node3D/CurrencyUpdateRequest");
+        BuyContentHTTPRequest = GetNode<HttpRequest>("../Node3D/BuyAttempt");
 
         UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
 
@@ -111,14 +125,53 @@ public partial class LoggedInUser : Node
     {
         return UserHighScore;
     }
+    public void CheckItems(int contentBuyID)
+    {
+        GetUnlockedContentRequest();
+
+    }
+    public void BuyItem(int contentBuyID)
+    {
+        GD.Print("Buy request 3");
+        BuyRequestID = contentBuyID;
+        if (unlockables_dict[BuyRequestID] != true && AccountCurrency >= unlockables[BuyRequestID].ContentPrice)
+        {
+            unlockables_dict[BuyRequestID] = true;
+            BuyContentRequest();
+        }
+        else
+        {
+            unlockables_dict[BuyRequestID] = false;
+            GD.Print("error");
+            //show buy error/disable buy button
+        }
+    }
+    public void ConfirmBuy(Dictionary<string, bool> unlockables)
+    {
+        foreach (string key in unlockables.Keys)
+        {
+            if (int.TryParse(key, out int intKey))
+            {
+                unlockables_dict[intKey] = (bool)unlockables[key];
+            }
+        }
+        UpdateUnlockedContentRequest(unlockables_dict);
+    }
 
     public Error GetUnlockedContentRequest()
     {
-        GD.Print(Email);
         UserCreditentials userData = new(Username, Email, unlockables_dict);
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = UnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-unlocks", newRegHeaders, HttpClient.Method.Get, userDataJson);
+        return error;
+    }
+    public Error BuyContentRequest()
+    {
+        UserCreditentials userData = new(Username, Email, unlockables_dict);
+        string userDataJson = JsonSerializer.Serialize(userData);
+        string[] newRegHeaders = new string[] { "Content-Type: application/json" };
+        var error = BuyContentHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/buy-attempt", newRegHeaders, HttpClient.Method.Get, userDataJson);
         return error;
     }
 
@@ -132,7 +185,7 @@ public partial class LoggedInUser : Node
         // GD.Print(userData.email + ", " + userData.username + ", " + userData.highscore + ".");
         return error;
     }
-    public Error UpdateUnlockedContentRequest()
+    public Error UpdateUnlockedContentRequest(Dictionary<int, bool> unlockables_dict)
     {
         GD.Print(Email);
 
