@@ -1,4 +1,4 @@
-[gd_scene load_steps=157 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=156 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -42,18 +42,17 @@
 [ext_resource type="Texture2D" uid="uid://btmbv0gra0bas" path="res://assets/carpet/ArcadeCarpet_emission.png" id="32_xc0rk"]
 [ext_resource type="Texture2D" uid="uid://cipvq5wdnsqcd" path="res://assets/UI/ShoppingcartIcon-lightgrey.png" id="35_kk8sj"]
 [ext_resource type="PackedScene" uid="uid://bwuyqs3i552o3" path="res://assets/stool/ArcadeStool.glb" id="37_uiokx"]
-[ext_resource type="Texture2D" uid="uid://3jjb5kn6r6dc" path="res://assets/hats/astronaut_hat_1/Layer 0.png" id="40_4qdej"]
 [ext_resource type="Script" path="res://scripts/ShopMenu.cs" id="40_bmvfs"]
-[ext_resource type="Texture2D" uid="uid://cee3414870qto" path="res://assets/hats/cat_ears_hat_1/Layer 0 copy.png" id="41_h2thy"]
+[ext_resource type="PackedScene" uid="uid://dfqlk7wqj20uj" path="res://scenes/UI Scenes/BuyOption.tscn" id="41_otgwr"]
 [ext_resource type="StyleBox" uid="uid://c457hr3hm5g5u" path="res://buttons/basebutton.tres" id="42_2q0o6"]
-[ext_resource type="Texture2D" uid="uid://cj0v3wuwb768q" path="res://assets/hats/cowboy_hat_1/Layer 0 copy 2.png" id="42_ecv2v"]
 [ext_resource type="Texture2D" uid="uid://wj73nwolj5b6" path="res://assets/UI/settings-gear-regular.png" id="43_ibvky"]
-[ext_resource type="Texture2D" uid="uid://djvt1t1gfv3s1" path="res://assets/hats/monocle_hat_1/Layer 0 copy 3.png" id="43_op1k2"]
 [ext_resource type="Texture2D" uid="uid://dm1wl14bpkyv" path="res://assets/UI/early-pop.png" id="44_lwfxe"]
 [ext_resource type="Texture2D" uid="uid://dwosqvm5w30s8" path="res://assets/UI/settings-gear-pressed.png" id="44_shdha"]
 [ext_resource type="PackedScene" uid="uid://blpatshw8kfl5" path="res://scenes/EarlyPopUIDummy.tscn" id="45_v3tv0"]
 [ext_resource type="Texture2D" uid="uid://d113c65exvune" path="res://assets/UI/settings-gear-hovered.png" id="45_xelq4"]
 [ext_resource type="Texture2D" uid="uid://dth5mxv5qb836" path="res://assets/UI/settings-gear-disabled.png" id="46_y74xj"]
+[ext_resource type="Texture2D" uid="uid://b8rjtvbt5wthr" path="res://assets/UI/crappyarrow.png" id="48_ya63d"]
+[ext_resource type="Texture2D" uid="uid://bkrbhjsbns6ps" path="res://assets/UI/crappyarrow-disabled.png" id="49_lnuns"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_4lm6s"]
 material = ExtResource("6_8mjb7")
@@ -1343,12 +1342,15 @@ metadata/_edit_group_ = true
 
 [node name="Menu" type="MarginContainer" parent="UI/Menu"]
 layout_mode = 1
-anchors_preset = 13
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -261.5
-offset_right = 261.5
+anchor_bottom = 0.5
+offset_left = -354.0
+offset_top = -364.0
+offset_right = 354.0
+offset_bottom = 364.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -1358,7 +1360,6 @@ theme = ExtResource("22_hwvbv")
 [node name="MenuButtons" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/MenuButtons"]
@@ -1658,26 +1659,44 @@ layout_mode = 2
 text = "Back to Menu"
 
 [node name="ShopMenu" type="PanelContainer" parent="UI/Menu/Menu"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("22_hwvbv")
 script = ExtResource("40_bmvfs")
 
 [node name="ShopMenuContainer" type="MarginContainer" parent="UI/Menu/Menu/ShopMenu"]
 layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="ItemList" type="ItemList" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer"]
 layout_mode = 2
-item_count = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer"]
+layout_mode = 2
+text = "SHOP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
 same_column_width = true
 icon_scale = 0.1
-item_0/text = "Cowboy hat"
-item_0/icon = ExtResource("40_4qdej")
-item_1/text = "Cat Ears"
-item_1/icon = ExtResource("41_h2thy")
-item_2/text = "Monocle"
-item_2/icon = ExtResource("42_ecv2v")
-item_3/text = "Astronaut Helmet"
-item_3/icon = ExtResource("43_op1k2")
+
+[node name="BackToMenu" type="Button" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/ShopMenu"]
+layout_mode = 2
+
+[node name="BuyOption" parent="UI/Menu/Menu/ShopMenu/MarginContainer" instance=ExtResource("41_otgwr")]
+layout_mode = 2
 
 [node name="Leaderboard" type="MarginContainer" parent="UI/Menu"]
 unique_name_in_owner = true
@@ -1894,6 +1913,7 @@ size_flags_vertical = 4
 
 [node name="Powerup" type="MarginContainer" parent="UI/GameplayUI"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -1925,11 +1945,13 @@ layout_mode = 2
 theme_override_styles/panel = ExtResource("42_2q0o6")
 
 [node name="UsePowerup" type="TextureButton" parent="UI/GameplayUI/Powerup/MarginContainer/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture_normal = ExtResource("44_lwfxe")
+texture_normal = ExtResource("48_ya63d")
+texture_disabled = ExtResource("49_lnuns")
 ignore_texture_size = true
 stretch_mode = 5
 
@@ -2007,13 +2029,13 @@ unique_name_in_owner = true
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Help" to="." method="_on_help_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Account" to="." method="_on_account_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/MenuButtons/MarginContainer/MenuButtons/Exit" to="." method="_on_exit_pressed"]
-[connection signal="pressed" from="UI/Menu/Menu/HelpScreen/MarginContainer/HelpScreen/BackHelp" to="." method="_on_back_help_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/HelpScreen/MarginContainer/HelpScreen/BackHelp" to="." method="_on_back_pressed"]
 [connection signal="item_selected" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/WindowMode" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_window_mode_item_selected"]
 [connection signal="item_selected" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/Resolution" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_resolution_item_selected"]
 [connection signal="value_changed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/MVSlider" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/MusicSlider" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/sfx" to="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu" method="_on_sfx_value_changed"]
-[connection signal="pressed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/SettingsBack" to="." method="_on_settings_back_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/SettingsMenu/MarginContainer/SettingsMenu/SettingsBack" to="." method="_on_back_pressed"]
 [connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Email" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_email_field_text_changed"]
 [connection signal="text_submitted" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Email" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_email_field_text_submitted"]
 [connection signal="text_changed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen/Login/Password" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_password_field_text_changed"]
@@ -2033,6 +2055,8 @@ unique_name_in_owner = true
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/GoToLogin" to="." method="_on_go_to_login_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/Logout" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_logout_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/BackToMenu" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_back_to_menu_pressed"]
+[connection signal="item_clicked" from="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer/ItemList" to="UI/Menu/Menu/ShopMenu" method="_on_item_list_item_clicked"]
+[connection signal="pressed" from="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer/BackToMenu" to="." method="_on_back_pressed"]
 [connection signal="timeout" from="UI/Menu/Leaderboard/UpdateLeaderboard" to="UI/Menu/Leaderboard" method="_on_update_leaderboard_timeout"]
 [connection signal="pressed" from="UI/Menu/MarginContainer/MarginContainer/PanelContainer/MarginContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]

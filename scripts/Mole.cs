@@ -65,6 +65,7 @@ public partial class Mole : Area3D
 	public float OutTooLongTime { get; set; }
 	public bool RequestNotSent { get; private set; } = true;
 	AudioStream CounterSound2;
+	TextureButton PowerUpButton;
 
 	int CurrentHole = 0;
 	public override void _Ready()
@@ -77,6 +78,7 @@ public partial class Mole : Area3D
 		ComboBonus = 1;
 		CounterSound = GetNode<AudioStreamPlayer3D>("../%CounterSound");
 
+		PowerUpButton = GetNode<TextureButton>("../UI/GameplayUI/Powerup/MarginContainer/PanelContainer/MarginContainer/%UsePowerup");
 		CameraRef = GetNode<Camera3D>("../%Camera3D");
 		MoleMesh = GetNode<MeshInstance3D>("%MoleMesh");
 		WarningIndicator = GetNode<Node3D>("%WarningIndicator");
@@ -117,7 +119,14 @@ public partial class Mole : Area3D
 
 	public override void _Process(double delta)
 	{
-
+		if (EarlyPops > 0)
+		{
+			PowerUpButton.Disabled = false;
+		}
+		else
+		{
+			PowerUpButton.Disabled = true;
+		}
 		if (Score > HighScore)
 		{
 			HighScore = (int)Score;

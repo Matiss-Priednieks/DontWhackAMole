@@ -21,7 +21,7 @@ public partial class Game : Node3D
 	}
 	GameMode CurrentGameMode = GameMode.ARCADE;
 	private GameState currentState = GameState.MENU;
-
+	float MenuDelay = 0.5f;
 	float CamPlayFOV;
 	float CamMenuFOV;
 	Camera3D MainCam;
@@ -34,14 +34,14 @@ public partial class Game : Node3D
 	Control MainMenu;
 	Control GameOverMenu;
 	Button PlayResume;
-	PanelContainer MenuButtons, HelpMenu, SettingsMenu, AccountMenu;
+	PanelContainer MenuButtons, HelpMenu, SettingsMenu, AccountMenu, ShopVisible;
 	Panel LoginScreen, RegistrationScreen;
 	Timer ComboCointTimer;
 
 	WorldEnvironment worldEnvironment;
 
 	Timer PopOutTimer;
-	MarginContainer PowerUpUI;
+	MarginContainer PowerUpUI, LeaderboardUI;
 
 	PackedScene Coin, Heart, EarlyPop;
 	public bool Login, Register, CameraMoving = false;
@@ -60,7 +60,10 @@ public partial class Game : Node3D
 		User.LoggedInFakeReady();
 		SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
 
+		LeaderboardUI = GetNode<MarginContainer>("UI/Menu/%Leaderboard");
+
 		LoginScreen = GetNode<Panel>("%LoginScreen");
+		ShopVisible = GetNode<PanelContainer>("%ShopMenu");
 		RegistrationScreen = GetNode<Panel>("%RegistrationScreen");
 
 		RNG = new RandomNumberGenerator();
@@ -100,7 +103,7 @@ public partial class Game : Node3D
 		Collectables[0] = Coin;
 		Collectables[1] = Heart;
 		Collectables[2] = EarlyPop;
-		ToggleMenuVisibility(true, false, false, false, false, false, false);
+		ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
 		SaveManager.PostTitleScreen = true;
 		SaveManager.LoadConfig();
 	}
@@ -125,12 +128,12 @@ public partial class Game : Node3D
 	{
 		CameraMoving = true;
 		Tween MoveCam = GetTree().CreateTween();
-		MoveCam.TweenProperty(MainCam, "position", Pos, 1.5f).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
+		MoveCam.TweenProperty(MainCam, "position", Pos, MenuDelay).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
 		Tween RotCam = GetTree().CreateTween();
-		RotCam.TweenProperty(MainCam, "rotation_degrees", Rot, 1.5f).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
+		RotCam.TweenProperty(MainCam, "rotation_degrees", Rot, MenuDelay).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
 		Tween FovCam = GetTree().CreateTween();
-		FovCam.TweenProperty(MainCam, "fov", CamFOV, 1.5f).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
-		await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+		FovCam.TweenProperty(MainCam, "fov", CamFOV, MenuDelay).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
+		await ToSignal(GetTree().CreateTimer(MenuDelay), "timeout");
 		CameraMoving = false;
 	}
 
@@ -192,12 +195,12 @@ public partial class Game : Node3D
 		{
 			case GameState.MENU:
 				SaveManager.SaveConfig();
-				ToggleMenuVisibility(true, false, false, false, false, false, false);
+				ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
 				break;
 			case GameState.PLAYING:
 				SaveManager.SaveConfig();
 
-				ToggleMenuVisibility(true, false, false, false, false, false, true);
+				ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
 
 				if (!MenuJustPressed)
 				{
@@ -205,7 +208,7 @@ public partial class Game : Node3D
 					PopOutTimer.Paused = false;
 					Mole.CurrentGameState = Mole.GameState.Paused;
 					MoveToMenuState(GameState.PAUSED);
-					await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+					await ToSignal(GetTree().CreateTimer(MenuDelay), "timeout");
 					MainMenu.Show();
 					MenuJustPressed = false;
 				}
@@ -214,15 +217,31 @@ public partial class Game : Node3D
 			case GameState.PAUSED:
 				SaveManager.SaveConfig();
 
-				ToggleMenuVisibility(false, false, false, false, false, false, true);
+				ToggleMenuVisibility(false, false, false, false, false, false, true, false, false);
 				if (!MenuJustPressed)
 				{
 					MenuJustPressed = true;
 					MoveToMenuState(GameState.PLAYING);
 					MainMenu.Hide();
-					await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+					await ToSignal(GetTree().CreateTimer(MenuDelay), "timeout");
 					PopOutTimer.Paused = false;
 					Mole.CurrentGameState = Mole.GameState.Playing;
+					MenuJustPressed = false;
+				}
+				break;
+			case GameState.SHOP:
+				SaveManager.SaveConfig();
+
+				ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
+
+				if (!MenuJustPressed)
+				{
+					MenuJustPressed = true;
+					PopOutTimer.Paused = false;
+					Mole.CurrentGameState = Mole.GameState.Paused;
+					MoveToMenuState(GameState.MENU);
+					await ToSignal(GetTree().CreateTimer(MenuDelay), "timeout");
+					MainMenu.Show();
 					MenuJustPressed = false;
 				}
 				break;
@@ -277,11 +296,11 @@ public partial class Game : Node3D
 						  .SetTrans(Tween.TransitionType.Expo)
 						  .SetEase(Tween.EaseType.Out);
 			saturationTween.Play();
-			await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
+			await ToSignal(GetTree().CreateTimer(MenuDelay), "timeout");
 			saturationTween.Stop();
 		}
 	}
-	public void ToggleMenuVisibility(bool menuButtonsVisible, bool settingsMenuVisible, bool helpMenuVisible, bool accountMenuVisible, bool loginScreenVisible, bool registrationScreenVisible, bool powerupUIVisible)
+	public void ToggleMenuVisibility(bool menuButtonsVisible, bool settingsMenuVisible, bool helpMenuVisible, bool accountMenuVisible, bool loginScreenVisible, bool registrationScreenVisible, bool powerupUIVisible, bool shopVisible, bool leaderboardVisible)
 	{
 		MenuButtons.Visible = menuButtonsVisible;
 		SettingsMenu.Visible = settingsMenuVisible;
@@ -290,8 +309,8 @@ public partial class Game : Node3D
 		LoginScreen.Visible = loginScreenVisible;
 		RegistrationScreen.Visible = registrationScreenVisible;
 		PowerUpUI.Visible = powerupUIVisible;
-
-		GD.Print(PowerUpUI.Visible);
+		ShopVisible.Visible = shopVisible;
+		LeaderboardUI.Visible = leaderboardVisible;
 	}
 
 
@@ -305,7 +324,7 @@ public partial class Game : Node3D
 		// Mole.SetGameOver(false);
 		// Mole.Paused = false;
 		GameOverMenu.Hide();
-		ToggleMenuVisibility(false, false, false, false, false, false, true);
+		ToggleMenuVisibility(false, false, false, false, false, false, true, false, false);
 
 	}
 
@@ -318,11 +337,15 @@ public partial class Game : Node3D
 		GameOverMenu.Hide();
 		MainMenu.Show();
 		PlayResume.Text = "Play";
-		ToggleMenuVisibility(true, false, false, false, false, false, false);
+		ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
 	}
 	public void _on_shop_pressed()
 	{
-
+		MoveToMenuState(GameState.SHOP);
+		Mole.CurrentGameState = Mole.GameState.Paused;
+		GameOverMenu.Hide();
+		MainMenu.Show();
+		ToggleMenuVisibility(false, false, false, false, false, false, false, true, false);
 	}
 
 	//play/resume button
@@ -337,60 +360,56 @@ public partial class Game : Node3D
 		MainMenu.Hide();
 		ComboCointTimer.Start(RNG.RandiRange(3, 6));
 		MoveToMenuState(GameState.PLAYING);
-		await ToSignal(GetTree().CreateTimer(2f), "timeout");
+		await ToSignal(GetTree().CreateTimer(MenuDelay + 1f), "timeout"); //how long it takes for gameplay to resume (default 1.5s)
 		Mole.CurrentGameState = Mole.GameState.Playing;
-		ToggleMenuVisibility(false, false, false, false, false, false, true);
+		ToggleMenuVisibility(false, false, false, false, false, false, true, false, false);
 	}
 
 	public void _on_settings_pressed()
 	{
-		ToggleMenuVisibility(false, true, false, false, false, false, false);
+		ToggleMenuVisibility(false, true, false, false, false, false, false, false, false);
 	}
 
-	public void _on_settings_back_pressed()
+	public void _on_back_pressed()
 	{
 		// User.UnlockableContentSaveRequest();
 		User.GetUnlockedContentRequest();
 		SaveManager.SaveConfig();
-		ToggleMenuVisibility(true, false, false, false, false, false, false);
+		MoveToMenuState(GameState.MENU);
+		ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
 	}
 
 	public void _on_help_pressed()
 	{
-		ToggleMenuVisibility(false, false, true, false, false, false, false);
-	}
-
-	public void _on_back_help_pressed()
-	{
-		ToggleMenuVisibility(true, false, false, false, false, false, false);
+		ToggleMenuVisibility(false, false, true, false, false, false, false, false, false);
 	}
 
 	public void _on_account_pressed()
 	{
 		if (User.LoggedIn)
 		{
-			ToggleMenuVisibility(false, false, false, true, false, false, false);
+			ToggleMenuVisibility(false, false, false, true, false, false, false, false, false);
 		}
 		else
 		{
-			ToggleMenuVisibility(false, false, false, true, true, false, false);
+			ToggleMenuVisibility(false, false, false, true, true, false, false, false, false);
 
 		}
 	}
 
 	public void _on_go_to_reg_page_pressed()
 	{
-		ToggleMenuVisibility(false, false, false, true, false, true, false);
+		ToggleMenuVisibility(false, false, false, true, false, true, false, false, false);
 	}
 
 	public void _on_go_to_login_pressed()
 	{
-		ToggleMenuVisibility(false, false, false, true, true, false, false);
+		ToggleMenuVisibility(false, false, false, true, true, false, false, false, false);
 	}
 
 	public void _on_as_guest_pressed()
 	{
-		ToggleMenuVisibility(true, false, false, false, false, false, false);
+		ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
 	}
 	public void _on_exit_pressed()
 	{

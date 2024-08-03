@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cj0v3wuwb768q"
-path="res://.godot/imported/Layer 0 copy 2.png-64643533e57117d2170783928ffb2a4d.ctex"
+uid="uid://b8rjtvbt5wthr"
+path="res://.godot/imported/crappyarrow.png-246c2e72d7132e495ac71c81403ede9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hats/cowboy_hat_1/Layer 0 copy 2.png"
-dest_files=["res://.godot/imported/Layer 0 copy 2.png-64643533e57117d2170783928ffb2a4d.ctex"]
+source_file="res://assets/UI/crappyarrow.png"
+dest_files=["res://.godot/imported/crappyarrow.png-246c2e72d7132e495ac71c81403ede9b.ctex"]
 
 [params]
 

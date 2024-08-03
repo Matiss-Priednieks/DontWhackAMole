@@ -22,7 +22,7 @@ public partial class LoggedInUser : Node
 
     public int UserHighScore { get; private set; }
 
-    UnlockableContent[] unlockables;
+    public UnlockableContent[] unlockables;
     Dictionary<int, bool> unlockables_dict;
     int EquippedHatIndex = -1;
     public Node3D CurrentHat;

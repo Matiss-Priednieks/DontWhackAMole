@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3jjb5kn6r6dc"
-path="res://.godot/imported/Layer 0.png-a957afcd065ee30b31506bc5ac01e8af.ctex"
+uid="uid://bkrbhjsbns6ps"
+path="res://.godot/imported/crappyarrow-disabled.png-93dadb43eb7dd3b39f29ff68b99e2366.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hats/astronaut_hat_1/Layer 0.png"
-dest_files=["res://.godot/imported/Layer 0.png-a957afcd065ee30b31506bc5ac01e8af.ctex"]
+source_file="res://assets/UI/crappyarrow-disabled.png"
+dest_files=["res://.godot/imported/crappyarrow-disabled.png-93dadb43eb7dd3b39f29ff68b99e2366.ctex"]
 
 [params]
 
