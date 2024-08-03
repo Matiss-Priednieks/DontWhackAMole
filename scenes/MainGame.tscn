@@ -2010,6 +2010,8 @@ unique_name_in_owner = true
 
 [node name="BuyAttempt" type="HTTPRequest" parent="."]
 
+[node name="UnlocksInfo" type="HTTPRequest" parent="."]
+
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopHole" to="NewWhackMachine/Holes/TopHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/LeftHole" to="NewWhackMachine/Holes/LeftHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/RightHole" to="NewWhackMachine/Holes/RightHole" method="_on_area_entered"]
@@ -2069,6 +2071,7 @@ unique_name_in_owner = true
 [connection signal="request_completed" from="UnlocksRequest" to="." method="_on_unlocks_request_request_completed"]
 [connection signal="request_completed" from="CurrencyUpdateRequest" to="." method="_on_currency_update_request_request_completed"]
 [connection signal="request_completed" from="BuyAttempt" to="." method="_on_buy_attempt_request_completed"]
+[connection signal="request_completed" from="UnlocksInfo" to="." method="_on_unlocks_info_request_completed"]
 
 [editable path="NewWhackMachine/Node3D4"]
 [editable path="NewWhackMachine/Node3D4/WoodenSign/woodenplank"]

@@ -43,7 +43,6 @@ public partial class ShopMenu : PanelContainer
 	public void ConfirmBuyItem(int contentID)
 	{
 		GD.Print("Buy request 2");
-
-		user.BuyItem(contentID);
+		user.CheckItems(contentID);
 	}
 }

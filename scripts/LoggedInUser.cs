@@ -11,6 +11,7 @@ public partial class LoggedInUser : Node
     public HttpRequest UnlocksHTTPRequest { get; private set; }
     public HttpRequest CurrencyHTTPRequest { get; private set; }
     public HttpRequest BuyContentHTTPRequest { get; private set; }
+    public HttpRequest GetUnlocksHTTPRequest { get; private set; }
 
     // Called when the node enters the scene tree for the first time.
 
@@ -30,7 +31,7 @@ public partial class LoggedInUser : Node
 
     public int AccountCurrency;
 
-    int BuyRequestID;
+    int BuyRequestID = -1;
 
     public override void _Ready()
     {
@@ -71,7 +72,6 @@ public partial class LoggedInUser : Node
             }
         }
         GD.Print(unlockables_dict);
-        // unlockables_dict = unlockables;
     }
     public Dictionary<int, bool> GetUnlocksDict()
     {
@@ -83,12 +83,16 @@ public partial class LoggedInUser : Node
         UnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksRequest");
         CurrencyHTTPRequest = GetNode<HttpRequest>("../Node3D/CurrencyUpdateRequest");
         BuyContentHTTPRequest = GetNode<HttpRequest>("../Node3D/BuyAttempt");
+        GetUnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksInfo");
+
+
 
         UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
 
         UsernameLabel.Text = "Guest";
         Username = "Guest";
         LoggedIn = false;
+        GetUnlockedContentRequest();
     }
 
     public void SetUsername(string username)
@@ -127,22 +131,25 @@ public partial class LoggedInUser : Node
     }
     public void CheckItems(int contentBuyID)
     {
+        BuyRequestID = contentBuyID;
         GetUnlockedContentRequest();
-
     }
-    public void BuyItem(int contentBuyID)
+    public void BuyItem()
     {
         GD.Print("Buy request 3");
-        BuyRequestID = contentBuyID;
-        if (unlockables_dict[BuyRequestID] != true && AccountCurrency >= unlockables[BuyRequestID].ContentPrice)
+        if (unlockables_dict[BuyRequestID] == false && AccountCurrency >= unlockables[BuyRequestID].ContentPrice)
         {
             unlockables_dict[BuyRequestID] = true;
             BuyContentRequest();
+            Update();
+            BuyRequestID = -1;
         }
         else
         {
+            BuyRequestID = -1;
             unlockables_dict[BuyRequestID] = false;
             GD.Print("error");
+            GD.Print("Item is already unlocked: " + (unlockables_dict[BuyRequestID] == false) + "\n" + "or cant afford: " + AccountCurrency + "vs price: " + unlockables[BuyRequestID].ContentPrice);
             //show buy error/disable buy button
         }
     }
@@ -163,7 +170,7 @@ public partial class LoggedInUser : Node
         UserCreditentials userData = new(Username, Email, unlockables_dict);
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
-        var error = UnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-unlocks", newRegHeaders, HttpClient.Method.Get, userDataJson);
+        var error = GetUnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-unlocks", newRegHeaders, HttpClient.Method.Get, userDataJson);
         return error;
     }
     public Error BuyContentRequest()
@@ -185,11 +192,11 @@ public partial class LoggedInUser : Node
         // GD.Print(userData.email + ", " + userData.username + ", " + userData.highscore + ".");
         return error;
     }
-    public Error UpdateUnlockedContentRequest(Dictionary<int, bool> unlockables_dict)
+    public Error UpdateUnlockedContentRequest(Dictionary<int, bool> _unlockables_dict)
     {
-        GD.Print(Email);
+        GD.Print(_unlockables_dict);
 
-        UserCreditentials userData = new(Username, Email, unlockables_dict);
+        UserCreditentials userData = new(Username, Email, _unlockables_dict);
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = UnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-unlocks", newRegHeaders, HttpClient.Method.Post, userDataJson);
@@ -203,9 +210,13 @@ public partial class LoggedInUser : Node
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = CurrencyHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-user-currency", newRegHeaders, HttpClient.Method.Post, userDataJson);
-        // GD.Print(userData.email + ", " + userData.username + ", " + userData.highscore + ".");
         GD.Print(userDataJson);
 
         return error;
+    }
+    public void Update()
+    {
+        UpdateUserCurrency(-unlockables[BuyRequestID].ContentPrice);
+        UpdateUnlockedContentRequest(unlockables_dict);
     }
 }

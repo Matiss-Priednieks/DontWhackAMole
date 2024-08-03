@@ -14,8 +14,8 @@ public partial class BuyOption : PanelContainer
 
 	public void _on_buy_pressed()
 	{
-		shopMenuRef.ConfirmBuyItem(BuyID);
 		GD.Print("Buy request 1");
+		shopMenuRef.ConfirmBuyItem(BuyID);
 	}
 	public void _on_cancel_pressed()
 	{

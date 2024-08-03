@@ -422,19 +422,23 @@ public partial class Game : Node3D
 	{
 		if (responseCode == 200 || responseCode == 201)
 		{
+			GD.Print("Successfully bought!");
+			// User.Update();
+		}
+	}
+	public void _on_unlocks_info_request_completed(long result, long responseCode, string[] headers, byte[] body)
+	{
+		if (responseCode == 200 || responseCode == 201)
+		{
 			Json json = new();
 			json.Parse(body.GetStringFromUtf8());
-			// GD.Print("json data: " + json.Data);
+			GD.Print("json data: " + json.Data);
 			var unlocks = (Dictionary<string, Dictionary<string, bool>>)json.Data;
 			var coins = (Dictionary<string, int>)json.Data;
-			// GD.Print("dict data: " + unlocks["unlocks"]);
-			// GD.Print("dict data: " + coins["collected_coins"]);
 
 			var unlockDictionary = unlocks["unlocks"];
-			// GD.Print(unlockDictionary["0"]);
 			User.AccountCurrency = coins["collected_coins"];
-			User.SetUnlocksDict(unlockDictionary);
-
+			User.BuyItem();
 		}
 	}
 
