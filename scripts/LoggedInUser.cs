@@ -1,10 +1,9 @@
 using Godot;
 using Godot.Collections;
 using System;
-using System.Text.RegularExpressions;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Linq;
+
 public partial class LoggedInUser : Node
 {
     public HttpRequest HTTPRequest { get; private set; }
@@ -34,48 +33,65 @@ public partial class LoggedInUser : Node
     public override void _Ready()
     {
         unlockables = Unlockables.GetUnlockableContent();
-        unlockables_dict = new Dictionary<int, bool>(){
-            {0, false},
-            {1, false},
-            {2, false},
-            {3, false}
-        };
-        for (int i = 0; i < unlockables.Count(); i++)
+        unlockables_dict = new Dictionary<int, bool>();
+        PopulateUnlockablesDict();
+
+        if (EquippedHatIndex != -1 && unlockables_dict.TryGetValue(EquippedHatIndex, out bool isUnlocked) && isUnlocked)
         {
-            unlockables_dict[unlockables[i].ContentID] = unlockables[i].IsUnlocked;
-            // unlockables_dict[EquippedHatIndex] = true;
-            if (EquippedHatIndex != -1)
-            {
-                if (unlockables_dict[EquippedHatIndex] == true && EquippedHatIndex == unlockables[i].ContentID)
-                {
-                    GD.Print(i);
-                    CurrentHat = unlockables[i].ContentScene.Instantiate<Node3D>();
-                    GD.Print(unlockables[i].Description);
-                    if (CurrentHat != null) break;
-                    // break;
-                }
-            }
-            GD.Print(unlockables[i].ContentID, unlockables[i].ContentName, unlockables[i].Description, unlockables[i].IsUnlocked);
+            CurrentHat = unlockables.FirstOrDefault(u => u.ContentID == EquippedHatIndex)?.ContentScene.Instantiate<Node3D>();
+            GD.Print(CurrentHat != null ? "Hat equipped" : "No hat found");
         }
-        Username = "Guest";
+
+        SetDefaultUser();
     }
+
+    private void PopulateUnlockablesDict()
+    {
+        foreach (var unlockable in unlockables)
+        {
+            unlockables_dict[unlockable.ContentID] = unlockable.IsUnlocked;
+            GD.Print(unlockable.ContentID, unlockable.ContentName, unlockable.Description, unlockable.IsUnlocked);
+        }
+    }
+
+    private void SetDefaultUser()
+    {
+        Username = "Guest";
+        if (UsernameLabel != null)
+        {
+            UsernameLabel.Text = "Guest";
+        }
+        LoggedIn = false;
+    }
+
     public void SetUnlocksDict(Dictionary<string, bool> unlockables)
     {
-        GD.Print("Unlocks in logged in user setunlocks function pre translation: " + unlockables);
-        foreach (string key in unlockables.Keys)
+        UpdateUnlockablesDict(unlockables);
+        UpdateShopUI();
+    }
+
+    public void PurchasedItemUpdate(Dictionary<string, bool> _unlockables)
+    {
+        UpdateUnlockablesDict(_unlockables);
+        UpdateUnlockedContentRequest(unlockables_dict);
+    }
+
+    private void UpdateUnlockablesDict(Dictionary<string, bool> unlockables)
+    {
+        foreach (var key in unlockables.Keys)
         {
             if (int.TryParse(key, out int intKey))
             {
-                unlockables_dict[intKey] = (bool)unlockables[key];
+                unlockables_dict[intKey] = unlockables[key];
             }
         }
-        GD.Print("Unlocks in logged in user setunlocks function POST translation: " + unlockables_dict);
-        UpdateShopUI();
     }
+
     public Dictionary<int, bool> GetUnlocksDict()
     {
         return unlockables_dict;
     }
+
     public void LoginInitialisation()
     {
         HTTPRequest = GetNode<HttpRequest>("../Node3D/UI/HighscoreRequest");
@@ -84,34 +100,34 @@ public partial class LoggedInUser : Node
         BuyContentHTTPRequest = GetNode<HttpRequest>("../Node3D/BuyAttempt");
         GetUnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksInfo");
 
-
-
         UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
 
-        UsernameLabel.Text = "Guest";
-        Username = "Guest";
-        LoggedIn = false;
+        SetDefaultUser();
         GetUnlockedContentRequest();
     }
 
     public void SetUsername(string username)
     {
         Username = username;
-        UsernameLabel.Text = username;
+        if (UsernameLabel != null)
+        {
+            UsernameLabel.Text = username;
+        }
     }
+
     public void SetEmail(string email)
     {
         Email = email;
     }
+
     public string GetUsername()
     {
-        return UsernameLabel.Text;
+        return UsernameLabel?.Text ?? Username;
     }
 
     public void Logout()
     {
-        UsernameLabel.Text = "Guest";
-        LoggedIn = false;
+        SetDefaultUser();
     }
 
     public void Login(string username)
@@ -124,52 +140,39 @@ public partial class LoggedInUser : Node
     {
         UserHighScore = (int)value;
     }
+
     public float GetHighscore()
     {
         return UserHighScore;
     }
+
     public void CheckUnlockedContent(int contentBuyID)
     {
         BuyRequestID = contentBuyID;
         GetUnlockedContentRequest();
     }
+
     public void FinalBuyCheck()
     {
         GD.Print("Buy request 3");
-        if (unlockables_dict[BuyRequestID] == false && AccountCurrency >= unlockables[BuyRequestID].ContentPrice)
+        if (unlockables_dict.TryGetValue(BuyRequestID, out bool isUnlocked) && !isUnlocked && AccountCurrency >= unlockables[BuyRequestID].ContentPrice)
         {
             unlockables_dict[BuyRequestID] = true;
             BuyContentRequest();
             Update();
-            BuyRequestID = -1;
         }
         else
         {
-            BuyRequestID = -1;
-            unlockables_dict[BuyRequestID] = false;
-            GD.Print("error");
-            GD.Print("Item is already unlocked: " + (unlockables_dict[BuyRequestID] == false) + "\n" + "or cant afford: " + AccountCurrency + "vs price: " + unlockables[BuyRequestID].ContentPrice);
-            //show buy error/disable buy button
+            GD.Print("Item is already unlocked or insufficient funds.");
         }
+        BuyRequestID = -1;
     }
-    public void PurchasedItemUpdate(Dictionary<string, bool> _unlockables)
-    {
-        foreach (string key in _unlockables.Keys)
-        {
-            if (int.TryParse(key, out int intKey))
-            {
-                unlockables_dict[intKey] = (bool)_unlockables[key];
-            }
-        }
 
-        UpdateUnlockedContentRequest(unlockables_dict);
-    }
     public void UpdateShopUI()
     {
-        foreach (int key in unlockables_dict.Keys)
+        foreach (var key in unlockables_dict.Keys)
         {
             unlockables[key].IsUnlocked = unlockables_dict[key];
-            // GD.Print("Unlocks in UI update function: ", unlockables_dict[key]);
         }
     }
 
@@ -181,6 +184,7 @@ public partial class LoggedInUser : Node
         var error = GetUnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-unlocks", newRegHeaders, HttpClient.Method.Get, userDataJson);
         return error;
     }
+
     public Error BuyContentRequest()
     {
         UserCreditentials userData = new(Username, Email, unlockables_dict);
@@ -190,7 +194,6 @@ public partial class LoggedInUser : Node
         return error;
     }
 
-
     public Error HighscoreUpdateRequest()
     {
         UserCreditentials userData = new(Username, Email, GetHighscore());
@@ -199,6 +202,7 @@ public partial class LoggedInUser : Node
         var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-highscore", newRegHeaders, HttpClient.Method.Post, userDataJson);
         return error;
     }
+
     public Error UpdateUnlockedContentRequest(Dictionary<int, bool> _unlockables_dict)
     {
         GD.Print(_unlockables_dict);
@@ -209,6 +213,7 @@ public partial class LoggedInUser : Node
         var error = UnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-unlocks", newRegHeaders, HttpClient.Method.Post, userDataJson);
         return error;
     }
+
     public Error UpdateUserCurrency(int CollectedCoins)
     {
         GD.Print("CoinsInPOSTCall: " + CollectedCoins);
@@ -221,6 +226,7 @@ public partial class LoggedInUser : Node
 
         return error;
     }
+
     public void Update()
     {
         UpdateUserCurrency(-unlockables[BuyRequestID].ContentPrice);

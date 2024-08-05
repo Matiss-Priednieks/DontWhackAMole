@@ -1700,10 +1700,6 @@ text = "Back"
 [node name="CheckAccount" type="Timer" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer"]
 autostart = true
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/ShopMenu"]
-layout_mode = 2
-mouse_filter = 2
-
 [node name="Leaderboard" type="MarginContainer" parent="UI/Menu"]
 unique_name_in_owner = true
 layout_mode = 1

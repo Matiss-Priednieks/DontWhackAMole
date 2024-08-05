@@ -19,6 +19,19 @@ public partial class Game : Node3D
 		STORY,
 		ARCADE
 	}
+
+	public struct UIVisibilityState
+	{
+		public bool MenuButtonsVisible;
+		public bool SettingsMenuVisible;
+		public bool HelpMenuVisible;
+		public bool AccountMenuVisible;
+		public bool LoginScreenVisible;
+		public bool RegistrationScreenVisible;
+		public bool PowerUpUIVisible;
+		public bool ShopVisible;
+		public bool LeaderboardVisible;
+	}
 	GameMode CurrentGameMode = GameMode.ARCADE;
 	private GameState currentState = GameState.MENU;
 	float MenuDelay = 0.5f;
@@ -50,6 +63,8 @@ public partial class Game : Node3D
 	int[] CollectableSpawnTimes = { 4, 4, 6, 8, 8, 8, 16 };
 
 	PackedScene[] Collectables;
+
+	UIVisibilityState MenuUIState, PlayingUIState, ShopUIState, SettingsUIState, LoginUIState, RegistrationUIState, HelpUIState, AccountUIState;
 
 	public override void _Ready()
 	{
@@ -103,9 +118,106 @@ public partial class Game : Node3D
 		Collectables[0] = Coin;
 		Collectables[1] = Heart;
 		Collectables[2] = EarlyPop;
-		ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
 		SaveManager.PostTitleScreen = true;
 		SaveManager.LoadConfig();
+
+		MenuUIState = new UIVisibilityState
+		{
+			MenuButtonsVisible = true,
+			SettingsMenuVisible = false,
+			HelpMenuVisible = false,
+			AccountMenuVisible = false,
+			LoginScreenVisible = false,
+			RegistrationScreenVisible = false,
+			PowerUpUIVisible = false,
+			ShopVisible = false,
+			LeaderboardVisible = true
+		};
+		PlayingUIState = new UIVisibilityState
+		{
+			MenuButtonsVisible = false,
+			SettingsMenuVisible = false,
+			HelpMenuVisible = false,
+			AccountMenuVisible = false,
+			LoginScreenVisible = false,
+			RegistrationScreenVisible = false,
+			PowerUpUIVisible = true,
+			ShopVisible = false,
+			LeaderboardVisible = false
+		};
+		ShopUIState = new UIVisibilityState
+		{
+			MenuButtonsVisible = false,
+			SettingsMenuVisible = false,
+			HelpMenuVisible = false,
+			AccountMenuVisible = false,
+			LoginScreenVisible = false,
+			RegistrationScreenVisible = false,
+			PowerUpUIVisible = false,
+			ShopVisible = true,
+			LeaderboardVisible = false
+		};
+		SettingsUIState = new UIVisibilityState
+		{
+			MenuButtonsVisible = false,
+			SettingsMenuVisible = true,
+			HelpMenuVisible = false,
+			AccountMenuVisible = false,
+			LoginScreenVisible = false,
+			RegistrationScreenVisible = false,
+			PowerUpUIVisible = false,
+			ShopVisible = false,
+			LeaderboardVisible = false
+		};
+		LoginUIState = new UIVisibilityState
+		{
+			MenuButtonsVisible = false,
+			SettingsMenuVisible = false,
+			HelpMenuVisible = false,
+			AccountMenuVisible = true,
+			LoginScreenVisible = true,
+			RegistrationScreenVisible = false,
+			PowerUpUIVisible = false,
+			ShopVisible = false,
+			LeaderboardVisible = false
+		};
+		RegistrationUIState = new UIVisibilityState
+		{
+			MenuButtonsVisible = false,
+			SettingsMenuVisible = false,
+			HelpMenuVisible = false,
+			AccountMenuVisible = true,
+			LoginScreenVisible = false,
+			RegistrationScreenVisible = true,
+			PowerUpUIVisible = false,
+			ShopVisible = false,
+			LeaderboardVisible = false
+		};
+		HelpUIState = new UIVisibilityState
+		{
+			MenuButtonsVisible = false,
+			SettingsMenuVisible = false,
+			HelpMenuVisible = true,
+			AccountMenuVisible = false,
+			LoginScreenVisible = false,
+			RegistrationScreenVisible = false,
+			PowerUpUIVisible = false,
+			ShopVisible = false,
+			LeaderboardVisible = false
+		};
+		AccountUIState = new UIVisibilityState
+		{
+			MenuButtonsVisible = false,
+			SettingsMenuVisible = false,
+			HelpMenuVisible = false,
+			AccountMenuVisible = true,
+			LoginScreenVisible = false,
+			RegistrationScreenVisible = false,
+			PowerUpUIVisible = false,
+			ShopVisible = false,
+			LeaderboardVisible = false
+		};
+		ToggleMenuVisibility(MenuUIState);
 	}
 
 	public override void _Process(double delta)
@@ -195,12 +307,12 @@ public partial class Game : Node3D
 		{
 			case GameState.MENU:
 				SaveManager.SaveConfig();
-				ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
+				ToggleMenuVisibility(MenuUIState);
 				break;
 			case GameState.PLAYING:
 				SaveManager.SaveConfig();
 
-				ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
+				ToggleMenuVisibility(MenuUIState);
 
 				if (!MenuJustPressed)
 				{
@@ -217,7 +329,7 @@ public partial class Game : Node3D
 			case GameState.PAUSED:
 				SaveManager.SaveConfig();
 
-				ToggleMenuVisibility(false, false, false, false, false, false, true, false, false);
+				ToggleMenuVisibility(PlayingUIState);
 				if (!MenuJustPressed)
 				{
 					MenuJustPressed = true;
@@ -232,7 +344,7 @@ public partial class Game : Node3D
 			case GameState.SHOP:
 				SaveManager.SaveConfig();
 
-				ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
+				ToggleMenuVisibility(MenuUIState);
 
 				if (!MenuJustPressed)
 				{
@@ -300,18 +412,21 @@ public partial class Game : Node3D
 			saturationTween.Stop();
 		}
 	}
-	public void ToggleMenuVisibility(bool menuButtonsVisible, bool settingsMenuVisible, bool helpMenuVisible, bool accountMenuVisible, bool loginScreenVisible, bool registrationScreenVisible, bool powerupUIVisible, bool shopVisible, bool leaderboardVisible)
+
+
+	private void ToggleMenuVisibility(UIVisibilityState state)
 	{
-		MenuButtons.Visible = menuButtonsVisible;
-		SettingsMenu.Visible = settingsMenuVisible;
-		HelpMenu.Visible = helpMenuVisible;
-		AccountMenu.Visible = accountMenuVisible;
-		LoginScreen.Visible = loginScreenVisible;
-		RegistrationScreen.Visible = registrationScreenVisible;
-		PowerUpUI.Visible = powerupUIVisible;
-		ShopVisible.Visible = shopVisible;
-		LeaderboardUI.Visible = leaderboardVisible;
+		MenuButtons.Visible = state.MenuButtonsVisible;
+		SettingsMenu.Visible = state.SettingsMenuVisible;
+		HelpMenu.Visible = state.HelpMenuVisible;
+		AccountMenu.Visible = state.AccountMenuVisible;
+		LoginScreen.Visible = state.LoginScreenVisible;
+		RegistrationScreen.Visible = state.RegistrationScreenVisible;
+		PowerUpUI.Visible = state.PowerUpUIVisible;
+		ShopVisible.Visible = state.ShopVisible;
+		LeaderboardUI.Visible = state.LeaderboardVisible;
 	}
+
 
 
 	public void _on_restart_pressed()
@@ -324,7 +439,7 @@ public partial class Game : Node3D
 		// Mole.SetGameOver(false);
 		// Mole.Paused = false;
 		GameOverMenu.Hide();
-		ToggleMenuVisibility(false, false, false, false, false, false, true, false, false);
+		ToggleMenuVisibility(PlayingUIState);
 
 	}
 
@@ -337,7 +452,7 @@ public partial class Game : Node3D
 		GameOverMenu.Hide();
 		MainMenu.Show();
 		PlayResume.Text = "Play";
-		ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
+		ToggleMenuVisibility(MenuUIState);
 	}
 	public void _on_shop_pressed()
 	{
@@ -347,7 +462,7 @@ public partial class Game : Node3D
 		Mole.CurrentGameState = Mole.GameState.Paused;
 		GameOverMenu.Hide();
 		MainMenu.Show();
-		ToggleMenuVisibility(false, false, false, false, false, false, false, true, false);
+		ToggleMenuVisibility(ShopUIState);
 	}
 
 	//play/resume button
@@ -364,12 +479,12 @@ public partial class Game : Node3D
 		MoveToMenuState(GameState.PLAYING);
 		await ToSignal(GetTree().CreateTimer(MenuDelay + 1f), "timeout"); //how long it takes for gameplay to resume (default 1.5s)
 		Mole.CurrentGameState = Mole.GameState.Playing;
-		ToggleMenuVisibility(false, false, false, false, false, false, true, false, false);
+		ToggleMenuVisibility(PlayingUIState);
 	}
 
 	public void _on_settings_pressed()
 	{
-		ToggleMenuVisibility(false, true, false, false, false, false, false, false, false);
+		ToggleMenuVisibility(SettingsUIState);
 	}
 
 	public void _on_back_pressed()
@@ -378,40 +493,42 @@ public partial class Game : Node3D
 		User.GetUnlockedContentRequest();
 		SaveManager.SaveConfig();
 		MoveToMenuState(GameState.MENU);
-		ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
+		ToggleMenuVisibility(MenuUIState);
 	}
 
 	public void _on_help_pressed()
 	{
-		ToggleMenuVisibility(false, false, true, false, false, false, false, false, false);
+		ToggleMenuVisibility(HelpUIState);
 	}
 
 	public void _on_account_pressed()
 	{
 		if (User.LoggedIn)
 		{
-			ToggleMenuVisibility(false, false, false, true, false, false, false, false, false);
+			ToggleMenuVisibility(AccountUIState);
 		}
 		else
 		{
-			ToggleMenuVisibility(false, false, false, true, true, false, false, false, false);
+			ToggleMenuVisibility(LoginUIState);
+			// ToggleMenuVisibility(RegistrationUIState);
+			// ToggleMenuVisibility(false, false, false, true, true, false, false, false, false);
 
 		}
 	}
 
 	public void _on_go_to_reg_page_pressed()
 	{
-		ToggleMenuVisibility(false, false, false, true, false, true, false, false, false);
+		ToggleMenuVisibility(RegistrationUIState);
 	}
 
 	public void _on_go_to_login_pressed()
 	{
-		ToggleMenuVisibility(false, false, false, true, true, false, false, false, false);
+		ToggleMenuVisibility(LoginUIState);
 	}
 
 	public void _on_as_guest_pressed()
 	{
-		ToggleMenuVisibility(true, false, false, false, false, false, false, false, true);
+		ToggleMenuVisibility(MenuUIState);
 	}
 	public void _on_exit_pressed()
 	{

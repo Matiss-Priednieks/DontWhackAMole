@@ -62,5 +62,6 @@ public partial class ShopMenu : PanelContainer
 	{
 		user.UpdateShopUI();
 		UpdateDisabledState();
+		UpdateCoinLabel();
 	}
 }
