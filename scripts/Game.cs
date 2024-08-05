@@ -57,7 +57,7 @@ public partial class Game : Node3D
 		Collectables = new PackedScene[3];
 		worldEnvironment = GetNode<WorldEnvironment>("%WorldEnvironment");
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
-		User.LoggedInFakeReady();
+		User.LoginInitialisation();
 		SaveManager = GetTree().Root.GetNode<SaveManager>("SaveManager");
 
 		LeaderboardUI = GetNode<MarginContainer>("UI/Menu/%Leaderboard");

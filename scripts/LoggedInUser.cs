@@ -76,7 +76,7 @@ public partial class LoggedInUser : Node
     {
         return unlockables_dict;
     }
-    public void LoggedInFakeReady()
+    public void LoginInitialisation()
     {
         HTTPRequest = GetNode<HttpRequest>("../Node3D/UI/HighscoreRequest");
         UnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksRequest");
@@ -169,7 +169,7 @@ public partial class LoggedInUser : Node
         foreach (int key in unlockables_dict.Keys)
         {
             unlockables[key].IsUnlocked = unlockables_dict[key];
-            GD.Print("Unlocks in UI update function: ", unlockables_dict[key]);
+            // GD.Print("Unlocks in UI update function: ", unlockables_dict[key]);
         }
     }
 

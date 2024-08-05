@@ -1672,6 +1672,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Label" type="Label" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer"]
@@ -1679,6 +1680,11 @@ layout_mode = 2
 text = "SHOP"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="UserCoins" type="Label" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "Coins: "
 
 [node name="ItemList" type="ItemList" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer"]
 layout_mode = 2
@@ -1690,6 +1696,9 @@ icon_scale = 0.1
 [node name="BackToMenu" type="Button" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer"]
 layout_mode = 2
 text = "Back"
+
+[node name="CheckAccount" type="Timer" parent="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer"]
+autostart = true
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Menu/Menu/ShopMenu"]
 layout_mode = 2
@@ -2058,6 +2067,7 @@ unique_name_in_owner = true
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/BackToMenu" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_back_to_menu_pressed"]
 [connection signal="item_clicked" from="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer/ItemList" to="UI/Menu/Menu/ShopMenu" method="_on_item_list_item_clicked"]
 [connection signal="pressed" from="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer/BackToMenu" to="." method="_on_back_pressed"]
+[connection signal="timeout" from="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer/CheckAccount" to="UI/Menu/Menu/ShopMenu" method="_on_check_account_timeout"]
 [connection signal="timeout" from="UI/Menu/Leaderboard/UpdateLeaderboard" to="UI/Menu/Leaderboard" method="_on_update_leaderboard_timeout"]
 [connection signal="pressed" from="UI/Menu/MarginContainer/MarginContainer/PanelContainer/MarginContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="UI/GameOver/Panel/VBoxContainer/HBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
