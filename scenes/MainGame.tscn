@@ -1,4 +1,4 @@
-[gd_scene load_steps=155 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=154 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -28,7 +28,6 @@
 [ext_resource type="PackedScene" uid="uid://b4mkxv7pasvru" path="res://scenes/LeaderboardScoreObject.tscn" id="25_ngwty"]
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
 [ext_resource type="PackedScene" uid="uid://lrtqjp5q3rfr" path="res://ShopFront.tscn" id="26_ssd8i"]
-[ext_resource type="PackedScene" uid="uid://bn183652vwt43" path="res://assets/hats/cowboy_hat_1/cowboy_hat.tscn" id="27_e3wfv"]
 [ext_resource type="Material" uid="uid://bs4eugrvso8w8" path="res://assets/carpet/ArcadeCarpet.tres" id="27_lglfh"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
@@ -1223,9 +1222,6 @@ transform = Transform3D(-0.00837644, 0, 0.299883, 0, 0.3, 0, -0.299883, 0, -0.00
 
 [node name="Shop" parent="Node3D2" instance=ExtResource("26_ssd8i")]
 transform = Transform3D(-2.8871e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.8871e-08, 0.0475035, 0.434295, -3.36839)
-
-[node name="cowboy_hat" parent="Node3D2/Shop" instance=ExtResource("27_e3wfv")]
-transform = Transform3D(1, 0, 9.31322e-09, 0, 1, 0, -9.31322e-09, 0, 1, -1.68878, 0.224829, 0.0471716)
 
 [node name="Node3D3" type="Node3D" parent="."]
 transform = Transform3D(0.0279215, 0, 0.99961, 0, 1, 0, -0.99961, 0, 0.0279215, 1.73827, 0.5, -3.32524)

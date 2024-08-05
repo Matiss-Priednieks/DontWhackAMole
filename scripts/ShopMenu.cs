@@ -19,9 +19,9 @@ public partial class ShopMenu : PanelContainer
 
 	private void InitialiseItemList()
 	{
-		for (int i = 0; i < user.unlockables.Length; i++)
+		for (int i = 0; i < user.UnlockablesArray.Length; i++)
 		{
-			itemListNode.AddItem(user.unlockables[i].ContentName, user.unlockables[i].ContentIcon, true);
+			itemListNode.AddItem(user.UnlockablesArray[i].ContentName, user.UnlockablesArray[i].ContentIcon, true);
 		}
 		UpdateDisabledState();
 	}
@@ -30,7 +30,7 @@ public partial class ShopMenu : PanelContainer
 	{
 		for (int i = 0; i < itemListNode.ItemCount; i++)
 		{
-			itemListNode.SetItemDisabled(i, user.unlockables[i].IsUnlocked);
+			itemListNode.SetItemDisabled(i, user.UnlockablesArray[i].IsUnlocked);
 		}
 	}
 	private void UpdateCoinLabel()
@@ -45,13 +45,13 @@ public partial class ShopMenu : PanelContainer
 	}
 	public void _on_item_list_item_clicked(int index, Vector2 position, int mb_index)
 	{
-		if (user.unlockables[index].IsUnlocked == false)
+		if (user.UnlockablesArray[index].IsUnlocked == false)
 		{
-			GD.Print(user.unlockables[index].ContentName);
+			GD.Print(user.UnlockablesArray[index].ContentName);
 			var buyItemInst = BuyItem.Instantiate<BuyOption>();
-			buyItemInst.BuyID = user.unlockables[index].ContentID;
-			buyItemInst.GetNode<TextureRect>("VBoxContainer/MarginContainer/TextureRect").Texture = user.unlockables[index].ContentIcon;
-			buyItemInst.GetNode<Label>("VBoxContainer/Label").Text = "Buy " + user.unlockables[index].ContentName + " for " + user.unlockables[index].ContentPrice + "?";
+			buyItemInst.BuyID = user.UnlockablesArray[index].ContentID;
+			buyItemInst.GetNode<TextureRect>("VBoxContainer/MarginContainer/TextureRect").Texture = user.UnlockablesArray[index].ContentIcon;
+			buyItemInst.GetNode<Label>("VBoxContainer/Label").Text = "Buy " + user.UnlockablesArray[index].ContentName + " for " + user.UnlockablesArray[index].ContentPrice + "?";
 			AddChild(buyItemInst);
 		}
 		UpdateDisabledState();

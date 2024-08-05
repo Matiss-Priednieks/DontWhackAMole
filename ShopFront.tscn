@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://lrtqjp5q3rfr"]
+[gd_scene load_steps=11 format=3 uid="uid://lrtqjp5q3rfr"]
 
 [ext_resource type="PackedScene" uid="uid://bgorn1u4mhvp0" path="res://assets/shopfront/woodenplank.glb" id="1_rml1n"]
+[ext_resource type="Script" path="res://ShopFront.cs" id="1_smrtp"]
 [ext_resource type="Material" uid="uid://dejvhfg3dsr2w" path="res://assets/shopfront/ShopFrontWoodMat.tres" id="1_wn3ji"]
 [ext_resource type="Material" uid="uid://d4kde24n7pk0w" path="res://assets/shopfront/ShopFrontWoodMat_Light.tres" id="2_v6dke"]
 [ext_resource type="FontFile" uid="uid://b13ly217y6e0l" path="res://assets/CutItOut-Regular.otf" id="2_w2g1n"]
@@ -28,6 +29,7 @@ bottom_radius = 0.1
 height = 3.0
 
 [node name="Shop" type="Node3D"]
+script = ExtResource("1_smrtp")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 material_override = ExtResource("1_wn3ji")

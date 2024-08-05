@@ -21,8 +21,8 @@ public partial class LoggedInUser : Node
 
     public int UserHighScore { get; private set; }
 
-    public UnlockableContent[] unlockables;
-    Dictionary<int, bool> unlockables_dict;
+    public UnlockableContent[] UnlockablesArray;
+    Dictionary<int, bool> Unlockables_dict;
     int EquippedHatIndex = -1;
     public Node3D CurrentHat;
 
@@ -32,13 +32,13 @@ public partial class LoggedInUser : Node
 
     public override void _Ready()
     {
-        unlockables = Unlockables.GetUnlockableContent();
-        unlockables_dict = new Dictionary<int, bool>();
+        UnlockablesArray = Unlockables.GetUnlockableContent();
+        Unlockables_dict = new Dictionary<int, bool>();
         PopulateUnlockablesDict();
 
-        if (EquippedHatIndex != -1 && unlockables_dict.TryGetValue(EquippedHatIndex, out bool isUnlocked) && isUnlocked)
+        if (EquippedHatIndex != -1 && Unlockables_dict.TryGetValue(EquippedHatIndex, out bool isUnlocked) && isUnlocked)
         {
-            CurrentHat = unlockables.FirstOrDefault(u => u.ContentID == EquippedHatIndex)?.ContentScene.Instantiate<Node3D>();
+            CurrentHat = UnlockablesArray.FirstOrDefault(u => u.ContentID == EquippedHatIndex)?.ContentScene.Instantiate<Node3D>();
             GD.Print(CurrentHat != null ? "Hat equipped" : "No hat found");
         }
 
@@ -47,9 +47,9 @@ public partial class LoggedInUser : Node
 
     private void PopulateUnlockablesDict()
     {
-        foreach (var unlockable in unlockables)
+        foreach (var unlockable in UnlockablesArray)
         {
-            unlockables_dict[unlockable.ContentID] = unlockable.IsUnlocked;
+            Unlockables_dict[unlockable.ContentID] = unlockable.IsUnlocked;
             GD.Print(unlockable.ContentID, unlockable.ContentName, unlockable.Description, unlockable.IsUnlocked);
         }
     }
@@ -73,7 +73,7 @@ public partial class LoggedInUser : Node
     public void PurchasedItemUpdate(Dictionary<string, bool> _unlockables)
     {
         UpdateUnlockablesDict(_unlockables);
-        UpdateUnlockedContentRequest(unlockables_dict);
+        UpdateUnlockedContentRequest(Unlockables_dict);
     }
 
     private void UpdateUnlockablesDict(Dictionary<string, bool> unlockables)
@@ -82,14 +82,14 @@ public partial class LoggedInUser : Node
         {
             if (int.TryParse(key, out int intKey))
             {
-                unlockables_dict[intKey] = unlockables[key];
+                Unlockables_dict[intKey] = unlockables[key];
             }
         }
     }
 
     public Dictionary<int, bool> GetUnlocksDict()
     {
-        return unlockables_dict;
+        return Unlockables_dict;
     }
 
     public void LoginInitialisation()
@@ -155,9 +155,9 @@ public partial class LoggedInUser : Node
     public void FinalBuyCheck()
     {
         GD.Print("Buy request 3");
-        if (unlockables_dict.TryGetValue(BuyRequestID, out bool isUnlocked) && !isUnlocked && AccountCurrency >= unlockables[BuyRequestID].ContentPrice)
+        if (Unlockables_dict.TryGetValue(BuyRequestID, out bool isUnlocked) && !isUnlocked && AccountCurrency >= UnlockablesArray[BuyRequestID].ContentPrice)
         {
-            unlockables_dict[BuyRequestID] = true;
+            Unlockables_dict[BuyRequestID] = true;
             BuyContentRequest();
             Update();
         }
@@ -170,15 +170,15 @@ public partial class LoggedInUser : Node
 
     public void UpdateShopUI()
     {
-        foreach (var key in unlockables_dict.Keys)
+        foreach (var key in Unlockables_dict.Keys)
         {
-            unlockables[key].IsUnlocked = unlockables_dict[key];
+            UnlockablesArray[key].IsUnlocked = Unlockables_dict[key];
         }
     }
 
     public Error GetUnlockedContentRequest()
     {
-        UserCreditentials userData = new(Username, Email, unlockables_dict);
+        UserCreditentials userData = new(Username, Email, Unlockables_dict);
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = GetUnlocksHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-unlocks", newRegHeaders, HttpClient.Method.Get, userDataJson);
@@ -187,7 +187,7 @@ public partial class LoggedInUser : Node
 
     public Error BuyContentRequest()
     {
-        UserCreditentials userData = new(Username, Email, unlockables_dict);
+        UserCreditentials userData = new(Username, Email, Unlockables_dict);
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = BuyContentHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/buy-attempt", newRegHeaders, HttpClient.Method.Get, userDataJson);
@@ -229,7 +229,7 @@ public partial class LoggedInUser : Node
 
     public void Update()
     {
-        UpdateUserCurrency(-unlockables[BuyRequestID].ContentPrice);
-        UpdateUnlockedContentRequest(unlockables_dict);
+        UpdateUserCurrency(-UnlockablesArray[BuyRequestID].ContentPrice);
+        UpdateUnlockedContentRequest(Unlockables_dict);
     }
 }
