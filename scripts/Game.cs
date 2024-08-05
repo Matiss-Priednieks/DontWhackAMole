@@ -203,7 +203,7 @@ public partial class Game : Node3D
 			RegistrationScreenVisible = false,
 			PowerUpUIVisible = false,
 			ShopVisible = false,
-			LeaderboardVisible = false
+			LeaderboardVisible = true
 		};
 		AccountUIState = new UIVisibilityState
 		{
@@ -591,7 +591,7 @@ public partial class Game : Node3D
 			json.Parse(body.GetStringFromUtf8());
 
 			var unlocks = (Dictionary<string, Dictionary<string, bool>>)json.Data;
-			var coins = (Dictionary<string, int>)json.Data;
+			// var coins = (Dictionary<string, int>)json.Data;
 
 			var unlockDictionary = unlocks["unlocks"];
 
@@ -612,10 +612,23 @@ public partial class Game : Node3D
 			Json json = new();
 			json.Parse(body.GetStringFromUtf8());
 
-			var unlocks = (int[])json.Data;
+			GD.Print("Raw JSON data " + json.Data.ToString());
+			var highscores = (Dictionary<string, int[]>)json.Data;
+			// GD.Print(highscores["highscore"]);
+			if (User.LoggedIn)
+			{
+				if (highscores["highscore"].IsEmpty())
+				{
+					User.SetHighscore(0);
+					Mole.SetHighScore(0);
+				}
+				else
+				{
+					User.SetHighscore(highscores["highscore"][0]);
+					Mole.SetHighScore(highscores["highscore"][0]);
+				}
+			}
 
-
-			// User.SetHighscore(unlocks[0]);
 
 		}
 		else

@@ -59,7 +59,6 @@ public partial class LoggedInUser : Node
     private void SetDefaultUser()
     {
         Username = "Guest";
-        SetHighscore(0);
         if (UsernameLabel != null)
         {
             UsernameLabel.Text = "Guest";
@@ -102,13 +101,14 @@ public partial class LoggedInUser : Node
         CurrencyHTTPRequest = GetNode<HttpRequest>("../Node3D/CurrencyUpdateRequest");
         BuyContentHTTPRequest = GetNode<HttpRequest>("../Node3D/BuyAttempt");
         GetUnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksInfo");
-        GetHighscoreHTTPRequest = GetNode<HttpRequest>("../Node3D/GetHighscore");
+        GetHighscoreHTTPRequest = GetNode<HttpRequest>("../Node3D/UI/GetHighscore");
         Player = GetNode<Mole>("../Node3D/Mole");
 
         UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
 
         SetDefaultUser();
         GetUnlockedContentRequest();
+        // GetHighscoreRequest();
     }
 
     public void SetUsername(string username)
@@ -139,6 +139,7 @@ public partial class LoggedInUser : Node
     {
         SetUsername(username);
         LoggedIn = true;
+        GD.Print(Email);
     }
 
     public void SetHighscore(float value)
@@ -232,7 +233,7 @@ public partial class LoggedInUser : Node
     }
     public Error GetHighscoreRequest()
     {
-        UserCreditentials userData = new(Username, Email, GetHighscore());
+        UserCreditentials userData = new(Username, Email);
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = GetHighscoreHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-highscore", newRegHeaders, HttpClient.Method.Get, userDataJson);

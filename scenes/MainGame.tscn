@@ -1655,6 +1655,7 @@ text = "Back to Menu"
 
 [node name="ShopMenu" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme = ExtResource("22_hwvbv")
 script = ExtResource("40_bmvfs")
@@ -1955,15 +1956,22 @@ stretch_mode = 5
 
 [node name="RegRequest" type="HTTPRequest" parent="UI"]
 unique_name_in_owner = true
+use_threads = true
 
 [node name="LoginRequest" type="HTTPRequest" parent="UI"]
 unique_name_in_owner = true
+use_threads = true
 
 [node name="HighscoreRequest" type="HTTPRequest" parent="UI"]
 unique_name_in_owner = true
+use_threads = true
 
 [node name="LeaderboardRequest" type="HTTPRequest" parent="UI"]
 unique_name_in_owner = true
+use_threads = true
+
+[node name="GetHighscore" type="HTTPRequest" parent="UI"]
+use_threads = true
 
 [node name="IntroTransition" type="CanvasLayer" parent="."]
 script = ExtResource("32_lacay")
@@ -2005,13 +2013,17 @@ mesh = SubResource("QuadMesh_c3ybb")
 
 [node name="UnlocksRequest" type="HTTPRequest" parent="."]
 unique_name_in_owner = true
+use_threads = true
 
 [node name="CurrencyUpdateRequest" type="HTTPRequest" parent="."]
 unique_name_in_owner = true
+use_threads = true
 
 [node name="BuyAttempt" type="HTTPRequest" parent="."]
+use_threads = true
 
 [node name="UnlocksInfo" type="HTTPRequest" parent="."]
+use_threads = true
 
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopHole" to="NewWhackMachine/Holes/TopHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/LeftHole" to="NewWhackMachine/Holes/LeftHole" method="_on_area_entered"]
@@ -2056,7 +2068,7 @@ unique_name_in_owner = true
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/RegisterConfirm" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_register_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen/Register/GoToLogin" to="." method="_on_go_to_login_pressed"]
 [connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/Logout" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_logout_pressed"]
-[connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/BackToMenu" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_back_to_menu_pressed"]
+[connection signal="pressed" from="UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/BackToMenu" to="." method="_on_back_pressed"]
 [connection signal="item_clicked" from="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer/ItemList" to="UI/Menu/Menu/ShopMenu" method="_on_item_list_item_clicked"]
 [connection signal="pressed" from="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer/BackToMenu" to="." method="_on_back_pressed"]
 [connection signal="timeout" from="UI/Menu/Menu/ShopMenu/ShopMenuContainer/VBoxContainer/CheckAccount" to="UI/Menu/Menu/ShopMenu" method="_on_check_account_timeout"]
@@ -2069,6 +2081,7 @@ unique_name_in_owner = true
 [connection signal="request_completed" from="UI/LoginRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/LoginScreen" method="_on_login_request_request_completed"]
 [connection signal="request_completed" from="UI/LoginRequest" to="UI/Menu/Menu/AccountMenu/MarginContainer/RegistrationScreen" method="_on_login_request_request_completed"]
 [connection signal="request_completed" from="UI/LeaderboardRequest" to="UI/Menu/Leaderboard" method="_on_leaderboard_request_request_completed"]
+[connection signal="request_completed" from="UI/GetHighscore" to="." method="_on_get_highscore_request_completed"]
 [connection signal="gui_input" from="IntroTransition/BlackBox" to="IntroTransition" method="_on_black_box_gui_input"]
 [connection signal="request_completed" from="UnlocksRequest" to="." method="_on_unlocks_request_request_completed"]
 [connection signal="request_completed" from="CurrencyUpdateRequest" to="." method="_on_currency_update_request_request_completed"]

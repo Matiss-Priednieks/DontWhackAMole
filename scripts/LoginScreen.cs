@@ -101,12 +101,14 @@ public partial class LoginScreen : Panel
 				User.SetEmail(LoginEmail);
 			}
 			UserLabel.Text = dict[key: "username"].ToString();
+			UserLabel.Show();
 			LoggedInPage.Show();
 			Hide();
 
 			EmailInput.Editable = true;
 			PasswordInput.Editable = true;
 			// LoadingIconRef.Hide();
+			User.GetHighscoreRequest();
 		}
 		else
 		{
@@ -142,6 +144,7 @@ public partial class LoginScreen : Panel
 		LoggedInPage.Hide();
 
 		User.SetUsername("Guest");
+		User.Email = null;
 		User.LoggedIn = false;
 		return Error.Ok;
 	}

@@ -15,6 +15,11 @@ public partial class UserCreditentials
         this.username = _Username;
         this.highscore = _Highscore;
     }
+    public UserCreditentials(string _Username, string _Email)
+    {
+        this.email = _Email;
+        this.username = _Username;
+    }
     public UserCreditentials(string _Username, string _Email, Dictionary<int, bool> Unlocks)
     {
         this.email = _Email;

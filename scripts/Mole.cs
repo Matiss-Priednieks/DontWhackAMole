@@ -541,6 +541,10 @@ public partial class Mole : Area3D
 	{
 		return HighScore;
 	}
+	public void SetHighScore(int _highScore)
+	{
+		HighScore = _highScore;
+	}
 	public int GetHighestCombo()
 	{
 		return HighestCombo;
