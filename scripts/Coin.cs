@@ -17,7 +17,8 @@ public partial class Coin : Area3D
 	public bool IsCollected { get; private set; }
 	public float CoinCollectionBonus { get; private set; } = 1000;
 
-
+	private const float MALLETSPEEDCHANGE = 0.0025f;
+	private const float POPOUTSPEEDCHANGE = 0.025f;
 	float YPos;
 
 	MeshInstance3D ComboCounter;
@@ -100,20 +101,20 @@ public partial class Coin : Area3D
 		{
 			if (mole.PopSpeed > 0.75f)
 			{
-				mole.PopSpeed -= 0.025f;
+				mole.PopSpeed -= POPOUTSPEEDCHANGE;
 				mole.Score += CoinCollectionBonus;
 			}
 			if (MalletRef.MalletFastSpeed >= 0.1)
 			{
-				MalletRef.MalletFastSpeed -= 0.0025f;
+				MalletRef.MalletFastSpeed -= MALLETSPEEDCHANGE;
 			}
 			if (MalletRef.MalletSlowSpeed >= 0.2)
 			{
-				MalletRef.MalletSlowSpeed -= 0.0025f;
+				MalletRef.MalletSlowSpeed -= MALLETSPEEDCHANGE;
 			}
 			if (mole.OutTooLongTime > 0.5)
 			{
-				mole.OutTooLongTime -= 0.025f;
+				mole.OutTooLongTime -= POPOUTSPEEDCHANGE;
 			}
 			Collected.Play(0);
 			IsCollected = true;

@@ -458,7 +458,6 @@ public partial class Game : Node3D
 	{
 		MoveToMenuState(GameState.SHOP);
 		User.GetUnlockedContentRequest();
-		// User.UpdateShopUI();
 		Mole.CurrentGameState = Mole.GameState.Paused;
 		GameOverMenu.Hide();
 		MainMenu.Show();
@@ -489,7 +488,6 @@ public partial class Game : Node3D
 
 	public void _on_back_pressed()
 	{
-		// User.UnlockableContentSaveRequest();
 		User.GetUnlockedContentRequest();
 		SaveManager.SaveConfig();
 		MoveToMenuState(GameState.MENU);
@@ -510,9 +508,6 @@ public partial class Game : Node3D
 		else
 		{
 			ToggleMenuVisibility(LoginUIState);
-			// ToggleMenuVisibility(RegistrationUIState);
-			// ToggleMenuVisibility(false, false, false, true, true, false, false, false, false);
-
 		}
 	}
 

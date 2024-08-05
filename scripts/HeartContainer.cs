@@ -17,7 +17,7 @@ public partial class HeartContainer : Area3D
 	public bool IsCollected { get; private set; }
 	public float CoinCollectionBonus { get; private set; } = 1000;
 
-
+	private const int RNG_RANGE = 10;
 	float YPos;
 
 	MeshInstance3D ComboCounter;
@@ -71,7 +71,7 @@ public partial class HeartContainer : Area3D
 	{
 		Position = NextLocation;
 		UpPosition = new Vector3(Position.X, 1.25f, Position.Z);
-		var tempRotation = new Vector3(GD.RandRange(-10, 10), GD.RandRange(-10, 10), GD.RandRange(-10, 10));
+		var tempRotation = new Vector3(GD.RandRange(-RNG_RANGE, RNG_RANGE), GD.RandRange(-RNG_RANGE, RNG_RANGE), GD.RandRange(-RNG_RANGE, RNG_RANGE));
 
 		YPos = Position.Y;
 		Tween tempTween = CreateTween();
