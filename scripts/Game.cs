@@ -234,6 +234,15 @@ public partial class Game : Node3D
 		{
 			HandleGameOver();
 		}
+		else
+		{
+			GameOverMenu.Hide();
+			Tween saturationTween = CreateTween();
+			saturationTween.TweenProperty(worldEnvironment.Environment, "adjustment_saturation", 1, 1f)
+						  .SetTrans(Tween.TransitionType.Quad)
+						  .SetEase(Tween.EaseType.Out);
+			saturationTween.Play();
+		}
 	}
 
 	public async void MoveCamera(Vector3 Pos, Vector3 Rot, float CamFOV)
@@ -411,6 +420,7 @@ public partial class Game : Node3D
 			await ToSignal(GetTree().CreateTimer(MenuDelay), "timeout");
 			saturationTween.Stop();
 		}
+
 	}
 
 

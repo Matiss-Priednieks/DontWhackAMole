@@ -5,11 +5,12 @@ public partial class ShopMenu : PanelContainer
 {
 	LoggedInUser user;
 	ItemList itemListNode;
-	PackedScene BuyItem;
+	PackedScene BuyItem, EquipItem;
 	Label UserCoins;
 	public override void _Ready()
 	{
 		BuyItem = ResourceLoader.Load<PackedScene>("res://scenes/UI Scenes/BuyOption.tscn");
+		EquipItem = ResourceLoader.Load<PackedScene>("res://scenes/UI Scenes/EquipOption.tscn");
 		user = GetNode<LoggedInUser>("/root/LoggedInUser");
 		itemListNode = GetNode<ItemList>("ShopMenuContainer/VBoxContainer/ItemList");
 		UserCoins = GetNode<Label>("ShopMenuContainer/VBoxContainer/UserCoins");
@@ -28,10 +29,10 @@ public partial class ShopMenu : PanelContainer
 
 	private void UpdateDisabledState()
 	{
-		for (int i = 0; i < itemListNode.ItemCount; i++)
-		{
-			itemListNode.SetItemDisabled(i, user.UnlockablesArray[i].IsUnlocked);
-		}
+		// for (int i = 0; i < itemListNode.ItemCount; i++)
+		// {
+		// 	itemListNode.SetItemDisabled(i, user.UnlockablesArray[i].IsUnlocked);
+		// }
 	}
 	private void UpdateCoinLabel()
 	{
@@ -53,6 +54,15 @@ public partial class ShopMenu : PanelContainer
 			buyItemInst.GetNode<TextureRect>("VBoxContainer/MarginContainer/TextureRect").Texture = user.UnlockablesArray[index].ContentIcon;
 			buyItemInst.GetNode<Label>("VBoxContainer/Label").Text = "Buy " + user.UnlockablesArray[index].ContentName + " for " + user.UnlockablesArray[index].ContentPrice + "?";
 			AddChild(buyItemInst);
+		}
+		else
+		{
+			GD.Print(user.UnlockablesArray[index].ContentName);
+			var equipItemInst = EquipItem.Instantiate<EquipOption>();
+			equipItemInst.EquipID = user.UnlockablesArray[index].ContentID;
+			equipItemInst.GetNode<TextureRect>("VBoxContainer/MarginContainer/TextureRect").Texture = user.UnlockablesArray[index].ContentIcon;
+			equipItemInst.GetNode<Label>("VBoxContainer/Label").Text = "Equip " + user.UnlockablesArray[index].ContentName + "?";
+			AddChild(equipItemInst);
 		}
 		UpdateDisabledState();
 		UpdateCoinLabel();

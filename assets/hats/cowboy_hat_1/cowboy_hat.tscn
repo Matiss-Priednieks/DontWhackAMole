@@ -73,6 +73,6 @@ shadow_mesh = SubResource("ArrayMesh_ujqf5")
 [node name="cowboy_hat" type="Node3D"]
 
 [node name="Circle" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.0693802, -0.0111887, -0.0711422, 0.0157364, 0.0987539, -0.000184655, 0.0702763, -0.0110671, 0.0702763, -0.00344509, 0.238521, -0.00589611)
+transform = Transform3D(0.0693802, -0.0111887, -0.0711422, 0.0157364, 0.0987539, -0.000184655, 0.0702763, -0.0110671, 0.0702763, -0.00344509, 0.0152985, -0.00589611)
 mesh = SubResource("ArrayMesh_8wam3")
 skeleton = NodePath("")

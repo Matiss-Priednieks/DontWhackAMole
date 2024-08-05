@@ -29,6 +29,7 @@ public partial class LoggedInUser : Node
     public int AccountCurrency;
 
     int BuyRequestID = -1;
+    Mole Player;
 
     public override void _Ready()
     {
@@ -36,11 +37,11 @@ public partial class LoggedInUser : Node
         Unlockables_dict = new Dictionary<int, bool>();
         PopulateUnlockablesDict();
 
-        if (EquippedHatIndex != -1 && Unlockables_dict.TryGetValue(EquippedHatIndex, out bool isUnlocked) && isUnlocked)
-        {
-            CurrentHat = UnlockablesArray.FirstOrDefault(u => u.ContentID == EquippedHatIndex)?.ContentScene.Instantiate<Node3D>();
-            GD.Print(CurrentHat != null ? "Hat equipped" : "No hat found");
-        }
+        // if (EquippedHatIndex != -1 && Unlockables_dict.TryGetValue(EquippedHatIndex, out bool isUnlocked) && isUnlocked)
+        // {
+        //     CurrentHat = UnlockablesArray.FirstOrDefault(u => u.ContentID == EquippedHatIndex)?.ContentScene.Instantiate<Node3D>();
+        //     GD.Print(CurrentHat != null ? "Hat equipped" : "No hat found");
+        // }
 
         SetDefaultUser();
     }
@@ -57,6 +58,7 @@ public partial class LoggedInUser : Node
     private void SetDefaultUser()
     {
         Username = "Guest";
+        SetHighscore(0);
         if (UsernameLabel != null)
         {
             UsernameLabel.Text = "Guest";
@@ -99,6 +101,7 @@ public partial class LoggedInUser : Node
         CurrencyHTTPRequest = GetNode<HttpRequest>("../Node3D/CurrencyUpdateRequest");
         BuyContentHTTPRequest = GetNode<HttpRequest>("../Node3D/BuyAttempt");
         GetUnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksInfo");
+        Player = GetNode<Mole>("../Node3D/Mole");
 
         UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
 
@@ -174,6 +177,29 @@ public partial class LoggedInUser : Node
         {
             UnlockablesArray[key].IsUnlocked = Unlockables_dict[key];
         }
+    }
+
+    public void EquipHat(int hatIndex)
+    {
+        GD.Print("Equip called");
+        if (CurrentHat == null)
+        {
+            GD.Print("Equipping new hat");
+            CurrentHat = UnlockablesArray[hatIndex].ContentScene.Instantiate<Node3D>();
+            Player.GetNode<Node3D>("HatMount").AddChild(CurrentHat);
+        }
+        else
+        {
+            GD.Print("Equipping new hat");
+            CurrentHat.QueueFree();
+            CurrentHat = UnlockablesArray[hatIndex].ContentScene.Instantiate<Node3D>();
+            Player.GetNode<Node3D>("HatMount").AddChild(CurrentHat);
+        }
+    }
+    public void UnequipHat()
+    {
+        CurrentHat.QueueFree();
+        CurrentHat = null;
     }
 
     public Error GetUnlockedContentRequest()

@@ -16,6 +16,7 @@ public partial class BuyOption : PanelContainer
 	{
 		GD.Print("Buy request 1");
 		shopMenuRef.ConfirmBuyItem(BuyID);
+		CallDeferred(MethodName.QueueFree);
 	}
 	public void _on_cancel_pressed()
 	{
