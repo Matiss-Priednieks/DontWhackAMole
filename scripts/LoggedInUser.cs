@@ -11,6 +11,7 @@ public partial class LoggedInUser : Node
     public HttpRequest CurrencyHTTPRequest { get; private set; }
     public HttpRequest BuyContentHTTPRequest { get; private set; }
     public HttpRequest GetUnlocksHTTPRequest { get; private set; }
+    public HttpRequest GetHighscoreHTTPRequest { get; private set; }
 
     UnlockableContentManager Unlockables = new();
     Label UsernameLabel;
@@ -101,6 +102,7 @@ public partial class LoggedInUser : Node
         CurrencyHTTPRequest = GetNode<HttpRequest>("../Node3D/CurrencyUpdateRequest");
         BuyContentHTTPRequest = GetNode<HttpRequest>("../Node3D/BuyAttempt");
         GetUnlocksHTTPRequest = GetNode<HttpRequest>("../Node3D/UnlocksInfo");
+        GetHighscoreHTTPRequest = GetNode<HttpRequest>("../Node3D/GetHighscore");
         Player = GetNode<Mole>("../Node3D/Mole");
 
         UsernameLabel = GetNode<Label>("../Node3D/UI/Menu/Menu/AccountMenu/MarginContainer/LoggedInScreen/VBoxContainer/UserLabel");
@@ -226,6 +228,14 @@ public partial class LoggedInUser : Node
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-highscore", newRegHeaders, HttpClient.Method.Post, userDataJson);
+        return error;
+    }
+    public Error GetHighscoreRequest()
+    {
+        UserCreditentials userData = new(Username, Email, GetHighscore());
+        string userDataJson = JsonSerializer.Serialize(userData);
+        string[] newRegHeaders = new string[] { "Content-Type: application/json" };
+        var error = GetHighscoreHTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/get-highscore", newRegHeaders, HttpClient.Method.Get, userDataJson);
         return error;
     }
 

@@ -604,4 +604,23 @@ public partial class Game : Node3D
 			GD.Print(responseCode);
 		}
 	}
+	public void _on_get_highscore_request_completed(long result, long responseCode, string[] headers, byte[] body)
+	{
+		if (responseCode == 200 || responseCode == 201)
+		{
+
+			Json json = new();
+			json.Parse(body.GetStringFromUtf8());
+
+			var unlocks = (int[])json.Data;
+
+
+			// User.SetHighscore(unlocks[0]);
+
+		}
+		else
+		{
+			GD.Print(responseCode);
+		}
+	}
 }
