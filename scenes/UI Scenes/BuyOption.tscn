@@ -1,8 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfqlk7wqj20uj"]
+[gd_scene load_steps=5 format=3 uid="uid://dfqlk7wqj20uj"]
 
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="1_ud4hc"]
 [ext_resource type="Script" path="res://scenes/UI Scenes/BuyOption.cs" id="2_3fubc"]
 [ext_resource type="Texture2D" uid="uid://3jjb5kn6r6dc" path="res://assets/hats/astronaut_hat_1/astro.png" id="2_bp815"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yjogc"]
+content_margin_left = 49.0
+content_margin_top = 0.0
+content_margin_right = 49.0
+bg_color = Color(0.439216, 0.439216, 0.439216, 0.341176)
+border_blend = true
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 1, 0.776471)
+shadow_size = 10
+shadow_offset = Vector2(5, 5)
 
 [node name="BuyOption" type="PanelContainer"]
 anchors_preset = 15
@@ -13,6 +27,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_ud4hc")
+theme_override_styles/panel = SubResource("StyleBoxFlat_yjogc")
 script = ExtResource("2_3fubc")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]

@@ -3,7 +3,6 @@ using System;
 
 public partial class ShopMenu : PanelContainer
 {
-	// Called when the node enters the scene tree for the first time.
 	LoggedInUser user;
 	ItemList itemListNode;
 	PackedScene BuyItem;
@@ -19,16 +18,9 @@ public partial class ShopMenu : PanelContainer
 		}
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-
-	}
 
 	public void _on_item_list_item_clicked(int index, Vector2 position, int mb_index)
 	{
-		GD.Print(index, position, mb_index);
-
 		if (user.unlockables[index].IsUnlocked == false)
 		{
 			GD.Print(user.unlockables[index].ContentName);
@@ -38,11 +30,15 @@ public partial class ShopMenu : PanelContainer
 			buyItemInst.GetNode<Label>("VBoxContainer/Label").Text = "Buy " + user.unlockables[index].ContentName + " for " + user.unlockables[index].ContentPrice + "?";
 			AddChild(buyItemInst);
 		}
+		else
+		{
+			itemListNode.SetItemDisabled(index, user.unlockables[index].IsUnlocked);
+		}
 	}
 
 	public void ConfirmBuyItem(int contentID)
 	{
 		GD.Print("Buy request 2");
-		user.CheckItems(contentID);
+		user.CheckUnlockedContent(contentID);
 	}
 }

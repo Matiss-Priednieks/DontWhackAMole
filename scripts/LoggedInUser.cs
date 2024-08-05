@@ -13,8 +13,6 @@ public partial class LoggedInUser : Node
     public HttpRequest BuyContentHTTPRequest { get; private set; }
     public HttpRequest GetUnlocksHTTPRequest { get; private set; }
 
-    // Called when the node enters the scene tree for the first time.
-
     UnlockableContentManager Unlockables = new();
     Label UsernameLabel;
 
@@ -36,7 +34,6 @@ public partial class LoggedInUser : Node
     public override void _Ready()
     {
         unlockables = Unlockables.GetUnlockableContent();
-        // unlockables_dict = new Dictionary<int, bool>();
         unlockables_dict = new Dictionary<int, bool>(){
             {0, false},
             {1, false},
@@ -64,6 +61,7 @@ public partial class LoggedInUser : Node
     }
     public void SetUnlocksDict(Dictionary<string, bool> unlockables)
     {
+        GD.Print("Unlocks in logged in user setunlocks function pre translation: " + unlockables);
         foreach (string key in unlockables.Keys)
         {
             if (int.TryParse(key, out int intKey))
@@ -71,7 +69,8 @@ public partial class LoggedInUser : Node
                 unlockables_dict[intKey] = (bool)unlockables[key];
             }
         }
-        GD.Print(unlockables_dict);
+        GD.Print("Unlocks in logged in user setunlocks function POST translation: " + unlockables_dict);
+        UpdateShopUI();
     }
     public Dictionary<int, bool> GetUnlocksDict()
     {
@@ -129,12 +128,12 @@ public partial class LoggedInUser : Node
     {
         return UserHighScore;
     }
-    public void CheckItems(int contentBuyID)
+    public void CheckUnlockedContent(int contentBuyID)
     {
         BuyRequestID = contentBuyID;
         GetUnlockedContentRequest();
     }
-    public void BuyItem()
+    public void FinalBuyCheck()
     {
         GD.Print("Buy request 3");
         if (unlockables_dict[BuyRequestID] == false && AccountCurrency >= unlockables[BuyRequestID].ContentPrice)
@@ -153,16 +152,25 @@ public partial class LoggedInUser : Node
             //show buy error/disable buy button
         }
     }
-    public void ConfirmBuy(Dictionary<string, bool> unlockables)
+    public void PurchasedItemUpdate(Dictionary<string, bool> _unlockables)
     {
-        foreach (string key in unlockables.Keys)
+        foreach (string key in _unlockables.Keys)
         {
             if (int.TryParse(key, out int intKey))
             {
-                unlockables_dict[intKey] = (bool)unlockables[key];
+                unlockables_dict[intKey] = (bool)_unlockables[key];
             }
         }
+
         UpdateUnlockedContentRequest(unlockables_dict);
+    }
+    public void UpdateShopUI()
+    {
+        foreach (int key in unlockables_dict.Keys)
+        {
+            unlockables[key].IsUnlocked = unlockables_dict[key];
+            GD.Print("Unlocks in UI update function: ", unlockables_dict[key]);
+        }
     }
 
     public Error GetUnlockedContentRequest()
@@ -189,7 +197,6 @@ public partial class LoggedInUser : Node
         string userDataJson = JsonSerializer.Serialize(userData);
         string[] newRegHeaders = new string[] { "Content-Type: application/json" };
         var error = HTTPRequest.Request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/update-highscore", newRegHeaders, HttpClient.Method.Post, userDataJson);
-        // GD.Print(userData.email + ", " + userData.username + ", " + userData.highscore + ".");
         return error;
     }
     public Error UpdateUnlockedContentRequest(Dictionary<int, bool> _unlockables_dict)

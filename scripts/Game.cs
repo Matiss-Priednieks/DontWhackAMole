@@ -343,6 +343,7 @@ public partial class Game : Node3D
 	{
 		MoveToMenuState(GameState.SHOP);
 		User.GetUnlockedContentRequest();
+		// User.UpdateShopUI();
 		Mole.CurrentGameState = Mole.GameState.Paused;
 		GameOverMenu.Hide();
 		MainMenu.Show();
@@ -423,7 +424,6 @@ public partial class Game : Node3D
 		if (responseCode == 200 || responseCode == 201)
 		{
 			GD.Print("Successfully bought!");
-			// User.Update();
 		}
 	}
 	public void _on_unlocks_info_request_completed(long result, long responseCode, string[] headers, byte[] body)
@@ -432,14 +432,20 @@ public partial class Game : Node3D
 		{
 			Json json = new();
 			json.Parse(body.GetStringFromUtf8());
-			GD.Print("json data: " + json.Data);
+
 			var unlocks = (Dictionary<string, Dictionary<string, bool>>)json.Data;
 			var coins = (Dictionary<string, int>)json.Data;
 
 			var unlockDictionary = unlocks["unlocks"];
 			User.AccountCurrency = coins["collected_coins"];
-			User.BuyItem();
+
+			User.SetUnlocksDict(unlockDictionary);
+
+			GD.Print("unlocks print in unlocks request: " + unlockDictionary);
+
+			User.FinalBuyCheck();
 		}
+
 	}
 
 	public void _on_currency_update_request_request_completed(long result, long responseCode, string[] headers, byte[] body)
@@ -461,16 +467,15 @@ public partial class Game : Node3D
 			GD.Print("Buy request 4");
 			Json json = new();
 			json.Parse(body.GetStringFromUtf8());
-			// GD.Print("json data: " + json.Data);
+
 			var unlocks = (Dictionary<string, Dictionary<string, bool>>)json.Data;
 			var coins = (Dictionary<string, int>)json.Data;
-			// GD.Print("dict data: " + unlocks["unlocks"]);
-			// GD.Print("dict data: " + coins["collected_coins"]);
 
 			var unlockDictionary = unlocks["unlocks"];
 
 			User.SetUnlocksDict(unlockDictionary);
-			User.ConfirmBuy(unlockDictionary);
+			GD.Print("\n" + unlockDictionary + "\n");
+			User.PurchasedItemUpdate(unlockDictionary);
 		}
 		else
 		{
