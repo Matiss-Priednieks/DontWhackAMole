@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpbjba58bit1n"]
+[gd_scene load_steps=3 format=3 uid="uid://bpbjba58bit1n"]
+
+[ext_resource type="PackedScene" uid="uid://dd53x8hdj5qwl" path="res://assets/hats/astronaut_hat_1/astronaut_hat2.0.tscn" id="1_dcbxb"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_clg5q"]
 radius = 0.1
@@ -7,4 +9,8 @@ height = 0.2
 [node name="AstronautHat" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("SphereMesh_clg5q")
+
+[node name="AstroHelmet" parent="." instance=ExtResource("1_dcbxb")]
+transform = Transform3D(-5.90104e-09, 0, -0.135, 0, 0.135, 0, 0.135, 0, -5.90104e-09, 0, -0.09, 0)
