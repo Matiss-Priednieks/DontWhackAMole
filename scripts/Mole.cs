@@ -10,7 +10,7 @@ public partial class Mole : Area3D
 	[Signal] public delegate void OutTooLongEventHandler(Vector3 Position);
 	Vector3[] Holes;
 	bool Down = true;
-	Vector3 ChosenHole;
+	Vector3 ChosenHole, RandomChosenHole;
 	Timer PopOutTimer, OutTimer;
 	float DangerTimer = 0;
 	int Lives = 3;
@@ -64,6 +64,7 @@ public partial class Mole : Area3D
 	public float PopSpeed { get; set; }
 	public float OutTooLongTime { get; set; }
 	public bool RequestNotSent { get; private set; } = true;
+	public bool Ready = false;
 	AudioStream CounterSound2;
 	TextureButton PowerUpButton;
 
@@ -94,10 +95,10 @@ public partial class Mole : Area3D
 		RNG = new RandomNumberGenerator();
 
 		Holes = [
-			new (0, 1.142f, -11.848f), 		//top(W)
-			new (-0.24f, 1.142f, -11.638f), 	//left (A)
-			new (0, 1.142f, -11.428f), 		//bottom (S)
-			new (0.24f, 1.142f, -11.638f) 	//right (D))
+			new (0, 0.85f, -11.848f), 		//top(W)
+			new (-0.24f, 0.85f, -11.638f), 	//left (A)
+			new (0, 0.85f, -11.428f), 		//bottom (S)
+			new (0.24f, 0.85f, -11.638f) 	//right (D))
 			];
 		HoleDictionary = new Dictionary()
 		{
@@ -107,6 +108,7 @@ public partial class Mole : Area3D
 			{"Right",Holes[3]}
 		};
 		ChosenHole = Holes[0];
+		RandomChosenHole = Holes[1];
 		Position = Holes[0];
 
 		PopOutTimer = GetNode<Timer>("../%PopOutTimer");
@@ -178,6 +180,9 @@ public partial class Mole : Area3D
 				{
 					IFrames--;
 				}
+				// if (Down && Ready)
+				// {
+				// }
 				break;
 			case GameState.Paused:
 				// Handle paused state if needed
@@ -284,8 +289,11 @@ public partial class Mole : Area3D
 	public void MoveMole(int Hole)
 	{
 		Move.Play();
-		ChosenHole = Holes[Hole];
-		PopDown();
+		if (Holes[Hole] != ChosenHole)
+		{
+			ChosenHole = Holes[Hole];
+			PopDown();
+		}
 	}
 
 	public async void PlaySoundDelayed()
@@ -340,10 +348,10 @@ public partial class Mole : Area3D
 
 	public void PopOut()
 	{
-		Position = ChosenHole;
 		Tween velTween = GetTree().CreateTween();
 		velTween.TweenProperty(this, "position", new Vector3(ChosenHole.X, 1.13f, ChosenHole.Z), 0.2f).SetTrans(Tween.TransitionType.Elastic);
 		Down = false;
+		Ready = false;
 		OutTimer.Start(OutTooLongTime * 0.25f);
 	}
 	public void _on_out_timer_timeout()
@@ -366,13 +374,16 @@ public partial class Mole : Area3D
 		}
 	}
 
-	public void PopDown()
+	public async void PopDown()
 	{
 		WarningIndicator.Hide();
 		DangerTimer = 0;
 		Tween velTween = GetTree().CreateTween();
 		velTween.TweenProperty(this, "position", new Vector3(Position.X, 0.85f, Position.Z), 0.2f).SetTrans(Tween.TransitionType.Elastic);
+		velTween.TweenProperty(this, "position", new Vector3(ChosenHole.X, 0.85f, ChosenHole.Z), 0.1f);
+		await ToSignal(GetTree().CreateTimer(0.2f), "timeout");
 		Down = true;
+		// Ready = true;
 		OutTimer.Stop();
 	}
 
@@ -492,6 +503,7 @@ public partial class Mole : Area3D
 			scoreBoomScale.TweenProperty(ComboCounter, "scale", defaultScale, 0.1f).SetTrans(Tween.TransitionType.Elastic);
 		}
 	}
+
 	public int GetLives()
 	{
 		return Lives;
@@ -504,6 +516,10 @@ public partial class Mole : Area3D
 	public Vector3 GetChosenHole()
 	{
 		return ChosenHole;
+	}
+	public Vector3 GetRandomChosenHole()
+	{
+		return RandomChosenHole;
 	}
 	public bool GetDownStatus()
 	{

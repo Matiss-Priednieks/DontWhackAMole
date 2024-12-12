@@ -26,11 +26,15 @@ public partial class Coin : Area3D
 	GpuParticles3D CoinBreakParticle;
 	CollisionShape3D CoinCollider;
 	AudioStreamPlayer3D Shatter, Collected;
+	RandomNumberGenerator RNG;
+	Vector3 RandomChosenHole;
 
 	Mole MoleRef;
 	Mallet MalletRef;
 	public override void _Ready()
 	{
+		RNG = new RandomNumberGenerator();
+
 		Collected = GetNode<AudioStreamPlayer3D>("%Collected");
 		Shatter = GetNode<AudioStreamPlayer3D>("%Shatter");
 		Holes = new Vector3[]{
@@ -47,13 +51,8 @@ public partial class Coin : Area3D
 		CoinBreakParticle = GetNode<GpuParticles3D>("%CoinBreakParticle");
 		CoinCollider = GetNode<CollisionShape3D>("%CoinCollider");
 
-		HoleIndex = GD.RandRange(0, 3);
-		NextLocation = Holes[HoleIndex];
-		while (NextLocation == MoleRef.GetChosenHole())
-		{
-			HoleIndex = GD.RandRange(0, 3);
-			NextLocation = Holes[HoleIndex];
-		}
+		ChangeRandomHole();
+		NextLocation = RandomChosenHole;
 		// PopOut();
 	}
 
@@ -132,5 +131,16 @@ public partial class Coin : Area3D
 	public void DisableCollisions()
 	{
 		CoinCollider.Disabled = true;
+	}
+	public Vector3 ChangeRandomHole()
+	{
+		int randomHoleIndex = RNG.RandiRange(0, Holes.Length - 1);
+		RandomChosenHole = Holes[randomHoleIndex];
+		while (MoleRef.GetChosenHole() == RandomChosenHole)
+		{
+			randomHoleIndex = RNG.RandiRange(0, Holes.Length - 1);
+			RandomChosenHole = Holes[randomHoleIndex];
+		}
+		return RandomChosenHole;
 	}
 }
