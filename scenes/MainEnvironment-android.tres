@@ -3,6 +3,7 @@
 [resource]
 background_mode = 1
 background_color = Color(0.211765, 0.227451, 1, 1)
+background_energy_multiplier = 0.5
 tonemap_mode = 2
 ssr_enabled = true
 ssao_enabled = true

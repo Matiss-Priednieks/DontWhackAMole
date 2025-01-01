@@ -30,6 +30,4 @@ transform = Transform3D(0.149813, 0.00222374, -0.00714691, -0.0074121, 0.0241533
 [node name="Cube" parent="WoodenSign/woodenplank" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_0g7te")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-
 [editable path="WoodenSign/woodenplank"]

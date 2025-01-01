@@ -1,4 +1,4 @@
-[gd_scene load_steps=154 format=3 uid="uid://damhd4mphvtpy"]
+[gd_scene load_steps=155 format=3 uid="uid://damhd4mphvtpy"]
 
 [ext_resource type="Script" path="res://scripts/Game.cs" id="1_7dit6"]
 [ext_resource type="PackedScene" uid="uid://t4m0b16vwc43" path="res://scenes/NewWHACKmachine.tscn" id="2_3ylu7"]
@@ -51,6 +51,7 @@
 [ext_resource type="Texture2D" uid="uid://dth5mxv5qb836" path="res://assets/UI/settings-gear-disabled.png" id="46_y74xj"]
 [ext_resource type="Texture2D" uid="uid://b8rjtvbt5wthr" path="res://assets/UI/crappyarrow.png" id="48_ya63d"]
 [ext_resource type="Texture2D" uid="uid://bkrbhjsbns6ps" path="res://assets/UI/crappyarrow-disabled.png" id="49_lnuns"]
+[ext_resource type="VoxelGIData" uid="uid://bjtpx8v7skpdt" path="res://data/MainGame.VoxelGI_data.res" id="52_7njlm"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_4lm6s"]
 material = ExtResource("6_8mjb7")
@@ -969,7 +970,9 @@ bus = &"SFX"
 [node name="OmniLight3D" type="SpotLight3D" parent="NewWhackMachine"]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 3.685, -0.364)
 light_color = Color(0.568627, 0.568627, 1, 1)
-light_energy = 0.788
+light_energy = 1.121
+light_bake_mode = 1
+shadow_enabled = true
 spot_range = 6.292
 
 [node name="Holes" type="Node3D" parent="NewWhackMachine"]
@@ -1054,9 +1057,6 @@ skeleton = NodePath("../..")
 [node name="Node3D4" parent="NewWhackMachine" instance=ExtResource("13_sdma7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.587, 0.119)
 
-[node name="DirectionalLight3D" parent="NewWhackMachine/Node3D4" index="1"]
-transform = Transform3D(1, 0, 0, 0, 0.175865, 0.984414, 0, -0.984414, 0.175865, 0, 0.533121, 2.10857)
-
 [node name="MissArea" type="Area3D" parent="NewWhackMachine"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 visible = false
@@ -1083,7 +1083,10 @@ fov = 80.0
 script = ExtResource("17_6nx8f")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83248, 0)
+light_color = Color(1, 0.905, 0.81, 1)
+light_energy = 2.89
+omni_range = 9.439
 
 [node name="Mallet" type="Area3D" parent="."]
 unique_name_in_owner = true
@@ -1127,9 +1130,10 @@ unique_name_in_owner = true
 wait_time = 2.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.965926, -1.54268e-08, 0.258819, -0.258819, -5.75736e-08, 0.965926, 0, -1, -5.96046e-08, 0, 2, -3)
+transform = Transform3D(-0.843275, -0.444979, 0.301464, 0.198472, 0.263443, 0.944038, -0.499496, 0.855915, -0.133839, 0, 2, -3)
 light_color = Color(0.346955, 0.316682, 1, 1)
 light_energy = 0.159
+light_bake_mode = 1
 shadow_enabled = true
 shadow_blur = 2.238
 
@@ -2024,6 +2028,15 @@ use_threads = true
 
 [node name="UnlocksInfo" type="HTTPRequest" parent="."]
 use_threads = true
+
+[node name="VoxelGI" type="VoxelGI" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.930115, 1.48969, -7.66541)
+size = Vector3(18.1398, 9.01355, 24.4548)
+data = ExtResource("52_7njlm")
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.963603, 1.16858e-08, -0.267339, 0.267339, -4.21204e-08, 0.963603, 2.4302e-15, -1, -4.37114e-08, 0, 3.09978, 0)
+shadow_enabled = true
 
 [connection signal="area_entered" from="NewWhackMachine/Holes/TopHole" to="NewWhackMachine/Holes/TopHole" method="_on_area_entered"]
 [connection signal="area_entered" from="NewWhackMachine/Holes/LeftHole" to="NewWhackMachine/Holes/LeftHole" method="_on_area_entered"]
