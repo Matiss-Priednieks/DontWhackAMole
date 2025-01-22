@@ -20,6 +20,7 @@ public partial class Mole : Area3D
 	float ScoreAcceleration = 0;
 	SaveManager SaveManager;
 	int TotalCollectedCoins = 0;
+	Vector3 SCALE;
 
 	public float Score { get; set; }
 	public float score
@@ -71,6 +72,7 @@ public partial class Mole : Area3D
 	int CurrentHole = 0;
 	public override void _Ready()
 	{
+		SCALE = Scale;
 		OutTooLongTime = 1;
 		PopSpeed = 2;
 		User = GetNode<LoggedInUser>("/root/LoggedInUser");
@@ -268,7 +270,6 @@ public partial class Mole : Area3D
 		}
 	}
 
-
 	public void _on_down_swipe(int Hole)
 	{
 		MoveMole(Hole);
@@ -379,11 +380,15 @@ public partial class Mole : Area3D
 		WarningIndicator.Hide();
 		DangerTimer = 0;
 		Tween velTween = GetTree().CreateTween();
+		Vector3 CurrentScale = SCALE;
+		Tween squishTween = GetTree().CreateTween();
 		velTween.TweenProperty(this, "position", new Vector3(Position.X, 0.85f, Position.Z), 0.2f).SetTrans(Tween.TransitionType.Elastic);
 		velTween.TweenProperty(this, "position", new Vector3(ChosenHole.X, 0.85f, ChosenHole.Z), 0.1f);
+		squishTween.TweenProperty(this, "scale", new Vector3(CurrentScale.X * 0.5f, CurrentScale.Y * 0.2f, CurrentScale.Z * 0.5f), 0.1f).SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
+		squishTween.TweenProperty(this, "scale", new Vector3(CurrentScale.X, CurrentScale.Y, CurrentScale.Z), 0.1f);
+
 		await ToSignal(GetTree().CreateTimer(0.2f), "timeout");
 		Down = true;
-		// Ready = true;
 		OutTimer.Stop();
 	}
 

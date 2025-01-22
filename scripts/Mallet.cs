@@ -20,6 +20,9 @@ public partial class Mallet : Area3D
     bool MoleHit = false;
     public float MalletSlowSpeed = 0.3f;
     public float MalletFastSpeed = 0.2f;
+
+    float LowLifeAmplifier = 0.0f;
+
     public override void _Ready()
     {
         GD.Randomize();
@@ -138,13 +141,40 @@ public partial class Mallet : Area3D
 
     public void ScreenShake()
     {
+        if (Player.GetLives() == 1)
+        {
+            LowLifeAmplifier = 3f;
+        }
+        else if (Player.GetLives() == 2)
+        {
+            LowLifeAmplifier = 2f;
+        }
+        else
+        {
+            LowLifeAmplifier = 1f;
+        }
+        switch (Player.GetLives())
+        {
+            case 1:
+                LowLifeAmplifier = 3;
+                break;
+            case 2:
+                LowLifeAmplifier = 2;
+                break;
+            case 3:
+                LowLifeAmplifier = 1;
+                break;
+            default:
+                LowLifeAmplifier = 1;
+                break;
+        }
         var OriginalTransform = CameraRef;
         Tween camShakePosTween = GetTree().CreateTween();
         camShakePosTween.TweenProperty(CameraRef, "position", new Vector3(CameraRef.Position.X + RNG.RandfRange(-0.010f, 0.010f), CameraRef.Position.Y + RNG.RandfRange(-0.001f, 0.001f), CameraRef.Position.Z + RNG.RandfRange(-0.010f, 0.010f)), 0.1f).SetTrans(Tween.TransitionType.Elastic);
-        camShakePosTween.TweenProperty(CameraRef, "position", new Vector3(CameraRef.Position.X, CameraRef.Position.Y, CameraRef.Position.Z), 0.1f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+        camShakePosTween.TweenProperty(CameraRef, "position", new Vector3(CameraRef.Position.X, CameraRef.Position.Y, CameraRef.Position.Z), 0.1f * LowLifeAmplifier).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
 
         Tween camShakeRotTween = GetTree().CreateTween();
         camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X + RNG.RandfRange(-0.010f, 0.010f), CameraRef.Rotation.Y + RNG.RandfRange(-0.001f, 0.001f), CameraRef.Rotation.Z + RNG.RandfRange(-0.010f, 0.010f)), 0.1f).SetTrans(Tween.TransitionType.Bounce);
-        camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X, CameraRef.Rotation.Y, CameraRef.Rotation.Z), 0.1f).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
+        camShakeRotTween.TweenProperty(CameraRef, "rotation", new Vector3(CameraRef.Rotation.X, CameraRef.Rotation.Y, CameraRef.Rotation.Z), 0.1f * LowLifeAmplifier).SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);
     }
 }
