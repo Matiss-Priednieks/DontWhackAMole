@@ -1358,6 +1358,7 @@ theme = ExtResource("22_hwvbv")
 
 [node name="MenuButtons" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_vertical = 4
 
@@ -1659,7 +1660,6 @@ text = "Back to Menu"
 
 [node name="ShopMenu" type="PanelContainer" parent="UI/Menu/Menu"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme = ExtResource("22_hwvbv")
 script = ExtResource("40_bmvfs")

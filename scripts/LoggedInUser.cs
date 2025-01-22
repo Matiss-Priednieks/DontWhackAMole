@@ -24,7 +24,7 @@ public partial class LoggedInUser : Node
 
     public UnlockableContent[] UnlockablesArray;
     Dictionary<int, bool> Unlockables_dict;
-    int EquippedHatIndex = -1;
+    public int EquippedHatIndex = -1;
     public Node3D CurrentHat;
 
     public int AccountCurrency;
@@ -190,6 +190,7 @@ public partial class LoggedInUser : Node
             GD.Print("Equipping new hat");
             CurrentHat = UnlockablesArray[hatIndex].ContentScene.Instantiate<Node3D>();
             Player.GetNode<Node3D>("HatMount").AddChild(CurrentHat);
+            EquippedHatIndex = hatIndex;
         }
         else
         {
@@ -197,12 +198,15 @@ public partial class LoggedInUser : Node
             CurrentHat.QueueFree();
             CurrentHat = UnlockablesArray[hatIndex].ContentScene.Instantiate<Node3D>();
             Player.GetNode<Node3D>("HatMount").AddChild(CurrentHat);
+            EquippedHatIndex = hatIndex;
         }
     }
     public void UnequipHat()
     {
         CurrentHat.QueueFree();
         CurrentHat = null;
+        EquippedHatIndex = -1;
+
     }
 
     public Error GetUnlockedContentRequest()

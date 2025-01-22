@@ -5,12 +5,13 @@ public partial class ShopMenu : PanelContainer
 {
 	LoggedInUser user;
 	ItemList itemListNode;
-	PackedScene BuyItem, EquipItem;
+	PackedScene BuyItem, EquipItem, UnequipItem;
 	Label UserCoins;
 	public override void _Ready()
 	{
 		BuyItem = ResourceLoader.Load<PackedScene>("res://scenes/UI Scenes/BuyOption.tscn");
 		EquipItem = ResourceLoader.Load<PackedScene>("res://scenes/UI Scenes/EquipOption.tscn");
+		UnequipItem = ResourceLoader.Load<PackedScene>("res://scenes/UI Scenes/UnequipOption.tscn");
 		user = GetNode<LoggedInUser>("/root/LoggedInUser");
 		itemListNode = GetNode<ItemList>("ShopMenuContainer/VBoxContainer/ItemList");
 		UserCoins = GetNode<Label>("ShopMenuContainer/VBoxContainer/UserCoins");
@@ -55,7 +56,7 @@ public partial class ShopMenu : PanelContainer
 			buyItemInst.GetNode<Label>("VBoxContainer/Label").Text = "Buy " + user.UnlockablesArray[index].ContentName + " for " + user.UnlockablesArray[index].ContentPrice + "?";
 			AddChild(buyItemInst);
 		}
-		else
+		else if (user.UnlockablesArray[index].IsUnlocked == true && user.EquippedHatIndex != index)
 		{
 			GD.Print(user.UnlockablesArray[index].ContentName);
 			var equipItemInst = EquipItem.Instantiate<EquipOption>();
@@ -63,6 +64,14 @@ public partial class ShopMenu : PanelContainer
 			equipItemInst.GetNode<TextureRect>("VBoxContainer/MarginContainer/TextureRect").Texture = user.UnlockablesArray[index].ContentIcon;
 			equipItemInst.GetNode<Label>("VBoxContainer/Label").Text = "Equip " + user.UnlockablesArray[index].ContentName + "?";
 			AddChild(equipItemInst);
+		}
+		else if (user.UnlockablesArray[index].IsUnlocked == true && user.EquippedHatIndex == index)
+		{
+			GD.Print("This is printing!");
+			var unequipItemInst = UnequipItem.Instantiate<UnequipOption>();
+			unequipItemInst.GetNode<TextureRect>("VBoxContainer/MarginContainer/TextureRect").Texture = user.UnlockablesArray[index].ContentIcon;
+			unequipItemInst.GetNode<Label>("VBoxContainer/Label").Text = "Unequip " + user.UnlockablesArray[index].ContentName + "?";
+			AddChild(unequipItemInst);
 		}
 		UpdateDisabledState();
 		UpdateCoinLabel();
