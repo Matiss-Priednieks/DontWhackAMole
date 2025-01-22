@@ -1,16 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://c6kidicndc4vd"]
+[gd_scene load_steps=8 format=3 uid="uid://c6kidicndc4vd"]
 
 [ext_resource type="Script" path="res://scripts/BootSplash.cs" id="1_cyy7e"]
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="1_xdq3a"]
 [ext_resource type="Shader" uid="uid://dbiw5vgdhwtqk" path="res://resources/BootSplash.tres" id="2_p1un4"]
 [ext_resource type="Texture2D" uid="uid://uoagc851ppf8" path="res://assets/DWAM-transparent.png" id="2_rvkoj"]
-[ext_resource type="Texture2D" uid="uid://cckif6n2vrmgf" path="res://assets/MadeUsing.png" id="4_213t1"]
 [ext_resource type="Texture2D" uid="uid://ckx2bq4mvauqj" path="res://assets/cropped-Scattergood-Studios-Logo.png" id="5_de8xc"]
+[ext_resource type="Texture2D" uid="uid://duxox434kfhog" path="res://assets/Godot_icon.svg.png" id="6_qaypv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_iu63b"]
-shader = ExtResource("2_p1un4")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0h4ex"]
 shader = ExtResource("2_p1un4")
 
 [node name="CanvasLayer" type="CanvasLayer"]
@@ -65,7 +62,11 @@ theme_override_font_sizes/font_size = 120
 text = "By QCumberco"
 horizontal_alignment = 1
 
-[node name="TextureRect2" type="TextureRect" parent="FirstScreen/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="FirstScreen/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="FirstScreen/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(449.03, 150)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -73,39 +74,12 @@ texture = ExtResource("5_de8xc")
 expand_mode = 5
 stretch_mode = 4
 
-[node name="SecondScreen" type="Control" parent="."]
-unique_name_in_owner = true
-visible = false
-material = SubResource("ShaderMaterial_0h4ex")
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-
-[node name="Label" type="Label" parent="SecondScreen"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="TextureRect2" type="TextureRect" parent="SecondScreen"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -960.0
-offset_top = -540.0
-offset_right = 960.0
-offset_bottom = 540.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_213t1")
-expand_mode = 3
-stretch_mode = 5
+[node name="TextureRect" type="TextureRect" parent="FirstScreen/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture = ExtResource("6_qaypv")
+expand_mode = 5
+stretch_mode = 4
 
 [node name="BlackBox" type="ColorRect" parent="."]
 unique_name_in_owner = true

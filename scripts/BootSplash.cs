@@ -20,7 +20,7 @@ public partial class BootSplash : CanvasLayer
 		ScreenAlpha = 1;
 		FadeFirstScreen();
 		GetNode<Control>("%FirstScreen").Show();
-		GetNode<Control>("%SecondScreen").Hide();
+		// GetNode<Control>("%SecondScreen").Hide();
 		MainGameScene = ResourceLoader.Load<PackedScene>("scenes/MainGame.tscn");
 		colorRect = GetNode<ColorRect>("BlackBox");
 		var BusLayout = ResourceLoader.Load<AudioBusLayout>("resources/default_bus_layout.tres");
@@ -50,20 +50,22 @@ public partial class BootSplash : CanvasLayer
 		await ToSignal(_SceneTree.CreateTimer(1.5f), "timeout");
 		GetNode<Control>("%FirstScreen").Hide();
 		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
-		GetNode<Control>("%SecondScreen").Show();
-		FadeSecondScreen();
-	}
-	public async void FadeSecondScreen()
-	{
-		FadeIn();
-		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
-		FadeOut();
-		await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
+		//GetNode<Control>("%SecondScreen").Show();
 
-		// GD.Print(MainGameScene + "\n");
-		// GD.Print(_SceneTree);
 		_SceneTree.ChangeSceneToPacked(MainGameScene);
+		// FadeSecondScreen();
 	}
+	// public async void FadeSecondScreen()
+	// {
+	// FadeIn();
+	// await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
+	// FadeOut();
+	// await ToSignal(_SceneTree.CreateTimer(2f), "timeout");
+
+	// 	// GD.Print(MainGameScene + "\n");
+	// 	// GD.Print(_SceneTree);
+	// 	_SceneTree.ChangeSceneToPacked(MainGameScene);
+	// }
 
 	public void FadeIn()
 	{
