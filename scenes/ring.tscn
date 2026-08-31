@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxxf315ekx67o"]
+[gd_scene format=3 uid="uid://dxxf315ekx67o"]
 
 [ext_resource type="Shader" uid="uid://1ydd2rxj83do" path="res://resources/SelectionRing.tres" id="1_sqxv3"]
 

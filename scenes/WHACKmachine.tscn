@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bvbmsl56sqem"]
+[gd_scene format=3 uid="uid://bvbmsl56sqem"]
 
 [ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="1_seysm"]
 [ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="2_c3d12"]

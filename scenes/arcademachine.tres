@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://ec6um0g8asj"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ec6um0g8asj"]
 
 [ext_resource type="Texture2D" uid="uid://b7dvwsg33qwlr" path="res://assets/ArcadeSide.png" id="1_5i0em"]
 

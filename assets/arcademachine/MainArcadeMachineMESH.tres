@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=6 format=4 uid="uid://dy0twcd56ar5n"]
+[gd_resource type="ArrayMesh" format=4 uid="uid://dy0twcd56ar5n"]
 
 [ext_resource type="Texture2D" uid="uid://cgk4hraj4uy5d" path="res://assets/arcademachine/BetterArcadeMachine-4_holes_ArcadeTexture2.png" id="1_cr64v"]
 

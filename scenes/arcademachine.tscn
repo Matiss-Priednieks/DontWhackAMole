@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://uwyq7k4w8c1m"]
+[gd_scene format=3 uid="uid://uwyq7k4w8c1m"]
 
 [ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="1_h3y8f"]
 [ext_resource type="ArrayMesh" uid="uid://dy0twcd56ar5n" path="res://assets/arcademachine/MainArcadeMachineMESH.tres" id="1_n2kak"]

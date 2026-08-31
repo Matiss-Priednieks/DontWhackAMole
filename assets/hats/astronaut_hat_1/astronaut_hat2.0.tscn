@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://dd53x8hdj5qwl"]
+[gd_scene format=4 uid="uid://dd53x8hdj5qwl"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8dqpn"]
 noise_type = 3

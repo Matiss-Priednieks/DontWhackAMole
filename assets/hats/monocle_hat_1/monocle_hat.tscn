@@ -1,19 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxu0qmq3bmoer"]
+[gd_scene format=3 uid="uid://cxu0qmq3bmoer"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_v03sp"]
-top_radius = 0.04
-bottom_radius = 0.04
-height = 0.01
+[ext_resource type="PackedScene" uid="uid://btwg68a184qj5" path="res://assets/hats/monocle_hat_1/glasses.glb" id="1_btw0j"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_7wxly"]
-size = Vector3(0.005, 0.07, 0.005)
+[node name="MonocleHat" type="Node3D" unique_id=1336876721]
 
-[node name="MonocleHat" type="Node3D"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.0345626, 0.20178, 0.092544)
-mesh = SubResource("CylinderMesh_v03sp")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0516416, 0.136164, 0.0890938)
-mesh = SubResource("BoxMesh_7wxly")
+[node name="glasses" parent="." unique_id=817009031 instance=ExtResource("1_btw0j")]
+transform = Transform3D(-0.025, 0, 3.774895e-09, 0, 0.025, 0, -3.774895e-09, 0, -0.025, 0, -0.0266832, 0.08435264)

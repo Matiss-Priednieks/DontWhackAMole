@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=12 format=3 uid="uid://ckp66mje42g53"]
+[gd_resource type="VisualShader" format=3 uid="uid://ckp66mje42g53"]
 
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_llyxc"]
 default_input_values = [0, 0.0, 1, 16.0]
@@ -38,77 +38,6 @@ default_input_values = [0, false, 1, true, 2, false]
 op_type = 6
 
 [resource]
-code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
-
-uniform bool Flashing = false;
-
-
-
-void fragment() {
-// ColorConstant:3
-	vec4 n_out3p0 = vec4(1.000000, 0.000000, 0.000000, 1.000000);
-
-
-// Input:4
-	float n_out4p0 = TIME;
-
-
-// BooleanParameter:8
-	bool n_out8p0 = Flashing;
-
-
-	bool n_out9p0;
-// Switch:9
-	bool n_in9p1 = true;
-	bool n_in9p2 = false;
-	if (n_out8p0) {
-		n_out9p0 = n_in9p1;
-	} else {
-		n_out9p0 = n_in9p2;
-	}
-
-
-// FloatOp:11
-	float n_in11p1 = 16.00000;
-	float n_out11p0 = (n_out9p0 ? 1.0 : 0.0) * n_in11p1;
-
-
-// FloatOp:6
-	float n_out6p0 = n_out4p0 * n_out11p0;
-
-
-// FloatFunc:5
-	float n_out5p0 = sin(n_out6p0);
-
-
-// FloatConstant:13
-	float n_out13p0 = 0.000000;
-
-
-// FloatConstant:14
-	float n_out14p0 = 0.160000;
-
-
-// FloatConstant:12
-	float n_out12p0 = 1.000000;
-
-
-// ColorConstant:16
-	vec4 n_out16p0 = vec4(3.000000, 0.000000, 0.000000, 1.000000);
-
-
-// Output:0
-	ALBEDO = vec3(n_out3p0.xyz);
-	ALPHA = n_out5p0;
-	METALLIC = n_out13p0;
-	ROUGHNESS = n_out14p0;
-	SPECULAR = n_out12p0;
-	EMISSION = vec3(n_out16p0.xyz);
-
-
-}
-"
 nodes/fragment/0/position = Vector2(980, -120)
 nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_8wd5k")
 nodes/fragment/3/position = Vector2(480, -160)
