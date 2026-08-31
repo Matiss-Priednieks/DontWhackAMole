@@ -35,8 +35,12 @@ func _on_leaderboard_request_request_completed(result: int, responseCode: int, h
 				child.queue_free()
 
 			for key in dict:
-				for score in dict[key]:
-					PlayerScores.append([key, score])
+				var scores: Variant = dict[key]
+				if scores is Array:
+					for score in scores:
+						PlayerScores.append([key, score])
+				elif scores is float or scores is int:
+					PlayerScores.append([key, scores])
 
 			PlayerScores.sort_custom(func(a, b): return a[1] > b[1])
 

@@ -24,6 +24,13 @@ var LoggedIn: bool
 var Email: String
 var Username: String
 
+## Firebase Auth tokens from the last successful login. TokenExpiresAt is a unix
+## timestamp (0 = none). Cleared on logout / SetDefaultUser.
+var IdToken: String
+var RefreshToken: String
+var LocalId: String
+var TokenExpiresAt: float = 0.0
+
 var UserHighScore: int
 
 var UnlockablesArray: Array[UnlockableContent]
@@ -57,9 +64,25 @@ func SetDefaultUser() -> void:
 	if UsernameLabel != null:
 		UsernameLabel.text = "Guest"
 	LoggedIn = false
+	IdToken = ""
+	RefreshToken = ""
+	LocalId = ""
+	TokenExpiresAt = 0.0
 
 
-func SetUnlocksDict(unlockables: Dictionary) -> void:
+func SetTokens(id_token: String, refresh_token: String, expires_in: Variant, local_id: String) -> void:
+	IdToken = id_token
+	RefreshToken = refresh_token
+	LocalId = local_id
+	var secs := float(str(expires_in)) if str(expires_in) != "" else 0.0
+	TokenExpiresAt = Time.get_unix_time_from_system() + secs if secs > 0.0 else 0.0
+
+
+func TokenValid() -> bool:
+	return IdToken != "" and Time.get_unix_time_from_system() < TokenExpiresAt
+
+
+func SetUnlocksDict(unlockables: Variant) -> void:
 	UpdateUnlockablesDict(unlockables)
 	if DEBUG_UNLOCK_ALL_HATS:
 		for c in UnlockablesArray:
@@ -67,15 +90,21 @@ func SetUnlocksDict(unlockables: Dictionary) -> void:
 	UpdateShopUI()
 
 
-func PurchasedItemUpdate(_unlockables: Dictionary) -> void:
+func PurchasedItemUpdate(_unlockables: Variant) -> void:
 	UpdateUnlockablesDict(_unlockables)
 	UpdateUnlockedContentRequest(Unlockables_dict)
 
 
-func UpdateUnlockablesDict(unlockables: Dictionary) -> void:
-	for key in unlockables.keys():
+## `unlockables` comes from a server response - it may not be a Dictionary, and
+## its keys may be out of range. Only accept int keys that map to a real hat.
+func UpdateUnlockablesDict(unlockables: Variant) -> void:
+	if not unlockables is Dictionary:
+		return
+	for key in (unlockables as Dictionary).keys():
 		if str(key).is_valid_int():
-			Unlockables_dict[int(key)] = unlockables[key]
+			var idx := int(key)
+			if idx >= 0 and idx < UnlockablesArray.size():
+				Unlockables_dict[idx] = unlockables[key]
 
 
 func GetUnlocksDict() -> Dictionary:
@@ -154,7 +183,8 @@ func FinalBuyCheck() -> void:
 
 func UpdateShopUI() -> void:
 	for key in Unlockables_dict.keys():
-		UnlockablesArray[key].IsUnlocked = DEBUG_UNLOCK_ALL_HATS or Unlockables_dict[key]
+		if key >= 0 and key < UnlockablesArray.size():
+			UnlockablesArray[key].IsUnlocked = DEBUG_UNLOCK_ALL_HATS or Unlockables_dict[key]
 
 
 func EquipHat(hatIndex: int) -> void:
