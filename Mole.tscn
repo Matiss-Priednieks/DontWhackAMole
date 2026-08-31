@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://c2stcpf7g74mg"]
 
-[ext_resource type="Script" path="res://scripts/Mole.cs" id="1_3vpt4"]
+[ext_resource type="Script" path="res://scripts/Mole.gd" id="1_3vpt4"]
 [ext_resource type="Material" uid="uid://ixx4vlgsxgje" path="res://resources/warning_indicator.tres" id="2_80ew2"]
 [ext_resource type="AudioStream" uid="uid://bvyqihwtjd876" path="res://assets/audio/boxing-bell.wav" id="3_kaa38"]
 [ext_resource type="AudioStream" uid="uid://cn10n0exn74h3" path="res://assets/audio/penclick.mp3" id="4_4v3tl"]

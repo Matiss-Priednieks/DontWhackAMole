@@ -2,3 +2,17 @@
 .godot/
 Exports
 
+
+# .NET / C# project files (project migrated to GDScript)
+*.sln
+*.csproj
+*.csproj.old*
+
+# Android Gradle build cache
+android/build/.gradle/
+
+# OS / editor scratch files
+*.TMP
+*~RF*.tmp
+.DS_Store
+Thumbs.db

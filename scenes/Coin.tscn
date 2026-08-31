@@ -1,6 +1,6 @@
-[gd_scene load_steps=35 format=3 uid="uid://k47bsnnfpjjs"]
+[gd_scene format=3 uid="uid://k47bsnnfpjjs"]
 
-[ext_resource type="Script" path="res://scripts/Coin.cs" id="1_nodwn"]
+[ext_resource type="Script" path="res://scripts/Coin.gd" id="1_nodwn"]
 [ext_resource type="PackedScene" uid="uid://b4yuqj58usb14" path="res://assets/coin/coin.glb" id="2_4khaj"]
 [ext_resource type="Material" uid="uid://ckfdvfsaj2th5" path="res://resources/Coin.tres" id="2_jnv8x"]
 [ext_resource type="Texture2D" uid="uid://dus5qn320lo70" path="res://assets/coin/coinnormalmap.png" id="3_dx2ds"]
