@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://bb2872qm0qmv7"]
 
-[ext_resource type="Script" path="res://scripts/EarlyPopUp.cs" id="1_uja5s"]
+[ext_resource type="Script" path="res://scripts/EarlyPopUp.gd" id="1_uja5s"]
 [ext_resource type="Material" uid="uid://dfcwnevd2gyv2" path="res://resources/EarlyPopMat.tres" id="2_6vvob"]
 [ext_resource type="QuadMesh" uid="uid://m0jv5kbbd7t6" path="res://resources/bluefluff_mat.tres" id="3_gmukq"]
 [ext_resource type="Material" uid="uid://dacdlfp55jcyx" path="res://scenes/EarlyPopParticlePM.tres" id="3_ppc27"]

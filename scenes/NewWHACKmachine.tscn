@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://t4m0b16vwc43"]
+[gd_scene format=3 uid="uid://t4m0b16vwc43"]
 
 [ext_resource type="Material" uid="uid://dwno6fw6jlhlx" path="res://assets/screenmat.tres" id="2_0ovb7"]
 [ext_resource type="PackedScene" uid="uid://cgfd72lpvwvu6" path="res://assets/arcademachine/MainArcadeMachine.tscn" id="4_ebfxv"]

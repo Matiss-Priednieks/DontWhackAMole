@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c6kidicndc4vd"]
 
-[ext_resource type="Script" path="res://scripts/BootSplash.cs" id="1_cyy7e"]
+[ext_resource type="Script" path="res://scripts/BootSplash.gd" id="1_cyy7e"]
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="1_xdq3a"]
 [ext_resource type="Shader" uid="uid://dbiw5vgdhwtqk" path="res://resources/BootSplash.tres" id="2_p1un4"]
 [ext_resource type="Texture2D" uid="uid://uoagc851ppf8" path="res://assets/DWAM-transparent.png" id="2_rvkoj"]

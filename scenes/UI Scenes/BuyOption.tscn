@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfqlk7wqj20uj"]
 
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="1_ud4hc"]
-[ext_resource type="Script" path="res://scenes/UI Scenes/BuyOption.cs" id="2_3fubc"]
+[ext_resource type="Script" path="res://scenes/UI Scenes/BuyOption.gd" id="2_3fubc"]
 [ext_resource type="Texture2D" uid="uid://3jjb5kn6r6dc" path="res://assets/hats/astronaut_hat_1/astro.png" id="2_bp815"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yjogc"]

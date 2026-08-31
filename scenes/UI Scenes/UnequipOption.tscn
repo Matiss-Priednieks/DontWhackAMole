@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://rupqq73yt6pm"]
 
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="1_3jdb4"]
-[ext_resource type="Script" path="res://scenes/UI Scenes/UnequipOption.cs" id="2_j2qxx"]
+[ext_resource type="Script" path="res://scenes/UI Scenes/UnequipOption.gd" id="2_j2qxx"]
 [ext_resource type="Texture2D" uid="uid://3jjb5kn6r6dc" path="res://assets/hats/astronaut_hat_1/astro.png" id="3_cqso6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yjogc"]
