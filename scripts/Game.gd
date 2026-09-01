@@ -297,6 +297,7 @@ func _updateMusicIntensity(delta: float) -> void:
 
 func _on_clutch_dodge() -> void:
 	MalletNode.Hitstop(0.11)
+	SteamManager.AddStat("clutch_dodges", 1)
 	if currentState != GameState.PLAYING or CameraMoving:
 		return
 	_blurAmt = 1.0
@@ -406,6 +407,10 @@ func HandleGameOver(isGameOver: bool) -> void:
 
 	if isGameOver:
 		GameOverMenu.show()
+		SteamManager.Unlock("ACH_FIRST_GAME")
+		SteamManager.AddStat("games_played", 1)
+		SteamManager.SetStatMax("best_score", int(MoleNode.Score))
+		SteamManager.SetStatMax("best_combo", MoleNode.HighestCombo)
 		_satTween.tween_property(worldEnvironment.environment, "adjustment_saturation", 0.0, 1.0) \
 			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		if currentState == GameState.PAUSED:

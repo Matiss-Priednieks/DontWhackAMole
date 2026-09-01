@@ -176,6 +176,15 @@ func FinalBuyCheck() -> void:
 		Unlockables_dict[BuyRequestID] = true
 		BuyContentRequest()
 		Update()
+		SteamManager.Unlock("ACH_FIRST_HAT")
+		if not DEBUG_UNLOCK_ALL_HATS:
+			var all_owned := true
+			for c in UnlockablesArray:
+				if not Unlockables_dict.get(c.ContentID, false):
+					all_owned = false
+					break
+			if all_owned:
+				SteamManager.Unlock("ACH_ALL_HATS")
 	else:
 		print("Item is already unlocked or insufficient funds.")
 	BuyRequestID = -1

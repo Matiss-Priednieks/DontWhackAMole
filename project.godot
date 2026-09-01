@@ -27,6 +27,7 @@ buses/default_bus_layout="res://resources/default_bus_layout.tres"
 
 [autoload]
 
+SteamManager="*res://scripts/SteamManager.gd"
 SaveManager="*res://scripts/SaveManager.gd"
 LoggedInUser="*res://scripts/LoggedInUser.gd"
 

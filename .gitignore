@@ -16,3 +16,11 @@ android/build/.gradle/
 *~RF*.tmp
 .DS_Store
 Thumbs.db
+
+# Steam - dev-only App ID file (client supplies the ID in a real install);
+# do not ship it. Keep the addon's .dll/.so libs tracked.
+steam_appid.txt
+steam_api64.txt
+*.acf
+addons/godotsteam/**/~*
+addons/godotsteam/**/*.TMP

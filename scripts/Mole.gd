@@ -97,6 +97,13 @@ var _fireToast: Label3D
 var _fireToastTween: Tween
 var _fireToastBasePos: Vector3
 
+## Steam achievements - fire once per run, reset in Restart() / GotHit() as noted.
+## All calls no-op unless Steam is actually running (see SteamManager).
+const SCORE_ACH := [[10000, "ACH_SCORE_10K"], [50000, "ACH_SCORE_50K"], [100000, "ACH_SCORE_100K"]]
+var _scoreAchIdx: int = 0     # how far up SCORE_ACH we've unlocked this run
+var _noHit30Done: bool = false
+var _shinyAchDone: bool = false
+
 
 func _ready() -> void:
 	SCALE = scale
@@ -198,6 +205,10 @@ func _process(delta: float) -> void:
 	if ComboBonus > HighestCombo:
 		HighestCombo = ComboBonus
 
+	while _scoreAchIdx < SCORE_ACH.size() and Score >= SCORE_ACH[_scoreAchIdx][0]:
+		SteamManager.Unlock(SCORE_ACH[_scoreAchIdx][1])
+		_scoreAchIdx += 1
+
 	_set_mesh_text(LivesCounter, str(Lives))
 	_set_mesh_text(EarlyPopCounter, str(EarlyPops) + "/1")
 	_set_mesh_text(ScoreCounter, str(round(Score)))
@@ -255,6 +266,7 @@ func _setOnFire(active: bool) -> void:
 	OnFireChanged.emit(active)
 	if active:
 		_showFireToast()
+		SteamManager.Unlock("ACH_ON_FIRE")
 
 
 func _showFireToast() -> void:
@@ -283,6 +295,9 @@ func _physics_process(delta: float) -> void:
 			_timeSinceHit += delta
 			if not OnFire and _timeSinceHit >= ON_FIRE_AFTER:
 				_setOnFire(true)
+			if not _noHit30Done and _timeSinceHit >= 30.0:
+				_noHit30Done = true
+				SteamManager.Unlock("ACH_UNTOUCHABLE")
 		GameState.Paused:
 			pass
 		GameState.GameOver:
@@ -290,6 +305,7 @@ func _physics_process(delta: float) -> void:
 				CoinsAdded = true
 				print("Coin update called")
 				print(TotalCollectedCoins)
+				SteamManager.AddStat("coins_total", TotalCollectedCoins)
 				User.UpdateUserCurrency(TotalCollectedCoins)
 				TotalCollectedCoins = 0
 
@@ -332,9 +348,13 @@ func SetGoldenHole(index: int) -> void:
 
 func UpdateScore() -> void:
 	if not Down:
-		var mult := GOLDEN_MULT if ChosenHole == _goldenHole else 1.0
+		var onGold := ChosenHole == _goldenHole
+		var mult := GOLDEN_MULT if onGold else 1.0
 		ScoreAcceleration += 0.005 * ComboBonus * mult
 		score += ScoreAcceleration
+		if onGold and not _shinyAchDone:
+			_shinyAchDone = true
+			SteamManager.Unlock("ACH_SHINY")
 
 
 func CheckGameOver() -> void:
@@ -378,6 +398,9 @@ func PlaySoundDelayed() -> void:
 
 func Restart() -> void:
 	_timeSinceHit = 0.0
+	_noHit30Done = false
+	_shinyAchDone = false
+	_scoreAchIdx = 0
 	_setOnFire(false)
 	Score = 0
 	Lives = 3
@@ -454,6 +477,7 @@ func PopDown() -> void:
 
 func GotHit() -> void:
 	_timeSinceHit = 0.0
+	_noHit30Done = false
 	_setOnFire(false)
 	OutTooLongTime = 1
 	ScoreAcceleration = 0
@@ -525,6 +549,10 @@ func AnimateScoreCombo() -> void:
 	ComboBonus += 1
 	TotalCollectedCoins += 1
 	print("Within Mole Class: " + str(TotalCollectedCoins))
+	if ComboBonus == 25:
+		SteamManager.Unlock("ACH_COMBO_25")
+	elif ComboBonus == 50:
+		SteamManager.Unlock("ACH_COMBO_50")
 	var defaultScale := Vector3.ONE
 	var defaultPos := Vector3(0, -0.171, 0.01)
 	var defaultRot := Vector3.ZERO
