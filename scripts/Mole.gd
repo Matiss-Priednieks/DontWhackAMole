@@ -8,6 +8,8 @@ signal OutTooLong(Position: Vector3)
 ## Fired when the mole bails out of a hole with the mallet already bearing down -
 ## a last-second dodge. Game.gd turns this into the hitstop + camera snap.
 signal ClutchDodge
+## Fired on entering / leaving the "on fire" streak (no hit for a while).
+signal OnFireChanged(active: bool)
 
 var Holes: Array[Vector3]
 var Down: bool = true
@@ -77,6 +79,24 @@ var _scoreMat: StandardMaterial3D
 var _comboMat: StandardMaterial3D
 const _LED_ENERGY := 3.29 # emission_energy_multiplier of the base RedLED material
 
+## The score counter is reparented under this in _ready so it can be rattled /
+## pulsed every frame without fighting AnimateScore()'s pickup punch.
+var _scoreJitter: Node3D
+var _scoreTime: float = 0.0
+var _scoreGold: float = 0.0 # 0 = normal red, 1 = shining-hole gold, smoothed
+
+## "On fire" streak: no hit for ON_FIRE_AFTER seconds while playing. Broken by
+## GotHit() / Restart() / leaving play. `_fireAnchor` is an empty Node3D sitting
+## on the score counter (rides its jitter) - drop a fire effect under it; it's
+## shown/hidden with the state. `OnFireChanged` is for anything fancier.
+const ON_FIRE_AFTER := 12.0
+var OnFire: bool = false
+var _timeSinceHit: float = 0.0
+var _fireAnchor: Node3D
+var _fireToast: Label3D
+var _fireToastTween: Tween
+var _fireToastBasePos: Vector3
+
 
 func _ready() -> void:
 	SCALE = scale
@@ -124,6 +144,32 @@ func _ready() -> void:
 	_scoreMat = _own_led_material(ScoreCounter)
 	_comboMat = _own_led_material(ComboCounter)
 
+	var scoreBlock: Node3D = ScoreCounter.get_parent()
+	_scoreJitter = Node3D.new()
+	scoreBlock.add_child(_scoreJitter)
+	ScoreCounter.reparent(_scoreJitter)
+
+	# empty mount for a fire VFX - rides the score counter's jitter, toggled with OnFire
+	_fireAnchor = Node3D.new()
+	_fireAnchor.name = "FireAnchor"
+	_fireAnchor.visible = false
+	_scoreJitter.add_child(_fireAnchor)
+
+	# "You're on Fire!" billboard toast, sits to the right of the score counter.
+	# Size / position are rough - tune _fireToastBasePos, font_size, pixel_size.
+	_fireToast = Label3D.new()
+	_fireToast.text = "You're on Fire!"
+	_fireToast.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	_fireToast.no_depth_test = true
+	_fireToast.pixel_size = 0.002
+	_fireToast.font_size = 48
+	_fireToast.outline_size = 0
+	_fireToast.modulate = Color(1.0, 0.5, 0.12, 0.0)
+	_fireToastBasePos = Vector3(0.55, 0.0, 0.05)
+	scoreBlock.add_child(_fireToast)
+	_fireToast.position = _fireToastBasePos
+	_fireToast.visible = false
+
 
 ## Give a counter its own copy of the LED material as a material_override so we can
 ## animate its glow without affecting every other counter sharing RedLED.tres.
@@ -143,6 +189,8 @@ func _set_mesh_text(m: MeshInstance3D, value: String) -> void:
 
 
 func _process(delta: float) -> void:
+	if OnFire and CurrentGameState != GameState.Playing:
+		_setOnFire(false)
 	PowerUpButton.disabled = EarlyPops <= 0
 	if Score > HighScore:
 		HighScore = int(Score)
@@ -157,20 +205,70 @@ func _process(delta: float) -> void:
 	_set_mesh_text(HighScoreMesh, "Highscore: " + str(HighScore))
 	_set_mesh_text(HighestComboMesh, "x" + str(HighestCombo))
 
-	_updateCounterGlow(delta)
+	_updateCounters(delta)
 
 
-## Score counter flares while you're exposed and racking up points; combo counter
-## shifts red -> gold -> white-hot as the multiplier climbs.
-func _updateCounterGlow(delta: float) -> void:
+## Combo counter shifts red -> gold -> white-hot with the multiplier. The score
+## counter rattles / pulses / brightens the faster points are pouring in, and goes
+## gold and shakes harder while you're popped up in the shining hole.
+func _updateCounters(delta: float) -> void:
 	var comboT := clampf(float(ComboBonus - 1) / 15.0, 0.0, 1.0)
 	_comboMat.albedo_color = Color(1.0, lerpf(0.0, 0.85, comboT), lerpf(0.02, 0.7, comboT))
 	_comboMat.emission = Color(1.0, lerpf(0.0, 0.8, comboT), lerpf(0.0, 0.6, comboT))
 	_comboMat.emission_energy_multiplier = lerpf(_LED_ENERGY, 7.0, comboT)
 
+	_scoreTime += delta
 	var scoring := not Down and CurrentGameState == GameState.Playing
-	var scoreTarget := lerpf(_LED_ENERGY + 1.0, 10.0, comboT) if scoring else _LED_ENERGY
-	_scoreMat.emission_energy_multiplier = move_toward(_scoreMat.emission_energy_multiplier, scoreTarget, delta * 14.0)
+	var onGold := scoring and ChosenHole == _goldenHole
+
+	# 0 while safe, ramps toward ~1 with how fast the score is climbing, +0.9 on gold
+	var intensity := 0.0
+	if scoring:
+		intensity = clampf(ScoreAcceleration / 1.5, 0.15, 2.0)
+		if onGold:
+			intensity += 0.9
+
+	var amp := 0.0045 * intensity
+	_scoreJitter.position = Vector3(randf_range(-amp, amp), randf_range(-amp, amp), 0.0)
+	_scoreJitter.rotation.z = randf_range(-0.06, 0.06) * intensity
+	var pulse := 1.0 + sin(_scoreTime * 42.0) * 0.07 * intensity
+	_scoreJitter.scale = Vector3(pulse, pulse, 1.0)
+
+	_scoreGold = move_toward(_scoreGold, 1.0 if onGold else 0.0, delta * 6.0)
+	_scoreMat.emission = Color(1.0, lerpf(0.0, 0.72, _scoreGold), lerpf(0.0, 0.16, _scoreGold))
+	_scoreMat.albedo_color = Color(1.0, lerpf(0.0, 0.78, _scoreGold), lerpf(0.016, 0.22, _scoreGold))
+	var energyTarget := _LED_ENERGY
+	if scoring:
+		energyTarget = lerpf(_LED_ENERGY + 1.5, 11.0, clampf(intensity, 0.0, 1.0)) + _scoreGold * 3.0
+	_scoreMat.emission_energy_multiplier = move_toward(_scoreMat.emission_energy_multiplier, energyTarget, delta * 16.0)
+
+
+func IsOnFire() -> bool:
+	return OnFire
+
+
+func _setOnFire(active: bool) -> void:
+	if OnFire == active:
+		return
+	OnFire = active
+	_fireAnchor.visible = active
+	OnFireChanged.emit(active)
+	if active:
+		_showFireToast()
+
+
+func _showFireToast() -> void:
+	if _fireToastTween and _fireToastTween.is_valid():
+		_fireToastTween.kill()
+	_fireToast.position = _fireToastBasePos
+	_fireToast.modulate.a = 0.0
+	_fireToast.visible = true
+	_fireToastTween = create_tween()
+	_fireToastTween.tween_property(_fireToast, "modulate:a", 1.0, 0.15)
+	_fireToastTween.parallel().tween_property(_fireToast, "position:y", _fireToastBasePos.y + 0.1, 1.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_fireToastTween.tween_interval(0.9)
+	_fireToastTween.tween_property(_fireToast, "modulate:a", 0.0, 0.45)
+	_fireToastTween.tween_callback(func() -> void: _fireToast.visible = false)
 
 
 func _physics_process(delta: float) -> void:
@@ -182,6 +280,9 @@ func _physics_process(delta: float) -> void:
 			CheckGameOver()
 			if IFrames <= 60 and IFrames > 0:
 				IFrames -= 1
+			_timeSinceHit += delta
+			if not OnFire and _timeSinceHit >= ON_FIRE_AFTER:
+				_setOnFire(true)
 		GameState.Paused:
 			pass
 		GameState.GameOver:
@@ -220,9 +321,19 @@ func _on_use_powerup_pressed() -> void:
 	EarlyPopOut()
 
 
+## Position of the current shining hole (set by Game.gd); INF when there isn't one.
+var _goldenHole: Vector3 = Vector3.INF
+const GOLDEN_MULT := 2.0
+
+
+func SetGoldenHole(index: int) -> void:
+	_goldenHole = Holes[index] if index >= 0 else Vector3.INF
+
+
 func UpdateScore() -> void:
 	if not Down:
-		ScoreAcceleration += 0.005 * ComboBonus
+		var mult := GOLDEN_MULT if ChosenHole == _goldenHole else 1.0
+		ScoreAcceleration += 0.005 * ComboBonus * mult
 		score += ScoreAcceleration
 
 
@@ -266,6 +377,8 @@ func PlaySoundDelayed() -> void:
 
 
 func Restart() -> void:
+	_timeSinceHit = 0.0
+	_setOnFire(false)
 	Score = 0
 	Lives = 3
 	DangerTimer = 0
@@ -340,6 +453,8 @@ func PopDown() -> void:
 
 
 func GotHit() -> void:
+	_timeSinceHit = 0.0
+	_setOnFire(false)
 	OutTooLongTime = 1
 	ScoreAcceleration = 0
 	PopSpeed = 2

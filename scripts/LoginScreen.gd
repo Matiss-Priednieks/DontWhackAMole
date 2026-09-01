@@ -88,7 +88,11 @@ func _on_login_request_request_completed(result: int, responseCode: int, headers
 		var username := str(dict.get("username", ""))
 		if not _is_null_or_whitespace(username):
 			User.Login(username)
-		User.SetHighscore(float(dict.get("highscore", 0)))
+		var hs: Variant = dict.get("highscore", 0)
+		if hs is Array:
+			hs = hs[0] if not (hs as Array).is_empty() else 0
+		User.SetHighscore(float(hs))
+		User.SetTokens(str(dict.get("id_token", "")), str(dict.get("refresh_token", "")), dict.get("expires_in", ""), str(dict.get("local_id", "")))
 		if not _is_null_or_whitespace(LoginEmail):
 			User.SetEmail(LoginEmail)
 		UserLabel.text = username

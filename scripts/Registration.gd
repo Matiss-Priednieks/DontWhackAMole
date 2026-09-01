@@ -71,21 +71,23 @@ func _process(delta: float) -> void:
 
 
 func _on_username_reg_text_changed(newText: String) -> void:
-	if IsValidUsername(newText):
-		Username = newText
-		ErrorPanel.hide()
-	else:
-		ErrorMessage.text = "Username cannot containt special characters or be empty"
-		ErrorPanel.show()
+	_validate_username(newText)
 
 
 func _on_username_reg_text_submitted(newText: String) -> void:
-	if IsValidUsername(newText):
-		Username = newText
-		ErrorPanel.hide()
-	else:
+	_validate_username(newText)
+
+
+func _validate_username(newText: String) -> void:
+	if UsernameFilter.contains_slur(newText):
+		ErrorMessage.text = "That username isn't allowed"
+		ErrorPanel.show()
+	elif not _regex_matches(USERNAME_PATTERN, newText):
 		ErrorMessage.text = "Username cannot containt special characters or be empty"
 		ErrorPanel.show()
+	else:
+		Username = newText
+		ErrorPanel.hide()
 
 
 func _on_register_pressed() -> void:
@@ -169,7 +171,7 @@ func IsValidEmail() -> bool:
 
 func IsValidUsername(username: String) -> bool:
 	# Alphanumeric, underscores, hyphens, and letters from any language, max length 256
-	return _regex_matches(USERNAME_PATTERN, username)
+	return _regex_matches(USERNAME_PATTERN, username) and not UsernameFilter.contains_slur(username)
 
 
 func CreateRegistration() -> void:
@@ -186,8 +188,9 @@ func UserDataRequest() -> void:
 
 
 func NewRegRequest() -> void:
-	# sends new registration request
-	var newReg := UserRegCreditentials.create(RegistrationEmail, RegistrationPasswordConfirmation, true)
+	# sends new registration request; username goes along so the server can
+	# slur-check it before the Firebase account is created
+	var newReg := UserRegCreditentials.create(RegistrationEmail, RegistrationPasswordConfirmation, true, Username)
 	var newRegBody := newReg.to_json()
 	var newRegHeaders: PackedStringArray = ["Content-Type: application/json"]
 	var error := HTTPRequestNode.request("https://forwardvector.uksouth.cloudapp.azure.com/dwam/create-user", newRegHeaders, HTTPClient.METHOD_POST, newRegBody)
@@ -252,7 +255,11 @@ func _on_login_request_request_completed(result: int, responseCode: int, headers
 		if not _is_null_or_whitespace(username):
 			User.Login(username)
 
-		User.SetHighscore(float(dict.get("highscore", 0)))
+		var hs: Variant = dict.get("highscore", 0)
+		if hs is Array:
+			hs = hs[0] if not (hs as Array).is_empty() else 0
+		User.SetHighscore(float(hs))
+		User.SetTokens(str(dict.get("id_token", "")), str(dict.get("refresh_token", "")), dict.get("expires_in", ""), str(dict.get("local_id", "")))
 		if not _is_null_or_whitespace(RegistrationEmail):
 			User.SetEmail(RegistrationEmail)
 

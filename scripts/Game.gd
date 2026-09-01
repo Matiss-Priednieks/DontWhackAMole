@@ -89,6 +89,14 @@ var _blurLayer: CanvasLayer
 var _blurRect: ColorRect
 var _blurMat: ShaderMaterial
 
+## Shining hole: one hole periodically lights up gold; popping up in it doubles
+## score acceleration. Indexed 0..3 = top / left / bottom / right.
+var _bulbs: Array[Hole]
+var _goldenIdx: int = -1
+var _goldenLeft: float = 0.0
+var _goldenNextIn: float = 8.0
+const GOLDEN_UP_TIME := 6.0
+
 const _FAKE_BLUR_SHADER := "
 shader_type canvas_item;
 uniform float amount : hint_range(0.0, 1.0) = 0.0;
@@ -149,6 +157,7 @@ func _ready() -> void:
 	_music = get_node("AudioStreamPlayer")
 	MoleNode.ClutchDodge.connect(_on_clutch_dodge)
 	_setupFakeBlur()
+	_bulbs = [get_node("%TopBulb"), get_node("%LeftBulb"), get_node("%BottomBulb"), get_node("%RightBulb")]
 
 	CoinScene = ResourceLoader.load("res://scenes/Coin.tscn")
 	HeartScene = ResourceLoader.load("res://scenes/HeartContainer.tscn")
@@ -199,6 +208,43 @@ func _process(delta: float) -> void:
 
 	_updateDynamicCamera(delta)
 	_updateMusicIntensity(delta)
+	_updateGoldenHole(delta)
+
+
+## Cycles the shining hole: dark for a random gap, then one non-mallet hole lights
+## up for GOLDEN_UP_TIME (or until the mallet locks onto it).
+func _updateGoldenHole(delta: float) -> void:
+	if currentState != GameState.PLAYING or MoleNode.CurrentGameState != Mole.GameState.Playing:
+		if _goldenIdx >= 0:
+			_clearGolden()
+		return
+	if _goldenIdx >= 0:
+		_goldenLeft -= delta
+		if _goldenLeft <= 0.0 or MalletNode.HoleIndex == _goldenIdx:
+			_clearGolden()
+	else:
+		_goldenNextIn -= delta
+		if _goldenNextIn <= 0.0:
+			_startGolden()
+
+
+func _startGolden() -> void:
+	var choices: Array[int] = []
+	for i in 4:
+		if i != MalletNode.HoleIndex:
+			choices.append(i)
+	_goldenIdx = choices[RNG.randi_range(0, choices.size() - 1)]
+	_goldenLeft = GOLDEN_UP_TIME
+	_bulbs[_goldenIdx].SetGolden(true)
+	MoleNode.SetGoldenHole(_goldenIdx)
+
+
+func _clearGolden() -> void:
+	if _goldenIdx >= 0:
+		_bulbs[_goldenIdx].SetGolden(false)
+	_goldenIdx = -1
+	MoleNode.SetGoldenHole(-1)
+	_goldenNextIn = RNG.randf_range(7.0, 12.0)
 
 
 ## Full-screen radial-blur quad, built in code so there's no scene/asset to manage.
@@ -518,12 +564,16 @@ func _on_get_highscore_request_completed(result: int, responseCode: int, headers
 		print("Raw JSON data " + str(json.data))
 		var highscores: Dictionary = json.data if json.data is Dictionary else {}
 		if User.LoggedIn:
-			var hs_list: Array = highscores.get("highscore", [])
-			if hs_list.is_empty():
-				User.SetHighscore(0)
-				MoleNode.SetHighScore(0)
-			else:
-				User.SetHighscore(hs_list[0])
-				MoleNode.SetHighScore(hs_list[0])
+			# server sends a sorted array once you've submitted a score, but a
+			# freshly-registered user's `highscore` is still the scalar 0 from
+			# save-user - tolerate both (and missing).
+			var raw: Variant = highscores.get("highscore", 0)
+			var best := 0.0
+			if raw is Array:
+				best = float(raw[0]) if not (raw as Array).is_empty() else 0.0
+			elif raw is float or raw is int:
+				best = float(raw)
+			User.SetHighscore(best)
+			MoleNode.SetHighScore(int(best))
 	else:
 		print(responseCode)
