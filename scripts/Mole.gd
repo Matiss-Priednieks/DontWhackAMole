@@ -39,7 +39,6 @@ var score: float:
 		PlaySoundDelayed()
 
 var CoinsAdded: bool
-@export var CurrentHat: Node3D
 
 var EarlyPops: int = 0
 
@@ -86,13 +85,29 @@ var _scoreTime: float = 0.0
 var _scoreGold: float = 0.0 # 0 = normal red, 1 = shining-hole gold, smoothed
 
 ## "On fire" streak: no hit for ON_FIRE_AFTER seconds while playing. Broken by
-## GotHit() / Restart() / leaving play. `_fireAnchor` is an empty Node3D sitting
-## on the score counter (rides its jitter) - drop a fire effect under it; it's
+## GotHit() / Restart() / leaving play. `OnFireMesh` is the flame sprite sheet
+## on the score counter (rides its jitter, `%OnFireMesh` in MainGame.tscn) -
 ## shown/hidden with the state. `OnFireChanged` is for anything fancier.
 const ON_FIRE_AFTER := 12.0
 var OnFire: bool = false
 var _timeSinceHit: float = 0.0
-var _fireAnchor: Node3D
+var OnFireMesh: MeshInstance3D
+
+## Once lit, fire has to be "maintained" by ducking late (same cutoff PopDown()
+## already uses for ClutchDodge) rather than bailing the instant you pop out.
+## FireMeter starts full on ignite, drains on an early/safe duck (scaled by how
+## early), regens a little on a late one, and hits 0 -> fire goes out on its own.
+const FIRE_METER_MAX := 50.0
+const FIRE_METER_CLUTCH_RATIO := 0.5 # DangerTimer/OutTooLongTime cutoff for "pushed it"
+const FIRE_METER_DRAIN_SCALE := 10.0 # points lost for an instant (ratio 0) duck
+const FIRE_METER_REGEN := 2.0        # points gained per duck at/after the cutoff
+var FireMeter: float = 0.0
+
+## Losing fire mid-run (burnout or a hit) costs extra: _timeSinceHit starts
+## back below zero instead of at 0, so ON_FIRE_AFTER effectively becomes
+## ON_FIRE_AFTER + FIRE_LOSS_COOLDOWN before it can reignite. Not applied on
+## Restart()/leaving play - those aren't a failure, just a reset.
+const FIRE_LOSS_COOLDOWN := 6.0
 var _fireToast: Label3D
 var _fireToastTween: Tween
 var _fireToastBasePos: Vector3
@@ -156,11 +171,8 @@ func _ready() -> void:
 	scoreBlock.add_child(_scoreJitter)
 	ScoreCounter.reparent(_scoreJitter)
 
-	# empty mount for a fire VFX - rides the score counter's jitter, toggled with OnFire
-	_fireAnchor = Node3D.new()
-	_fireAnchor.name = "FireAnchor"
-	_fireAnchor.visible = false
-	_scoreJitter.add_child(_fireAnchor)
+	OnFireMesh = get_node("../%OnFireMesh")
+	OnFireMesh.visible = false
 
 	# "You're on Fire!" billboard toast, sits to the right of the score counter.
 	# Size / position are rough - tune _fireToastBasePos, font_size, pixel_size.
@@ -211,7 +223,7 @@ func _process(delta: float) -> void:
 
 	_set_mesh_text(LivesCounter, str(Lives))
 	_set_mesh_text(EarlyPopCounter, str(EarlyPops) + "/1")
-	_set_mesh_text(ScoreCounter, str(round(Score)))
+	_set_mesh_text(ScoreCounter, str(roundi(Score)))
 	_set_mesh_text(ComboCounter, "x" + str(ComboBonus))
 	_set_mesh_text(HighScoreMesh, "Highscore: " + str(HighScore))
 	_set_mesh_text(HighestComboMesh, "x" + str(HighestCombo))
@@ -258,15 +270,32 @@ func IsOnFire() -> bool:
 	return OnFire
 
 
-func _setOnFire(active: bool) -> void:
+func GetFireMeter() -> float:
+	return FireMeter
+
+
+func _setOnFire(active: bool, add_cooldown: bool = false) -> void:
 	if OnFire == active:
 		return
 	OnFire = active
-	_fireAnchor.visible = active
+	if active:
+		FireMeter = FIRE_METER_MAX
+	elif add_cooldown:
+		_timeSinceHit = -FIRE_LOSS_COOLDOWN
+	OnFireMesh.visible = active
 	OnFireChanged.emit(active)
 	if active:
 		_showFireToast()
 		SteamManager.Unlock("ACH_ON_FIRE")
+
+
+func _updateFireMeter(dangerRatio: float) -> void:
+	if dangerRatio >= FIRE_METER_CLUTCH_RATIO:
+		FireMeter = minf(FireMeter + FIRE_METER_REGEN, FIRE_METER_MAX)
+	else:
+		FireMeter -= (1.0 - dangerRatio) * FIRE_METER_DRAIN_SCALE
+		if FireMeter <= 0.0:
+			_setOnFire(false, true)
 
 
 func _showFireToast() -> void:
@@ -451,9 +480,20 @@ const REST_Y := 0.85
 
 
 func PopDown() -> void:
+	var dangerRatio := DangerTimer / OutTooLongTime if OutTooLongTime > 0.0 else 0.0
+	var isRealDodge := not Down and CurrentGameState == GameState.Playing
 	# bailing with the danger meter already past halfway = a last-second dodge
-	if not Down and CurrentGameState == GameState.Playing and DangerTimer >= OutTooLongTime * 0.5:
+	if isRealDodge and dangerRatio >= FIRE_METER_CLUTCH_RATIO:
 		ClutchDodge.emit()
+	if OnFire and isRealDodge:
+		_updateFireMeter(dangerRatio)
+	# Flip state immediately (mirrors PopOut()'s Down = false) - if this duck
+	# gets interrupted by another key press, _reset_move_tween() kills our
+	# tween below and its `await ... finished` never fires, so Down must not
+	# depend on that await or spamming input leaves Down stuck false forever
+	# (mole reads as permanently "out" - score keeps climbing while hidden).
+	Down = true
+	OutTimer.stop()
 	WarningIndicator.hide()
 	DangerTimer = 0
 	var CurrentScale: Vector3 = SCALE
@@ -471,14 +511,12 @@ func PopDown() -> void:
 	squishTween.tween_property(self, "scale", Vector3(CurrentScale.x, CurrentScale.y, CurrentScale.z), 0.1)
 
 	await velTween.finished
-	Down = true
-	OutTimer.stop()
 
 
 func GotHit() -> void:
 	_timeSinceHit = 0.0
 	_noHit30Done = false
-	_setOnFire(false)
+	_setOnFire(false, true)
 	OutTooLongTime = 1
 	ScoreAcceleration = 0
 	PopSpeed = 2
@@ -616,15 +654,6 @@ func AddPops() -> void:
 
 func GetPops() -> int:
 	return EarlyPops
-
-
-func _on_login_request_request_completed(result: int, responseCode: int, headers: PackedStringArray, body: PackedByteArray) -> void:
-	var response: Variant = JSON.parse_string(body.get_string_from_utf8())
-	await get_tree().create_timer(1.0).timeout
-	if responseCode == 200:
-		HighScore = int(User.GetHighscore())
-		if User.CurrentHat != null:
-			add_child(User.CurrentHat)
 
 
 func GetHighScore() -> int:

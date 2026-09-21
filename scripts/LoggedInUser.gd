@@ -45,7 +45,7 @@ var Player: Mole
 
 
 func _ready() -> void:
-	UnlockablesArray = Unlockables.GetUnlockableContent()
+	UnlockablesArray = Unlockables.UnlockedContent
 	Unlockables_dict = {}
 	PopulateUnlockablesDict()
 
