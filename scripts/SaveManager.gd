@@ -128,7 +128,4 @@ func LoadScore(PlayerName: String) -> Vector2:
 
 
 func GetResolutionIndex(resolutions: Array[Vector2i], targetRes: Vector2i) -> int:
-	for i in resolutions.size():
-		if resolutions[i] == targetRes:
-			return i
-	return -1
+	return resolutions.find(targetRes)

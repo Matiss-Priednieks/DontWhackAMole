@@ -30,20 +30,17 @@ func UpdateCoinLabel() -> void:
 
 
 func ConfirmBuyItem(contentID: int) -> void:
-	print("Buy request 2")
 	user.CheckUnlockedContent(contentID)
 
 
 func _on_item_list_item_clicked(index: int, position: Vector2, mb_index: int) -> void:
 	if user.UnlockablesArray[index].IsUnlocked == false:
-		print(user.UnlockablesArray[index].ContentName)
 		var buyItemInst := BuyItem.instantiate() as BuyOption
 		buyItemInst.BuyID = user.UnlockablesArray[index].ContentID
 		(buyItemInst.get_node("VBoxContainer/MarginContainer/TextureRect") as TextureRect).texture = user.UnlockablesArray[index].ContentIcon
 		(buyItemInst.get_node("VBoxContainer/Label") as Label).text = "Buy " + user.UnlockablesArray[index].ContentName + " for " + str(user.UnlockablesArray[index].ContentPrice) + "?"
 		add_child(buyItemInst)
 	elif user.UnlockablesArray[index].IsUnlocked == true and user.EquippedHatIndex != index:
-		print(user.UnlockablesArray[index].ContentName)
 		var equipItemInst := EquipItem.instantiate() as EquipOption
 		equipItemInst.EquipID = user.UnlockablesArray[index].ContentID
 		(equipItemInst.get_node("VBoxContainer/MarginContainer/TextureRect") as TextureRect).texture = user.UnlockablesArray[index].ContentIcon

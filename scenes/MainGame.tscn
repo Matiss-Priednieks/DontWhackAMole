@@ -9,36 +9,66 @@
 [ext_resource type="Material" uid="uid://b1lt464xj8qrb" path="res://assets/RedLED.tres" id="7_ldoth"]
 [ext_resource type="Script" uid="uid://cr7c6y6qmr88s" path="res://scripts/HoleMiss.gd" id="8_dxwf0"]
 [ext_resource type="Script" uid="uid://igc7in0jl0i0" path="res://scripts/Hole.gd" id="8_ngyci"]
+[ext_resource type="Texture2D" uid="uid://rqa48dy0g3lr" path="res://assets/textures/fire_frame1.png" id="8_q12we"]
+[ext_resource type="Texture2D" uid="uid://bb3ctmdb1xu5v" path="res://assets/textures/fire_frame2.png" id="9_2idm8"]
 [ext_resource type="AudioStream" uid="uid://i0edq1mkdror" path="res://assets/audio/counter.wav" id="9_r60t1"]
+[ext_resource type="Texture2D" uid="uid://ct8r62etavke" path="res://assets/textures/fire_frame11.png" id="10_lr1tn"]
+[ext_resource type="Texture2D" uid="uid://cm0phdeh20cch" path="res://assets/textures/fire_frame12.png" id="11_ln6le"]
+[ext_resource type="Texture2D" uid="uid://f7hw2yqcdp5c" path="res://assets/textures/fire_frame13.png" id="12_pbgot"]
+[ext_resource type="Texture2D" uid="uid://dvp8shj8uxb6c" path="res://assets/textures/fire_frame14.png" id="13_d0jpo"]
 [ext_resource type="Script" uid="uid://p1gpgkrbn6du" path="res://scripts/SelectedHoleHighlighter.gd" id="13_pxcx6"]
 [ext_resource type="PackedScene" uid="uid://cns5jgoi61n88" path="res://scenes/WoodenSign.tscn" id="13_sdma7"]
 [ext_resource type="PackedScene" uid="uid://c2stcpf7g74mg" path="res://Mole.tscn" id="14_pt7so"]
+[ext_resource type="Texture2D" uid="uid://cbmalbcufnf5y" path="res://assets/textures/fire_frame15.png" id="14_q6oy8"]
+[ext_resource type="Texture2D" uid="uid://5atx8lsra0hp" path="res://assets/textures/fire_frame16.png" id="15_c7ksd"]
 [ext_resource type="PackedScene" uid="uid://dxxf315ekx67o" path="res://scenes/ring.tscn" id="16_ia14k"]
+[ext_resource type="Texture2D" uid="uid://jky0ax7qwu4d" path="res://assets/textures/fire_frame17.png" id="16_q7csl"]
+[ext_resource type="Texture2D" uid="uid://clwuk22iunfvj" path="res://assets/textures/fire_frame18.png" id="17_5g0hu"]
 [ext_resource type="Script" uid="uid://c3dk7fk3046gi" path="res://scripts/MainCamera.gd" id="17_6nx8f"]
 [ext_resource type="AudioStream" uid="uid://ct2ic4d1nxt5n" path="res://assets/audio/LoudQuickSmack.wav" id="18_5vvrd"]
+[ext_resource type="Texture2D" uid="uid://5jrjkagex48j" path="res://assets/textures/fire_frame19.png" id="18_13f21"]
+[ext_resource type="Texture2D" uid="uid://p621a6bi3f6" path="res://assets/textures/fire_frame20.png" id="19_j8oxg"]
 [ext_resource type="Texture2D" uid="uid://dxn84fhdqo67k" path="res://assets/tutorial-image.png" id="20_b5hly"]
+[ext_resource type="Texture2D" uid="uid://hlpeipw2rt1v" path="res://assets/textures/fire_frame3.png" id="20_ydh8f"]
 [ext_resource type="Script" uid="uid://dihnfp8wo2db1" path="res://scripts/DebugInfoUI.gd" id="21_bttn8"]
+[ext_resource type="Texture2D" uid="uid://bm6hsmrfvbovm" path="res://assets/textures/fire_frame21.png" id="21_okn0e"]
+[ext_resource type="Texture2D" uid="uid://bi8ao2suef42v" path="res://assets/textures/fire_frame22.png" id="22_a6jj6"]
 [ext_resource type="Theme" uid="uid://c6q2wfkhoat1u" path="res://buttons/MainTheme.tres" id="22_hwvbv"]
 [ext_resource type="Script" uid="uid://cmx84ye6vtbji" path="res://scripts/LoginScreen.gd" id="22_nrd7c"]
 [ext_resource type="Script" uid="uid://cm12e5j1pvnqv" path="res://scripts/Registration.gd" id="23_np4li"]
+[ext_resource type="Texture2D" uid="uid://dtnkxbs2p7qku" path="res://assets/textures/fire_frame23.png" id="23_tw428"]
 [ext_resource type="Script" uid="uid://dqo1t3jyob3wm" path="res://scripts/SettingsMenu.gd" id="23_u3q7w"]
 [ext_resource type="Script" uid="uid://bbf2823f1ohyn" path="res://scripts/Mallet.gd" id="24_dcgg1"]
+[ext_resource type="Texture2D" uid="uid://bc0st15hq55ia" path="res://assets/textures/fire_frame24.png" id="24_n0vjg"]
 [ext_resource type="Script" uid="uid://rcnwc7cylpeo" path="res://scripts/Leaderboard.gd" id="24_qg2xs"]
 [ext_resource type="PackedScene" uid="uid://b4mkxv7pasvru" path="res://scenes/LeaderboardScoreObject.tscn" id="25_ngwty"]
 [ext_resource type="PackedScene" uid="uid://dhi4ncleocqmc" path="res://scenes/Mallet.tscn" id="25_vvumv"]
+[ext_resource type="Texture2D" uid="uid://ckkruu6r76tph" path="res://assets/textures/fire_frame25.png" id="25_wsf2b"]
+[ext_resource type="Texture2D" uid="uid://fybxtxewqh5q" path="res://assets/textures/fire_frame26.png" id="26_donf1"]
 [ext_resource type="PackedScene" uid="uid://lrtqjp5q3rfr" path="res://ShopFront.tscn" id="26_ssd8i"]
+[ext_resource type="Texture2D" uid="uid://r4uw8sfv3gi2" path="res://assets/textures/fire_frame27.png" id="27_38cp6"]
 [ext_resource type="Material" uid="uid://bs4eugrvso8w8" path="res://assets/carpet/ArcadeCarpet.tres" id="27_lglfh"]
 [ext_resource type="PackedScene" uid="uid://uwyq7k4w8c1m" path="res://scenes/arcademachine.tscn" id="27_r22r8"]
 [ext_resource type="Texture2D" uid="uid://c41qrgte87t1l" path="res://assets/screenbg.png" id="28_0p3hs"]
+[ext_resource type="Texture2D" uid="uid://b1jcgw057bi27" path="res://assets/textures/fire_frame28.png" id="28_bsmgr"]
 [ext_resource type="Material" uid="uid://bm6n35pmav7xy" path="res://assets/walltextures/WallMat.tres" id="29_04ar7"]
 [ext_resource type="AudioStream" uid="uid://bogvl8jk6vemw" path="res://assets/audio/abouttohit2.0.wav" id="29_8xud1"]
+[ext_resource type="Texture2D" uid="uid://cmo5y1mv4qyg6" path="res://assets/textures/fire_frame29.png" id="29_otgc3"]
 [ext_resource type="Material" uid="uid://ec6um0g8asj" path="res://scenes/arcademachine.tres" id="30_2fipm"]
+[ext_resource type="Texture2D" uid="uid://bjknjnaklfhfn" path="res://assets/textures/fire_frame30.png" id="30_vkcck"]
 [ext_resource type="Texture2D" uid="uid://b7qn5vp54nmrp" path="res://assets/carpet/ArcadeCarpet_albedo.png" id="31_hituk"]
+[ext_resource type="Texture2D" uid="uid://brofvlnxbqu5c" path="res://assets/textures/fire_frame4.png" id="31_r8lb1"]
 [ext_resource type="Environment" uid="uid://gov5g3o06qnc" path="res://scenes/MainEnvironment-android.tres" id="32_7mqcg"]
 [ext_resource type="AudioStream" uid="uid://dpdd5rlm21061" path="res://assets/audio/bgmusic.wav" id="32_8otsk"]
 [ext_resource type="Script" uid="uid://b808xqwh7w1qm" path="res://scripts/IntroTransition.gd" id="32_lacay"]
+[ext_resource type="Texture2D" uid="uid://crpf4dn2sii1a" path="res://assets/textures/fire_frame5.png" id="32_rudy3"]
 [ext_resource type="Texture2D" uid="uid://btmbv0gra0bas" path="res://assets/carpet/ArcadeCarpet_emission.png" id="32_xc0rk"]
+[ext_resource type="Texture2D" uid="uid://klbi02nxylim" path="res://assets/textures/fire_frame6.png" id="33_26xgh"]
+[ext_resource type="Texture2D" uid="uid://cqtmikmcp7q8l" path="res://assets/textures/fire_frame7.png" id="34_tljyl"]
+[ext_resource type="Texture2D" uid="uid://b3dys2ex22t6" path="res://assets/textures/fire_frame8.png" id="35_f28ts"]
 [ext_resource type="Texture2D" uid="uid://cipvq5wdnsqcd" path="res://assets/UI/ShoppingcartIcon-lightgrey.png" id="35_kk8sj"]
+[ext_resource type="Texture2D" uid="uid://qhbf0ufojqqh" path="res://assets/textures/fire_frame9.png" id="36_5mpi8"]
+[ext_resource type="Texture2D" uid="uid://dagxnsdi17i84" path="res://assets/textures/fire_frame10.png" id="37_t27fx"]
 [ext_resource type="PackedScene" uid="uid://bwuyqs3i552o3" path="res://assets/stool/ArcadeStool.glb" id="37_uiokx"]
 [ext_resource type="Script" uid="uid://cbeimws3dv43k" path="res://scripts/ShopMenu.gd" id="40_bmvfs"]
 [ext_resource type="StyleBox" uid="uid://c457hr3hm5g5u" path="res://buttons/basebutton.tres" id="42_2q0o6"]
@@ -104,8 +134,111 @@ font = ExtResource("4_keded")
 
 [sub_resource type="TextMesh" id="TextMesh_0mb6q"]
 material = ExtResource("7_ldoth")
-text = "1"
+text = "12345678"
 font = ExtResource("4_keded")
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_pjrjj"]
+frames = 45
+speed_scale = 17.5
+frame_0/texture = ExtResource("8_q12we")
+frame_1/texture = ExtResource("9_2idm8")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("20_ydh8f")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("31_r8lb1")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("32_rudy3")
+frame_4/duration = 1.0
+frame_5/texture = ExtResource("33_26xgh")
+frame_5/duration = 1.0
+frame_6/texture = ExtResource("34_tljyl")
+frame_6/duration = 1.0
+frame_7/texture = ExtResource("35_f28ts")
+frame_7/duration = 1.0
+frame_8/texture = ExtResource("36_5mpi8")
+frame_8/duration = 1.0
+frame_9/texture = ExtResource("37_t27fx")
+frame_9/duration = 1.0
+frame_10/texture = ExtResource("10_lr1tn")
+frame_10/duration = 1.0
+frame_11/texture = ExtResource("11_ln6le")
+frame_11/duration = 1.0
+frame_12/texture = ExtResource("12_pbgot")
+frame_12/duration = 1.0
+frame_13/texture = ExtResource("13_d0jpo")
+frame_13/duration = 1.0
+frame_14/texture = ExtResource("14_q6oy8")
+frame_14/duration = 1.0
+frame_15/texture = ExtResource("15_c7ksd")
+frame_15/duration = 1.0
+frame_16/texture = ExtResource("16_q7csl")
+frame_16/duration = 1.0
+frame_17/texture = ExtResource("17_5g0hu")
+frame_17/duration = 1.0
+frame_18/texture = ExtResource("18_13f21")
+frame_18/duration = 1.0
+frame_19/texture = ExtResource("19_j8oxg")
+frame_19/duration = 1.0
+frame_20/texture = ExtResource("21_okn0e")
+frame_20/duration = 1.0
+frame_21/texture = ExtResource("22_a6jj6")
+frame_21/duration = 1.0
+frame_22/texture = ExtResource("23_tw428")
+frame_22/duration = 1.0
+frame_23/texture = ExtResource("24_n0vjg")
+frame_23/duration = 1.0
+frame_24/texture = ExtResource("25_wsf2b")
+frame_24/duration = 1.0
+frame_25/texture = ExtResource("26_donf1")
+frame_25/duration = 1.0
+frame_26/texture = ExtResource("27_38cp6")
+frame_26/duration = 1.0
+frame_27/texture = ExtResource("28_bsmgr")
+frame_27/duration = 1.0
+frame_28/texture = ExtResource("29_otgc3")
+frame_28/duration = 1.0
+frame_29/texture = ExtResource("30_vkcck")
+frame_29/duration = 1.0
+frame_30/texture = ExtResource("29_otgc3")
+frame_30/duration = 1.0
+frame_31/texture = ExtResource("28_bsmgr")
+frame_31/duration = 1.0
+frame_32/texture = ExtResource("27_38cp6")
+frame_32/duration = 1.0
+frame_33/texture = ExtResource("26_donf1")
+frame_33/duration = 1.0
+frame_34/texture = ExtResource("25_wsf2b")
+frame_34/duration = 1.0
+frame_35/texture = ExtResource("24_n0vjg")
+frame_35/duration = 1.0
+frame_36/texture = ExtResource("23_tw428")
+frame_36/duration = 1.0
+frame_37/texture = ExtResource("22_a6jj6")
+frame_37/duration = 1.0
+frame_38/texture = ExtResource("21_okn0e")
+frame_38/duration = 1.0
+frame_39/texture = ExtResource("19_j8oxg")
+frame_39/duration = 1.0
+frame_40/texture = ExtResource("18_13f21")
+frame_40/duration = 1.0
+frame_41/texture = ExtResource("17_5g0hu")
+frame_41/duration = 1.0
+frame_42/texture = ExtResource("16_q7csl")
+frame_42/duration = 1.0
+frame_43/texture = ExtResource("15_c7ksd")
+frame_43/duration = 1.0
+frame_44/texture = ExtResource("14_q6oy8")
+frame_44/duration = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wa63f"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.88235295, 0.5882353, 1)
+albedo_texture = SubResource("AnimatedTexture_pjrjj")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r4u4h"]
+material = SubResource("StandardMaterial3D_wa63f")
+size = Vector2(0.855, 0.235)
 
 [sub_resource type="TextMesh" id="TextMesh_8o3ij"]
 material = ExtResource("5_uicb5")
@@ -509,7 +642,7 @@ radius = 0.1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qqp4g"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5h3qe"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pw1en"]
 resource_local_to_scene = true
 next_pass = SubResource("ShaderMaterial_qqp4g")
 albedo_color = Color(0.152941, 0.152941, 0.152941, 1)
@@ -658,6 +791,12 @@ metadata/_edit_group_ = true
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
 mesh = SubResource("TextMesh_0mb6q")
+
+[node name="OnFireMesh" type="MeshInstance3D" parent="NewWhackMachine/Score/ScoreBlock/ScoreCounter" unique_id=1074365494]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 1.8284475e-15, 1.7763568e-15, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.018911362, 0.020000458)
+mesh = SubResource("PlaneMesh_r4u4h")
+skeleton = NodePath("../..")
 
 [node name="ScoreText" type="MeshInstance3D" parent="NewWhackMachine/Score" unique_id=714511576]
 transform = Transform3D(1, 1.77636e-15, -7.10543e-15, 0, 1, 1.49012e-08, -7.10543e-15, -1.49012e-08, 1, 0.04, 0.175, 0)
@@ -864,14 +1003,14 @@ material_override = ExtResource("30_2fipm")
 surface_material_override/0 = null
 
 [node name="Screen" parent="MenuArcadeStack/MenuArcade" index="1"]
-material_override = SubResource("StandardMaterial3D_5h3qe")
+material_override = SubResource("StandardMaterial3D_pw1en")
 surface_material_override/0 = null
 
 [node name="ScreenWithBackground" type="MeshInstance3D" parent="MenuArcadeStack/MenuArcade/Screen" index="0" unique_id=875323702]
 mesh = SubResource("BoxMesh_4q6j0")
 
 [node name="ScreenFrame" parent="MenuArcadeStack/MenuArcade" index="2"]
-material_override = SubResource("StandardMaterial3D_5h3qe")
+material_override = SubResource("StandardMaterial3D_pw1en")
 surface_material_override/0 = null
 
 [node name="Highscore" type="MeshInstance3D" parent="MenuArcadeStack/MenuArcade" unique_id=326801057]
@@ -1126,6 +1265,12 @@ horizontal_alignment = 1
 layout_mode = 2
 texture = ExtResource("20_b5hly")
 expand_mode = 5
+
+[node name="Label2" type="Label" parent="UI/Menu/Menu/HelpScreen/MarginContainer/HelpScreen" unique_id=758760387]
+layout_mode = 2
+text = "You're the mole. Pick a hole. 
+You'll pop out sometimes but don't stay out too long, 
+or the hammer gets you!"
 
 [node name="BackHelp" type="Button" parent="UI/Menu/Menu/HelpScreen/MarginContainer/HelpScreen" unique_id=68489940]
 layout_mode = 2
